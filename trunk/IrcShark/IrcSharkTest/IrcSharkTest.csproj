@@ -5,9 +5,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F6955540-7429-49FB-AE3D-A9AD916D2334}</ProjectGuid>
+    <ProjectGuid>{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>IrcShark.Core</AssemblyName>
+    <AssemblyName>IrcSharkTest</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -16,8 +16,7 @@
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>3</WarningLevel>
-    <GenerateDocumentation>true</GenerateDocumentation>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -27,25 +26,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="nunit.core">
-      <Package>nunit-2.4</Package>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <Package>nunit-2.4</Package>
-    </Reference>
+    <Compile Include="DirectoryListTest.cs" />
+    <Compile Include="IrcSharkApplicationTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IrcSharkApplication.cs" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="ExtensionManager.cs" />
-    <Compile Include="DirectoryList.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\IrcShark.Policy\IrcShark.Policy.csproj">
-      <Project>{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}</Project>
-      <Name>IrcShark.Policy</Name>
+    <ProjectReference Include="..\IrcShark\IrcShark.csproj">
+      <Project>{F6955540-7429-49FB-AE3D-A9AD916D2334}</Project>
+      <Name>IrcShark</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
+    <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

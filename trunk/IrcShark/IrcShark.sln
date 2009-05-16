@@ -7,20 +7,44 @@ Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "Packages", "Packages.mdproj
 EndProject
 Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "IrcSharkTranslation", "IrcSharkTranslation\IrcSharkTranslation.mdproj", "{5E631CD2-F7F0-42F9-9D64-FA7BC24A07D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkStarter", "IrcSharkStarter\IrcSharkStarter.csproj", "{340C66BE-24B0-484E-8B7C-4B492219B59E}"
+EndProject
+Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "IrcSharkStarterTranslation", "IrcSharkStarterTranslation\IrcSharkStarterTranslation.mdproj", "{2951292C-273B-4045-8646-6F74FF151541}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Policy", "IrcShark.Policy\IrcShark.Policy.csproj", "{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkTest", "IrcSharkTest\IrcSharkTest.csproj", "{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2951292C-273B-4045-8646-6F74FF151541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2951292C-273B-4045-8646-6F74FF151541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2951292C-273B-4045-8646-6F74FF151541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2951292C-273B-4045-8646-6F74FF151541}.Release|Any CPU.Build.0 = Release|Any CPU
+		{340C66BE-24B0-484E-8B7C-4B492219B59E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{340C66BE-24B0-484E-8B7C-4B492219B59E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{340C66BE-24B0-484E-8B7C-4B492219B59E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{340C66BE-24B0-484E-8B7C-4B492219B59E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E631CD2-F7F0-42F9-9D64-FA7BC24A07D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E631CD2-F7F0-42F9-9D64-FA7BC24A07D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E631CD2-F7F0-42F9-9D64-FA7BC24A07D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E631CD2-F7F0-42F9-9D64-FA7BC24A07D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A480CA2-9AA7-48AC-BCA1-0E7AB215973D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A480CA2-9AA7-48AC-BCA1-0E7AB215973D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A480CA2-9AA7-48AC-BCA1-0E7AB215973D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A480CA2-9AA7-48AC-BCA1-0E7AB215973D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6955540-7429-49FB-AE3D-A9AD916D2334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6955540-7429-49FB-AE3D-A9AD916D2334}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6955540-7429-49FB-AE3D-A9AD916D2334}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -28,12 +52,15 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		version = 0.1
-		StartupItem = IrcShark\IrcShark.csproj
+		StartupItem = IrcSharkStarter\IrcSharkStarter.csproj
 		Policies = $0
 		$0.StandardHeader = $1
-		$1.Text = @/* \n * $Id$\n *\n * Add description here\n *\n * Note:\n *\n * Copyright (C) ${Year} ${CopyrightHolder}\n * \n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU General Public License for more details.\n *\n * You should have received a copy of the GNU General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n **/
+		$1.Text = @$Id$\n\nNote:\n\nCopyright (C) ${Year} ${CopyrightHolder}\n \nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program.  If not, see <http://www.gnu.org/licenses/>.
 		$1.inheritsSet = MITX11License
 		$0.VersionControlPolicy = $2
 		$2.inheritsSet = Mono
+		$0.DotNetNamingPolicy = $3
+		$3.DirectoryNamespaceAssociation = None
+		$3.ResourceNamePolicy = FileFormatDefault
 	EndGlobalSection
 EndGlobal

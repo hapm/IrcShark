@@ -5,9 +5,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F6955540-7429-49FB-AE3D-A9AD916D2334}</ProjectGuid>
+    <ProjectGuid>{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>IrcShark.Core</AssemblyName>
+    <AssemblyName>IrcShark.Policy</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -16,8 +16,8 @@
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>3</WarningLevel>
-    <GenerateDocumentation>true</GenerateDocumentation>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -25,27 +25,15 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.core">
-      <Package>nunit-2.4</Package>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <Package>nunit-2.4</Package>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IrcSharkApplication.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="ExtensionManager.cs" />
-    <Compile Include="DirectoryList.cs" />
+    <Compile Include="IrcSharkAdministrationPermission.cs" />
+    <Compile Include="IrcSharkAdministrationPermissionAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\IrcShark.Policy\IrcShark.Policy.csproj">
-      <Project>{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}</Project>
-      <Name>IrcShark.Policy</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

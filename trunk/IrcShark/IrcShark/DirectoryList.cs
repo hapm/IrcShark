@@ -34,7 +34,7 @@ namespace IrcShark
 		/// Creates a new read only directorylist based on the given string list
 		/// </summary>
 		/// <param name="dirs">
-		/// The string <see cref="List"/> of dictionarys, it is saved by reference and can be changed afterwards
+		/// The string <see cref="System.Collections.Generic.List"/> of dictionarys, it is saved by reference and can be changed afterwards
 		/// </param>
 		public DirectoryList(List<string> dirs) {
 			if (dirs.Count == 0)

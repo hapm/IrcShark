@@ -5,9 +5,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F6955540-7429-49FB-AE3D-A9AD916D2334}</ProjectGuid>
+    <ProjectGuid>{867ABEAC-AC81-4C23-BBBD-3CFB9836B2A1}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>IrcShark.Core</AssemblyName>
+    <AssemblyName>IrcSharpTest</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -16,8 +16,7 @@
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>3</WarningLevel>
-    <GenerateDocumentation>true</GenerateDocumentation>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -28,33 +27,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.core">
-      <Package>nunit-2.4</Package>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <Package>nunit-2.4</Package>
-    </Reference>
+    <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
+    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IrcSharkApplication.cs" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="ExtensionManager.cs" />
-    <Compile Include="DirectoryList.cs" />
+    <Compile Include="IrcClientTest.cs" />
+    <Compile Include="IrcServerEndPointTest.cs" />
+    <Compile Include="IrcStandardDefinitionTest.cs" />
+    <Compile Include="IrcLineTest.cs" />
+    <Compile Include="IIrcObjectTest.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\IrcShark.Policy\IrcShark.Policy.csproj">
-      <Project>{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}</Project>
-      <Name>IrcShark.Policy</Name>
+    <ProjectReference Include="..\IrcSharp\IrcSharp.csproj">
+      <Project>{B287A6A8-748D-4E26-B2FF-1EC098D536F3}</Project>
+      <Name>IrcSharp</Name>
     </ProjectReference>
   </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <VersionControlPolicy inheritsSet="Mono" />
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,5 +13,11 @@
     </translations>
     <outputType>RelativeToOutput</outputType>
     <packageName />
+    <projectInformations>
+      <projectInformations>
+        <TranslationProjectInformation projectName="IrcSharkTest" isIncluded="false" />
+        <TranslationProjectInformation projectName="IrcSharpTest" isIncluded="false" />
+      </projectInformations>
+    </projectInformations>
   </PropertyGroup>
 </Project>

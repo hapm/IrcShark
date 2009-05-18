@@ -38,6 +38,11 @@
     <Compile Include="IIrcObject.cs" />
     <Compile Include="IrcLine.cs" />
     <Compile Include="InvalidLineFormatException.cs" />
+    <Compile Include="UserInfo.cs" />
+    <Compile Include="FlagArt.cs" />
+    <Compile Include="FlagParameter.cs" />
+    <Compile Include="ModeArt.cs" />
+    <Compile Include="FlagDefinition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

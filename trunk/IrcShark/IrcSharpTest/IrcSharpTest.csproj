@@ -40,6 +40,8 @@
     <Compile Include="IrcStandardDefinitionTest.cs" />
     <Compile Include="IrcLineTest.cs" />
     <Compile Include="IIrcObjectTest.cs" />
+    <Compile Include="UserInfoTest.cs" />
+    <Compile Include="FlagDefinitionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IrcSharp\IrcSharp.csproj">

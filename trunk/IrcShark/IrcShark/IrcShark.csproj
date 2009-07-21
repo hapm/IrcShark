@@ -28,18 +28,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.core">
-      <Package>nunit-2.4</Package>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <Package>nunit-2.4</Package>
-    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IrcSharkApplication.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ExtensionManager.cs" />
-    <Compile Include="DirectoryList.cs" />
+    <Compile Include="DirectoryCollection.cs" />
+    <Compile Include="IrcSharkSettings.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="LogLevel.cs" />
+    <Compile Include="LogChannel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -47,14 +46,21 @@
       <Project>{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}</Project>
       <Name>IrcShark.Policy</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IrcShark.Extensions\IrcShark.Extensions.csproj">
+      <Project>{B6787C45-5363-4580-939E-DC8E1D58A3FA}</Project>
+      <Name>IrcShark.Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
-      <Properties>
+      <Properties InternalTargetFrameworkVersion="3.5">
         <Policies>
           <VersionControlPolicy inheritsSet="Mono" />
         </Policies>
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <None Include="settings.xsd" />
+  </ItemGroup>
 </Project>

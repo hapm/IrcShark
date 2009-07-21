@@ -27,23 +27,43 @@ namespace IrcSharpTest
 	/// a test class for <see cref="IrcSharp.IrcStandardDefinition"/>
 	/// </summary>
 	[TestFixture()]
-	public class IrcStandardDefinitionTest
+	public class IrcStandardDefinitionTest : IIrcObjectTest
 	{
-		private IrcClient client1;
+		private IrcClient client;
 		
 		[TestFixtureSetUp()]
 		public void TestFixtureSetUp() 
 		{
-			client1 = new IrcClient();
+			client = new IrcClient();
 		}
 		
 		[Test()]
 		public void Constructor()
 		{
-			IrcStandardDefinition standard = new IrcStandardDefinition(client1);
-			Assert.IsNotNull(standard);
-			Assert.IsInstanceOfType(typeof(IIrcObject), standard);
-			Assert.AreSame(client1, standard.Client);
+			IrcStandardDefinition standard = new IrcStandardDefinition(client);
+			char[] tempChar = standard.ChannelPrefixes;
+			
+			Assert.AreEqual("rfc1459", standard.Version);
+			
+			Assert.AreEqual(2, tempChar.Length);
+			Assert.AreEqual('#', tempChar[0]);		
+			Assert.AreEqual('&', tempChar[1]);
+			tempChar = standard.UserPrefixes;
+			Assert.AreEqual(2, tempChar.Length);
+			Assert.AreEqual('@', tempChar[0]);		
+			Assert.AreEqual('+', tempChar[1]);
+			
 		}
+
+		#region IIrcObjectTest implementation
+		[Test]
+		public void Client ()
+		{
+			IrcStandardDefinition standard = new IrcStandardDefinition(client);
+			Assert.IsInstanceOfType(typeof(IIrcObject), standard);
+			Assert.AreSame(client, standard.Client);		
+		}
+		#endregion
+
 	}
 }

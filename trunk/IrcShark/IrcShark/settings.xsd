@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema id="config" xmlns="http://www.w3.org/2001/XMLSchema" 
+                       xmlns:settings="http://www.ircshark.net/2009/settings"
+                       xmlns:ext="http://www.ircshark.net/2009/extensions"
+                       targetNamespace="http://www.ircshark.net/2009/settings">
+	<import namespace="http://www.ircshark.net/2009/extensions" schemaLocation="http://www.ircshark.net/2009/extensions.xsd" />
+	<complexType name="directorylist">
+		<sequence>
+	 		<element name="directory" minOccurs="0" maxOccurs="unbounded" type="string" />
+	 	</sequence>
+	</complexType>
+	<element name="ircshark">
+		<complexType>
+			<sequence>
+				<element name="configuration" minOccurs="1" maxOccurs="1">
+					<complexType>
+						<sequence>
+							<element name="settingdirs" type="settings:directorylist" minOccurs="0" maxOccurs="1" />
+							<element name="extensiondirs" type="settings:directorylist" minOccurs="0" maxOccurs="1" />
+							<element name="loaded" type="ext:extensionlist" minOccurs="0" maxOccurs="1" />
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

@@ -32,6 +32,46 @@ namespace IrcSharp
 	/// </remarks>
 	public class FlagDefinition
 	{
+		private char character;
+		private ModeArt appliesTo;
+		private FlagParameter setParameter;
+		private FlagParameter unsetParameter;
+		
+		/// <summary>
+		/// Creates a new FlagDefinition with the given flag character and mode art
+		/// </summary>
+		/// <param name="flag">
+		/// the <see cref="System.Char"/> what represents this flag
+		/// </param>
+		/// <param name="art">
+		/// the <see cref="ModeArt"/>, this flag can be applied to
+		/// </param>
+		public FlagDefinition(char flag, ModeArt art)
+		{
+			character = flag;
+			appliesTo = art;
+		}
+		
+		/// <summary>
+		/// Creates a new FlagDefinition with the given flag character, mode art and parameter definition
+		/// </summary>
+		/// <param name="flag">
+		/// the <see cref="System.Char"/> what represents this flag
+		/// </param>
+		/// <param name="art">
+		/// the <see cref="ModeArt"/>, this flag can be applied to
+		/// </param>
+		/// <param name="parameters">
+		/// the <see cref="FlagParameter"/> used when the flag is set or unset
+		/// </param>
+		public FlagDefinition(char flag, ModeArt art, FlagParameter parameters)
+		{
+			character = flag;
+			appliesTo = art;
+			setParameter = parameters;
+			unsetParameter = parameters;
+		}
+		
 		/// <summary>
 		/// Creates a new FlagDefinition with the given flag character and mode art
 		/// </summary>
@@ -41,8 +81,79 @@ namespace IrcSharp
 		/// <param name="art">
 		/// A <see cref="ModeArt"/>
 		/// </param>
-		public FlagDefinition(char flag, ModeArt art)
+		/// <param name="setParams">
+		/// the <see cref="FlagParameter"/> used when the flag is set
+		/// </param>
+		/// <param name="unsetParams">
+		/// the <see cref="FlagParameter"/> used when the flag is unset
+		/// </param>
+		public FlagDefinition(char flag, ModeArt art, FlagParameter setParams, FlagParameter unsetParams)
 		{
+			character = flag;
+			appliesTo = art;
+			setParameter = setParams;
+			unsetParameter = unsetParams;
+		}
+		
+		/// <value>
+		/// the character to use for this flag
+		/// </value>
+		public char Character
+		{
+			get { return character; }
+		}
+		
+		/// <value>
+		/// the type of the traget this flag applies to
+		/// </value>
+		public ModeArt AppliesTo
+		{
+			get { return appliesTo; }
+		}
+		
+		/// <value>
+		/// None if there is no parameter
+		/// Optional if the parameter can be given but doesn't need to
+		/// Required if there needs to be a parameter
+		/// </value>		
+		public FlagParameter SetParameter
+		{
+			get { return setParameter; }
+		}
+		
+		/// <value>
+		/// None if there is no parameter
+		/// Optional if the parameter can be given but doesn't need to
+		/// Required if there needs to be a parameter
+		/// </value>		
+		public FlagParameter UnsetParameter
+		{
+			get { return unsetParameter; }
+		}
+		
+		/// <summary>
+		/// Tests if this flag needs a parameter or not 
+		/// </summary>
+		/// <param name="art">
+		/// the <see cref="FlagArt"/> to check
+		/// </param>
+		/// <returns>
+		/// true if the flag needs parameter for the given <see cref="FlagArt"/>
+		/// false otherwise
+		/// </returns>
+		/// <remarks>
+		/// Because some flags only require a parameter, when they are set you have to use the art parameter to
+		/// get the result for setting or unsetting the flag
+		/// </remarks>
+		public bool NeedsParameter(FlagArt art) 
+		{
+			switch (art) {
+			case FlagArt.Set:
+				return SetParameter == FlagParameter.Required;
+			case FlagArt.Unset:
+				return UnsetParameter == FlagParameter.Required;
+			}
+			return false;
 		}
 	}
 }

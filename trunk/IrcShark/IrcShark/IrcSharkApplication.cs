@@ -21,6 +21,11 @@ using System;
 using System.Collections.Generic;
 using System.Security.Permissions;
 using IrcShark.Policy;
+using IrcShark.Extensions;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Text;
+using System.IO;
 
 namespace IrcShark
 {
@@ -54,26 +59,43 @@ namespace IrcShark
 		[IrcSharkAdministrationPermission(SecurityAction.Demand, Unrestricted = true)]
 		public IrcSharkApplication() 
 		{
-			extensions = new ExtensionManager();
+			String xml = "<extension version=\"1.0\" name=\"My displayed name\">" + "<class>the full qualified name of the class implementing the extension</class>" + "<author>Someone</author>" + "<dependencies>" + "<dependency>a fullname to the extension</dependency>" + "<dependency>a second extension</dependency>" + "</dependencies>" + "</extension>";
+			ExtensionInfo info = new ExtensionInfo();
+			info.ReadXml(XmlReader.Create(new System.IO.StringReader(xml)));
+			
+			extensions = new ExtensionManager(this);
 			extensionsDirectorys = new List<string>();
 			extensionsDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Extensions"));
 
 			settingsDirectorys = new List<string>();
 			settingsDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Settings"));
+			IrcSharkSettings settings = new IrcSharkSettings();
+			XmlSerializer serializer = new XmlSerializer(typeof(IrcSharkSettings));
+			StringBuilder sb = new StringBuilder();
+			StringWriter writer = new StringWriter(sb);
+			serializer.Serialize(writer, settings);
+			Console.Write(sb.ToString());
 		}
 		
-		public DirectoryList SettingsDirectorys
+		/// <summary>
+		/// A list of all directorys used for settings lookup
+		/// </summary>
+		public DirectoryCollection SettingsDirectorys
 		{
-			get { return new DirectoryList(settingsDirectorys); }
+			get { return new DirectoryCollection(settingsDirectorys); }
 		}
 		
-		public DirectoryList ExtensionsDirectorys
+		/// <summary>
+		/// A list of all directorys used for extension lookup
+		/// </summary>
+		public DirectoryCollection ExtensionsDirectorys
 		{
-			get { return new DirectoryList(extensionsDirectorys); }
+			get { return new DirectoryCollection(extensionsDirectorys); }
 		}
 		
 		public ExtensionManager Extensions {
 			get { return extensions; }
 		}
+
 	}
 }

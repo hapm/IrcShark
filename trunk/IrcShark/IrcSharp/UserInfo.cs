@@ -33,7 +33,7 @@ namespace IrcSharp
 		/// the <see cref="IrcClient"/> this UserInfo belongs to
 		/// </param>
 		/// <param name="host">
-		/// a host as described in rfc 1459<see cref="System.String"/>
+		/// a host as described in rfc 1459 <see cref="System.String"/>
 		/// </param>
 		public UserInfo(IrcClient client, string host)
 		{

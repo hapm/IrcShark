@@ -20,26 +20,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace IrcShark
 {
 	/// <summary>
 	/// Allows read only access to a list of directories.
 	/// </summary>
-	public class DirectoryList : ICollection<string>
+	public class DirectoryCollection : ICollection<string>
 	{
 		private List<string> directorys;
 		
 		/// <summary>
-		/// Creates a new read only directorylist based on the given string list
+		/// Creates a new directorylist based on the string collection
 		/// </summary>
-		/// <param name="dirs">
-		/// The string <see cref="System.Collections.Generic.List"/> of dictionarys, it is saved by reference and can be changed afterwards
+		/// <param name="list">
+		/// The string <see cref="System.Collections.Generic.ICollection{T}"/> of directories
 		/// </param>
-		public DirectoryList(List<string> dirs) {
-			if (dirs.Count == 0)
-				throw new ArgumentException("DirectoryList a minimum of one entry");
-			directorys = dirs;
+		public DirectoryCollection(IEnumerable<String> list) {
+			directorys = new List<string>(list);
+		}
+		
+		/// <summary>
+		/// Creates a new empty directorylist
+		/// </summary>
+		public DirectoryCollection() {
+			directorys = new List<string>();
 		}
 		
 		/// <value>
@@ -47,7 +55,7 @@ namespace IrcShark
 		/// </value>
 		public bool IsReadOnly {
 			get {
-				return true;
+				return false;
 			}
 		}
 		
@@ -66,10 +74,29 @@ namespace IrcShark
 		public string this[int index] {
 			get { return directorys[index]; }
 		}
-	
+		
+		/// <summary>
+		/// Add a new directory to the collection
+		/// </summary>
+		/// <param name="item">
+		/// the directory to add
+		/// </param>
 		public void Add(string item)
 		{
-			throw new NotSupportedException();
+			directorys.Add(item);
+		}
+		
+		/// <summary>
+		/// inserts a directory at the given index
+		/// </summary>
+		/// <param name="index">
+		/// the index to place the new directory to
+		/// </param>
+		/// <param name="item">
+		/// the directory to insert
+		/// </param>
+		public void Insert(int index, string item) {
+			 directorys.Insert(index, item);
 		}
 		
 		/// <summary>
@@ -87,10 +114,13 @@ namespace IrcShark
 		{
 			return directorys.Contains(item);
 		}
-			
+		
+		/// <summary>
+		/// clears sthe list of directories
+		/// </summary>
 		public void Clear ()
 		{
-			throw new NotSupportedException();
+			directorys.Clear();
 		}
 
 		/// <value>
@@ -102,9 +132,28 @@ namespace IrcShark
 			}
 		}
 
+		/// <summary>
+		/// removes a directory form the list
+		/// </summary>
+		/// <param name="item">
+		/// the directory to delete <see cref="System.String"/>
+		/// </param>
+		/// <returns>
+		/// true, if the directory was found and deleted, false otherwise
+		/// </returns>
 		public bool Remove (string item)
 		{
-			throw new NotSupportedException();
+			return directorys.Remove(item);
+		}
+		
+		/// <summary>
+		/// removes the directory at the given position
+		/// </summary>
+		/// <param name="index">
+		/// the position of the directory to remove 
+		/// </param>
+		public void RemoveAt (int index) {
+			directorys.RemoveAt(index);
 		}
 		
 		/// <summary>

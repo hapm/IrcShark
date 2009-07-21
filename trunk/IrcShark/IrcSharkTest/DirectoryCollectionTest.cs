@@ -26,8 +26,8 @@ using NUnit.Framework;
 namespace IrcSharkTest
 {
 	[TestFixture()]
-	public class DirectoryListTest {
-		private DirectoryList list;
+	public class DirectoryCollectionTest {
+		private DirectoryCollection list;
 		private List<string> dirs1;
 		private List<string> dirs2;
 		
@@ -39,24 +39,18 @@ namespace IrcSharkTest
 			dirs2.Add("test1");
 			dirs2.Add("foo10");
 			dirs2.Add("bar8");
-			list = new DirectoryList(dirs1);
+			list = new DirectoryCollection(dirs1);
 		}
 		
 		[Test()]
 		public void Constructor() {
 			Assert.IsNotNull(list);
-			try {
-				list = new DirectoryList(new List<string>());
-				Assert.Fail("DirectoryList without an entry is not allowed");
-			}
-			catch (ArgumentException) {
-			}
 		}
 		
 		[Test()]
 		public void Default() {
 			Assert.AreEqual("test", list.Default);
-			list = new DirectoryList(dirs2);
+			list = new DirectoryCollection(dirs2);
 			Assert.AreEqual("test1", list.Default);
 			dirs1.Add("blubb");
 			Assert.AreEqual("test1", list.Default);
@@ -65,7 +59,7 @@ namespace IrcSharkTest
 		[Test()]
 		public void ThisIndex() {
 			Assert.AreEqual("test", list[0]);
-			list = new DirectoryList(dirs2);
+			list = new DirectoryCollection(dirs2);
 			Assert.AreEqual("test1", list[0]);
 			Assert.AreEqual("foo10", list[1]);
 			Assert.AreEqual("bar8", list[2]);
@@ -74,25 +68,24 @@ namespace IrcSharkTest
 		[Test()]
 		public void Count() {
 			Assert.AreEqual(1, list.Count);
-			list = new DirectoryList(dirs2);
+			list = new DirectoryCollection(dirs2);
 			Assert.AreEqual(3, list.Count);
-			dirs2.Add("foobar");
+			list.Add("foobar");
 			Assert.AreEqual(4, list.Count);			
 		}
 		
 		[Test()]
 		public void IsReadOnly() {
-			Assert.IsTrue(list.IsReadOnly);
+			Assert.IsFalse(list.IsReadOnly);
 		}
 	
 		[Test()]
 		public void Add()
 		{
-			try {
-				list.Add("bla");
-				Assert.Fail("Add method should not be supported");
-			}
-			catch (NotSupportedException) {}
+			list.Add("bla");
+			Assert.AreEqual("bla", list[list.Count-1]);
+			list.Add("blubb");
+			Assert.AreEqual("blubb", list[list.Count-1]);
 		}
 		
 		[Test()]
@@ -100,7 +93,7 @@ namespace IrcSharkTest
 		{
 			Assert.IsTrue(list.Contains("test"));
 			Assert.IsFalse(list.Contains("foo10"));
-			list = new DirectoryList(dirs2);
+			list = new DirectoryCollection(dirs2);
 			Assert.IsTrue(list.Contains("test1"));
 			Assert.IsTrue(list.Contains("foo10"));
 			Assert.IsFalse(list.Contains("ding"));
@@ -109,21 +102,15 @@ namespace IrcSharkTest
 		[Test()]	
 		public void Clear()
 		{
-			try {
-				list.Clear();
-				Assert.Fail("Clear method should not be supported");
-			}
-			catch (NotSupportedException) {}
+			list.Clear();
+			Assert.AreEqual(0, list.Count);
 		}
 
 		[Test()]
 		public void Remove()
 		{
-			try {
-				list.Remove("bla");
-				Assert.Fail("Remove method should not be supported");
-			}
-			catch (NotSupportedException) {}
+			list.Remove("foo10");
+			Assert.IsFalse(list.Contains("foo10"));
 		}
 			
 		public void CopyTo ()
@@ -141,7 +128,7 @@ namespace IrcSharkTest
 			Assert.IsNull(result[0]);
 			Assert.IsNull(result[1]);
 			Assert.AreEqual("test", result[2]);
-			list = new DirectoryList(dirs2);
+			list = new DirectoryCollection(dirs2);
 			list.CopyTo(result, 0);
 			Assert.AreEqual("test1", result[0]);
 			Assert.AreEqual("foo10", result[1]);

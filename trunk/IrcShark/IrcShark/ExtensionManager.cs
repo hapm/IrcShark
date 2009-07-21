@@ -19,6 +19,8 @@
 //
 
 using System;
+using IrcShark.Extensions;
+using System.Xml;
 
 namespace IrcShark
 {
@@ -27,11 +29,24 @@ namespace IrcShark
 	/// </summary>
 	public class ExtensionManager
 	{
+		private IrcSharkApplication application;
+		
 		/// <summary>
-		/// the default contructor 
+		/// creates a new ExtensionManager for the given IrcSharkApplication
 		/// </summary>
-		public ExtensionManager()
+		public ExtensionManager(IrcSharkApplication app)
 		{
+			if (app.Extensions != null)
+				throw new ArgumentException("the given IrcSharkApplication already has an ExtensionManager", "app");
+			application = app;
+		}
+		
+		/// <summary>
+		/// saves the instance of the application this ExtensionManager belongs to
+		/// </summary>
+		public IrcSharkApplication Application
+		{
+			get { return application; }
 		}
 	}
 }

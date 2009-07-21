@@ -26,14 +26,86 @@ namespace IrcSharpTest
 	/// <summary>
 	/// test class for <see cref="IrcSharp.FlagDefinition"/>
 	/// </summary>
-	[TestFixture()]
+	[TestFixture]
 	public class FlagDefinitionTest
 	{		
-		[Test()]
-		public void Constructor()
+		[Test]
+		public void Constructor1()
 		{
 			FlagDefinition fd = new FlagDefinition('f', ModeArt.User);
 			Assert.IsNotNull(fd);
+			Assert.AreEqual(ModeArt.User, fd.AppliesTo);
+			Assert.AreEqual('f', fd.Character);
+			fd = new FlagDefinition('g', ModeArt.Channel);
+			Assert.AreEqual(ModeArt.Channel, fd.AppliesTo);
+			Assert.AreEqual('g', fd.Character);
+			fd = new FlagDefinition('h', ModeArt.Channel);
+			Assert.AreEqual(ModeArt.Channel, fd.AppliesTo);
+			Assert.AreEqual('h', fd.Character);
+			fd = new FlagDefinition('i', ModeArt.User);
+			Assert.AreEqual(ModeArt.User, fd.AppliesTo);
+			Assert.AreEqual('i', fd.Character);
+		}	
+		
+		[Test]
+		public void Constructor2()
+		{
+			FlagDefinition fd = new FlagDefinition('f', ModeArt.User, FlagParameter.None);
+			Assert.IsNotNull(fd);
+			Assert.AreEqual(ModeArt.User, fd.AppliesTo);
+			Assert.AreEqual('f', fd.Character);
+			Assert.AreEqual(FlagParameter.None, fd.SetParameter);
+			Assert.AreEqual(FlagParameter.None, fd.UnsetParameter);
+			fd = new FlagDefinition('i', ModeArt.Channel, FlagParameter.Required);
+			Assert.AreEqual(ModeArt.Channel, fd.AppliesTo);
+			Assert.AreEqual('i', fd.Character);
+			Assert.AreEqual(FlagParameter.Required, fd.SetParameter);
+			Assert.AreEqual(FlagParameter.Required, fd.UnsetParameter);
+			fd = new FlagDefinition('i', ModeArt.User, FlagParameter.Optional);
+			Assert.AreEqual(ModeArt.User, fd.AppliesTo);
+			Assert.AreEqual('i', fd.Character);
+			Assert.AreEqual(FlagParameter.Optional, fd.SetParameter);
+			Assert.AreEqual(FlagParameter.Optional, fd.UnsetParameter);
 		}
+		
+		[Test]
+		public void Constructor3()
+		{
+			FlagDefinition fd = new FlagDefinition('f', ModeArt.User, FlagParameter.None, FlagParameter.Optional);
+			Assert.IsNotNull(fd);
+			Assert.AreEqual(FlagParameter.None, fd.SetParameter);
+			Assert.AreEqual(FlagParameter.Optional, fd.UnsetParameter);
+			fd = new FlagDefinition('f', ModeArt.User, FlagParameter.Required, FlagParameter.None);
+			Assert.AreEqual(FlagParameter.Required, fd.SetParameter);
+			Assert.AreEqual(FlagParameter.None, fd.UnsetParameter);
+			fd = new FlagDefinition('f', ModeArt.User, FlagParameter.Optional, FlagParameter.Required);
+			Assert.AreEqual(FlagParameter.Optional, fd.SetParameter);
+			Assert.AreEqual(FlagParameter.Required, fd.UnsetParameter);
+		}
+		
+		[Test]
+		public void NeedsParameter() {
+			FlagDefinition fd = new FlagDefinition('f', ModeArt.User, FlagParameter.Required);
+			Assert.IsTrue(fd.NeedsParameter(FlagArt.Set));
+			Assert.IsTrue(fd.NeedsParameter(FlagArt.Unset));
+			fd = new FlagDefinition('f', ModeArt.User, FlagParameter.Optional);
+			Assert.IsFalse(fd.NeedsParameter(FlagArt.Set));
+			Assert.IsFalse(fd.NeedsParameter(FlagArt.Unset));
+			fd = new FlagDefinition('f', ModeArt.User, FlagParameter.None);
+			Assert.IsFalse(fd.NeedsParameter(FlagArt.Set));
+			Assert.IsFalse(fd.NeedsParameter(FlagArt.Unset));
+			fd = new FlagDefinition('f', ModeArt.User, FlagParameter.Required, FlagParameter.Optional);
+			Assert.IsTrue(fd.NeedsParameter(FlagArt.Set));
+			Assert.IsFalse(fd.NeedsParameter(FlagArt.Unset));
+		}
+		
+		/*[Test]
+		public void ParameterRegex()
+		{
+			FlagDefinition fd = new FlagDefinition('f', ModeArt.User, FlagParameter.Required, ".*");
+			Assert.AreEqual(fd.ParameterRegex, ".*");
+			fd = new FlagDefinition('f', ModeArt.User, FlagParameter.Required, "\\d+");
+			Assert.AreEqual(fd.ParameterRegex, "\\d+");	
+		}*/
 	}
 }

@@ -5,9 +5,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B287A6A8-748D-4E26-B2FF-1EC098D536F3}</ProjectGuid>
+    <ProjectGuid>{B6787C45-5363-4580-939E-DC8E1D58A3FA}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>IrcSharp</AssemblyName>
+    <AssemblyName>IrcShark.Extensions</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,24 +29,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IrcServerEndPoint.cs" />
+    <Compile Include="ExtensionInfo.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="IrcClient.cs" />
-    <Compile Include="IrcStandardDefinition.cs" />
-    <Compile Include="IIrcObject.cs" />
-    <Compile Include="IrcLine.cs" />
-    <Compile Include="InvalidLineFormatException.cs" />
-    <Compile Include="UserInfo.cs" />
-    <Compile Include="FlagArt.cs" />
-    <Compile Include="FlagParameter.cs" />
-    <Compile Include="ModeArt.cs" />
-    <Compile Include="FlagDefinition.cs" />
+    <Compile Include="Extension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Extended\" />
+    <None Include="extension.xml" />
+    <None Include="extensions.xsd" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

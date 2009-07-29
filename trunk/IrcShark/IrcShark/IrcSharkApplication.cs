@@ -53,6 +53,11 @@ namespace IrcShark
 		private List<string> settingsDirectorys;
 		
 		/// <summary>
+		/// the Logger instance belonging to this IrcSharkApplication
+		/// </summary>
+		private Logger log;
+		
+		/// <summary>
 		/// The contructor of this class. If you create a new instance of IrcSharkApplication, you
 		/// create a new instance of IrcShark it self.
 		/// </summary>
@@ -61,6 +66,7 @@ namespace IrcShark
 		{
 			String xml = "<extension version=\"1.0\" name=\"My displayed name\">" + "<class>the full qualified name of the class implementing the extension</class>" + "<author>Someone</author>" + "<dependencies>" + "<dependency>a fullname to the extension</dependency>" + "<dependency>a second extension</dependency>" + "</dependencies>" + "</extension>";
 			ExtensionInfo info = new ExtensionInfo();
+			log = new Logger();
 			info.ReadXml(XmlReader.Create(new System.IO.StringReader(xml)));
 			
 			extensions = new ExtensionManager(this);
@@ -97,5 +103,8 @@ namespace IrcShark
 			get { return extensions; }
 		}
 
+		public Logger Log {
+			get { return log; }
+		}
 	}
 }

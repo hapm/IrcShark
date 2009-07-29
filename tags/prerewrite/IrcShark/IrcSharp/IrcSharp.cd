@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="IrcSharp.IrcClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AgDBAACQIiUZSAgABTAAAoAwBIQEgAEAAAoAiQBAAAQ=</HashCode>
+      <FileName>IrcClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IrcSharp.ConnectEventArgs" Collapsed="true">
+    <Position X="1.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConnectEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.LoginEventArgs" Collapsed="true">
+    <Position X="9.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAQAAAAAAAAAAAAAAAAAAAAAAACAAABAAAA=</HashCode>
+      <FileName>LoginEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.LineReceivedEventArgs" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="11" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>LineReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IrcSharp.BadNickEventArgs" Collapsed="true">
+    <Position X="5.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>BadNickEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.IrcLine" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AABAAAAABAAAACAEAAAABAACAAAAgAAAAIAAAEAAAgw=</HashCode>
+      <FileName>IrcLine.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IrcSharp.Extended.AddedEventArgs&lt;T&gt;" Collapsed="true">
+    <Position X="4.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extended\AddedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.Extended.Channel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEEBjAAGJKAC2AwCCLgBkAQAAAgAgARCAgIAACCKAAQ=</HashCode>
+      <FileName>Extended\Channel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IrcSharp.ChannelListListener" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAVAAAAEAAAAAAAAAAAAAAAgAAACAAACAAAAgQ=</HashCode>
+      <FileName>ChannelListListener.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IrcSharp.Extended.IrcConnection" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQBgAAAAAAAAEAAAgAAAAAAAAACAEAQ=</HashCode>
+      <FileName>Extended\IrcConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.IrcEventArgs" Collapsed="true">
+    <Position X="6.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAgAAAAIAAAAAAAAgAAAAAAAAAAAAAU=</HashCode>
+      <FileName>IrcEventArgs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IrcSharp.ChannelListBeginEventArgs" Collapsed="true">
+    <Position X="7.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ChannelListBeginEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.ChannelListEndEventArgs" Collapsed="true">
+    <Position X="1.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>ChannelListEndEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.InfoBeginEventArgs" Collapsed="true">
+    <Position X="3.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InfoBeginEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.InfoEndEventArgs" Collapsed="true">
+    <Position X="5.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InfoEndEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.Extended.JoinedEventArgs" Collapsed="true">
+    <Position X="7.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extended\JoinedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.JoinReceivedEventArgs" Collapsed="true">
+    <Position X="9.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAIAAAAAAAAAAAAAAAgAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>JoinReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.KickReceivedEventArgs" Collapsed="true">
+    <Position X="11.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAICABAIAAAAAAAAAAgCAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>KickReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.LinksBeginEventArgs" Collapsed="true">
+    <Position X="1.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LinksBeginEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.LinksEndEventArgs" Collapsed="true">
+    <Position X="3.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>LinksEndEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.ModeReceivedEventArgs" Collapsed="true">
+    <Position X="5.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAQAAQAAAAAAAAgAAEAAQAEACAAAAAA=</HashCode>
+      <FileName>ModeReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.MotdBeginEventArgs" Collapsed="true">
+    <Position X="7.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MotdBeginEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.MotdEndEventArgs" Collapsed="true">
+    <Position X="9.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MotdEndEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.NamesBeginEventArgs" Collapsed="true">
+    <Position X="11.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamesBeginEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.NamesEndEventArgs" Collapsed="true">
+    <Position X="1.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAIAAAAAAAIAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamesEndEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.NickChangeReceivedEventArgs" Collapsed="true">
+    <Position X="3.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAQAAACAAA=</HashCode>
+      <FileName>NickChangeReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.NoticeReceivedEventArgs" Collapsed="true">
+    <Position X="5.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAIAAIAAA=</HashCode>
+      <FileName>NoticeReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.NumericReceivedEventArgs" Collapsed="true">
+    <Position X="7.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NumericReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.Extended.PartedEventArgs" Collapsed="true">
+    <Position X="9.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extended\PartedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.PartReceivedEventArgs" Collapsed="true">
+    <Position X="11.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAIAAAAAAAAABAAAAAwAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>PartReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.PingReceivedEventArgs" Collapsed="true">
+    <Position X="1.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PingReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.PrivateMessageReceivedEventArgs" Collapsed="true">
+    <Position X="3.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAEAAgAAAEAAAAACCEAABAIBAIAAA=</HashCode>
+      <FileName>PrivateMessageReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.QuitReceivedEventArgs" Collapsed="true">
+    <Position X="5.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>QuitReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.TopicEventArgs" Collapsed="true">
+    <Position X="7.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>TopicEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.WhoBeginEventArgs" Collapsed="true">
+    <Position X="9.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WhoBeginEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.WhoEndEventArgs" Collapsed="true">
+    <Position X="11.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAEAAAAAAAAA=</HashCode>
+      <FileName>WhoEndEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.LinksListener" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAIQAAAAAAAAAAAAAAAAAAAAoAAACAAACAAABAQ=</HashCode>
+      <FileName>LinksListener.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IrcSharp.WhoListener" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAEAAAAAAAAAAAAggAECEAACAAAAAQ=</HashCode>
+      <FileName>WhoListener.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IrcSharp.Extended.User" Collapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAkAAAAAgRAABQEQAAgAAAAAIAAAQIEAA=</HashCode>
+      <FileName>Extended\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcSharp.UserInfo" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgEgQAIAACAAAAAiIEAAAgAQAAAACQ=</HashCode>
+      <FileName>UserInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="IrcSharp.IIrcObject" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>IIrcObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="IrcSharp.Extended.ChannelStates" Collapsed="true">
+    <Position X="4.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAABAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Extended\Channel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="IrcSharp.ChannelListBeginEventHandler" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>ChannelListListener.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="IrcSharp.ChannelListEndEventHandler" Collapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>ChannelListListener.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="IrcSharp.LinksBeginEventHandler" Collapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LinksListener.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="IrcSharp.LinksEndEventHandler" Collapsed="true">
+    <Position X="14" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LinksListener.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="IrcSharp.WhoBeginEventHandler" Collapsed="true">
+    <Position X="12.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WhoListener.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="IrcSharp.WhoEndEventHandler" Collapsed="true">
+    <Position X="14" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>WhoListener.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

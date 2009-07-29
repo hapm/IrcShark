@@ -23,16 +23,15 @@ using IrcShark;
 
 namespace IrcSharkTest
 {
-
-
 	[TestFixture()]
 	public class LogChannelTest
 	{
 		[Test()]
 		public void Constructor ()
 		{
-			LogChannel lc = new LogChannel();
+			LogChannel lc = new LogChannel("Test-Channel");
 			Assert.IsNotNull(lc);
+			Assert.AreEqual("Test-Channel", lc.Name);
 		}
 	}
 }

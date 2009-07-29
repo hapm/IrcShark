@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="IrcShark.IrcSharkApplication">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAC4iABYAAAAAFAAAAAIAoAABQBgAIGCABAA=</HashCode>
+      <FileName>IrcSharkApplication.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.IrcConnectionList" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAgACAAAA=</HashCode>
+      <FileName>IrcConnectionList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.AdditionalSetting" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAACAAAABAQAAAAAAAIAAQAAAAAAAAAAQAgAAAAQAA=</HashCode>
+      <FileName>AdditionalSetting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.AdditionalBooleanSetting" Collapsed="true">
+    <Position X="9" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAACAAgAAAAAAA=</HashCode>
+      <FileName>AdditionalBooleanSetting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.AdditionalIntegerSetting" Collapsed="true">
+    <Position X="9" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAgAAQAAAA=</HashCode>
+      <FileName>AdditionalIntegerSetting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.AdditionalListSetting" Collapsed="true">
+    <Position X="11" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAgAAAAABA=</HashCode>
+      <FileName>AdditionalListSetting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.AdditionalSettingList" Collapsed="true">
+    <Position X="9" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAACAAABCAAAAAAAAAAaAAAEIBEAAA=</HashCode>
+      <FileName>AdditionalSettingList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.AdditionalStringSetting" Collapsed="true">
+    <Position X="11" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgCAAgAAAAAAA=</HashCode>
+      <FileName>AdditionalStringSetting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.ExtensionManager" Collapsed="true">
+    <Position X="13" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAkACAQSAAAAIIAAAAgAAAAEACAAAAgAgBAAIABAA=</HashCode>
+      <FileName>ExtensionManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IrcShark.ExtensionManagerPanel" Collapsed="true">
+    <Position X="9" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAQAQAIKAAAEAAQACAAEACAAAlAAAAAAgBCIAAQBE=</HashCode>
+      <FileName>ExtensionManagerPanel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IrcShark.SettingPanel" Collapsed="true">
+    <Position X="10.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAACAAACAAAACAAAAAAAAAAEACACAAAA=</HashCode>
+      <FileName>SettingPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.ExtensionAnalyzer" Collapsed="true">
+    <Position X="13" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAABAA=</HashCode>
+      <FileName>ExtensionAnalyzer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.ExtensionInfoBuilder" Collapsed="true">
+    <Position X="13" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAEAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>ExtensionInfoBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.ChannelFavoritesPanel" Collapsed="true">
+    <Position X="11" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAACAAABAAAACAAAACAAAIAAAAECAAAIEAAAA=</HashCode>
+      <FileName>ChannelFavoritesPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.NetworkManagerPanel" Collapsed="true">
+    <Position X="9" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAUABAAiBEbAgCAACAAKACAgAAAQEAAAAYAAEAgGA=</HashCode>
+      <FileName>NetworkManagerPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.NetworkManagerSettingPanel" Collapsed="true">
+    <Position X="12" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUIAkAAAACAAAAAAAACAAAACAAAAAAAACAAAAAACAAA=</HashCode>
+      <FileName>NetworkManagerSettingPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.GeneralNetworkManagerSettingPanel" Collapsed="true">
+    <Position X="11" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAFUIgAAiQEAgCAARCAAIACAAQAAgABABgAAAEAAEU=</HashCode>
+      <FileName>GeneralNetworkManagerSettingPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.ProxySettingPanel" Collapsed="true">
+    <Position X="13" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>cAAAAAAAACAAABAQEACAAAACAAAAAAAAEAAAAAEAAIA=</HashCode>
+      <FileName>ProxySettingPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.StatusPanel" Collapsed="true">
+    <Position X="9" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEEACCAwAAICgCAAAgDQAAAwAAAEAACAAQCAAQ=</HashCode>
+      <FileName>StatusPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.ServerConfigurationPanel" Collapsed="true">
+    <Position X="13" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAACAAJIAKAACEAAAiCCAAAIACAAAAAAABAAA=</HashCode>
+      <FileName>ServerConfigurationPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.OperSettingPanel" Collapsed="true">
+    <Position X="12" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>zwAAAAAAACAAAgAQAACAAAACAAAAAAAAECAEEAAAAAA=</HashCode>
+      <FileName>OperSettingPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.Network" Collapsed="true">
+    <Position X="15.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIAAAAAA=</HashCode>
+      <FileName>Network.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.NetworkManagerConfigurationUnit" Collapsed="true">
+    <Position X="16.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhGRBQABBRIgCAAAQACCUYAAAAAAIAAGgAABAIACA=</HashCode>
+      <FileName>NetworkManagerConfigurationUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.ServerConfiguration" Collapsed="true">
+    <Position X="17.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAACAAAABACAAAAIEAAQAA=</HashCode>
+      <FileName>ServerConfiguration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.ServerList" Collapsed="true">
+    <Position X="15.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAIAAAAIAAAAAAAAABAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>ServerList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.Logger">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACEAAAABgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IrcShark.LogMessage" Collapsed="true">
+    <Position X="6.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAACABAEAAAQDAAAAIAAAAAA=</HashCode>
+      <FileName>LogMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="IrcShark.LogLevels">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAQAAAAAgABAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>LogLevels.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="IrcShark.ServerSelectedEventHandler" Collapsed="true">
+    <Position X="7.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ServerConfigurationPanel.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

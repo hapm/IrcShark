@@ -1,0 +1,3 @@
+- Komplette Liste Deaktivierbar
+- rechtsklick menü (AUto. Join aus/an, löschen, sortieren, join)
+- checkbox bei Channels für Auto. Join

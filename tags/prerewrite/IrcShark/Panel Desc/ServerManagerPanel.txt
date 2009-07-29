@@ -1,0 +1,8 @@
+- Proxy Profile (Jeder Server eigene Proxy)
+- Ident bei jedem Server anders
+- Rechtsklick menü (Edit, Remove, Sortieren also Up oder Down)
+- Suchfunktion (für große server listen)
+- Autoconnect
+- Auf jedem Network eigene Nickname
+- Jedem Server eigene Perform liste
+- Oper Tab (oper nick & pw, Wo die Server notices angezeigt werden, modes beim opern, Channels joinen nach dem opern)

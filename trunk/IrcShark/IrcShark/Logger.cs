@@ -27,7 +27,7 @@ namespace IrcShark
 	/// </summary>
 	public class Logger
 	{
-		private System.Collections.Generic. Hashtable<String, LogChannel> channels;
+		private System.Collections.Generic.Dictionary<String, LogChannel> channels;
 		
 		public const String CoreChannel = "core";
 		

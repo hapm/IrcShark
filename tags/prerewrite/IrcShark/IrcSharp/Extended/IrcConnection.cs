@@ -41,7 +41,7 @@ namespace IrcSharp.Extended
 
         public void Close()
         {
-            if (Connected) 
+            if (IsConnected) 
                 Dispose();
         }
     }

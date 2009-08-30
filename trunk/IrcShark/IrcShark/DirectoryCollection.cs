@@ -37,7 +37,7 @@ namespace IrcShark
 		/// Creates a new directorylist based on the string collection
 		/// </summary>
 		/// <param name="list">
-		/// The string <see cref="System.Collections.Generic.ICollection{T}"/> of directories
+		/// The string <see cref="T:System.Collections.Generic.ICollection`1"/> of directories
 		/// </param>
 		public DirectoryCollection(IEnumerable<String> list) {
 			directorys = new List<string>(list);

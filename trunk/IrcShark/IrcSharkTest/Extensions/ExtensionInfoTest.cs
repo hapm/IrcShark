@@ -22,7 +22,7 @@ using NUnit.Framework;
 using IrcShark.Extensions;
 using System.Xml;
 
-namespace IrcShark.ExtensionsTest
+namespace IrcSharkTest.Extensions
 {	
 	[TestFixture()]
 	public class ExtensionInfoTest

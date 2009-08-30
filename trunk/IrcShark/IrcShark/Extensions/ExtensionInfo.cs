@@ -35,12 +35,14 @@ namespace IrcShark.Extensions
 		private string classType;
 		private Version version;
 		private string[] dependencies;
+		private bool trusted;
 		
 		/// <summary>
 		/// creates a new ExtensionInfo instance
 		/// </summary>
 		public ExtensionInfo()
 		{
+			trusted = false;
 		}
 		
 		/// <summary>
@@ -76,6 +78,10 @@ namespace IrcShark.Extensions
 		/// </summary>
 		public Version Version {
 			get { return version; }
+		}
+		
+		public bool Trusted {
+			get { return trusted; }
 		}
 		
 		/// <summary>

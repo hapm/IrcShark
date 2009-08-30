@@ -31,7 +31,7 @@
     <Compile Include="ExtensionManagerTest.cs" />
     <Compile Include="IrcSharkSettingsTest.cs" />
     <Compile Include="LoggerTest.cs" />
-    <Compile Include="LogChannelTest.cs" />
+    <Compile Include="Extensions\ExtensionInfoTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IrcShark\IrcShark.csproj">
@@ -50,4 +50,7 @@
       <Properties InternalTargetFrameworkVersion="3.5" />
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
 </Project>

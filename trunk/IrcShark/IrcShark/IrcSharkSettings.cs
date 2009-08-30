@@ -29,7 +29,7 @@ namespace IrcShark
 	/// <summary>
 	/// This class loads and saves the IrcShark configuration from and to a given xml file
 	/// </summary>
-	[XmlRoot("configuration")]
+	[XmlRoot("ircshark")]
 	public class IrcSharkSettings : IXmlSerializable
 	{
 		/// <summary>
@@ -54,13 +54,20 @@ namespace IrcShark
 		{
 			settingDirectorys = new DirectoryCollection();
 			extensionDirectorys = new DirectoryCollection();
+			loadedExtensions = new List<ExtensionInfo>();
 		}
 		
+		/// <summary>
+		/// Gets a list of all directories searched for extension settings
+		/// </summary>
 		[XmlElement("settingdirs")]
 		public DirectoryCollection SettingDirectorys {
 			get { return settingDirectorys; }
 		}
 		
+		/// <summary>
+		/// Gets a list of all directories searched for extensions
+		/// </summary>
 		[XmlElement("extensiondirs")]
 		public DirectoryCollection ExtensionDirectorys {
 			get { return extensionDirectorys; }
@@ -74,10 +81,123 @@ namespace IrcShark
 		
 		void IXmlSerializable.ReadXml (XmlReader reader)
 		{
+			while (reader.Read())
+			{
+				switch(reader.NodeType)
+				{
+				case XmlNodeType.Element:
+					switch (reader.Name)
+					{
+					case "configuration":
+						ReadConfiguration(reader);
+						break;
+					}
+					break;
+				}
+			}
+		}
+		
+		private void ReadConfiguration(XmlReader reader)
+		{
+			while (reader.Read())
+			{
+				switch(reader.NodeType)
+				{
+				case XmlNodeType.Element:
+					switch (reader.Name)
+					{
+					case "settingdirs":
+						ReadDirectoryList(reader, settingDirectorys);
+						break;
+					case "extensiondirs":
+						ReadDirectoryList(reader, extensionDirectorys);
+						break;
+					case "loaded":
+						ReadLoadedExtensions(reader);
+						break;
+					}
+					break;
+				case XmlNodeType.EndElement:
+					return;
+				}
+			}			
+		}
+		
+		private void ReadDirectoryList(XmlReader reader, DirectoryCollection dirs)
+		{
+			while (reader.Read())
+			{
+				switch(reader.NodeType)
+				{
+				case XmlNodeType.Element:
+					switch (reader.Name)
+					{
+					case "directory":
+						dirs.Add(reader.ReadElementContentAsString());
+						break;
+					}
+					break;
+				case XmlNodeType.EndElement:
+					return;
+				}
+			}			
+		}
+		
+		private void ReadLoadedExtensions(XmlReader reader)
+		{
+			while(true)
+			{
+				try
+				{
+					ExtensionInfo info = new ExtensionInfo();
+					info.ReadXml(reader);
+					loadedExtensions.Add(info);
+				}
+				catch (Exception ex)
+				{
+					if (reader.NodeType == XmlNodeType.EndElement)
+						return;
+					throw new ConfigurationException("couldn't load extension info", ex);
+				}
+			}
 		}
 		
 		void IXmlSerializable.WriteXml (XmlWriter writer)
 		{
+			writer.WriteAttributeString("xmlns", "http://www.ircshark.net/2009/settings");
+			writer.WriteAttributeString("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			writer.WriteAttributeString("xsi:schemaLocation", "http://www.ircshark.net/2009/settings http://www.ircshark.net/2009/settings.xsd");
+			writer.WriteStartElement("configuration");
+			WriteDirectoryList(writer, "settingdirs", settingDirectorys);
+			WriteDirectoryList(writer, "extensiondirs", extensionDirectorys);
+			WriteLoadedExtensions(writer, loadedExtensions.ToArray());
+			writer.WriteEndElement();
+		}
+		
+		private void WriteDirectoryList(XmlWriter writer, string tag, DirectoryCollection dirs)
+		{
+			if (dirs.Count > 0)
+			{
+				writer.WriteStartElement(tag);
+				foreach (string dir in dirs)
+				{
+					writer.WriteElementString("directory", dir);
+				}
+				writer.WriteEndElement();
+			}			
+		}
+		
+		private void WriteLoadedExtensions(XmlWriter writer, ExtensionInfo[] loaded)
+		{
+			if (loaded.Length > 0)
+			{
+				writer.WriteStartElement("loaded");
+				foreach (ExtensionInfo ext in loaded)
+				{
+					ext.WriteXml(writer);
+				}
+				writer.WriteEndElement();				
+			}
 		}
 		#endregion
 

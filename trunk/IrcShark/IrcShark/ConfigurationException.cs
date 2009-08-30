@@ -2,7 +2,7 @@
 // 
 // Note:
 // 
-// Copyright (C) 2009 IrcShark Team
+// Copyright (C) 2009 Full Name
 //  
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 
 using System;
 
-namespace IrcShark.Extensions
+namespace IrcShark
 {
-	
-	public abstract class Extension
-	{		
-		public Extension()
-		{
-		}
+
+
+	public class ConfigurationException : Exception
+	{
+		public ConfigurationException(string message) : base(message) {}
+		public ConfigurationException(string message, Exception innerException) : base(message, innerException) {}
 	}
 }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<schema id="config" xmlns="http://www.w3.org/2001/XMLSchema" 
+<schema id="config" targetNamespace="http://www.ircshark.net/2009/settings" xmlns="http://www.w3.org/2001/XMLSchema" 
                        xmlns:settings="http://www.ircshark.net/2009/settings"
-                       xmlns:ext="http://www.ircshark.net/2009/extensions"
-                       targetNamespace="http://www.ircshark.net/2009/settings">
+                       xmlns:ext="http://www.ircshark.net/2009/extensions">
 	<import namespace="http://www.ircshark.net/2009/extensions" schemaLocation="http://www.ircshark.net/2009/extensions.xsd" />
 	<complexType name="directorylist">
 		<sequence>

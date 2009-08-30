@@ -64,23 +64,44 @@ namespace IrcShark
 		[IrcSharkAdministrationPermission(SecurityAction.Demand, Unrestricted = true)]
 		public IrcSharkApplication() 
 		{
-			String xml = "<extension version=\"1.0\" name=\"My displayed name\">" + "<class>the full qualified name of the class implementing the extension</class>" + "<author>Someone</author>" + "<dependencies>" + "<dependency>a fullname to the extension</dependency>" + "<dependency>a second extension</dependency>" + "</dependencies>" + "</extension>";
-			ExtensionInfo info = new ExtensionInfo();
-			log = new Logger();
-			info.ReadXml(XmlReader.Create(new System.IO.StringReader(xml)));
+			//String xml = "<extension version=\"1.0\" name=\"My displayed name\">" + "<class>the full qualified name of the class implementing the extension</class>" + "<author>Someone</author>" + "<dependencies>" + "<dependency>a fullname to the extension</dependency>" + "<dependency>a second extension</dependency>" + "</dependencies>" + "</extension>";
+			//ExtensionInfo info = new ExtensionInfo();
+			//info.ReadXml(XmlReader.Create(new System.IO.StringReader(xml)));
 			
-			extensions = new ExtensionManager(this);
-			extensionsDirectorys = new List<string>();
-			extensionsDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Extensions"));
-
-			settingsDirectorys = new List<string>();
-			settingsDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Settings"));
+			log = new Logger(this);
+			log.LoggedMessage += DefaultConsoleLogger;
+			log.Log(new LogMessage(Logger.CoreChannel, 1, "Starting IrcShark, hold the line..."));
+			log.Log(new LogMessage(Logger.CoreChannel, 2, "Trying to load settings file"));
 			IrcSharkSettings settings = new IrcSharkSettings();
+			
+			log.Log(new LogMessage(Logger.CoreChannel, 3, "Initialising extension manager..."));
+			extensions = new ExtensionManager(this);
+			settings.ExtensionDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Extensions"));
+			settings.SettingDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Settings"));
 			XmlSerializer serializer = new XmlSerializer(typeof(IrcSharkSettings));
 			StringBuilder sb = new StringBuilder();
 			StringWriter writer = new StringWriter(sb);
 			serializer.Serialize(writer, settings);
 			Console.Write(sb.ToString());
+		}
+
+		void DefaultConsoleLogger (object logger, LogMessage msg)
+		{
+			string format = "[{0}][{1}][{2}] {3}";
+			switch (msg.Level)
+			{
+			case LogLevel.Debug:
+				Console.ForegroundColor = ConsoleColor.Gray;
+				break;
+			case LogLevel.Warning:
+				Console.ForegroundColor = ConsoleColor.Yellow;
+				break;
+			case LogLevel.Error:
+				Console.ForegroundColor = ConsoleColor.Red;
+				break;
+			}
+			Console.WriteLine(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
+			Console.ResetColor();
 		}
 		
 		/// <summary>

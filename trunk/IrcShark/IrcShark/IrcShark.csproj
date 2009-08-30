@@ -18,6 +18,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
     <GenerateDocumentation>true</GenerateDocumentation>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -38,17 +39,18 @@
     <Compile Include="IrcSharkSettings.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="LogLevel.cs" />
-    <Compile Include="LogChannel.cs" />
+    <Compile Include="ConfigurationException.cs" />
+    <Compile Include="Extensions\ExtensionInfo.cs" />
+    <Compile Include="Extensions\IExtensionObject.cs" />
+    <Compile Include="Extensions\Extension.cs" />
+    <Compile Include="Extensions\ExtensionException.cs" />
+    <Compile Include="LogMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\IrcShark.Policy\IrcShark.Policy.csproj">
       <Project>{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}</Project>
       <Name>IrcShark.Policy</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IrcShark.Extensions\IrcShark.Extensions.csproj">
-      <Project>{B6787C45-5363-4580-939E-DC8E1D58A3FA}</Project>
-      <Name>IrcShark.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
@@ -62,5 +64,11 @@
   </ProjectExtensions>
   <ItemGroup>
     <None Include="settings.xsd" />
+    <None Include="settings.xml" />
+    <None Include="extension.xml" />
+    <None Include="extensions.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>

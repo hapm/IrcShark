@@ -184,7 +184,7 @@ namespace IrcCloneShark
 
         public void Connect()
         {
-            if (BaseConnectionValue.Connected) return;
+            if (BaseConnectionValue.IsConnected) return;
             if (Server == null) return;
             Server.ApplyTo(BaseConnectionValue);
             BaseConnectionValue.Connect();

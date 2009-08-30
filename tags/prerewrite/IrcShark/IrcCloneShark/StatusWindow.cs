@@ -51,7 +51,7 @@ namespace IrcCloneShark
 
         void StatusWindow_Input(BaseWindow sender, InputEventArgs args)
         {
-            if (AssociatedConnection.BaseConnection.Connected)
+            if (AssociatedConnection.BaseConnection.IsConnected)
                 AssociatedConnection.BaseConnection.SendLine(args.Line);
         }
 

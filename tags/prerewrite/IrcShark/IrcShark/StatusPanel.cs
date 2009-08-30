@@ -113,7 +113,7 @@ namespace IrcShark
             RemoveConnectionMenuItem.Enabled = ConnectionListView.SelectedItems.Count > 0;
             foreach (ConnectionStateListViewItem item in ConnectionListView.SelectedItems)
             {
-                if (item.Connection.Connected)
+                if (item.Connection.IsConnected)
                     DisconnectMenuItem.Visible = true;
                 else
                     ConnectMenuItem.Visible = true;
@@ -158,7 +158,7 @@ namespace IrcShark
         {
             foreach (ConnectionStateListViewItem item in ConnectionListView.SelectedItems)
             {
-                if (item.Connection.Connected)
+                if (item.Connection.IsConnected)
                     item.Connection.Close(); //TODO change to quit method when implemented
             }
         }
@@ -167,7 +167,7 @@ namespace IrcShark
         {
             foreach (ConnectionStateListViewItem item in ConnectionListView.SelectedItems)
             {
-                if (!item.Connection.Connected)
+                if (!item.Connection.IsConnected)
                 {
                     try
                     {
@@ -193,7 +193,7 @@ namespace IrcShark
                 return;
             }
             ConnectionStateListViewItem item = (ConnectionStateListViewItem)ConnectionListView.SelectedItems[0];
-            if (!item.Connection.LoggedIn)
+            if (!item.Connection.IsLoggedIn)
                 return;
             foreach (KeyValuePair<string, Channel> ch in item.Connection.Channels)
             {

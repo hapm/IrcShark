@@ -22,8 +22,8 @@ namespace IrcShark
             subItem = new ListViewSubItem(this, "");
             SubItems.Add(subItem);
             UpdateStatus();
-            con.OnConnect += new IrcSharp.ConnectEventHandler(Client_OnConnect);
-            con.OnLogin += new IrcSharp.LoginEventHandler(Client_OnLogin);
+            con.Connected += new IrcSharp.ConnectEventHandler(Client_OnConnect);
+            con.Login += new IrcSharp.LoginEventHandler(Client_OnLogin);
         }
 
         void Client_OnLogin(object sender, IrcSharp.LoginEventArgs e)
@@ -51,9 +51,9 @@ namespace IrcShark
                 SubItems[1].Text = Connection.NetworkName;
             else
                 SubItems[1].Text = "[Unnamed]";
-            if (con.LoggedIn)
+            if (con.IsLoggedIn)
                 SubItems[2].Text = String.Format("Connected, {0} channel open", con.Channels.Count);
-            else if(con.Connected)
+            else if(con.IsConnected)
                 SubItems[2].Text = "Connected, logging in...";
             else
                 SubItems[2].Text = "Disconnected";

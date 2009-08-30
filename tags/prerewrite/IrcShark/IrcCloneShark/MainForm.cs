@@ -86,8 +86,8 @@ namespace IrcCloneShark
         private void FileMenu_DropDownOpening(object sender, EventArgs e)
         {
             BaseWindow win = (BaseWindow)ActiveMdiChild;
-            ConnectItem.Enabled = !win.AssociatedConnection.BaseConnection.Connected;
-            DisconnectItem.Enabled = win.AssociatedConnection.BaseConnection.Connected;
+            ConnectItem.Enabled = !win.AssociatedConnection.BaseConnection.IsConnected;
+            DisconnectItem.Enabled = win.AssociatedConnection.BaseConnection.IsConnected;
         }
 
         private void NewConnectionMenuItem_Click(object sender, EventArgs e)

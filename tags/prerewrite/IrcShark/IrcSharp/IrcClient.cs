@@ -13,28 +13,28 @@ namespace IrcSharp
     /// <remarks>With an instance of IrcClient, you can connect to an irc server and receive many events defined by the standard irc protocol. The messages received are automatically parsed to IrcLine objects to be easier accessible.</remarks>
     public class IrcClient : IIrcObject, IDisposable
     {
-        private IrcServerEndPoint ServerAddressValue;
-        private StreamReader InValue;
-        private StreamWriter OutValue;
-        private Thread ReaderThreadValue;
-        private Boolean LoggedInValue;
-        private TcpClient ClientValue;
-        private String UsernameValue;
-        private String CurrentNickValue;
-        private String NetworkNameValue;
-        private IrcStandardDefinition StandardValue;
-        private UserInfo MyUserInfoValue;
+        private IrcServerEndPoint serverAddress;
+        private StreamReader inReader;
+        private StreamWriter outWriter;
+        private Thread readerThread;
+        private Boolean loggedIn;
+        private TcpClient client;
+        private String username;
+        private String currentNick;
+        private String networkName;
+        private IrcStandardDefinition standard;
+        private UserInfo myUserInfo;
 
         #region "IrcClient events"
         /// <summary>
         /// OnConnect is raised when the connection to an irc server was established.
         /// </summary>
         /// <remarks>This event is raised befor the login to the server.</remarks>
-        public event ConnectEventHandler OnConnect;
+        public event ConnectEventHandler Connected;
         /// <summary>
         /// OnLogin event is raised when you succesfully loged in to an irc server.
         /// </summary>
-        public event LoginEventHandler OnLogin;
+        public event LoginEventHandler Login;
         /// <summary>
         /// This event is raised for all lines received from the server.
         /// </summary>
@@ -95,11 +95,11 @@ namespace IrcSharp
         /// </summary>
         public IrcClient()
         {
-            ClientValue = new TcpClient();
-            LoggedInValue = false;
-            CurrentNickValue = "Default";
-            UsernameValue = "Default";
-            StandardValue = new IrcStandardDefinition(this);
+            client = new TcpClient();
+            loggedIn = false;
+            currentNick = "Default";
+            username = "Default";
+            standard = new IrcStandardDefinition(this);
         }
         #endregion
 
@@ -112,11 +112,11 @@ namespace IrcSharp
         /// true, if the user is logged in correctly
         /// false, if the login is pending or the IrcClient is not connected
         /// </value>
-        public bool LoggedIn
+        public bool IsLoggedIn
         {
             get
             {
-                return Connected && LoggedInValue;
+                return IsConnected && loggedIn;
             }
         }
 
@@ -124,12 +124,12 @@ namespace IrcSharp
         /// Determines the connection state of the IrcClient.
         /// </summary>
         /// <value>true, if the connection is open, else false</value>
-        public bool Connected
+        public bool IsConnected
         {
             get
             {
-                if (ClientValue == null) return false;
-                return ClientValue.Connected;
+                if (client == null) return false;
+                return client.Connected;
             }
         }
 
@@ -141,11 +141,11 @@ namespace IrcSharp
         {
             get
             {
-                return ServerAddressValue;
+                return serverAddress;
             }
             set
             {
-                ServerAddressValue = value;
+                serverAddress = value;
             }
         }
 
@@ -158,11 +158,11 @@ namespace IrcSharp
         {
             get
             {
-                return UsernameValue;
+                return username;
             }
             set
             {
-                UsernameValue = value;
+                username = value;
             }
         }
 
@@ -175,7 +175,7 @@ namespace IrcSharp
         {
             get
             {
-                return CurrentNickValue;
+                return currentNick;
             }
         }
 
@@ -188,7 +188,7 @@ namespace IrcSharp
         {
             get
             {
-                return NetworkNameValue;
+                return networkName;
             }
         }
 
@@ -199,7 +199,7 @@ namespace IrcSharp
         /// <value>the standard</value>
         public IrcStandardDefinition Standard
         {
-            get { return StandardValue; }
+            get { return standard; }
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace IrcSharp
         /// <value>the <see cref="UserInfo"/> of the own client</value>
         public UserInfo MyUserInfo
         {
-            get { return MyUserInfoValue; }
+            get { return myUserInfo; }
         }
         #endregion
 
@@ -222,17 +222,17 @@ namespace IrcSharp
             if (ServerAddress == null) return;
             try
             {
-                test = ClientValue.BeginConnect(ServerAddress.Address, ServerAddress.Port, null, this);
+                test = client.BeginConnect(ServerAddress.Address, ServerAddress.Port, null, this);
                 test.AsyncWaitHandle.WaitOne();
-                if (Connected)
+                if (IsConnected)
                 {
                     ConnectEventArgs args = new ConnectEventArgs(this);
-                    if (OnConnect != null)
-                        OnConnect(this, new ConnectEventArgs(this));
-                    InValue = new StreamReader(ClientValue.GetStream(), System.Text.Encoding.Default);
-                    OutValue = new StreamWriter(ClientValue.GetStream(), System.Text.Encoding.Default);
-                    ReaderThreadValue = new Thread(new ThreadStart(ReadLines));
-                    ReaderThreadValue.Start();
+                    if (Connected != null)
+                        Connected(this, new ConnectEventArgs(this));
+                    inReader = new StreamReader(client.GetStream(), System.Text.Encoding.Default);
+                    outWriter = new StreamWriter(client.GetStream(), System.Text.Encoding.Default);
+                    readerThread = new Thread(new ThreadStart(ReadLines));
+                    readerThread.Start();
                     if (!args.Handled)
                     {
                         SendLine("NICK " + CurrentNick);
@@ -257,12 +257,12 @@ namespace IrcSharp
         /// <param name="line">the raw line to send</param>
         public void SendLine(String line)
         {
-            if (Connected)
+            if (IsConnected)
             {
                 try
                 {
-                    OutValue.WriteLine(line);
-                    OutValue.Flush();
+                    outWriter.WriteLine(line);
+                    outWriter.Flush();
                 }
                 catch(Exception ex)
                 {
@@ -282,13 +282,13 @@ namespace IrcSharp
         public void ChangeNickname(String newNick)
         {
             if (newNick == "") return;
-            if (Connected)
+            if (IsConnected)
             {
                 SendLine("NICK " + newNick);
             }
             else
             {
-                CurrentNickValue = newNick;
+                currentNick = newNick;
             }
         }
 
@@ -320,12 +320,12 @@ namespace IrcSharp
         private void ReadLines()
         {
             String Line;
-            while (Connected)
+            while (IsConnected)
             {
                 try
                 {
-                    if (InValue == null) return;
-                    Line = InValue.ReadLine();
+                    if (inReader == null) return;
+                    Line = inReader.ReadLine();
                     if (Line != null && LineReceived != null)
                     {
                         LineReceivedEventArgs args = new LineReceivedEventArgs(new IrcLine(this, Line));
@@ -357,15 +357,15 @@ namespace IrcSharp
                 switch (e.Line.Numeric)
                 {
                     case 1: // Parse the Server Info
-                        CurrentNickValue = e.Line.Parameters[0];
-                        NetworkNameValue = e.Line.Parameters[1].Split(' ')[3];
-                        MyUserInfoValue = new UserInfo(e.Line.Parameters[1].Split(' ')[6], this);
+                        currentNick = e.Line.Parameters[0];
+                        networkName = e.Line.Parameters[1].Split(' ')[3];
+                        myUserInfo = new UserInfo(e.Line.Parameters[1].Split(' ')[6], this);
                         break;
 
                     case 3: // Parse Welcome-Message
-                        LoggedInValue = true;
-                        if (OnLogin != null) 
-                            OnLogin(this, new LoginEventArgs(NetworkName, CurrentNick, this));
+                        loggedIn = true;
+                        if (Login != null) 
+                            Login(this, new LoginEventArgs(NetworkName, CurrentNick, this));
                         break;
 
                 }
@@ -457,11 +457,11 @@ namespace IrcSharp
 
         public void Dispose()
         {
-            if (ClientValue.Connected)
+            if (client.Connected)
             {
-                ReaderThreadValue.Abort();
+                readerThread.Abort();
                 SendLine("QUIT");
-                ClientValue.GetStream().Dispose();
+                client.GetStream().Dispose();
             }
 
         }

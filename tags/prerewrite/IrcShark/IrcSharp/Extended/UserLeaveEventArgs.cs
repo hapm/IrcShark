@@ -13,28 +13,28 @@ namespace IrcSharp.Extended
 
     public class UserLeaveEventArgs : EventArgs
     {
-        private ChannelUser UserValue;
-        private UserLeaveReason ReasonValue;
+        private ChannelUser user;
+        private UserLeaveReason reason;
 
         public UserLeaveEventArgs(ChannelUser user, UserLeaveReason reason)
         {
-            UserValue = user;
-            ReasonValue = reason;
+            user = user;
+            reason = reason;
         }
 
         public Channel Channel
         {
-            get { return UserValue.Channel; }
+            get { return user.Channel; }
         }
 
         public ChannelUser ChannelUser
         {
-            get { return UserValue; }
+            get { return user; }
         }
 
         public UserLeaveReason Reason
         {
-            get { return ReasonValue; }
+            get { return reason; }
         }
     }
 }

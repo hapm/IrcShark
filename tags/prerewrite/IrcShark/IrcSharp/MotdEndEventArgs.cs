@@ -6,16 +6,16 @@ namespace IrcSharp
 {
     public class MotdEndEventArgs : IrcEventArgs
     {
-        private IrcLine[] MotdLinesValue;
+        private IrcLine[] motdLines;
 
         public MotdEndEventArgs(IrcLine baseLine, IrcLine[] motdLines) : base(baseLine)
         {
-            MotdLinesValue = motdLines;
+            motdLines = motdLines;
         }
 
         public IrcLine[] MotdLines
         {
-            get { return MotdLinesValue; }
+            get { return motdLines; }
         }
     }
 }

@@ -6,30 +6,30 @@ namespace IrcSharp
 {
     public class JoinReceivedEventArgs : IrcEventArgs
     {
-        private String ChannelNameValue;
-        private UserInfo UserValue;
+        private String channelName;
+        private UserInfo user;
 
         public JoinReceivedEventArgs(IrcLine BaseLine)
             : base(BaseLine)
         {
-            UserValue = new UserInfo(BaseLine);
-            ChannelNameValue = BaseLine.Parameters[0];
+            user = new UserInfo(BaseLine);
+            channelName = BaseLine.Parameters[0];
         }
 
         public JoinReceivedEventArgs(String ChannelName, UserInfo JoinedUser) : base(JoinedUser.Client)
         {
-            ChannelNameValue = ChannelName;
-            UserValue = JoinedUser;
+            channelName = ChannelName;
+            user = JoinedUser;
         }
 
         public String ChannelName
         {
-            get { return ChannelNameValue; }
+            get { return channelName; }
         }
 
         public UserInfo User
         {
-            get { return UserValue; }
+            get { return user; }
         }
     }
 }

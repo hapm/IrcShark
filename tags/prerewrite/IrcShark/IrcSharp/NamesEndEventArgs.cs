@@ -6,19 +6,19 @@ namespace IrcSharp
 {
     public class NamesEndEventArgs : IrcEventArgs
     {
-        private String[] NamesValue;
+        private String[] names;
         private String ChannelNameValue;
 
         public NamesEndEventArgs(IrcLine baseLine, String[] names, String channelName)
             : base(baseLine)
         {
-            NamesValue = names;
+            names = names;
             ChannelNameValue = channelName;
         }
 
         public String[] Names
         {
-            get { return NamesValue; }
+            get { return names; }
         }
 
         public string ChannelName

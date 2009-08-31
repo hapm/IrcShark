@@ -16,15 +16,15 @@ namespace IrcSharp
         public event LinksBeginEventHandler LinksBegin;
         public event LinksEndEventHandler LinksEnd;
 
-        private IrcClient ClientValue;
-        private List<IrcLine> LinksLinesValue;
-        private bool IsReadingValue;
+        private IrcClient client;
+        private List<IrcLine> linksLines;
+        private bool isReading;
 
         public LinksListener(IrcClient client)
         {
-            ClientValue = client;
-            ClientValue.LineReceived += new LineReceivedEventHandler(HandleLine);
-            LinksLinesValue = new List<IrcLine>();
+            client = client;
+            client.LineReceived += new LineReceivedEventHandler(HandleLine);
+            linksLines = new List<IrcLine>();
         }
 
         private void HandleLine(Object sender, LineReceivedEventArgs args)
@@ -33,33 +33,33 @@ namespace IrcSharp
             switch (args.Line.Numeric)
             {
                 case 364:
-                    LinksLinesValue.Add(args.Line);
+                    linksLines.Add(args.Line);
                     if (!IsReading) {
-                        IsReadingValue = true;
+                        isReading = true;
                         if (LinksBegin != null) LinksBegin(this, new LinksBeginEventArgs(args.Line));
                     }
                     break;
                 case 365:
-                    LinksLinesValue.Add(args.Line);
+                    linksLines.Add(args.Line);
                     if (LinksEnd != null) LinksEnd(this, new LinksEndEventArgs(args.Line, LinksLines));
-                    IsReadingValue = false;
+                    isReading = false;
                     break;
             }
         }
 
         public IrcClient Client
         {
-            get { return ClientValue; }
+            get { return client; }
         }
 
         public IrcLine[] LinksLines
         {
-            get { return LinksLinesValue.ToArray(); }
+            get { return linksLines.ToArray(); }
         }
 
         public bool IsReading
         {
-            get { return IsReadingValue; }
+            get { return isReading; }
         }
     }
 }

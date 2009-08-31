@@ -12,35 +12,36 @@ namespace IrcSharp
     /// <remarks>Allows to analyze a raw irc line. The raw line is automatically broken down to it signle propertys as described in rfc 1459. They can be easily accessed by the given class propertys.</remarks>
     public class IrcLine : IIrcObject
     {
-        private static Regex IrcLineRegEx = new Regex("(?::([^ ]*) )?([^ ]*)((?: [^: ][^ ]*)*)(?: :(.*))?", RegexOptions.Singleline & RegexOptions.Compiled);
-        private String PrefixValue;
-        private String CommandValue;
-        private String[] ParametersValue;
-        private IrcClient ClientValue;
-        private int NumericValue;
+        private static Regex ircLineRegEx = new Regex("(?::([^ ]*) )?([^ ]*)((?: [^: ][^ ]*)*)(?: :(.*))?", RegexOptions.Singleline & RegexOptions.Compiled);
+        private String prefix;
+        private String command;
+        private String[] parameters;
+        private IrcClient client;
+        private int numeric;
 
         public IrcLine(IrcClient client, String line)
         {
             String[] normalParams;
             Match result;
-            ClientValue = client;
-            result = IrcLineRegEx.Match(line);
+            client = client;
+            result = ircLineRegEx.Match(line);
+            
             if (result.Success)
             {
-                PrefixValue = result.Groups[1].Value;
-                CommandValue = result.Groups[2].Value;
+                prefix = result.Groups[1].Value;
+                command = result.Groups[2].Value;
                 normalParams = result.Groups[3].Value.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 if (result.Groups[4].Success)
                 {
-                    ParametersValue = new String[normalParams.Length + 1];
-                    normalParams.CopyTo(ParametersValue, 0);
-                    ParametersValue[ParametersValue.Length - 1] = result.Groups[4].Value;
+                    parameters = new String[normalParams.Length + 1];
+                    normalParams.CopyTo(parameters, 0);
+                    parameters[parameters.Length - 1] = result.Groups[4].Value;
                 }
                 else
                 {
-                    ParametersValue = normalParams;
+                    parameters = normalParams;
                 }
-                Int32.TryParse(CommandValue, out NumericValue);
+                Int32.TryParse(command, out numeric);
             }
             else
             {
@@ -50,20 +51,20 @@ namespace IrcSharp
 
         public IrcLine(IrcClient client, String prefix, String command, String[] parameters)
         {
-            ClientValue = client;
-            PrefixValue = prefix;
-            CommandValue = command;
-            ParametersValue = (String[])parameters.Clone();
-            Int32.TryParse(command, out NumericValue);
+            client = client;
+            prefix = prefix;
+            command = command;
+            parameters = (String[])parameters.Clone();
+            Int32.TryParse(command, out numeric);
         }
 
         public IrcLine(IrcLine source)
         {
-            PrefixValue = source.Prefix;
-            CommandValue = source.Command;
-            ParametersValue = source.Parameters;
-            ClientValue = source.Client;
-            int.TryParse(Command, out NumericValue);
+            prefix = source.Prefix;
+            command = source.Command;
+            parameters = source.Parameters;
+            client = source.Client;
+            int.TryParse(Command, out numeric);
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace IrcSharp
         {
             get
             {
-                return ClientValue;
+                return client;
             }
         }
 
@@ -87,7 +88,7 @@ namespace IrcSharp
         {
             get
             {
-                return PrefixValue;
+                return prefix;
             }
         }
 
@@ -100,7 +101,7 @@ namespace IrcSharp
         {
             get
             {
-                return CommandValue;
+                return command;
             }
         }
 
@@ -113,7 +114,7 @@ namespace IrcSharp
         {
             get
             {
-                return (string[])ParametersValue.Clone();
+                return (string[])parameters.Clone();
             }
         }
 
@@ -128,7 +129,7 @@ namespace IrcSharp
         {
             get
             {
-                return NumericValue > 0;
+                return numeric > 0;
             }
         }
 
@@ -140,7 +141,7 @@ namespace IrcSharp
         {
             get
             {
-                return NumericValue;
+                return numeric;
             }
         }
 

@@ -10,24 +10,24 @@ namespace IrcSharp
     /// </summary>
     public class UserInfo : IIrcObject
     {
-        private static Regex HostRegex = new Regex("([^!]*)!([^@]*)@(.*)", RegexOptions.Compiled & RegexOptions.Singleline);
-        private String NickNameValue;
-        private String IdentValue;
-        private String HostValue;
-        private IrcLine BaseLineValue;
-        private IrcClient ClientValue;
+        private static Regex hostRegex = new Regex("([^!]*)!([^@]*)@(.*)", RegexOptions.Compiled & RegexOptions.Singleline);
+        private String nickName;
+        private String ident;
+        private String host;
+        private IrcLine baseLine;
+        private IrcClient client;
 
         public UserInfo(IrcLine BaseLine)
         {
-            BaseLineValue = BaseLine;
+            baseLine = BaseLine;
             Match hostPieces;
-            hostPieces = HostRegex.Match(BaseLine.Prefix);
+            hostPieces = hostRegex.Match(BaseLine.Prefix);
             if (hostPieces.Success)
             {
-                NickNameValue = hostPieces.Groups[1].Value;
-                IdentValue = hostPieces.Groups[2].Value;
-                HostValue = hostPieces.Groups[3].Value;
-                ClientValue = BaseLine.Client;
+                nickName = hostPieces.Groups[1].Value;
+                ident = hostPieces.Groups[2].Value;
+                host = hostPieces.Groups[3].Value;
+                client = BaseLine.Client;
             }
             else
             {
@@ -39,13 +39,13 @@ namespace IrcSharp
         public UserInfo(String FullHost, IrcClient Client)
         {
             Match hostPieces;
-            hostPieces = HostRegex.Match(FullHost);
+            hostPieces = hostRegex.Match(FullHost);
             if (hostPieces.Success)
             {
-                NickNameValue = hostPieces.Groups[1].Value;
-                IdentValue = hostPieces.Groups[2].Value;
-                HostValue = hostPieces.Groups[3].Value;
-                ClientValue = Client;
+                nickName = hostPieces.Groups[1].Value;
+                ident = hostPieces.Groups[2].Value;
+                host = hostPieces.Groups[3].Value;
+                client = Client;
             }
             else
             {
@@ -56,40 +56,40 @@ namespace IrcSharp
 
         public UserInfo(String NickName, String Ident, String Host, IrcClient Client)
         {
-            NickNameValue = NickName;
-            IdentValue = Ident;
-            HostValue = Host;
-            ClientValue = Client;
+            nickName = NickName;
+            ident = Ident;
+            host = Host;
+            client = Client;
         }
 
         public UserInfo(UserInfo baseInfo)
         {
-            BaseLineValue = baseInfo.BaseLine;
-            NickNameValue = baseInfo.NickName;
-            IdentValue = baseInfo.Ident;
-            HostValue = baseInfo.Host;
-            ClientValue = baseInfo.Client;
+            baseLine = baseInfo.BaseLine;
+            nickName = baseInfo.NickName;
+            ident = baseInfo.Ident;
+            host = baseInfo.Host;
+            client = baseInfo.Client;
         }
 
         public IrcLine BaseLine
         {
-            get { return BaseLineValue; }
+            get { return baseLine; }
         }
 
         public String Host
         {
-            get { return HostValue; }
+            get { return host; }
         }
 
         public String Ident
         {
-            get { return IdentValue; }
+            get { return ident; }
         }
 
         public String NickName
         {
-            get { return NickNameValue; }
-            protected internal set { NickNameValue = value; }
+            get { return nickName; }
+            protected internal set { nickName = value; }
         }
 
         public override bool Equals(Object toCompare)
@@ -120,7 +120,7 @@ namespace IrcSharp
 
         public IrcClient Client
         {
-            get { return ClientValue; }
+            get { return client; }
         }
 
         #endregion

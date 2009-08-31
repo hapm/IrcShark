@@ -10,16 +10,16 @@ namespace IrcSharp.Extended
 
         public event EventHandler IsValidChanged;
 
-        private List<String> ChannelsValue;
-        private DateTime LastUpdateValue;
-        private bool IsAwayValue;
-        private bool IsValidValue;
+        private List<String> channels;
+        private DateTime lastUpdate;
+        private bool isAway;
+        private bool isValid;
 
         public User(UserInfo baseInfo, String[] chans) : base(baseInfo)
         {
-            IsValidValue = true;
-            ChannelsValue = new List<String>();
-            ChannelsValue.AddRange(chans);
+            isValid = true;
+            channels = new List<String>();
+            channels.AddRange(chans);
             Client.JoinReceived += new JoinReceivedEventHandler(Client_JoinReceived);
             Client.PartReceived += new PartReceivedEventHandler(Client_PartReceived);
             Client.QuitReceived += new QuitReceivedEventHandler(Client_QuitReceived);
@@ -31,9 +31,9 @@ namespace IrcSharp.Extended
         {
             if (e.KickedName != NickName) return;
             if (!IsIn(e.ChannelName)) return;
-            ChannelsValue.Remove(e.ChannelName);
-            if (ChannelsValue.Count > 0) return;
-            IsValidValue = false;
+            channels.Remove(e.ChannelName);
+            if (channels.Count > 0) return;
+            isValid = false;
             if (IsValidChanged != null) IsValidChanged(this, new EventArgs());
         }
 
@@ -46,29 +46,29 @@ namespace IrcSharp.Extended
         void Client_QuitReceived(Object sender, QuitReceivedEventArgs e)
         {
             if (e.User != (UserInfo)this) return;
-            IsValidValue = false;
+            isValid = false;
             if (IsValidChanged != null) IsValidChanged(this, new EventArgs());
-            ChannelsValue.Clear();
+            channels.Clear();
         }
 
         void Client_PartReceived(Object sender, PartReceivedEventArgs e)
         {
             if (e.User != (UserInfo)this) return;
             if (!IsIn(e.ChannelName)) return;
-            ChannelsValue.Remove(e.ChannelName);
-            if (ChannelsValue.Count > 0) return;
-            IsValidValue = false;
+            channels.Remove(e.ChannelName);
+            if (channels.Count > 0) return;
+            isValid = false;
             if (IsValidChanged != null) IsValidChanged(this, new EventArgs());
         }
 
         void Client_JoinReceived(Object sender, JoinReceivedEventArgs e)
         {
-            if (e.User == (UserInfo)this) ChannelsValue.Add(e.ChannelName);
+            if (e.User == (UserInfo)this) channels.Add(e.ChannelName);
         }
 
         public bool IsIn(String ChannelName)
         {
-            foreach (String currentChan in ChannelsValue)
+            foreach (String currentChan in channels)
             {
                 if (currentChan == ChannelName) return true;
             }
@@ -77,22 +77,22 @@ namespace IrcSharp.Extended
 
         public String[] Channels
         {
-            get { return ChannelsValue.ToArray(); }
+            get { return channels.ToArray(); }
         }
 
         public DateTime LastUpdate
         {
-            get { return LastUpdateValue; }
+            get { return lastUpdate; }
         }
 
         public bool IsAway
         {
-            get { return IsAwayValue; }
+            get { return isAway; }
         }
 
         public bool IsValid
         {
-            get { return IsValidValue; }
+            get { return isValid; }
         }
     }
 }

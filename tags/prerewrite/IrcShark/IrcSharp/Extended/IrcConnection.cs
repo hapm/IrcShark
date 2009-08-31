@@ -10,14 +10,14 @@ namespace IrcSharp.Extended
     /// <remarks>This class uses all classes of IrcSharp to manage an irc connection.</remarks>
     public class IrcConnection : IrcClient
     {
-        private ChannelManager ChannelsValue;
-        private static int InstanceCount = 0;
-        private int ConnectionIDValue;
+        private ChannelManager channels;
+        private static int instanceCount = 0;
+        private int connectionID;
 
         public IrcConnection() : base()
         {
-            ChannelsValue = new ChannelManager(this);
-            ConnectionIDValue = ++InstanceCount;
+            channels = new ChannelManager(this);
+            connectionID = ++instanceCount;
         }
 
         public IrcClient Client
@@ -31,12 +31,12 @@ namespace IrcSharp.Extended
         /// <value>The ChannelManager object of the current connection.</value>
         public ChannelManager Channels
         {
-            get { return ChannelsValue; }
+            get { return channels; }
         }
 
         public int ConnectionID
         {
-            get { return ConnectionIDValue; }
+            get { return connectionID; }
         }
 
         public void Close()

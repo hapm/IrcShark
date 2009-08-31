@@ -6,24 +6,24 @@ namespace IrcSharp
 {
     public class NickChangeReceivedEventArgs : IrcEventArgs
     {
-        private String NewNickValue;
-        private UserInfo UserValue;
+        private String newNick;
+        private UserInfo user;
 
         public NickChangeReceivedEventArgs(IrcLine BaseLine)
             : base(BaseLine)
         {
-            UserValue = new UserInfo(BaseLine);
-            NewNickValue = BaseLine.Parameters[0];
+            user = new UserInfo(BaseLine);
+            newNick = BaseLine.Parameters[0];
         }
 
         public UserInfo User 
         {
-            get { return UserValue; }
+            get { return user; }
         }
 
         public String NewNick
         {
-            get { return NewNickValue; }
+            get { return newNick; }
         }
     }
 }

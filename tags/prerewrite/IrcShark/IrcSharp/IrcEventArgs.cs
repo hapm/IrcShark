@@ -6,45 +6,45 @@ namespace IrcSharp
 {
     public class IrcEventArgs : EventArgs, IIrcObject
     {
-        private bool HandledValue;
-        private IrcClient ClientValue;
-        private IrcLine BaseLineValue;
+        private bool handled;
+        private IrcClient client;
+        private IrcLine baseLine;
 
         public IrcEventArgs(IrcClient Client)
         {
-            HandledValue = false;
-            ClientValue = Client;
+            handled = false;
+            client = Client;
         }
 
         public IrcEventArgs(IrcLine BaseLine)
         {
-            HandledValue = false;
-            ClientValue = BaseLine.Client;
-            BaseLineValue = BaseLine;
+            handled = false;
+            client = BaseLine.Client;
+            baseLine = BaseLine;
         }
 
         public bool Handled
         {
             get
             {
-                return HandledValue;
+                return handled;
             }
             set
             {
-                HandledValue = value;
+                handled = value;
             }
         }
 
         public IrcLine BaseLine
         {
-            get { return BaseLineValue; }
+            get { return baseLine; }
         }
 
         #region IIrcObject Member
 
         public IrcClient Client
         {
-            get { return ClientValue; }
+            get { return client; }
         }
 
         #endregion

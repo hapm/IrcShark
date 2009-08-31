@@ -7,16 +7,16 @@ namespace IrcSharp.Extended
 {
     public class RemovedEventArgs<T> : EventArgs
     {
-        private T ItemValue;
+        private T item;
 
         public RemovedEventArgs(T item)
         {
-            ItemValue = item;
+            this.item = item;
         }
 
         public T Item
         {
-            get { return ItemValue; }
+            get { return item; }
         }
     }
 }

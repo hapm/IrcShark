@@ -7,24 +7,24 @@ namespace IrcSharp
 {
     public class IrcServerEndPoint : IPEndPoint
     {
-        private String PasswordValue;
-        private int NeedIdentd;
-        private String ServerHostValue;
+        private String password;
+        private int needIdentd;
+        private String serverHost;
 
         public IrcServerEndPoint(String ServerAddress, int Port) : base(0,0)
         {
-            IPAddress[] Addresses;
-            ServerHostValue = ServerAddress;
+            IPAddress[] addresses;
+            serverHost = ServerAddress;
             base.Port = Port;
-            Addresses = Dns.GetHostEntry(ServerAddress).AddressList;
-            base.Address = Addresses[0];
+            addresses = Dns.GetHostEntry(ServerAddress).AddressList;
+            base.Address = addresses[0];
         }
 
         public String ServerHost
         {
             get
             {
-                return ServerHostValue;
+                return serverHost;
             }
         }
     }

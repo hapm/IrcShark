@@ -6,16 +6,16 @@ namespace IrcSharp
 {
     public class ChannelListEndEventArgs : IrcEventArgs
     {
-        private IrcLine[] ChannelListLinesValue;
+        private IrcLine[] channelListLines;
 
         public ChannelListEndEventArgs(IrcLine baseLine, IrcLine[] channellistLines) : base(baseLine)
         {
-            ChannelListLinesValue = channellistLines;
+            channelListLines = channellistLines;
         }
 
         public IrcLine[] ChannelListLines
         {
-            get { return ChannelListLinesValue; }
+            get { return channelListLines; }
         }
     }
 }

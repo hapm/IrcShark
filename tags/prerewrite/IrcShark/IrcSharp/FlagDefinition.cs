@@ -20,70 +20,70 @@ namespace IrcSharp
 
     public class FlagDefinition
     {
-        private char CharValue;
-        private ModeArt ArtValue;
-        private FlagParameter UnsetParameterValue;
-        private FlagParameter SetParameterValue;
-        private Regex ParameterCheckValue;
+        private char CharValue; // TODO: New Name
+        private ModeArt art;
+        private FlagParameter unsetParameter;
+        private FlagParameter setParameter;
+        private Regex parameterCheck;
 
         public FlagDefinition(char FlagChar, ModeArt Art)
         {
             CharValue = FlagChar;
-            ArtValue = Art;
+            art = Art;
         }
 
         public FlagDefinition(char FlagChar, ModeArt Art, FlagParameter Parameters)
         {
             CharValue = FlagChar;
-            ArtValue = Art;
-            SetParameterValue = Parameters;
-            UnsetParameterValue = Parameters;
+            art = Art;
+            setParameter = Parameters;
+            unsetParameter = Parameters;
         }
 
         public FlagDefinition(char FlagChar, ModeArt Art, FlagParameter SetParameter, FlagParameter UnsetParameter)
         {
             CharValue = FlagChar;
-            ArtValue = Art;
-            SetParameterValue = SetParameter;
-            UnsetParameterValue = UnsetParameter;
+            art = Art;
+            setParameter = SetParameter;
+            unsetParameter = UnsetParameter;
         }
 
         public FlagDefinition(char FlagChar, ModeArt Art, FlagParameter Parameters, Regex ParameterChecker)
         {
             CharValue = FlagChar;
-            ArtValue = Art;
-            SetParameterValue = Parameters;
-            UnsetParameterValue = Parameters;
-            ParameterCheckValue = ParameterChecker;
+            art = Art;
+            setParameter = Parameters;
+            unsetParameter = Parameters;
+            parameterCheck = ParameterChecker;
         }
 
         public FlagDefinition(char FlagChar, ModeArt Art, FlagParameter SetParameter, FlagParameter UnsetParameter, Regex ParameterChecker)
         {
             CharValue = FlagChar;
-            ArtValue = Art;
-            SetParameterValue = SetParameter;
-            UnsetParameterValue = UnsetParameter;
-            ParameterCheckValue = ParameterChecker;
+            art = Art;
+            setParameter = SetParameter;
+            unsetParameter = UnsetParameter;
+            parameterCheck = ParameterChecker;
         }
 
         public ModeArt Art
         {
-            get { return ArtValue; }
+            get { return art; }
         }
 
         public FlagParameter SetParameter
         {
-            get { return SetParameterValue; }
+            get { return setParameter; }
         }
 
         public FlagParameter UnsetParameter
         {
-            get { return UnsetParameterValue; }
+            get { return unsetParameter; }
         }
 
         public Regex ParameterCheck
         {
-            get { return ParameterCheckValue; }
+            get { return parameterCheck; }
         }
 
         public bool IsParameter(FlagArt Art, String Parameter)

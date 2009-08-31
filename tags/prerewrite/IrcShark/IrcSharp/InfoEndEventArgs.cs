@@ -6,16 +6,16 @@ namespace IrcSharp
 {
     public class InfoEndEventArgs : IrcEventArgs
     {
-        private IrcLine[] InfoLinesValue;
+        private IrcLine[] infoLines;
 
         public InfoEndEventArgs(IrcLine baseLine, IrcLine[] infoLines) : base(baseLine)
         {
-            InfoLinesValue = infoLines;
+            infoLines = infoLines;
         }
 
         public IrcLine[] InfoLines
         {
-            get { return InfoLinesValue; }
+            get { return infoLines; }
         }
     }
 }

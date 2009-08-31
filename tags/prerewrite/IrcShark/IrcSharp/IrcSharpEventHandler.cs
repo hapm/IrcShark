@@ -1,6 +1,5 @@
 ﻿namespace IrcSharp
 {
-
     #region "IrcClient EventHandler"
     public delegate void ConnectEventHandler(object sender, ConnectEventArgs e);
     public delegate void LoginEventHandler(object sender, LoginEventArgs e);

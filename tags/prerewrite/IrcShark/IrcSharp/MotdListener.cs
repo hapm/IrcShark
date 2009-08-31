@@ -12,15 +12,15 @@ namespace IrcSharp
         public event MotdBeginEventHandler MotdBegin;
         public event MotdEndEventHandler MotdEnd;
 
-        private IrcClient ClientValue;
-        private List<IrcLine> MotdLinesValue;
-        private bool IsReadingValue;
+        private IrcClient client;
+        private List<IrcLine> motdLines;
+        private bool isReading;
 
         public MotdListener(IrcClient client)
         {
-            ClientValue = client;
-            ClientValue.LineReceived += new LineReceivedEventHandler(HandleLine);
-            MotdLinesValue = new List<IrcLine>();
+            client = client;
+            client.LineReceived += new LineReceivedEventHandler(HandleLine);
+            motdLines = new List<IrcLine>();
         }
 
         private void HandleLine(Object sender, LineReceivedEventArgs args)
@@ -30,35 +30,35 @@ namespace IrcSharp
             switch (args.Line.Numeric)
             {
                 case 375:
-                    IsReadingValue = true;
-                    MotdLinesValue.Clear();
-                    MotdLinesValue.Add(args.Line);
+                    isReading = true;
+                    motdLines.Clear();
+                    motdLines.Add(args.Line);
                     if (MotdBegin != null) MotdBegin(this, new MotdBeginEventArgs(args.Line));
                     break;
                 case 372:
-                    MotdLinesValue.Add(args.Line);
+                    motdLines.Add(args.Line);
                     break;
                 case 376:
-                    MotdLinesValue.Add(args.Line);
+                    motdLines.Add(args.Line);
                     if (MotdEnd != null) MotdEnd(this, new MotdEndEventArgs(args.Line, MotdLines));
-                    IsReadingValue = false;
+                    isReading = false;
                     break;
             }
         }
 
         public IrcClient Client
         {
-            get { return ClientValue; }
+            get { return client; }
         }
 
         public IrcLine[] MotdLines
         {
-            get { return MotdLinesValue.ToArray(); }
+            get { return motdLines.ToArray(); }
         }
 
         public bool IsReading
         {
-            get { return IsReadingValue; }
+            get { return isReading; }
         }
     }
 }

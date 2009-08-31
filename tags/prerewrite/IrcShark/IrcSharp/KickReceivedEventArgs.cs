@@ -6,33 +6,33 @@ namespace IrcSharp
 {
     public class KickReceivedEventArgs : IrcEventArgs
     {
-        private UserInfo KickerValue;
-        private String KickedNameValue;
-        private String ChannelNameValue;
+        private UserInfo kicker;
+        private String kickedName;
+        private String channelName;
         private String ReasonValue;
 
         public KickReceivedEventArgs(IrcLine BaseLine)
             : base(BaseLine)
         {
-            KickerValue = new UserInfo(BaseLine);
-            KickedNameValue = BaseLine.Parameters[1];
-            ChannelNameValue = BaseLine.Parameters[0];
+            kicker = new UserInfo(BaseLine);
+            kickedName = BaseLine.Parameters[1];
+            channelName = BaseLine.Parameters[0];
             ReasonValue = BaseLine.Parameters[2];
         }
 
         public UserInfo Kicker
         {
-            get { return KickerValue; }
+            get { return kicker; }
         }
 
         public String KickedName
         {
-            get { return KickedNameValue; }
+            get { return kickedName; }
         }
 
         public String ChannelName
         {
-            get { return ChannelNameValue; }
+            get { return channelName; }
         }
 
         public String Reason

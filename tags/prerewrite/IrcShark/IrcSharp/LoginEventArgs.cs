@@ -9,13 +9,13 @@ namespace IrcSharp
     /// </summary>
     public class LoginEventArgs : IrcEventArgs
     {
-        private String NetworkNameValue;
-        private String NickValue;
+        private String networkName;
+        private String nick;
 
         public LoginEventArgs(String NetworkName, String Nick, IrcClient client) : base(client)
         {
-            NetworkNameValue = NetworkName;
-            NickValue = Nick;
+            networkName = NetworkName;
+            nick = Nick;
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace IrcSharp
         {
             get
             {
-                return NickValue;
+                return nick;
             }
         }
 
@@ -38,7 +38,7 @@ namespace IrcSharp
         {
             get
             {
-                return NetworkNameValue;
+                return networkName;
             }
         }
 

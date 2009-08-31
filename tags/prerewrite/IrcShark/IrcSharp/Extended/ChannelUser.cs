@@ -6,15 +6,15 @@ namespace IrcSharp.Extended
 {
     public class ChannelUser : IIrcObject
     {
-        private String NickNameValue;
-        private List<Mode> ModesValue;
-        private Channel ChannelValue;
-        private char[] PrefixesValue;
+        private String nickName;
+        private List<Mode> modes;
+        private Channel channel;
+        private char[] prefixes;
 
         public ChannelUser(Channel chan, String name)
         {
-            ChannelValue = chan;
-            ModesValue = new List<Mode>();
+            channel = chan;
+            modes = new List<Mode>();
             List<char> tempPrefixes = new List<char>();
             int i;
             for (i = 0; i < name.Length; i++)
@@ -28,28 +28,28 @@ namespace IrcSharp.Extended
                     break;
                 }
             }
-            NickNameValue = name.Substring(i);
+            nickName = name.Substring(i);
             foreach(char c in tempPrefixes)
             {
                 FlagDefinition associatedFlag = Client.Standard.UserPrefixFlags[c];
-                ModesValue.Add(new Mode(associatedFlag, FlagArt.Set, NickNameValue));
+                modes.Add(new Mode(associatedFlag, FlagArt.Set, nickName));
             }
-            PrefixesValue = tempPrefixes.ToArray();
+            prefixes = tempPrefixes.ToArray();
         }
 
         public Channel Channel
         {
-            get { return ChannelValue; }
+            get { return channel; }
         }
 
         public String NickName
         {
-            get { return NickNameValue; }
+            get { return nickName; }
         }
 
         public char[] Prefixes
         {
-            get { return (char[])PrefixesValue.Clone(); }
+            get { return (char[])prefixes.Clone(); }
         }
 
         public bool HasMode(FlagDefinition mode)
@@ -59,7 +59,7 @@ namespace IrcSharp.Extended
 
         public bool HasMode(char flag)
         {
-            foreach (Mode m in ModesValue)
+            foreach (Mode m in modes)
             {
                 if (m.Flag.Char == flag) return true;
             }
@@ -79,13 +79,13 @@ namespace IrcSharp.Extended
             if (m.Art == FlagArt.Set)
             {
                 if (HasMode(m.Flag.Char)) return;
-                ModesValue.Add(m);
+                modes.Add(m);
                 RebuildPrefixes();
             }
             else
             {
                 List<Mode> toDelete = new List<Mode>();
-                foreach (Mode mo in ModesValue)
+                foreach (Mode mo in modes)
                 {
                     if (mo.Flag.Char == m.Flag.Char)
                     {
@@ -94,7 +94,7 @@ namespace IrcSharp.Extended
                 }
                 foreach (Mode mo in toDelete)
                 {
-                    ModesValue.Remove(mo);
+                    modes.Remove(mo);
                 }
                 RebuildPrefixes();
             }
@@ -107,7 +107,7 @@ namespace IrcSharp.Extended
             {
                 if (HasMode(f.Value.Char)) newPrefixes.Add(f.Key);
             }
-            PrefixesValue = newPrefixes.ToArray();
+            prefixes = newPrefixes.ToArray();
         }
 
         #region IIrcObject Members

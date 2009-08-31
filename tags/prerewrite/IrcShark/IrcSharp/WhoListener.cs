@@ -15,15 +15,15 @@ namespace IrcSharp
         public event WhoBeginEventHandler WhoBegin;
         public event WhoEndEventHandler WhoEnd;
 
-        private IrcClient ClientValue;
-        private List<WhoLine> WhoLinesValue;
-        private bool IsReadingValue;
+        private IrcClient client;
+        private List<WhoLine> whoLines;
+        private bool isReading;
 
         public WhoListener(IrcClient client)
         {
-            ClientValue = client;
-            ClientValue.LineReceived += new LineReceivedEventHandler(HandleLine);
-            WhoLinesValue = new List<WhoLine>();
+            client = client;
+            client.LineReceived += new LineReceivedEventHandler(HandleLine);
+            whoLines = new List<WhoLine>();
         }
 
         private void HandleLine(Object sender, LineReceivedEventArgs args)
@@ -32,33 +32,33 @@ namespace IrcSharp
             switch (args.Line.Numeric)
             {
                 case 352:
-                    WhoLinesValue.Add(new WhoLine(args.Line));
+                    whoLines.Add(new WhoLine(args.Line));
                     if (!IsReading)
                     {
-                        IsReadingValue = true;
+                        isReading = true;
                         if (WhoBegin != null) WhoBegin(this, new WhoBeginEventArgs(args.Line));
                     }
                     break;
                 case 315:
                     if (WhoEnd != null) WhoEnd(this, new WhoEndEventArgs(args.Line, WhoLines));
-                    IsReadingValue = false;
+                    isReading = false;
                     break;
             }
         }
 
         public IrcClient Client
         {
-            get { return ClientValue; }
+            get { return client; }
         }
 
         public IrcLine[] WhoLines
         {
-            get { return WhoLinesValue.ToArray(); }
+            get { return whoLines.ToArray(); }
         }
 
         public bool IsReading
         {
-            get { return IsReadingValue; }
+            get { return isReading; }
         }
     }
 }

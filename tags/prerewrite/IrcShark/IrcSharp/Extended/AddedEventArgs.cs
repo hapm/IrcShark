@@ -10,11 +10,11 @@ namespace IrcSharp.Extended
     /// </summary>
     public class AddedEventArgs<T> : EventArgs
     {
-        private T ItemValue;
+        private T item;
 
         public AddedEventArgs(T item)
         {
-            ItemValue = item;
+            item = item;
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace IrcSharp.Extended
         /// <value>the new item</value>
         public T Item
         {
-            get { return ItemValue; }
+            get { return item; }
         }
     }
 }

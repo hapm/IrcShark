@@ -6,30 +6,30 @@ namespace IrcSharp
 {
     public class PartReceivedEventArgs : IrcEventArgs
     {
-        private String ChannelNameValue;
-        private String PartMessageValue;
-        private UserInfo UserValue;
+        private String channelName;
+        private String partMessage;
+        private UserInfo user;
 
         public PartReceivedEventArgs(IrcLine BaseLine)
             : base(BaseLine)
         {
-            UserValue = new UserInfo(BaseLine);
-            ChannelNameValue = BaseLine.Parameters[0];
+            user = new UserInfo(BaseLine);
+            channelName = BaseLine.Parameters[0];
             if (BaseLine.Parameters.Length > 1)
-                PartMessageValue = BaseLine.Parameters[1];
+                partMessage = BaseLine.Parameters[1];
         }
 
         public PartReceivedEventArgs(String ChannelName, UserInfo PartedUser) : base(PartedUser.Client)
         {
-            ChannelNameValue = ChannelName;
-            UserValue = PartedUser;
+            channelName = ChannelName;
+            user = PartedUser;
         }
 
         public String ChannelName
         {
             get
             {
-                return ChannelNameValue;
+                return channelName;
             }
         }
 
@@ -37,7 +37,7 @@ namespace IrcSharp
         {
             get
             {
-                return PartMessageValue;
+                return partMessage;
             }
         }
 
@@ -45,7 +45,7 @@ namespace IrcSharp
         {
             get
             {
-                return UserValue;
+                return user;
             }
         }
     }

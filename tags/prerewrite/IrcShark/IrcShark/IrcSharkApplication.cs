@@ -26,7 +26,7 @@ namespace IrcShark
         private String ExtensionPathValue;
         private String LogPathValue;
         private StreamWriter logStream;
-        private string logFile;
+        private String logFile;
         private DateTime started;
 
         /// <summary>

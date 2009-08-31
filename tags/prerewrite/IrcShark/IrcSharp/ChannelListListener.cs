@@ -15,15 +15,15 @@ namespace IrcSharp
         public event ChannelListBeginEventHandler ChannelListBegin;
         public event ChannelListEndEventHandler ChannelListEnd;
 
-        private IrcClient ClientValue;
-        private List<ChannelListLine> ChannelListLinesValue;
-        private bool IsReadingValue;
+        private IrcClient client;
+        private List<ChannelListLine> channelListLines;
+        private bool isReading;
 
         public ChannelListListener(IrcClient client)
         {
-            ClientValue = client;
-            ClientValue.LineReceived += new LineReceivedEventHandler(HandleLine);
-            ChannelListLinesValue = new List<ChannelListLine>();
+            client = client;
+            client.LineReceived += new LineReceivedEventHandler(HandleLine);
+            channelListLines = new List<ChannelListLine>();
         }
 
         private void HandleLine(Object sender, LineReceivedEventArgs args)
@@ -33,32 +33,32 @@ namespace IrcSharp
             switch (args.Line.Numeric)
             {
                 case 321:
-                    IsReadingValue = true;
+                    isReading = true;
                     if (ChannelListBegin != null) ChannelListBegin(this, new ChannelListBeginEventArgs(args.Line));
                     break;
                 case 322:
-                    ChannelListLinesValue.Add(new ChannelListLine(args.Line));
+                    channelListLines.Add(new ChannelListLine(args.Line));
                     break;
                 case 323:
                     if (ChannelListEnd != null) ChannelListEnd(this, new ChannelListEndEventArgs(args.Line, ChannelListLines));
-                    IsReadingValue = false;
+                    isReading = false;
                     break;
             }
         }
 
         public IrcClient Client
         {
-            get { return ClientValue; }
+            get { return client; }
         }
 
         public ChannelListLine[] ChannelListLines
         {
-            get { return ChannelListLinesValue.ToArray(); }
+            get { return channelListLines.ToArray(); }
         }
 
         public bool IsReading
         {
-            get { return IsReadingValue; }
+            get { return isReading; }
         }
     }
 }

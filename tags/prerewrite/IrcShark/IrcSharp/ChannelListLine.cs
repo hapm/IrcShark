@@ -7,9 +7,9 @@ namespace IrcSharp
 {
     public class ChannelListLine : IrcLine
     {
-        private int UserCountValue;
-        private String ModesValue;
-        private String TopicValue;
+        private int userCount;
+        private String modes;
+        private String topic;
 
         public ChannelListLine(IrcLine baseLine) : base(baseLine)
         {
@@ -17,7 +17,7 @@ namespace IrcSharp
             if (Parameters.Length < 3) throw new ArgumentOutOfRangeException("baseLine", "Need a minimum of 3 parameters");
             
 
-            if (!int.TryParse(Parameters[2], out UserCountValue)) throw new ArgumentOutOfRangeException("baseLine", "Invalid user count, integer expected");
+            if (!int.TryParse(Parameters[2], out userCount)) throw new ArgumentOutOfRangeException("baseLine", "Invalid user count, integer expected");
 
             if (Parameters.Length > 3)
             {
@@ -25,19 +25,19 @@ namespace IrcSharp
                 Match m = ModeTopicRegex.Match(Parameters[3]);
                 if (m.Success)
                 {
-                    ModesValue = m.Groups[1].Value;
-                    TopicValue = m.Groups[2].Value;
+                    modes = m.Groups[1].Value;
+                    topic = m.Groups[2].Value;
                 }
                 else
                 {
-                    ModesValue = "";
-                    TopicValue = "";
+                    modes = "";
+                    topic = "";
                 }
             }
             else
             {
-                ModesValue = "";
-                TopicValue = "";
+                modes = "";
+                topic = "";
             }
         }
 
@@ -48,7 +48,7 @@ namespace IrcSharp
 
         public int UserCount
         {
-            get { return UserCountValue; }
+            get { return userCount; }
         }
     }
 }

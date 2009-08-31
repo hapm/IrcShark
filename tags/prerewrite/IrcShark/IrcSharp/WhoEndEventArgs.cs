@@ -6,16 +6,16 @@ namespace IrcSharp
 {
     public class WhoEndEventArgs : IrcEventArgs
     {
-        private IrcLine[] WhoLinesValue;
+        private IrcLine[] whoLines;
 
         public WhoEndEventArgs(IrcLine baseLine, IrcLine[] WhoLines) : base(baseLine)
         {
-            WhoLinesValue = WhoLines;
+            whoLines = WhoLines;
         }
 
         public IrcLine[] WhoLines
         {
-            get { return WhoLinesValue; }
+            get { return whoLines; }
         }
     }
 }

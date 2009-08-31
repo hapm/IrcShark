@@ -6,34 +6,34 @@ namespace IrcSharp
 {
     public class QuitReceivedEventArgs : IrcEventArgs
     {
-        private UserInfo UserValue;
-        private String QuitMessageValue;
+        private UserInfo user;
+        private String quitMessage;
 
         public QuitReceivedEventArgs(IrcLine BaseLine) : base(BaseLine)
         {
-            UserValue = new UserInfo(BaseLine);
+            user = new UserInfo(BaseLine);
             if (BaseLine.Parameters.Length > 0)
-                QuitMessageValue = BaseLine.Parameters[0];
+                quitMessage = BaseLine.Parameters[0];
             else
-                QuitMessageValue = "";
+                quitMessage = "";
         }
 
         public QuitReceivedEventArgs(UserInfo QuittedUser, String QuitMessage) : base(QuittedUser.Client)
         {
-            UserValue = QuittedUser;
+            user = QuittedUser;
         }
 
         public UserInfo User
         {
             get
             {
-                return UserValue;
+                return user;
             }
         }
 
         public String QuitMessage
         {
-            get { return QuitMessageValue; }
+            get { return quitMessage; }
         }
     }
 }

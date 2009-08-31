@@ -6,15 +6,15 @@ namespace IrcSharp
 {
     public class PrivateMessageReceivedEventArgs : IrcEventArgs
     {
-        private UserInfo SenderValue;
-        private CTCPCommands CTCPCommandValue;
+        private UserInfo sender;
+        private CTCPCommands CTCPCommandValue; // TODO: Names...
         private String CTCPCommandStringValue;
         private String CTCPParametersValue;
 
         public PrivateMessageReceivedEventArgs(IrcLine baseLine)
             : base(baseLine)
         {
-            SenderValue = new UserInfo(baseLine);
+            sender = new UserInfo(baseLine);
             String line;
             line = Message;
             if (line[0] == '\x01' && line[line.Length - 1] == '\x01')
@@ -48,7 +48,7 @@ namespace IrcSharp
 
         public UserInfo Sender
         {
-            get { return SenderValue; }
+            get { return sender; }
         }
 
         public String Destination

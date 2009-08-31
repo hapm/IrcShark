@@ -6,53 +6,53 @@ namespace IrcSharp
 {
     public class ConstantDictionary<TKey,TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
-        private Dictionary<TKey, TValue> BaseDictionary;
+        private Dictionary<TKey, TValue> baseDictionary;
 
         public ConstantDictionary(Dictionary<TKey, TValue> baseDict)
         {
-            BaseDictionary = baseDict;
+            baseDictionary = baseDict;
         }
 
         public TValue this[TKey key] 
         {
-            get { return BaseDictionary[key]; }
+            get { return baseDictionary[key]; }
         }
 
         public Dictionary<TKey, TValue>.ValueCollection Values
         {
-            get { return BaseDictionary.Values; }
+            get { return baseDictionary.Values; }
         }
 
         public Dictionary<TKey, TValue>.KeyCollection Keys
         {
-            get { return BaseDictionary.Keys; }
+            get { return baseDictionary.Keys; }
         }
 
         public bool ContainsKey(TKey key)
         {
-            return BaseDictionary.ContainsKey(key);
+            return baseDictionary.ContainsKey(key);
         }
 
         public bool ContainsValue(TValue value)
         {
-            return BaseDictionary.ContainsValue(value);
+            return baseDictionary.ContainsValue(value);
         }
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            return BaseDictionary.TryGetValue(key, out value);
+            return baseDictionary.TryGetValue(key, out value);
         }
 
         public int Count
         {
-            get { return BaseDictionary.Count; }
+            get { return baseDictionary.Count; }
         }
 
         #region IEnumerable<KeyValuePair<TKey,TValue>> Members
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return BaseDictionary.GetEnumerator();
+            return baseDictionary.GetEnumerator();
         }
 
         #endregion
@@ -61,7 +61,7 @@ namespace IrcSharp
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return BaseDictionary.GetEnumerator();
+            return baseDictionary.GetEnumerator();
         }
 
         #endregion

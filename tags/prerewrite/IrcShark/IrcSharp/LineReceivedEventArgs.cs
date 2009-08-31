@@ -9,11 +9,11 @@ namespace IrcSharp
     /// </summary>
     public class LineReceivedEventArgs : IrcEventArgs, IIrcObject
     {
-        private IrcLine LineValue;
+        private IrcLine line;
 
         public LineReceivedEventArgs(IrcLine line) : base(line)
         {
-            LineValue = line;
+            line = line;
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace IrcSharp
         {
             get
             {
-                return LineValue;
+                return line;
             }
         }
     }

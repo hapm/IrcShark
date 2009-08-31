@@ -6,17 +6,17 @@ namespace IrcSharp.Extended
 {
     public class PartedEventArgs : IrcEventArgs
     {
-        private Channel ChannelValue;
+        private Channel channel;
 
         public PartedEventArgs(Channel chan, IrcClient client)
             : base(client)
         {
-            ChannelValue = chan;
+            channel = chan;
         }
 
         public Channel Channel
         {
-            get { return ChannelValue; }
+            get { return channel; }
         }
     }
 }

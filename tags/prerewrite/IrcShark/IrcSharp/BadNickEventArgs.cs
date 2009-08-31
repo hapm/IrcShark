@@ -9,11 +9,11 @@ namespace IrcSharp
     /// </summary>
     public class BadNickEventArgs : IrcEventArgs
     {
-        private Boolean IsLoginValue;
+        private Boolean isLogin;
 
         public BadNickEventArgs(IrcLine baseLine, bool inLogin) : base(baseLine)
         {
-            IsLoginValue = inLogin;
+            isLogin = inLogin;
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace IrcSharp
         {
             get
             {
-                return IsLoginValue;
+                return isLogin;
             }
         }
     }

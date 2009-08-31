@@ -6,7 +6,7 @@ namespace IrcSharp
 {
     public class InvalidLineFormatException : Exception
     {
-        string line;
+        private String line;
 
         public InvalidLineFormatException(String line) : base(String.Format("Couldn't parse the raw line \"{0}\"", line))
         {

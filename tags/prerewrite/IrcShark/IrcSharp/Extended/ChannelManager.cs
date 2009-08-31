@@ -10,14 +10,14 @@ namespace IrcSharp.Extended
 
     public class ChannelManager : Dictionary<String, Channel>, IIrcObject
     {
-        private IrcClient ClientValue;
+        private IrcClient client;
 
         public event JoinedEventHandler Joined;
         public event PartedEventHandler Parted;
 
         public ChannelManager(IrcClient BaseClient)
         {
-            ClientValue = BaseClient;
+            client = BaseClient;
             Client.JoinReceived += new JoinReceivedEventHandler(Client_JoinReceived);
         }
 
@@ -65,7 +65,7 @@ namespace IrcSharp.Extended
 
         public IrcClient Client
         {
-            get { return ClientValue; }
+            get { return client; }
         }
 
         #endregion

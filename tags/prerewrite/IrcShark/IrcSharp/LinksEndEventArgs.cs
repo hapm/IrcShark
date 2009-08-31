@@ -6,17 +6,17 @@ namespace IrcSharp
 {
     public class LinksEndEventArgs : IrcEventArgs
     {
-        private IrcLine[] LinksLinesValue;
+        private IrcLine[] linksLines;
 
         public LinksEndEventArgs(IrcLine baseLine, IrcLine[] linksLines)
             : base(baseLine)
         {
-            LinksLinesValue = linksLines;
+            linksLines = linksLines;
         }
 
         public IrcLine[] LinksLines
         {
-            get { return LinksLinesValue; }
+            get { return linksLines; }
         }
     }
 }

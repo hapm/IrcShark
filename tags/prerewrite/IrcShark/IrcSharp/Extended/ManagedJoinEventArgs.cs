@@ -6,16 +6,16 @@ namespace IrcSharp.Extended
 {
     public class ManagedJoinEventArgs : JoinReceivedEventArgs
     {
-        private Channel ChannelValue;
+        private Channel channel;
 
         public ManagedJoinEventArgs(ChannelManager manager, JoinReceivedEventArgs baseArgs) : base(baseArgs.BaseLine)
         {
-            ChannelValue = manager[baseArgs.ChannelName];
+            channel = manager[baseArgs.ChannelName];
         }
 
         public Channel Channel
         {
-            get { return ChannelValue; }
+            get { return channel; }
         }
     }
 }

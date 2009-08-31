@@ -6,7 +6,7 @@ namespace IrcSharp
 {
     public class ModeReceivedEventArgs : IrcEventArgs
     {
-        private String SetterValue;
+        private String setter;
         private String AimValue;
         private Mode[] ModesValue;
         private ModeArt AimArtValue;
@@ -18,7 +18,7 @@ namespace IrcSharp
             FlagArt currentArt = FlagArt.Set;
             List<Mode> modes = new List<Mode>();
             List<FlagDefinition> flags = new List<FlagDefinition>();
-            SetterValue = BaseLine.Prefix;
+            setter = BaseLine.Prefix;
             AimValue = BaseLine.Parameters[0];
             if (Client.Standard.IsAllowedChannel(AimValue))
             {
@@ -67,7 +67,7 @@ namespace IrcSharp
 
         public String Setter
         {
-            get { return SetterValue; }
+            get { return setter; }
         }
 
         public String Aim

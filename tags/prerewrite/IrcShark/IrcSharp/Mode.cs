@@ -13,36 +13,36 @@ namespace IrcSharp
 
     public class Mode
     {
-        private FlagDefinition FlagValue;
-        private String ParameterValue;
-        private FlagArt ArtValue;
+        private FlagDefinition flag;
+        private String parameter;
+        private FlagArt art;
 
         public Mode(FlagDefinition Flag, FlagArt Art)
         {
-            FlagValue = Flag;
-            ArtValue = Art;
+            flag = Flag;
+            art = Art;
         }
 
         public Mode(FlagDefinition Flag, FlagArt Art, String Parameter)
         {
-            FlagValue = Flag;
-            ArtValue = Art;
-            ParameterValue = Parameter;
+            flag = Flag;
+            art = Art;
+            parameter = Parameter;
         }
 
         public FlagDefinition Flag
         {
-            get { return FlagValue; }
+            get { return flag; }
         }
 
         public String Parameter
         {
-            get { return ParameterValue; }
+            get { return parameter; }
         }
 
         public FlagArt Art
         {
-            get { return ArtValue; }
+            get { return art; }
         }
     }
 }

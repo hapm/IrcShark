@@ -25,10 +25,7 @@ namespace IrcSharp
 
         public UserInfo User
         {
-            get
-            {
-                return user;
-            }
+            get { return user; }
         }
 
         public String QuitMessage

@@ -9,8 +9,7 @@ namespace IrcSharp
         private String[] names;
         private String ChannelNameValue;
 
-        public NamesEndEventArgs(IrcLine baseLine, String[] names, String channelName)
-            : base(baseLine)
+        public NamesEndEventArgs(IrcLine baseLine, String[] names, String channelName) : base(baseLine)
         {
             names = names;
             ChannelNameValue = channelName;

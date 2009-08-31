@@ -10,8 +10,7 @@ namespace IrcSharp
         {
         }
 
-        public PingReceivedEventArgs(IrcLine BaseLine)
-            : base(BaseLine)
+        public PingReceivedEventArgs(IrcLine BaseLine) : base(BaseLine)
         {
         }
     }

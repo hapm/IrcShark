@@ -16,7 +16,7 @@ namespace IrcSharp
         Optional,
         Needed,
         NotAllowed
-    };
+    }
 
     public class FlagDefinition
     {

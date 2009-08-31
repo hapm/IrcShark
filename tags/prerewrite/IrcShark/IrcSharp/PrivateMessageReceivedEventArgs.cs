@@ -11,8 +11,7 @@ namespace IrcSharp
         private String CTCPCommandStringValue;
         private String CTCPParametersValue;
 
-        public PrivateMessageReceivedEventArgs(IrcLine baseLine)
-            : base(baseLine)
+        public PrivateMessageReceivedEventArgs(IrcLine baseLine) : base(baseLine)
         {
             sender = new UserInfo(baseLine);
             String line;

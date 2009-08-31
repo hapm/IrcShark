@@ -11,8 +11,7 @@ namespace IrcSharp
         private Mode[] ModesValue;
         private ModeArt AimArtValue;
 
-        public ModeReceivedEventArgs(IrcLine BaseLine)
-            : base(BaseLine)
+        public ModeReceivedEventArgs(IrcLine BaseLine) : base(BaseLine)
         {
             long currentParam;
             FlagArt currentArt = FlagArt.Set;

@@ -9,8 +9,7 @@ namespace IrcSharp
         private String channelName;
         private UserInfo user;
 
-        public JoinReceivedEventArgs(IrcLine BaseLine)
-            : base(BaseLine)
+        public JoinReceivedEventArgs(IrcLine BaseLine) : base(BaseLine)
         {
             user = new UserInfo(BaseLine);
             channelName = BaseLine.Parameters[0];

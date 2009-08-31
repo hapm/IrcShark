@@ -9,8 +9,7 @@ namespace IrcSharp
         private String newNick;
         private UserInfo user;
 
-        public NickChangeReceivedEventArgs(IrcLine BaseLine)
-            : base(BaseLine)
+        public NickChangeReceivedEventArgs(IrcLine BaseLine) : base(BaseLine)
         {
             user = new UserInfo(BaseLine);
             newNick = BaseLine.Parameters[0];

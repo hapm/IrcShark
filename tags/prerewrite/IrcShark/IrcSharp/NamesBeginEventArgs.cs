@@ -6,8 +6,7 @@ namespace IrcSharp
 {
     public class NamesBeginEventArgs : IrcEventArgs
     {
-        public NamesBeginEventArgs(IrcLine baseLine)
-            : base(baseLine)
+        public NamesBeginEventArgs(IrcLine baseLine) : base(baseLine)
         {
         }
     }

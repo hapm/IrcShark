@@ -9,8 +9,7 @@ namespace IrcSharp
     /// </summary>
     public class ConnectEventArgs : IrcEventArgs
     {
-        public ConnectEventArgs(IrcClient client)
-            : base(client)
+        public ConnectEventArgs(IrcClient client) : base(client)
         {
         }
     }

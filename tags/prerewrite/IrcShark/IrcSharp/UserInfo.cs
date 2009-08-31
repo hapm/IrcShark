@@ -31,7 +31,7 @@ namespace IrcSharp
             }
             else
             {
-                // Exception schmeiﬂen
+                // TODO: trow Exception
 
             }
         }
@@ -49,7 +49,7 @@ namespace IrcSharp
             }
             else
             {
-                // Exception schmeiﬂen
+                // TODO: trow Exception
 
             }
         }

@@ -6,8 +6,7 @@ namespace IrcSharp
 {
     public class TopicEventArgs : IrcEventArgs
     {
-        public TopicEventArgs(IrcLine baseLine)
-            : base(baseLine)
+        public TopicEventArgs(IrcLine baseLine) : base(baseLine)
         {
             if (baseLine.Numeric != 332) throw new ArgumentOutOfRangeException("baseLine", "TOPIC_RPL 332 expected");
         }

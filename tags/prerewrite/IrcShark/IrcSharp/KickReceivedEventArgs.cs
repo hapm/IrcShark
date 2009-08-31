@@ -11,8 +11,7 @@ namespace IrcSharp
         private String channelName;
         private String ReasonValue;
 
-        public KickReceivedEventArgs(IrcLine BaseLine)
-            : base(BaseLine)
+        public KickReceivedEventArgs(IrcLine BaseLine) : base(BaseLine)
         {
             kicker = new UserInfo(BaseLine);
             kickedName = BaseLine.Parameters[1];

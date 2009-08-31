@@ -22,10 +22,7 @@ namespace IrcSharp
         /// <value>the parsed IrcLine</value>
         public IrcLine Line
         {
-            get
-            {
-                return line;
-            }
+            get { return line; }
         }
     }
 }

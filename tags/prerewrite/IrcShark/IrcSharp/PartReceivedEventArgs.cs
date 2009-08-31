@@ -10,8 +10,7 @@ namespace IrcSharp
         private String partMessage;
         private UserInfo user;
 
-        public PartReceivedEventArgs(IrcLine BaseLine)
-            : base(BaseLine)
+        public PartReceivedEventArgs(IrcLine BaseLine) : base(BaseLine)
         {
             user = new UserInfo(BaseLine);
             channelName = BaseLine.Parameters[0];
@@ -27,26 +26,17 @@ namespace IrcSharp
 
         public String ChannelName
         {
-            get
-            {
-                return channelName;
-            }
+            get { return channelName; }
         }
 
         public String PartMessage
         {
-            get
-            {
-                return partMessage;
-            }
+            get { return partMessage; }
         }
 
         public UserInfo User
         {
-            get
-            {
-                return user;
-            }
+            get { return user; }
         }
     }
 }

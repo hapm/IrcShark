@@ -24,10 +24,7 @@ namespace IrcSharp
         /// <value>the current nickname</value>
         public String Nickname
         {
-            get
-            {
-                return nick;
-            }
+            get { return nick; }
         }
 
         /// <summary>
@@ -36,10 +33,7 @@ namespace IrcSharp
         /// <value>the network name</value>
         public String NetworkName
         {
-            get
-            {
-                return networkName;
-            }
+            get { return networkName; }
         }
 
     }

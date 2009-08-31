@@ -6,8 +6,7 @@ namespace IrcSharp
 {
     public class NumericReceivedEventArgs : IrcEventArgs
     {
-        public NumericReceivedEventArgs(IrcLine baseLine)
-            : base(baseLine)
+        public NumericReceivedEventArgs(IrcLine baseLine) : base(baseLine)
         {
 
         }

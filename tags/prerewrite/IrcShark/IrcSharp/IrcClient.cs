@@ -139,14 +139,8 @@ namespace IrcSharp
         /// <value>a server address represented by an <see cref="IrcServerEndPoint"/></value>
         public IrcServerEndPoint ServerAddress
         {
-            get
-            {
-                return serverAddress;
-            }
-            set
-            {
-                serverAddress = value;
-            }
+            get { return serverAddress; }
+            set { serverAddress = value; }
         }
 
         /// <summary>
@@ -156,14 +150,8 @@ namespace IrcSharp
         /// <value>the current username setted</value>
         public String Username
         {
-            get
-            {
-                return username;
-            }
-            set
-            {
-                username = value;
-            }
+            get { return username; }
+            set { username = value; }
         }
 
         /// <summary>
@@ -173,10 +161,7 @@ namespace IrcSharp
         /// <value>the current nickname of the IrcClient</value>
         public String CurrentNick
         {
-            get
-            {
-                return currentNick;
-            }
+            get { return currentNick; }
         }
 
         /// <summary>
@@ -186,10 +171,7 @@ namespace IrcSharp
         /// <value>a string of the network name</value>
         public String NetworkName
         {
-            get
-            {
-                return networkName;
-            }
+            get { return networkName; }
         }
 
         /// <summary>
@@ -282,6 +264,7 @@ namespace IrcSharp
         public void ChangeNickname(String newNick)
         {
             if (newNick == "") return;
+            
             if (IsConnected)
             {
                 SendLine("NICK " + newNick);
@@ -446,10 +429,7 @@ namespace IrcSharp
         /// <value>the associated IrcClient</value>
         public IrcClient Client
         {
-            get
-            {
-                return this;
-            }
+            get { return this; }
         }
         #endregion
 
@@ -463,7 +443,6 @@ namespace IrcSharp
                 SendLine("QUIT");
                 client.GetStream().Dispose();
             }
-
         }
 
         #endregion

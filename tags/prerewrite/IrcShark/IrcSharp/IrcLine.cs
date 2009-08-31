@@ -74,10 +74,7 @@ namespace IrcSharp
         /// <value>the irc connection</value>
         public IrcClient Client
         {
-            get
-            {
-                return client;
-            }
+            get { return client; }
         }
 
         /// <summary>
@@ -86,10 +83,7 @@ namespace IrcSharp
         /// <value>the prefix</value>
         public String Prefix
         {
-            get
-            {
-                return prefix;
-            }
+            get { return prefix; }
         }
 
         /// <summary>
@@ -99,10 +93,7 @@ namespace IrcSharp
         /// <value>the string representation of the command</value>
         public String Command
         {
-            get
-            {
-                return command;
-            }
+            get { return command; }
         }
 
         /// <summary>
@@ -112,10 +103,7 @@ namespace IrcSharp
         /// <value>an array of all parameters</value>
         public string[] Parameters
         {
-            get
-            {
-                return (string[])parameters.Clone();
-            }
+            get { return (string[])parameters.Clone(); }
         }
 
         /// <summary>
@@ -127,10 +115,7 @@ namespace IrcSharp
         /// </value>
         public bool IsNumeric
         {
-            get
-            {
-                return numeric > 0;
-            }
+            get { return numeric > 0; }
         }
 
         /// <summary>
@@ -139,10 +124,7 @@ namespace IrcSharp
         /// <value>the int value of the numeric</value>
         public int Numeric
         {
-            get
-            {
-                return numeric;
-            }
+            get { return numeric; }
         }
 
         /// <summary>

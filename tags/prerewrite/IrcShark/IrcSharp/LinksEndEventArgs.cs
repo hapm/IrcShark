@@ -8,8 +8,7 @@ namespace IrcSharp
     {
         private IrcLine[] linksLines;
 
-        public LinksEndEventArgs(IrcLine baseLine, IrcLine[] linksLines)
-            : base(baseLine)
+        public LinksEndEventArgs(IrcLine baseLine, IrcLine[] linksLines) : base(baseLine)
         {
             linksLines = linksLines;
         }

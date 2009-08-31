@@ -25,14 +25,8 @@ namespace IrcSharp
 
         public bool Handled
         {
-            get
-            {
-                return handled;
-            }
-            set
-            {
-                handled = value;
-            }
+            get { return handled; }
+            set { handled = value; }
         }
 
         public IrcLine BaseLine

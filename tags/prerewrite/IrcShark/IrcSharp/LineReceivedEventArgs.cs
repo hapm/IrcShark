@@ -13,7 +13,7 @@ namespace IrcSharp
 
         public LineReceivedEventArgs(IrcLine line) : base(line)
         {
-            line = line;
+            this.line = line;
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace IrcSharp
 
         public LinksListener(IrcClient client)
         {
-            client = client;
+            this.client = client;
             client.LineReceived += new LineReceivedEventHandler(HandleLine);
             linksLines = new List<IrcLine>();
         }

@@ -18,7 +18,7 @@ namespace IrcSharp
 
         public InfoListener(IrcClient client)
         {
-            client = client;
+            this.client = client;
             client.LineReceived += new LineReceivedEventHandler(HandleLine);
             infoLines = new List<IrcLine>();
         }

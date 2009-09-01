@@ -10,7 +10,7 @@ namespace IrcSharp
 
         public LinksEndEventArgs(IrcLine baseLine, IrcLine[] linksLines) : base(baseLine)
         {
-            linksLines = linksLines;
+            this.linksLines = linksLines;
         }
 
         public IrcLine[] LinksLines

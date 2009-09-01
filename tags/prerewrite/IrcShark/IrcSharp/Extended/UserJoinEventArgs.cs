@@ -13,7 +13,7 @@ namespace IrcSharp.Extended
             : base(baseArgs.BaseLine)
         {
             channel = chan;
-            user = user;
+            this.user = user;
         }
 
         public Channel Channel

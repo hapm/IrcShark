@@ -9,14 +9,12 @@ namespace IrcSharp
         Exception innerException;
         string message;
 
-        public ErrorEventArgs(IrcClient client, string msg)
-            : base(client)
+        public ErrorEventArgs(IrcClient client, string msg) : base(client)
         {
             message = msg;
         }
 
-        public ErrorEventArgs(IrcClient client, string msg, Exception exception)
-            : base(client)
+        public ErrorEventArgs(IrcClient client, string msg, Exception exception) : base(client)
         {
             innerException = exception;
             message = msg;

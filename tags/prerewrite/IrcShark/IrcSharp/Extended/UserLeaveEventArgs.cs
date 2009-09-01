@@ -18,8 +18,8 @@ namespace IrcSharp.Extended
 
         public UserLeaveEventArgs(ChannelUser user, UserLeaveReason reason)
         {
-            user = user;
-            reason = reason;
+            this.user = user;
+            this.reason = reason;
         }
 
         public Channel Channel

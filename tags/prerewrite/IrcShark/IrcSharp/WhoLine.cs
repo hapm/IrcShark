@@ -25,7 +25,7 @@ namespace IrcSharp
             IsOperValue = Parameters[6][i] == '*';
             if (IsOper) i++;
             List<Mode> modes = new List<Mode>();
-            for (i = i; i < Parameters[6].Length; i++)
+            for (; i < Parameters[6].Length; i++)
             {
                 if (Client.Standard.UserPrefixFlags.ContainsKey(Parameters[6][i]))
                 {

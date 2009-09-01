@@ -20,7 +20,7 @@ namespace IrcSharp
 
     public class FlagDefinition
     {
-        private char CharValue; // TODO: New Name
+        private char flagChar;
         private ModeArt art;
         private FlagParameter unsetParameter;
         private FlagParameter setParameter;
@@ -28,13 +28,13 @@ namespace IrcSharp
 
         public FlagDefinition(char FlagChar, ModeArt Art)
         {
-            CharValue = FlagChar;
+            flagChar = FlagChar;
             art = Art;
         }
 
         public FlagDefinition(char FlagChar, ModeArt Art, FlagParameter Parameters)
         {
-            CharValue = FlagChar;
+            flagChar = FlagChar;
             art = Art;
             setParameter = Parameters;
             unsetParameter = Parameters;
@@ -42,7 +42,7 @@ namespace IrcSharp
 
         public FlagDefinition(char FlagChar, ModeArt Art, FlagParameter SetParameter, FlagParameter UnsetParameter)
         {
-            CharValue = FlagChar;
+            flagChar = FlagChar;
             art = Art;
             setParameter = SetParameter;
             unsetParameter = UnsetParameter;
@@ -50,7 +50,7 @@ namespace IrcSharp
 
         public FlagDefinition(char FlagChar, ModeArt Art, FlagParameter Parameters, Regex ParameterChecker)
         {
-            CharValue = FlagChar;
+            flagChar = FlagChar;
             art = Art;
             setParameter = Parameters;
             unsetParameter = Parameters;
@@ -59,7 +59,7 @@ namespace IrcSharp
 
         public FlagDefinition(char FlagChar, ModeArt Art, FlagParameter SetParameter, FlagParameter UnsetParameter, Regex ParameterChecker)
         {
-            CharValue = FlagChar;
+            flagChar = FlagChar;
             art = Art;
             setParameter = SetParameter;
             unsetParameter = UnsetParameter;
@@ -103,7 +103,7 @@ namespace IrcSharp
 
         public char Char
         {
-            get { return CharValue; }
+            get { return flagChar; }
         }
     }
 }

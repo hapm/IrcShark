@@ -18,7 +18,7 @@ namespace IrcSharp
 
         public MotdListener(IrcClient client)
         {
-            client = client;
+            this.client = client;
             client.LineReceived += new LineReceivedEventHandler(HandleLine);
             motdLines = new List<IrcLine>();
         }

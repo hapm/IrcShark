@@ -10,7 +10,7 @@ namespace IrcSharp
 
         public MotdEndEventArgs(IrcLine baseLine, IrcLine[] motdLines) : base(baseLine)
         {
-            motdLines = motdLines;
+            this.motdLines = motdLines;
         }
 
         public IrcLine[] MotdLines

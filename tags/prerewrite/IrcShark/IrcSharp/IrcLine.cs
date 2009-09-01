@@ -23,7 +23,7 @@ namespace IrcSharp
         {
             String[] normalParams;
             Match result;
-            client = client;
+            this.client = client;
             result = ircLineRegEx.Match(line);
             
             if (result.Success)
@@ -51,9 +51,9 @@ namespace IrcSharp
 
         public IrcLine(IrcClient client, String prefix, String command, String[] parameters)
         {
-            client = client;
-            prefix = prefix;
-            command = command;
+            this.client = client;
+            this.prefix = prefix;
+            this.command = command;
             parameters = (String[])parameters.Clone();
             Int32.TryParse(command, out numeric);
         }

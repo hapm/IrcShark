@@ -10,7 +10,7 @@ namespace IrcSharp
 
         public InfoEndEventArgs(IrcLine baseLine, IrcLine[] infoLines) : base(baseLine)
         {
-            infoLines = infoLines;
+            this.infoLines = infoLines;
         }
 
         public IrcLine[] InfoLines

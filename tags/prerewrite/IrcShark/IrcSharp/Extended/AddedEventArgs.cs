@@ -14,7 +14,7 @@ namespace IrcSharp.Extended
 
         public AddedEventArgs(T item)
         {
-            item = item;
+            this.item = item;
         }
 
         /// <summary>

@@ -7,9 +7,9 @@ namespace IrcSharp
     public class PrivateMessageReceivedEventArgs : IrcEventArgs
     {
         private UserInfo sender;
-        private CTCPCommands CTCPCommandValue; // TODO: Names...
-        private String CTCPCommandStringValue;
-        private String CTCPParametersValue;
+        private CTCPCommands cTCPCommand;
+        private String cTCPCommandString;
+        private String cTCPParameters;
 
         public PrivateMessageReceivedEventArgs(IrcLine baseLine) : base(baseLine)
         {
@@ -19,29 +19,29 @@ namespace IrcSharp
             if (line[0] == '\x01' && line[line.Length - 1] == '\x01')
             {
                 line = line.Substring(1, line.Length - 2);
-                CTCPCommandStringValue = line;
+                cTCPCommandString = line;
                 int firstSpace = line.IndexOf(' ');
                 if (firstSpace > 0)
                 {
-                    CTCPCommandStringValue = line.Substring(0, firstSpace);
-                    CTCPParametersValue = line.Substring(firstSpace + 1);
+                    cTCPCommandString = line.Substring(0, firstSpace);
+                    cTCPParameters = line.Substring(firstSpace + 1);
                 }
-                switch (CTCPCommandStringValue)
+                switch (cTCPCommandString)
                 {
                     case "ACTION":
-                        CTCPCommandValue = CTCPCommands.Action;
+                        cTCPCommand = CTCPCommands.Action;
                         break;
                     case "VERSION":
-                        CTCPCommandValue = CTCPCommands.Version;
+                        cTCPCommand = CTCPCommands.Version;
                         break;
                     default:
-                        CTCPCommandValue = CTCPCommands.Unkown;
+                        cTCPCommand = CTCPCommands.Unkown;
                         break;
                 }
             }
             else
             {
-                CTCPCommandValue = CTCPCommands.None;
+                cTCPCommand = CTCPCommands.None;
             }
         }
 
@@ -62,22 +62,22 @@ namespace IrcSharp
 
         public bool IsCTCP
         {
-            get { return CTCPCommandValue != CTCPCommands.None; }
+            get { return cTCPCommand != CTCPCommands.None; }
         }
 
         public CTCPCommands CTCPCommand
         {
-            get { return CTCPCommandValue; }
+            get { return cTCPCommand; }
         }
 
         public String CTCPCommandString
         {
-            get { return CTCPCommandStringValue; }
+            get { return cTCPCommandString; }
         }
 
         public String CTCPParameters
         {
-            get { return CTCPParametersValue; }
+            get { return cTCPParameters; }
         }
     }
 }

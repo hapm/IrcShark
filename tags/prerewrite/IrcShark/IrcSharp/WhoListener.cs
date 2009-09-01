@@ -21,7 +21,7 @@ namespace IrcSharp
 
         public WhoListener(IrcClient client)
         {
-            client = client;
+            this.client = client;
             client.LineReceived += new LineReceivedEventHandler(HandleLine);
             whoLines = new List<WhoLine>();
         }

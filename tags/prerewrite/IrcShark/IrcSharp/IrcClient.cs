@@ -114,10 +114,7 @@ namespace IrcSharp
         /// </value>
         public bool IsLoggedIn
         {
-            get
-            {
-                return IsConnected && loggedIn;
-            }
+            get { return IsConnected && loggedIn; }
         }
 
         /// <summary>
@@ -231,6 +228,43 @@ namespace IrcSharp
                 OnError(new ErrorEventArgs(this, "Couldn't connect to given address", ex));   
             }
         }
+        
+        /// <summary>
+        /// Close the IRC Connection with a Message.
+        /// </summary>
+        /// <param name="QuitMsg"></param>
+        public void Quit(String QuitMsg)
+        {
+            if (IsConnected)
+            {
+                try
+                {
+                	SendLine(String.Format("QUIT :{0}", QuitMsg));
+                }
+                catch(Exception ex)
+                {
+                    OnError(new ErrorEventArgs(this, "Couldn't send privmsg", ex));
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Close the IRC Connection without a Message.
+        /// </summary>
+        public void Quit()
+        {
+            if (IsConnected)
+            {
+                try
+                {
+                	SendLine("QUIT");
+                }
+                catch(Exception ex)
+                {
+                    OnError(new ErrorEventArgs(this, "Couldn't send privmsg", ex));
+                }
+            }
+        }
 
         /// <summary>
         /// Sends a raw irc line to the irc server.
@@ -252,7 +286,48 @@ namespace IrcSharp
                 }
             }
         }
-
+        
+        /// <summary>
+        /// Sends a message to a channel, nick (in a querry).
+        /// </summary>
+        /// <param name="message">the message to send</param>
+        /// <param name="receiver"></param>
+        public void SendPrivmsg(String message, String receiver)
+        {
+            if (IsConnected)
+            {
+                try
+                {
+                	SendLine(String.Format("PRIVMSG {0} :{1}", receiver, message));
+                	
+                }
+                catch(Exception ex)
+                {
+                    OnError(new ErrorEventArgs(this, "Couldn't send privmsg", ex));
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Sends a message to a channel, nick (directly).
+        /// </summary>
+        /// <param name="message">the message to send</param>
+        /// <param name="receiver"></param>
+        public void SendNotice(String message, String receiver)
+        {
+            if (IsConnected)
+            {
+                try
+                {
+                	SendLine(String.Format("NOTICE {0} :{1}", receiver, message));
+                }
+                catch(Exception ex)
+                {
+                    OnError(new ErrorEventArgs(this, "Couldn't send notice", ex));
+                }
+            }
+        }
+        
         /// <summary>
         /// Sends a request to the server, to change the current nickname used by this connection.
         /// </summary>
@@ -393,17 +468,17 @@ namespace IrcSharp
                         if (ModeReceived != null) ModeReceived(this, modeArgs);
                         break;
 
-                    case "NOTICE":
+                    case "NOTICE": //Parse Notice-Message
                         NoticeReceivedEventArgs noticeArgs = new NoticeReceivedEventArgs(e.Line);
                         if (NoticeReceived != null) NoticeReceived(this, noticeArgs);
                         break;
 
-                    case "PRIVMSG":
+                    case "PRIVMSG": //Parse Private-Message
                         PrivateMessageReceivedEventArgs privmsgArgs = new PrivateMessageReceivedEventArgs(e.Line);
                         if (PrivateMessageReceived != null) PrivateMessageReceived(this, privmsgArgs);
                         break;
 
-                    case "KICK":
+                    case "KICK": //Parse Kick-Message
                         KickReceivedEventArgs kickArgs = new KickReceivedEventArgs(e.Line);
                         if (KickReceived != null) KickReceived(this, kickArgs);
                         break;
@@ -434,7 +509,7 @@ namespace IrcSharp
         #endregion
 
         #region IDisposable Member
-
+		
         public void Dispose()
         {
             if (client.Connected)

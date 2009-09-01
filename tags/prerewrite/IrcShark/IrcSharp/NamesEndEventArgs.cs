@@ -11,7 +11,7 @@ namespace IrcSharp
 
         public NamesEndEventArgs(IrcLine baseLine, String[] names, String channelName) : base(baseLine)
         {
-            names = names;
+            this.names = names;
             ChannelNameValue = channelName;
         }
 

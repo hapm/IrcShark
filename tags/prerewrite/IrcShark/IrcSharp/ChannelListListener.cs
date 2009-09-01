@@ -21,7 +21,7 @@ namespace IrcSharp
 
         public ChannelListListener(IrcClient client)
         {
-            client = client;
+            this.client = client;
             client.LineReceived += new LineReceivedEventHandler(HandleLine);
             channelListLines = new List<ChannelListLine>();
         }

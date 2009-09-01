@@ -20,7 +20,7 @@ namespace IrcSharp
 
         public NamesListener(IrcClient client)
         {
-            client = client;
+            this.client = client;
             client.LineReceived += new LineReceivedEventHandler(HandleLine);
             names = new List<String>();
         }

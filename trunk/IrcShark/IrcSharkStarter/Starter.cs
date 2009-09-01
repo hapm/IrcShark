@@ -32,10 +32,9 @@ namespace IrcSharkStarter
 	{
 		private static IrcSharkApplication ircShark;
 		
-		public static IrcSharkApplication IrcShark {
-			get {
-				return ircShark;
-			}
+		public static IrcSharkApplication IrcShark
+		{
+			get { return ircShark; }
 		}
 		
 		public static void Main(string[] args)

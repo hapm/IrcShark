@@ -70,6 +70,7 @@ namespace IrcShark
 			
 			log = new Logger(this);
 			log.LoggedMessage += DefaultConsoleLogger;
+			log.LoggedMessage += DefaultFileLogger;
 			log.Log(new LogMessage(Logger.CoreChannel, 1, "Starting IrcShark, hold the line..."));
 			log.Log(new LogMessage(Logger.CoreChannel, 2, "Trying to load settings file"));
 			IrcSharkSettings settings = new IrcSharkSettings();
@@ -104,6 +105,14 @@ namespace IrcShark
 			Console.ResetColor();
 		}
 		
+		void DefaultFileLogger (object logger, LogMessage msg)
+		{
+			string format = "[{0}][{1}][{2}] {3}\r\n";
+			
+			string logMsg = string.Format(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
+			File.AppendAllText("log.log", logMsg); // TODO: Read logfile-path from settings
+		}
+		
 		/// <summary>
 		/// A list of all directorys used for settings lookup
 		/// </summary>
@@ -120,11 +129,13 @@ namespace IrcShark
 			get { return new DirectoryCollection(extensionsDirectorys); }
 		}
 		
-		public ExtensionManager Extensions {
+		public ExtensionManager Extensions 
+		{
 			get { return extensions; }
 		}
 
-		public Logger Log {
+		public Logger Log 
+		{
 			get { return log; }
 		}
 	}

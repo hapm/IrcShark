@@ -18,6 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Threading;
 using System.Collections.Generic;
 
 namespace IrcShark
@@ -41,6 +42,16 @@ namespace IrcShark
 		private IrcSharkApplication application;
 		
 		/// <summary>
+		/// Quene for the logmessages.
+		/// </summary>
+		private Queue<LogMessage> logQuene;
+		
+		/// <summary>
+		/// The thread work on <see cref="logQuene"/>.
+		/// </summary>
+		private Thread logThread;
+		
+		/// <summary>
 		/// The LoggedMessage event is fired when anyone logs a new message. Feel
 		/// free to register your own event handler here to get all log messages of the system.
 		/// </summary>
@@ -50,11 +61,34 @@ namespace IrcShark
 		/// Initialises a new instance of the Logger class
 		/// </summary>
 		/// <param name="app">
-		/// The  <see cref="IrcSharkApplication"/>, this Logger logs messages for
+		/// The <see cref="IrcSharkApplication"/>, this Logger logs messages for
 		/// </param>
 		public Logger (IrcSharkApplication app)
 		{
 			application = app;
+			
+			logQuene = new Queue<LogMessage>();
+			logThread = new Thread(MessageWatcher);
+			logThread.Start();
+		}
+		
+		/// <summary>
+		/// Method called of <see cref="logThread"/>.
+		/// </summary>
+		private void MessageWatcher()
+		{
+			while(true)
+			{
+				if(logQuene.Count == 0)
+				{
+					Thread.Sleep(0);
+					Thread.Sleep(50);
+					continue;
+				}
+				
+				if (LoggedMessage != null)
+					LoggedMessage(this, logQuene.Dequeue());
+			}
 		}
 		
 		/// <summary>
@@ -65,8 +99,7 @@ namespace IrcShark
 		/// </param>
 		public void Log(LogMessage msg)
 		{
-			if (LoggedMessage != null)
-				LoggedMessage(this, msg);
+			logQuene.Enqueue(msg);
 		}
 	}
 }

@@ -85,7 +85,7 @@ namespace IrcSharp
         /// </summary>
         /// <remarks>This event is raised by all kick lines received.</remarks>
         public event KickReceivedEventHandler KickReceived;
-
+        
         public event ErrorEventHandler Error;
         #endregion
 
@@ -384,11 +384,11 @@ namespace IrcSharp
                 {
                     if (inReader == null) return;
                     Line = inReader.ReadLine();
-                    if (Line != null && LineReceived != null)
+                    if (Line != null)
                     {
                         LineReceivedEventArgs args = new LineReceivedEventArgs(new IrcLine(this, Line));
                         if (LineReceived != null) LineReceived(this, args);
-                        if (!args.Handled) HandleLine(args);
+                   		if (!args.Handled) HandleLine(args);
                     }
                 }
                 catch (InvalidLineFormatException ex)
@@ -425,7 +425,12 @@ namespace IrcSharp
                         if (Login != null) 
                             Login(this, new LoginEventArgs(NetworkName, CurrentNick, this));
                         break;
-
+                        
+                    case 376: // End of MOTD message
+                        loggedIn = true;
+                        if (Login != null) 
+                            Login(this, new LoginEventArgs(NetworkName, CurrentNick, this));
+                        break;
                 }
             }
             else
@@ -459,6 +464,8 @@ namespace IrcSharp
                         break;
 
                     case "NICK": //Parse Nick-Message
+                        if(e.Line.Client.ToString() == this.ToString()) this.currentNick = e.Line.Parameters[0];
+                        
                         NickChangeReceivedEventArgs nickChangeArgs = new NickChangeReceivedEventArgs(e.Line);
                         if (NickChangeReceived != null) NickChangeReceived(this, nickChangeArgs);
                         break;

@@ -39,39 +39,40 @@ namespace IrcShark
 		/// <param name="list">
 		/// The string <see cref="T:System.Collections.Generic.ICollection`1"/> of directories
 		/// </param>
-		public DirectoryCollection(IEnumerable<String> list) {
+		public DirectoryCollection(IEnumerable<String> list)
+		{
 			directorys = new List<string>(list);
 		}
 		
 		/// <summary>
 		/// Creates a new empty directorylist
 		/// </summary>
-		public DirectoryCollection() {
+		public DirectoryCollection()
+		{
 			directorys = new List<string>();
 		}
 		
 		/// <value>
 		/// Because this is a readonly list, this will always be true
 		/// </value>
-		public bool IsReadOnly {
-			get {
-				return false;
-			}
+		public bool IsReadOnly
+		{
+			get { return false; }
 		}
 		
 		/// <value>
 		/// The directory used as the default, it is always the first list entry
 		/// </value>
-		public string Default {
-			get {
-				return directorys[0];
-			}
+		public string Default
+		{
+			get { return directorys[0]; }
 		}
 		
 		/// <value>
 		/// gives back the directory at the given index
 		/// </value>
-		public string this[int index] {
+		public string this[int index]
+		{
 			get { return directorys[index]; }
 		}
 		
@@ -95,7 +96,8 @@ namespace IrcShark
 		/// <param name="item">
 		/// the directory to insert
 		/// </param>
-		public void Insert(int index, string item) {
+		public void Insert(int index, string item)
+		{
 			 directorys.Insert(index, item);
 		}
 		
@@ -110,7 +112,7 @@ namespace IrcShark
 		/// true if the directory is in the list
 		/// false otherwise
 		/// </returns>
-		public bool Contains (string item)
+		public bool Contains(string item)
 		{
 			return directorys.Contains(item);
 		}
@@ -118,7 +120,7 @@ namespace IrcShark
 		/// <summary>
 		/// clears sthe list of directories
 		/// </summary>
-		public void Clear ()
+		public void Clear()
 		{
 			directorys.Clear();
 		}
@@ -126,10 +128,9 @@ namespace IrcShark
 		/// <value>
 		/// the number of directories in this list
 		/// </value>
-		public int Count {
-			get {
-				return directorys.Count;
-			}
+		public int Count
+		{
+			get { return directorys.Count; }
 		}
 
 		/// <summary>
@@ -141,7 +142,7 @@ namespace IrcShark
 		/// <returns>
 		/// true, if the directory was found and deleted, false otherwise
 		/// </returns>
-		public bool Remove (string item)
+		public bool Remove(string item)
 		{
 			return directorys.Remove(item);
 		}
@@ -152,7 +153,8 @@ namespace IrcShark
 		/// <param name="index">
 		/// the position of the directory to remove 
 		/// </param>
-		public void RemoveAt (int index) {
+		public void RemoveAt(int index)
+		{
 			directorys.RemoveAt(index);
 		}
 		
@@ -165,7 +167,7 @@ namespace IrcShark
 		/// <param name="arrayIndex">
 		/// the index where to write the first directory entry as an <see cref="System.Int32"/>
 		/// </param>
-		public void CopyTo (string[] array, int arrayIndex)
+		public void CopyTo(string[] array, int arrayIndex)
 		{
 			directorys.CopyTo(array, arrayIndex);
 		}

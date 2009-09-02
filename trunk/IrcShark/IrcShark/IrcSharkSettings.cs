@@ -61,7 +61,8 @@ namespace IrcShark
 		/// Gets a list of all directories searched for extension settings
 		/// </summary>
 		[XmlElement("settingdirs")]
-		public DirectoryCollection SettingDirectorys {
+		public DirectoryCollection SettingDirectorys
+		{
 			get { return settingDirectorys; }
 		}
 		

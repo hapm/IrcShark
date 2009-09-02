@@ -47,6 +47,11 @@ namespace IrcShark
 		private Queue<LogMessage> logQuene;
 		
 		/// <summary>
+		/// AutoResetEvent for <see cref="logThread"/>.
+		/// </summary>
+		private AutoResetEvent logAutoEvent;
+		
+		/// <summary>
 		/// The thread work on <see cref="logQuene"/>.
 		/// </summary>
 		private Thread logThread;
@@ -70,6 +75,8 @@ namespace IrcShark
 			logQuene = new Queue<LogMessage>();
 			logThread = new Thread(MessageWatcher);
 			logThread.Start();
+			
+			logEvent = new AutoResetEvent(false);
 		}
 		
 		/// <summary>
@@ -81,13 +88,13 @@ namespace IrcShark
 			{
 				if(logQuene.Count == 0)
 				{
-					Thread.Sleep(0);
-					Thread.Sleep(50);
-					continue;
+					logEvent.WaitOne();
 				}
 				
-				if (LoggedMessage != null)
-					LoggedMessage(this, logQuene.Dequeue());
+				LogMessage msg = logQuene.Dequeue();
+				
+				if (LoggedMessage != null && msg != null)
+					LoggedMessage(this, msg);
 			}
 		}
 		
@@ -99,6 +106,7 @@ namespace IrcShark
 		/// </param>
 		public void Log(LogMessage msg)
 		{
+			if(logQuene.Count == 0) logEvent.Set();
 			logQuene.Enqueue(msg);
 		}
 	}

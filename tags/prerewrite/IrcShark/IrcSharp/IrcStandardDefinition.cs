@@ -99,8 +99,11 @@ namespace IrcSharp
                                 break;
 
                             case "EXCEPTS":
-                                if (m.Groups["Value"].Success) banExceptionMode = m.Groups["Value"].Value[0];
-                                else banExceptionMode = 'e';
+                                if (m.Groups["Value"].Success)
+                                	banExceptionMode = m.Groups["Value"].Value[0];
+                                else
+                                	banExceptionMode = 'e';
+                                
                                 break;
 
                             case "IDCHAN":
@@ -189,7 +192,9 @@ namespace IrcSharp
                             case "CHANMODES":
                                 String[] modes;
                                 modes = m.Groups["Value"].Value.Split(",".ToCharArray());
-                                if (modes.Length < 4) break; //TODO: KA was passieren soll wenn flasche anzahl an modes
+                                if (modes.Length < 4) //TODO: KA was passieren soll wenn flasche anzahl an modes
+                                	break;
+                                
                                 channelFlags.Clear();
                                 for (int i=0; i < 4; i++)
                                 {
@@ -247,7 +252,9 @@ namespace IrcSharp
         {
             get 
             { 
-                if (statusMessagePrefixes == null) return null;
+                if (statusMessagePrefixes == null)
+                	return null;
+                
                 return (char[])statusMessagePrefixes.Clone();
             }
         }
@@ -276,6 +283,7 @@ namespace IrcSharp
         {
             if (ChannelName.Length < 2)
                 return false;
+            
             foreach (char pre in ChannelPrefixes)
             {
                 if (ChannelName[0] == pre)
@@ -338,7 +346,8 @@ namespace IrcSharp
         {
             foreach(FlagDefinition fDef in ChannelFlags)
             {
-                if (fDef.Char == flag) return fDef;
+                if (fDef.Char == flag)
+                	return fDef;
             }
             return null;
         }
@@ -348,7 +357,8 @@ namespace IrcSharp
             if (!UserPrefixFlagsValue.ContainsValue(flag)) return '\0';
             foreach (KeyValuePair<char, FlagDefinition> f in UserPrefixFlagsValue)
             {
-                if (f.Value == flag) return f.Key;
+                if (f.Value == flag)
+                	return f.Key;
             }
             return '\0';
         }

@@ -33,12 +33,15 @@ namespace IrcSharp
                     if (!IsReading)
                     {
                         isReading = true;
-                        if (InfoBegin != null) InfoBegin(this, new InfoBeginEventArgs(args.Line));
+                        if (InfoBegin != null)
+                        	InfoBegin(this, new InfoBeginEventArgs(args.Line));
                     }
                     break;
+                    
                 case 374:
                     infoLines.Add(args.Line);
-                    if (InfoEnd != null) InfoEnd(this, new InfoEndEventArgs(args.Line, InfoLines));
+                    if (InfoEnd != null)
+                    	InfoEnd(this, new InfoEndEventArgs(args.Line, InfoLines));
                     isReading = false;
                     break;
             }

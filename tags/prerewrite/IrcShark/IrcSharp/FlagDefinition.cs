@@ -88,17 +88,24 @@ namespace IrcSharp
 
         public bool IsParameter(FlagArt Art, String Parameter)
         {
-            if (Art == FlagArt.Set && SetParameter == FlagParameter.NotAllowed) return false;
-            else if (Art == FlagArt.Unset && UnsetParameter == FlagParameter.NotAllowed) return false;
-            if (ParameterCheck == null) return true;
+            if (Art == FlagArt.Set && SetParameter == FlagParameter.NotAllowed)
+            	return false;
+            else if (Art == FlagArt.Unset && UnsetParameter == FlagParameter.NotAllowed)
+            	return false;
+            
+            if (ParameterCheck == null)
+            	return true;
             return ParameterCheck.IsMatch(Parameter);
         }
 
         public bool NeedParameter(FlagArt Art)
         {
-            if (Art == FlagArt.Set && SetParameter == FlagParameter.Needed) return true;
-            else if (Art == FlagArt.Unset && UnsetParameter == FlagParameter.Needed) return true;
-            return false;
+            if (Art == FlagArt.Set && SetParameter == FlagParameter.Needed)
+            	return true;
+            else if (Art == FlagArt.Unset && UnsetParameter == FlagParameter.Needed)
+            	return true;
+            else
+            	return false;
         }
 
         public char Char

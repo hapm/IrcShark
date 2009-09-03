@@ -41,11 +41,15 @@ namespace IrcSharp
                     if (!IsReading)
                     {
                         isReading = true;
-                        if (NamesBegin != null) NamesBegin(this, new NamesBeginEventArgs(args.Line));
+                        if (NamesBegin != null)
+                        	NamesBegin(this, new NamesBeginEventArgs(args.Line));
                     }
                     break;
+                    
                 case 366:
-                    if (NamesEnd != null) NamesEnd(this, new NamesEndEventArgs(args.Line, Names, ChannelNameValue));
+                    if (NamesEnd != null)
+                    	NamesEnd(this, new NamesEndEventArgs(args.Line, Names, ChannelNameValue));
+                    
                     isReading = false;
                     break;
             }

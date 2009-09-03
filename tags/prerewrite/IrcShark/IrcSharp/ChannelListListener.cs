@@ -34,13 +34,15 @@ namespace IrcSharp
             {
                 case 321:
                     isReading = true;
-                    if (ChannelListBegin != null) ChannelListBegin(this, new ChannelListBeginEventArgs(args.Line));
+                    if (ChannelListBegin != null)
+                    	ChannelListBegin(this, new ChannelListBeginEventArgs(args.Line));
                     break;
                 case 322:
                     channelListLines.Add(new ChannelListLine(args.Line));
                     break;
                 case 323:
-                    if (ChannelListEnd != null) ChannelListEnd(this, new ChannelListEndEventArgs(args.Line, ChannelListLines));
+                    if (ChannelListEnd != null)
+                    	ChannelListEnd(this, new ChannelListEndEventArgs(args.Line, ChannelListLines));
                     isReading = false;
                     break;
             }

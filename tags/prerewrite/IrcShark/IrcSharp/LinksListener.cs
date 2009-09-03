@@ -34,14 +34,18 @@ namespace IrcSharp
             {
                 case 364:
                     linksLines.Add(args.Line);
-                    if (!IsReading) {
+                    if (!IsReading)
+                    {
                         isReading = true;
-                        if (LinksBegin != null) LinksBegin(this, new LinksBeginEventArgs(args.Line));
+                        if (LinksBegin != null)
+                        	LinksBegin(this, new LinksBeginEventArgs(args.Line));
                     }
                     break;
+                    
                 case 365:
                     linksLines.Add(args.Line);
-                    if (LinksEnd != null) LinksEnd(this, new LinksEndEventArgs(args.Line, LinksLines));
+                    if (LinksEnd != null)
+                    	LinksEnd(this, new LinksEndEventArgs(args.Line, LinksLines));
                     isReading = false;
                     break;
             }

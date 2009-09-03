@@ -34,8 +34,10 @@ namespace IrcSharp
 
             foreach (char c in BaseLine.Parameters[1])
             {
-                if (c == '+') currentArt = FlagArt.Set;
-                else if (c == '-') currentArt = FlagArt.Unset;
+                if (c == '+')
+                	currentArt = FlagArt.Set;
+                else if (c == '-')
+                	currentArt = FlagArt.Unset;
                 else
                 {
                     foreach (FlagDefinition currentFlag in flags)

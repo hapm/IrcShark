@@ -16,24 +16,29 @@ namespace IrcSharp
             sender = new UserInfo(baseLine);
             String line;
             line = Message;
+            
             if (line[0] == '\x01' && line[line.Length - 1] == '\x01')
             {
                 line = line.Substring(1, line.Length - 2);
                 cTCPCommandString = line;
                 int firstSpace = line.IndexOf(' ');
+                
                 if (firstSpace > 0)
                 {
                     cTCPCommandString = line.Substring(0, firstSpace);
                     cTCPParameters = line.Substring(firstSpace + 1);
                 }
+                
                 switch (cTCPCommandString)
                 {
                     case "ACTION":
                         cTCPCommand = CTCPCommands.Action;
                         break;
+                        
                     case "VERSION":
                         cTCPCommand = CTCPCommands.Version;
                         break;
+                        
                     default:
                         cTCPCommand = CTCPCommands.Unkown;
                         break;

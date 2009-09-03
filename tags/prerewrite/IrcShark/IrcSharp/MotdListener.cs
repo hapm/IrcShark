@@ -33,14 +33,18 @@ namespace IrcSharp
                     isReading = true;
                     motdLines.Clear();
                     motdLines.Add(args.Line);
-                    if (MotdBegin != null) MotdBegin(this, new MotdBeginEventArgs(args.Line));
+                    if (MotdBegin != null)
+                    	MotdBegin(this, new MotdBeginEventArgs(args.Line));
                     break;
+                    
                 case 372:
                     motdLines.Add(args.Line);
                     break;
+                    
                 case 376:
                     motdLines.Add(args.Line);
-                    if (MotdEnd != null) MotdEnd(this, new MotdEndEventArgs(args.Line, MotdLines));
+                    if (MotdEnd != null)
+                    	MotdEnd(this, new MotdEndEventArgs(args.Line, MotdLines));
                     isReading = false;
                     break;
             }

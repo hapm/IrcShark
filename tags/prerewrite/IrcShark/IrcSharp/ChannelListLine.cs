@@ -13,11 +13,13 @@ namespace IrcSharp
 
         public ChannelListLine(IrcLine baseLine) : base(baseLine)
         {
-            if (baseLine.Numeric != 332) throw new ArgumentOutOfRangeException("baseLine", "CHANNELLIST_RPL 322 expected");
-            if (Parameters.Length < 3) throw new ArgumentOutOfRangeException("baseLine", "Need a minimum of 3 parameters");
-            
+            if (baseLine.Numeric != 332)
+            	throw new ArgumentOutOfRangeException("baseLine", "CHANNELLIST_RPL 322 expected");
+            if (Parameters.Length < 3)
+            	throw new ArgumentOutOfRangeException("baseLine", "Need a minimum of 3 parameters");
 
-            if (!int.TryParse(Parameters[2], out userCount)) throw new ArgumentOutOfRangeException("baseLine", "Invalid user count, integer expected");
+            if (!int.TryParse(Parameters[2], out userCount))
+            	throw new ArgumentOutOfRangeException("baseLine", "Invalid user count, integer expected");
 
             if (Parameters.Length > 3)
             {

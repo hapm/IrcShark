@@ -8,7 +8,8 @@ namespace IrcSharp
     {
         public TopicEventArgs(IrcLine baseLine) : base(baseLine)
         {
-            if (baseLine.Numeric != 332) throw new ArgumentOutOfRangeException("baseLine", "TOPIC_RPL 332 expected");
+            if (baseLine.Numeric != 332)
+            	throw new ArgumentOutOfRangeException("baseLine", "TOPIC_RPL 332 expected");
         }
 
         public String ChannelName

@@ -28,7 +28,9 @@ namespace IrcSharp
 
         private void HandleLine(Object sender, LineReceivedEventArgs args)
         {
-            if (!args.Line.IsNumeric) return;
+            if (!args.Line.IsNumeric)
+            	return;
+            
             switch (args.Line.Numeric)
             {
                 case 352:
@@ -36,11 +38,14 @@ namespace IrcSharp
                     if (!IsReading)
                     {
                         isReading = true;
-                        if (WhoBegin != null) WhoBegin(this, new WhoBeginEventArgs(args.Line));
+                        if (WhoBegin != null)
+                        	WhoBegin(this, new WhoBeginEventArgs(args.Line));
                     }
                     break;
+                    
                 case 315:
-                    if (WhoEnd != null) WhoEnd(this, new WhoEndEventArgs(args.Line, WhoLines));
+                    if (WhoEnd != null)
+                    	WhoEnd(this, new WhoEndEventArgs(args.Line, WhoLines));
                     isReading = false;
                     break;
             }

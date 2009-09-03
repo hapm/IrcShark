@@ -16,18 +16,24 @@ namespace IrcSharp
 
         public WhoLine(IrcLine baseLine) : base(baseLine)
         {
-            if (baseLine.Numeric != 352) throw new ArgumentOutOfRangeException("baseLine", "RPL_WHOREPLY 352 expected");
-            if (Parameters.Length < 8) throw new ArgumentOutOfRangeException("baseLine", "Need a minimum of 8 parameters");
+            if(baseLine.Numeric != 352)
+            	throw new ArgumentOutOfRangeException("baseLine", "RPL_WHOREPLY 352 expected");
+            if(Parameters.Length < 8)
+            	throw new ArgumentOutOfRangeException("baseLine", "Need a minimum of 8 parameters");
             
             UserValue = new UserInfo(Parameters[5], Parameters[2], Parameters[3], Client);
-            IsAwayValue = Parameters[6][0] == 'G';
-            int i = 1;
-            IsOperValue = Parameters[6][i] == '*';
-            if (IsOper) i++;
             List<Mode> modes = new List<Mode>();
-            for (; i < Parameters[6].Length; i++)
+            int i = 1;
+            
+            IsAwayValue = Parameters[6][0] == 'G';
+            IsOperValue = Parameters[6][i] == '*';
+            
+            if(IsOper)
+            	i++;
+            
+            for(; i < Parameters[6].Length; i++)
             {
-                if (Client.Standard.UserPrefixFlags.ContainsKey(Parameters[6][i]))
+                if(Client.Standard.UserPrefixFlags.ContainsKey(Parameters[6][i]))
                 {
                     modes.Add(new Mode(Client.Standard.UserPrefixFlags[Parameters[6][i]], FlagArt.Set, User.NickName));
                 }
@@ -37,7 +43,8 @@ namespace IrcSharp
             
             RealNameValue = Parameters[7];
 
-            if (!int.TryParse(RealNameValue.Substring(1, RealNameValue.IndexOf(" ")), out HopCountValue)) throw new ArgumentOutOfRangeException("baseLine", "Invalid hop count, integer expected");
+            if(!int.TryParse(RealNameValue.Substring(1, RealNameValue.IndexOf(" ")), out HopCountValue))
+            	throw new ArgumentOutOfRangeException("baseLine", "Invalid hop count, integer expected");
             
             RealNameValue = RealNameValue.Substring(RealNameValue.IndexOf(" ") + 1);
         }

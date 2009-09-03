@@ -14,6 +14,7 @@ namespace IrcSharp
         {
             user = new UserInfo(BaseLine);
             channelName = BaseLine.Parameters[0];
+            
             if (BaseLine.Parameters.Length > 1)
                 partMessage = BaseLine.Parameters[1];
         }

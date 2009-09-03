@@ -97,9 +97,14 @@ namespace IrcSharp
             if (toCompare is UserInfo)
             {
                 UserInfo info = (UserInfo)toCompare;
-                if (!info.Host.Equals(Host)) return false;
-                if (!info.Ident.Equals(Ident)) return false;
-                if (!info.NickName.Equals(NickName)) return false;
+                
+                if (!info.Host.Equals(Host))
+                	return false;
+                if (!info.Ident.Equals(Ident))
+                	return false;
+                if (!info.NickName.Equals(NickName))
+                	return false;
+                
                 return true;
             }
             else

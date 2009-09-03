@@ -42,7 +42,7 @@ namespace IrcShark
 		private IrcSharkApplication application;
 		
 		/// <summary>
-		/// Quene for the logmessages.
+		/// Queue for the logmessages.
 		/// </summary>
 		private Queue<LogMessage> logMessageQueue;
 		

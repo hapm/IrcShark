@@ -1,6 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+# SharpDevelop 3.0.0.3800
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark", "IrcShark\IrcShark.csproj", "{F6955540-7429-49FB-AE3D-A9AD916D2334}"
 EndProject
 Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Packages", "Packages.mdproj", "{9A480CA2-9AA7-48AC-BCA1-0E7AB215973D}"
@@ -77,6 +78,9 @@ Global
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Default|Any CPU.Build.0 = Debug|Any CPU
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2951292C-273B-4045-8646-6F74FF151541}.Default|Any CPU.Build.0 = Default|Any CPU
+		{5E631CD2-F7F0-42F9-9D64-FA7BC24A07D5}.Default|Any CPU.Build.0 = Default|Any CPU
+		{9A480CA2-9AA7-48AC-BCA1-0E7AB215973D}.Default|Any CPU.Build.0 = Default|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

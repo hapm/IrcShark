@@ -29,8 +29,8 @@ namespace IrcShark
 	/// <summary>
 	/// This class loads and saves the IrcShark configuration from and to a given xml file
 	/// </summary>
-	[XmlRoot("ircshark")]
-	public class IrcSharkSettings : IXmlSerializable
+	[XmlRoot(Namespace = "http://www.ircshark.net/2009/settings", ElementName = "ircshark")]
+	public class Settings : IXmlSerializable
 	{
 		/// <summary>
 		/// saves all settings directorys of this configuration
@@ -47,14 +47,17 @@ namespace IrcShark
 		/// </summary>
 		private List<ExtensionInfo> loadedExtensions;
 		
+		private LogHandlerSettingCollection logSettings;
+		
 		/// <summary>
 		/// creates a new configuration instance
 		/// </summary>
-		public IrcSharkSettings ()
+		public Settings ()
 		{
 			settingDirectorys = new DirectoryCollection();
 			extensionDirectorys = new DirectoryCollection();
 			loadedExtensions = new List<ExtensionInfo>();
+			logSettings = new LogHandlerSettingCollection();
 		}
 		
 		/// <summary>
@@ -73,11 +76,16 @@ namespace IrcShark
 		public DirectoryCollection ExtensionDirectorys {
 			get { return extensionDirectorys; }
 		}
+		
+		public LogHandlerSettingCollection LogSettings
+		{
+			get { return logSettings; }
+		}
 
 		#region IXmlSerializable implementation
 		XmlSchema IXmlSerializable.GetSchema ()
 		{
-			return XmlSchema.Read(XmlReader.Create("http://www.ircshark.net/2009/extensionmetadata.xsd"), null);
+			return XmlSchema.Read(XmlReader.Create("http://www.ircshark.net/2009/settings.xsd"), null);
 		}
 		
 		void IXmlSerializable.ReadXml (XmlReader reader)
@@ -116,6 +124,12 @@ namespace IrcShark
 					case "loaded":
 						ReadLoadedExtensions(reader);
 						break;
+					case "logging":
+						ReadLoggingSettings(reader);
+						break;
+					default:
+						reader.Skip();
+						break;
 					}
 					break;
 				case XmlNodeType.EndElement:
@@ -142,6 +156,27 @@ namespace IrcShark
 					return;
 				}
 			}			
+		}
+		
+		private void ReadLoggingSettings(XmlReader reader)
+		{
+			LogHandlerSetting logHandler;
+			while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+			{
+				switch (reader.NodeType)
+				{
+					case XmlNodeType.Element:
+						if (reader.Name == "loghandler")
+						{
+							logHandler = new LogHandlerSetting("");
+							logHandler.ReadXml(reader);
+							LogSettings.Add(logHandler);
+						}
+						else
+							reader.Skip();
+						break;
+				}
+			}
 		}
 		
 		private void ReadLoadedExtensions(XmlReader reader)
@@ -172,6 +207,7 @@ namespace IrcShark
 			WriteDirectoryList(writer, "settingdirs", settingDirectorys);
 			WriteDirectoryList(writer, "extensiondirs", extensionDirectorys);
 			WriteLoadedExtensions(writer, loadedExtensions.ToArray());
+			WriteLoggingSettings(writer, logSettings.ToArray());
 			writer.WriteEndElement();
 		}
 		
@@ -198,6 +234,21 @@ namespace IrcShark
 					ext.WriteXml(writer);
 				}
 				writer.WriteEndElement();				
+			}
+		}
+		
+		private void WriteLoggingSettings(XmlWriter writer, LogHandlerSetting[] settings)
+		{
+			if (logSettings.Count != 0) 
+			{
+				writer.WriteStartElement("logging");
+				foreach (LogHandlerSetting setting in settings)
+				{
+					writer.WriteStartElement("loghandler");
+					setting.WriteXml(writer);
+					writer.WriteEndElement();
+				}
+				writer.WriteEndElement();
 			}
 		}
 		#endregion

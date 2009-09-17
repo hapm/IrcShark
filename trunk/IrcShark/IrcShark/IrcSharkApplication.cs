@@ -57,35 +57,108 @@ namespace IrcShark
 		/// </summary>
 		private Logger log;
 		
+		private Settings settings;
+		
 		/// <summary>
-		/// The contructor of this class. If you create a new instance of IrcSharkApplication, you
+		/// The constructor of this class. If you create a new instance of IrcSharkApplication, you
 		/// create a new instance of IrcShark it self.
 		/// </summary>
 		[IrcSharkAdministrationPermission(SecurityAction.Demand, Unrestricted = true)]
 		public IrcSharkApplication() 
 		{
-			//String xml = "<extension version=\"1.0\" name=\"My displayed name\">" + "<class>the full qualified name of the class implementing the extension</class>" + "<author>Someone</author>" + "<dependencies>" + "<dependency>a fullname to the extension</dependency>" + "<dependency>a second extension</dependency>" + "</dependencies>" + "</extension>";
-			//ExtensionInfo info = new ExtensionInfo();
-			//info.ReadXml(XmlReader.Create(new System.IO.StringReader(xml)));
+			InitLogging();
+			log.Log(new LogMessage(Logger.CoreChannel, 1, "Starting IrcShark, hold the line..."));
+			LoadSettings();
 			
+			InitExtensionManager();
+			SaveSettings();
+			log.Log(new LogMessage(Logger.CoreChannel, 10, "Shutting down ... bye bye"));
+			log.Dispose();
+		}
+		
+		/// <summary>
+		/// Loads the settings from a file or creates the default settings.
+		/// </summary>
+		private void LoadSettings()
+		{
+			XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+			FileInfo settingfile = new FileInfo("ircshark.config");
+			
+			// Loads the file if it exists
+			if (settingfile.Exists)
+			{
+				FileStream file = null;
+				try
+				{
+					file = settingfile.OpenRead();
+					settings = serializer.Deserialize(file) as Settings;
+					file.Close();
+					log.Log(new LogMessage(Logger.CoreChannel, 2, "Successfully loaded settings file"));
+				}
+				catch (Exception ex)
+				{
+					log.Log(new LogMessage(Logger.CoreChannel, 301, LogLevel.Error, "Couldn't load settings file: " + ex.ToString()));
+					if (file == null)
+					{
+						if (file.CanRead)
+							file.Close();
+					}
+				}
+			}
+			else
+			{
+				log.Log(new LogMessage(Logger.CoreChannel, 201, LogLevel.Warning, "The settingsfile doesn't exist, creating the default one"));
+			}
+			
+			// Creates the default settings if the settingsfile couldn't be loaded
+			if (settings == null)
+			{
+				settings = new Settings();
+				settings.ExtensionDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Extensions"));
+				settings.SettingDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Settings"));
+				LogHandlerSetting logSetting = new LogHandlerSetting("IrcShark.ConsoleLogHandler", "iwe");
+				settings.LogSettings.Add(logSetting);
+				logSetting = new LogHandlerSetting("IrcShark.FileLogHandler", "we");
+				logSetting.Target = System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "default.log");
+				settings.LogSettings.Add(logSetting);
+			}
+		}
+		
+		private void SaveSettings()
+		{
+			try
+			{
+				FileStream settingsFile = new FileStream("IrcShark.config", FileMode.Create);
+				XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+				serializer.Serialize(settingsFile, settings);
+				settingsFile.Close();
+				log.Log(new LogMessage(Logger.CoreChannel, 5, "Settings file successfully saved"));
+			}
+			catch (Exception ex)
+			{
+				log.Log(new LogMessage("IrcShark.Core", 302, LogLevel.Error, "Couldn't save the settings file: " + ex.ToString()));
+			}
+		}
+		
+		private void InitLogging()
+		{
+			File.AppendAllText("log.log", "--- New session ---\n"); // TODO: Read logfile-path from settings
 			log = new Logger(this);
 			log.LoggedMessage += DefaultConsoleLogger;
 			log.LoggedMessage += DefaultFileLogger;
-			log.Log(new LogMessage(Logger.CoreChannel, 1, "Starting IrcShark, hold the line..."));
-			log.Log(new LogMessage(Logger.CoreChannel, 2, "Trying to load settings file"));
-			IrcSharkSettings settings = new IrcSharkSettings();
-			
+		}
+		
+		private void InitExtensionManager()
+		{
 			log.Log(new LogMessage(Logger.CoreChannel, 3, "Initialising extension manager..."));
 			extensions = new ExtensionManager(this);
-			settings.ExtensionDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Extensions"));
-			settings.SettingDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Settings"));
-			XmlSerializer serializer = new XmlSerializer(typeof(IrcSharkSettings));
-			StringBuilder sb = new StringBuilder();
-			StringWriter writer = new StringWriter(sb);
-			serializer.Serialize(writer, settings);
-			Console.Write(sb.ToString());
 		}
 
+		/// <summary>
+		/// The default console logger
+		/// </summary>
+		/// <param name="logger">The logger, what raised the event.</param>
+		/// <param name="msg">The message to log</param>
 		void DefaultConsoleLogger (object logger, LogMessage msg)
 		{
 			string format = "[{0}][{1}][{2}] {3}";
@@ -105,16 +178,20 @@ namespace IrcShark
 			Console.ResetColor();
 		}
 		
+		/// <summary>
+		/// The default file logger
+		/// </summary>
+		/// <param name="logger">The logger, what raised the event.</param>
+		/// <param name="msg">The message to log</param>
 		void DefaultFileLogger (object logger, LogMessage msg)
 		{
-			string format = "[{0}][{1}][{2}] {3}\r\n";
-			
+			string format = "[{0}][{1}][{2}] {3}\r\n";			
 			string logMsg = string.Format(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
 			File.AppendAllText("log.log", logMsg); // TODO: Read logfile-path from settings
 		}
 		
 		/// <summary>
-		/// A list of all directorys used for settings lookup
+		/// Gets a list of all directorys used for settings lookup
 		/// </summary>
 		public DirectoryCollection SettingsDirectorys
 		{
@@ -122,18 +199,24 @@ namespace IrcShark
 		}
 		
 		/// <summary>
-		/// A list of all directorys used for extension lookup
+		/// Gets a list of all directorys used for extension lookup
 		/// </summary>
 		public DirectoryCollection ExtensionsDirectorys
 		{
 			get { return new DirectoryCollection(extensionsDirectorys); }
 		}
 		
+		/// <summary>
+		/// Gets the ExtensionManager of this IrcShark instance
+		/// </summary>
 		public ExtensionManager Extensions 
 		{
 			get { return extensions; }
 		}
 
+		/// <summary>
+		/// Gets the <see cref="Logger" /> for this IrcShark instance
+		/// </summary>
 		public Logger Log 
 		{
 			get { return log; }

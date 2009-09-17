@@ -34,7 +34,8 @@
     <Compile Include="DirectoryCollectionTest.cs" />
     <Compile Include="IrcSharkApplicationTest.cs" />
     <Compile Include="ExtensionManagerTest.cs" />
-    <Compile Include="IrcSharkSettingsTest.cs" />
+    <Compile Include="LogHandlerSettingTest.cs" />
+    <Compile Include="SettingsTest.cs" />
     <Compile Include="LoggerTest.cs" />
     <Compile Include="Extensions\ExtensionInfoTest.cs" />
   </ItemGroup>

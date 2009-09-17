@@ -32,9 +32,10 @@ namespace IrcShark
 	/// Logging a message is quite easy: simply call the Log method with the give <see cref="IrcShark.LogMessage"/>.
 	/// The message is then send to all log writers by fireing the LoggedMessage event.
 	/// </remarks>
-	public class Logger
+	public class Logger : IDisposable
 	{
 		public const String CoreChannel = "Core";
+		private bool running;
 		
 		/// <summary>
 		/// Holds the instance of the IrcSharkApplication, this Logger is used for
@@ -74,6 +75,7 @@ namespace IrcShark
 			
 			logMessageQueue = new Queue<LogMessage>();
 			logThread = new Thread(MessageWatcher);
+			running = true;
 			logThread.Start();
 			
 			logAutoResetEvent = new AutoResetEvent(false);
@@ -84,15 +86,18 @@ namespace IrcShark
 		/// </summary>
 		private void MessageWatcher()
 		{
-			while(true)
+			while(running)
 			{
 				if(logMessageQueue.Count == 0)
 					logAutoResetEvent.WaitOne();
 				
-				LogMessage msg = logMessageQueue.Dequeue();
+				while (logMessageQueue.Count > 0)
+				{
+					LogMessage msg = logMessageQueue.Dequeue();
 				
-				if (LoggedMessage != null && msg != null)
-					LoggedMessage(this, msg);
+					if (LoggedMessage != null && msg != null)
+						LoggedMessage(this, msg);
+				}
 			}
 		}
 		
@@ -105,7 +110,15 @@ namespace IrcShark
 		public void Log(LogMessage msg)
 		{
 			logMessageQueue.Enqueue(msg);
-			if(logMessageQueue.Count == 1) logAutoResetEvent.Set();
+			if(logMessageQueue.Count == 1) 
+				logAutoResetEvent.Set();
+		}
+		
+		public void Dispose()
+		{
+			running = false;
+			logAutoResetEvent.Set();
+			logThread.Join();
 		}
 	}
 }

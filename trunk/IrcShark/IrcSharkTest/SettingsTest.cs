@@ -20,22 +20,27 @@
 using System;
 using IrcShark;
 using NUnit.Framework;
+using System.Xml.Serialization;
+using System.IO;
+using System.Text;
 
 namespace IrcSharkTest
 {
 
 
 	[TestFixture()]
-	public class LoggerTest
+	public class SettingsTest
 	{
 
 		[Test()]
-		public void Constructor()
+		public void XmlSerialization()
 		{
-			IrcSharkApplication app = new IrcSharkApplication();
-			
-			
-			//Assert. (typeof(Logger), app.Log);
+			Settings settings = new Settings();
+			XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+			StringBuilder sb = new StringBuilder();
+			StringWriter writer = new StringWriter(sb);
+			serializer.Serialize(writer, settings);
+			Console.Write(sb.ToString());
 		}
 	}
 }

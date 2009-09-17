@@ -13,6 +13,8 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\markus\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <RootNamespace>IrcShark</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,11 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChannelFilter.cs" />
     <Compile Include="IrcSharkApplication.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ExtensionManager.cs" />
     <Compile Include="DirectoryCollection.cs" />
-    <Compile Include="IrcSharkSettings.cs" />
+    <Compile Include="LogHandlerSetting.cs" />
+    <Compile Include="LogHandlerSettingCollection.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="LogLevel.cs" />
     <Compile Include="ConfigurationException.cs" />

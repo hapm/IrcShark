@@ -219,12 +219,19 @@ namespace IrcShark
 		
 		public void ReadXml(XmlReader reader)
 		{
+			string tempFilter;
 			name = reader.GetAttribute("name");
-			string tempFilter = reader.GetAttribute("filter");
+			tempFilter = reader.GetAttribute("filter");
 			if (tempFilter == null) 
 				tempFilter = "diwe";
 			ParseFilter(tempFilter);
-			while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+			if (reader.IsEmptyElement)
+			{
+				reader.Read();
+				return;
+			}
+			reader.Read();
+			while (true)
 			{
 				switch (reader.NodeType)
 				{
@@ -234,6 +241,13 @@ namespace IrcShark
 						else
 							reader.Skip();
 						break;
+					case XmlNodeType.EndElement:
+						reader.Read();
+						return;
+					default:
+						if (!reader.Read())
+							return;
+						break;
 				}
 			}
 		}
@@ -242,15 +256,25 @@ namespace IrcShark
 		{
 			string cname = reader.GetAttribute("name");
 			string filter = reader.GetAttribute("filter");
-			while (reader.Read() && reader.NodeType == XmlNodeType.EndElement)
+			Add(cname).ParseFilter(filter);
+			if (reader.IsEmptyElement)
+			{
+				reader.Read();
+				return;
+			}
+			reader.Read();
+			while (true)
 			{
 				switch (reader.NodeType)
 				{
 					case XmlNodeType.Element:
 						reader.Skip();
 						break;
+					case XmlNodeType.EndElement:
+						reader.Read();
+						return;
 				}
-			}
+			}			
 		}
 		
 		public void WriteXml(XmlWriter writer)

@@ -80,10 +80,23 @@ namespace IrcShark
 			channelName = channel;
 			defaultFilter = defaults;
 			useDefaults = false;
-			debug = filter.Contains("d");
-			information = filter.Contains("i");
-			warning = filter.Contains("w");
-			error = filter.Contains("e");
+			ParseFilter(filter);
+		}
+		
+		public void ParseFilter(string filter)
+		{
+			if (filter == null)
+			{
+				CopyDefaults();
+				useDefaults = true;
+			}
+			else
+			{
+				debug = filter.Contains("d");
+				information = filter.Contains("i");
+				warning = filter.Contains("w");
+				error = filter.Contains("e");
+			}
 		}
 		
 		/// <summary>

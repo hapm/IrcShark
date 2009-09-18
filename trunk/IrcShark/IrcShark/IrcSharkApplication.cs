@@ -136,7 +136,7 @@ namespace IrcShark
 			}
 			catch (Exception ex)
 			{
-				log.Log(new LogMessage("IrcShark.Core", 302, LogLevel.Error, "Couldn't save the settings file: " + ex.ToString()));
+				log.Log(new LogMessage(Logger.CoreChannel, 302, LogLevel.Error, "Couldn't save the settings file: " + ex.ToString()));
 			}
 		}
 		

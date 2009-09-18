@@ -90,7 +90,8 @@ namespace IrcShark
 		
 		void IXmlSerializable.ReadXml (XmlReader reader)
 		{
-			while (reader.Read())
+			reader.Read();
+			while (true)
 			{
 				switch(reader.NodeType)
 				{
@@ -100,7 +101,17 @@ namespace IrcShark
 					case "configuration":
 						ReadConfiguration(reader);
 						break;
+					default:
+						reader.Skip();
+						break;
 					}
+					break;
+				case XmlNodeType.EndElement:
+					reader.Read();
+					return;
+				default:
+					if (!reader.Read())
+						return;
 					break;
 				}
 			}
@@ -108,7 +119,8 @@ namespace IrcShark
 		
 		private void ReadConfiguration(XmlReader reader)
 		{
-			while (reader.Read())
+			reader.Read();
+			while (true)
 			{
 				switch(reader.NodeType)
 				{
@@ -133,27 +145,42 @@ namespace IrcShark
 					}
 					break;
 				case XmlNodeType.EndElement:
+					reader.Read();
 					return;
+				default:
+					if (!reader.Read())
+						return;
+					break;
 				}
 			}			
 		}
 		
 		private void ReadDirectoryList(XmlReader reader, DirectoryCollection dirs)
 		{
-			while (reader.Read())
+			reader.Read();
+			while (true)
 			{
 				switch(reader.NodeType)
 				{
 				case XmlNodeType.Element:
 					switch (reader.Name)
 					{
-					case "directory":
-						dirs.Add(reader.ReadElementContentAsString());
-						break;
+						case "directory":
+							dirs.Add(reader.ReadString());
+							reader.Read();
+							break;
+						default:
+							reader.Skip();
+							break;
 					}
 					break;
 				case XmlNodeType.EndElement:
+					reader.Read();
 					return;
+				default:
+					if (!reader.Read())
+						return;
+					break;
 				}
 			}			
 		}
@@ -161,7 +188,8 @@ namespace IrcShark
 		private void ReadLoggingSettings(XmlReader reader)
 		{
 			LogHandlerSetting logHandler;
-			while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+			reader.Read();
+			while (true)
 			{
 				switch (reader.NodeType)
 				{
@@ -175,25 +203,51 @@ namespace IrcShark
 						else
 							reader.Skip();
 						break;
+					case XmlNodeType.EndElement:
+						reader.Read();
+						return;
+					default:
+						if (!reader.Read())
+							return;
+						break;
 				}
 			}
 		}
 		
 		private void ReadLoadedExtensions(XmlReader reader)
 		{
+			reader.Read();
 			while(true)
 			{
-				try
+				switch (reader.NodeType)
 				{
-					ExtensionInfo info = new ExtensionInfo();
-					info.ReadXml(reader);
-					loadedExtensions.Add(info);
-				}
-				catch (Exception ex)
-				{
-					if (reader.NodeType == XmlNodeType.EndElement)
+					case XmlNodeType.Element:
+						switch (reader.Name)
+						{
+							case "extension":
+								try
+								{
+									ExtensionInfo info = new ExtensionInfo();
+									info.ReadXml(reader);
+									loadedExtensions.Add(info);
+								}
+								catch (Exception ex)
+								{
+									throw new ConfigurationException("couldn't load extension info", ex);
+								}
+								break;
+							default:
+								reader.Skip();
+								break;
+						}
+						break;
+					case XmlNodeType.EndElement:
+						reader.Read();
 						return;
-					throw new ConfigurationException("couldn't load extension info", ex);
+					default:
+						if (!reader.Read())
+							return;
+						break;
 				}
 			}
 		}

@@ -76,7 +76,6 @@ namespace IrcShark
 			logMessageQueue = new Queue<LogMessage>();
 			logThread = new Thread(MessageWatcher);
 			running = true;
-			logThread.Start();
 		}
 		
 		/// <summary>
@@ -108,7 +107,13 @@ namespace IrcShark
 		public void Log(LogMessage msg)
 		{
 			logMessageQueue.Enqueue(msg);
-			if(logMessageQueue.Count == 1) 
+			if (logThread.ThreadState == ThreadState.Unstarted)
+			{
+				if (application.Settings == null)
+					return;
+				logThread.Start();
+			}
+			if(logMessageQueue.Count > 0) 
 				logAutoResetEvent.Set();
 		}
 		

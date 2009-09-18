@@ -59,6 +59,8 @@ namespace IrcShark
 		
 		private Settings settings;
 		
+		private bool fileLogInitiated;
+		
 		/// <summary>
 		/// The constructor of this class. If you create a new instance of IrcSharkApplication, you
 		/// create a new instance of IrcShark it self.
@@ -116,9 +118,9 @@ namespace IrcShark
 				settings = new Settings();
 				settings.ExtensionDirectorys.Add(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IrcShark"), "Extensions"));
 				settings.SettingDirectorys.Add(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IrcShark"), "Settings"));
-				LogHandlerSetting logSetting = new LogHandlerSetting("IrcShark.ConsoleLogHandler", "iwe");
+				LogHandlerSetting logSetting = new LogHandlerSetting("IrcShark.ConsoleLogHandler", "we");
 				settings.LogSettings.Add(logSetting);
-				logSetting = new LogHandlerSetting("IrcShark.FileLogHandler", "we");
+				logSetting = new LogHandlerSetting("IrcShark.FileLogHandler", "iwe");
 				logSetting.Target = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IrcShark"), "default.log");
 				settings.LogSettings.Add(logSetting);
 			}
@@ -142,7 +144,7 @@ namespace IrcShark
 		
 		private void InitLogging()
 		{
-            File.AppendAllText("log.log", "--- New session ---" + Environment.NewLine); // TODO: Read logfile-path from settings
+			fileLogInitiated = false;
 			log = new Logger(this);
 			log.LoggedMessage += DefaultConsoleLogger;
 			log.LoggedMessage += DefaultFileLogger;
@@ -159,8 +161,15 @@ namespace IrcShark
 		/// </summary>
 		/// <param name="logger">The logger, what raised the event.</param>
 		/// <param name="msg">The message to log</param>
-		void DefaultConsoleLogger (object logger, LogMessage msg)
+		private void DefaultConsoleLogger (object logger, LogMessage msg)
 		{
+			try 
+			{
+			LogHandlerSetting logSetting = Settings.LogSettings["IrcShark.ConsoleLogHandler"];
+			if (!logSetting.ApplysTo(msg))
+				return;
+			}
+			catch (Exception) {}
 			string format = "[{0}][{1}][{2}] {3}";
 			switch (msg.Level)
 			{
@@ -183,11 +192,34 @@ namespace IrcShark
 		/// </summary>
 		/// <param name="logger">The logger, what raised the event.</param>
 		/// <param name="msg">The message to log</param>
-		void DefaultFileLogger (object logger, LogMessage msg)
+		private void DefaultFileLogger (object logger, LogMessage msg)
 		{
+			string fileName = "log.log";
+			FileInfo file;
+			LogHandlerSetting logSetting = null;
+			try
+			{
+				logSetting = Settings.LogSettings["IrcShark.FileLogHandler"];
+				if (!logSetting.ApplysTo(msg))
+					return;
+				if (logSetting.Target != null)
+					fileName = logSetting.Target;
+			}
+			catch (Exception) {}
+			file = new FileInfo(fileName);
+			if (!file.Exists)
+			{
+				if (!file.Directory.Exists)
+					file.Directory.Create();
+			}
+			if (!fileLogInitiated)
+			{
+            	File.AppendAllText(fileName, "--- New session ---" + Environment.NewLine);
+            	fileLogInitiated = true;
+			}
 			string format = "[{0}][{1}][{2}] {3}\r\n";			
 			string logMsg = string.Format(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
-			File.AppendAllText("log.log", logMsg); // TODO: Read logfile-path from settings
+			File.AppendAllText(fileName, logMsg);
 		}
 		
 		/// <summary>
@@ -220,6 +252,11 @@ namespace IrcShark
 		public Logger Log 
 		{
 			get { return log; }
+		}
+		
+		public Settings Settings
+		{
+			get { return settings; }
 		}
 	}
 }

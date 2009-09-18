@@ -20,14 +20,15 @@ namespace IrcShark
 		/// <summary>
 		/// holds the list of settings
 		/// </summary>
-		private List<LogHandlerSetting> settings;
+		private Dictionary<string, LogHandlerSetting> settings;
+		//private List<LogHandlerSetting> settings;
 		
 		/// <summary>
 		/// Creates a new instance of the LogHandlerSettingCollection
 		/// </summary>
 		public LogHandlerSettingCollection()
 		{
-			settings = new List<LogHandlerSetting>();
+			settings = new Dictionary<string, LogHandlerSetting>();
 		}
 		
 		/// <summary>
@@ -35,7 +36,26 @@ namespace IrcShark
 		/// </summary>
 		public LogHandlerSetting this[int index]
 		{
-			get { return settings[index]; }
+			get 
+			{
+				int i = 0;
+				if (settings.Count <= index || index < 0)
+					throw new IndexOutOfRangeException("Index out of range");
+				foreach (LogHandlerSetting current in settings.Values)
+				{
+					if (i == index)
+						return current;
+					i++;
+				}
+				return null; //Should never happen as this was fetched by the IndexOutOfRangeException
+			}
+		}
+		/// <summary>
+		/// Gets the <see cref="LogHandlerSetting" /> with the given name
+		/// </summary>
+		public LogHandlerSetting this[string name]
+		{
+			get { return settings[name]; }
 		}
 		
 		/// <summary>
@@ -60,7 +80,7 @@ namespace IrcShark
 		/// <param name="item"></param>
 		public void Add(LogHandlerSetting item)
 		{
-			settings.Add(item);
+			settings.Add(item.HandlerName, item);
 		}
 		
 		/// <summary>
@@ -78,7 +98,7 @@ namespace IrcShark
 		/// <returns>true if the collection contains the item, false otherwise</returns>
 		public bool Contains(LogHandlerSetting item)
 		{
-			return settings.Contains(item);
+			return settings.ContainsValue(item);
 		}
 		
 		/// <summary>
@@ -88,7 +108,7 @@ namespace IrcShark
 		/// <param name="arrayIndex">the index wher to copy to</param>
 		public void CopyTo(LogHandlerSetting[] array, int arrayIndex)
 		{
-			settings.CopyTo(array, arrayIndex);
+			settings.Values.CopyTo(array, arrayIndex);
 		}
 		
 		/// <summary>
@@ -97,7 +117,24 @@ namespace IrcShark
 		/// <returns>An array with all items of the collection</returns>
 		public LogHandlerSetting[] ToArray()
 		{
-			return settings.ToArray();
+			LogHandlerSetting[] array = new LogHandlerSetting[settings.Count];
+			int i = 0;
+			foreach (LogHandlerSetting current in settings.Values)
+			{
+				array[i] = current;
+				i++;
+			}
+			return array;
+		}
+		
+		/// <summary>
+		/// Removes an item from the collection
+		/// </summary>
+		/// <param name="item">removes the item from the collection</param>
+		/// <returns>returns true if the item was removed, false otherwise</returns>
+		public bool Remove(string name)
+		{
+			return settings.Remove(name);
 		}
 		
 		/// <summary>
@@ -107,7 +144,9 @@ namespace IrcShark
 		/// <returns>returns true if the item was removed, false otherwise</returns>
 		public bool Remove(LogHandlerSetting item)
 		{
-			return settings.Remove(item);
+			if (settings.ContainsValue(item))
+				return settings.Remove(item.HandlerName);
+			return false;
 		}
 		
 		public IEnumerator<LogHandlerSetting> GetEnumerator()

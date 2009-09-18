@@ -221,6 +221,7 @@ namespace IrcShark
 		{
 			string tempFilter;
 			name = reader.GetAttribute("name");
+			target = reader.GetAttribute("target");
 			tempFilter = reader.GetAttribute("filter");
 			if (tempFilter == null) 
 				tempFilter = "diwe";

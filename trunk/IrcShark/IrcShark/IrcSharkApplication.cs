@@ -114,12 +114,12 @@ namespace IrcShark
 			if (settings == null)
 			{
 				settings = new Settings();
-				settings.ExtensionDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Extensions"));
-				settings.SettingDirectorys.Add(System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Settings"));
+				settings.ExtensionDirectorys.Add(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IrcShark"), "Extensions"));
+				settings.SettingDirectorys.Add(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IrcShark"), "Settings"));
 				LogHandlerSetting logSetting = new LogHandlerSetting("IrcShark.ConsoleLogHandler", "iwe");
 				settings.LogSettings.Add(logSetting);
 				logSetting = new LogHandlerSetting("IrcShark.FileLogHandler", "we");
-				logSetting.Target = System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "default.log");
+				logSetting.Target = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IrcShark"), "default.log");
 				settings.LogSettings.Add(logSetting);
 			}
 		}
@@ -142,7 +142,7 @@ namespace IrcShark
 		
 		private void InitLogging()
 		{
-			File.AppendAllText("log.log", "--- New session ---\n"); // TODO: Read logfile-path from settings
+            File.AppendAllText("log.log", "--- New session ---" + Environment.NewLine); // TODO: Read logfile-path from settings
 			log = new Logger(this);
 			log.LoggedMessage += DefaultConsoleLogger;
 			log.LoggedMessage += DefaultFileLogger;

@@ -72,13 +72,11 @@ namespace IrcShark
 		public Logger (IrcSharkApplication app)
 		{
 			application = app;
-			
+            logAutoResetEvent = new AutoResetEvent(false);
 			logMessageQueue = new Queue<LogMessage>();
 			logThread = new Thread(MessageWatcher);
 			running = true;
 			logThread.Start();
-			
-			logAutoResetEvent = new AutoResetEvent(false);
 		}
 		
 		/// <summary>

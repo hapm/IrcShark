@@ -26,6 +26,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
 
 namespace IrcShark
 {
@@ -68,15 +69,26 @@ namespace IrcShark
 		[IrcSharkAdministrationPermission(SecurityAction.Demand, Unrestricted = true)]
 		public IrcSharkApplication() 
 		{
+            Stopwatch startTimer = new Stopwatch();
+            startTimer.Start();
+
 			InitLogging();
 			log.Log(new LogMessage(Logger.CoreChannel, 1, "Starting IrcShark, hold the line..."));
 			LoadSettings();
 			
 			InitExtensionManager();
+
+            startTimer.Stop();
+            TimeSpan ts = startTimer.Elapsed;
+            string startTime = string.Format("{0},{1}", ts.Seconds, ts.Milliseconds);
+            log.Log(new LogMessage(Logger.CoreChannel, 9, "IrcShark started in " + startTime + " seconds"));
+
 			SaveSettings();
 			log.Log(new LogMessage(Logger.CoreChannel, 10, "Shutting down ... bye bye"));
 			log.Dispose();
 		}
+
+
 		
 		/// <summary>
 		/// Loads the settings from a file or creates the default settings.

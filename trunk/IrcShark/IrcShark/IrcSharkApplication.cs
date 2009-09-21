@@ -70,8 +70,7 @@ namespace IrcShark
 		[IrcSharkAdministrationPermission(SecurityAction.Demand, Unrestricted = true)]
 		public IrcSharkApplication() 
 		{
-            Stopwatch startTimer = new Stopwatch();
-            startTimer.Start();
+            int startTime = Environment.TickCount;
 
 			InitLogging();
 			log.Log(new LogMessage(Logger.CoreChannel, 1001, Messages.Info1001_StartingIrcShark));
@@ -79,13 +78,14 @@ namespace IrcShark
 			
 			InitExtensionManager();
 
-            startTimer.Stop();
-            TimeSpan ts = startTimer.Elapsed;
-            string startTime = string.Format("{0},{1}", ts.Seconds, ts.Milliseconds);
-            log.Log(new LogMessage(Logger.CoreChannel, 5, "IrcShark started in " + startTime + " seconds"));
+            int stopTime = Environment.TickCount;
+            double finalStartTime = (stopTime - startTime) / 1000.0;
+
+
+            log.Log(new LogMessage(Logger.CoreChannel, 1005, LogLevel.Information, Messages.Info1005_StartedSeconds, finalStartTime));
 
 			SaveSettings();
-			log.Log(new LogMessage(Logger.CoreChannel, 10, "Shutting down ... bye bye"));
+			log.Log(new LogMessage(Logger.CoreChannel, 1006, Messages.Info1006_ShuttingDown));
 			log.Dispose();
 		}
 
@@ -113,7 +113,7 @@ namespace IrcShark
 				catch (Exception ex)
 				{
 					log.Log(new LogMessage(Logger.CoreChannel, 3001, LogLevel.Error, Messages.Error3001_CouldntLoadSettings, ex.ToString()));
-					if (file == null)
+                    if (file == null)
 					{
 						if (file.CanRead)
 							file.Close();

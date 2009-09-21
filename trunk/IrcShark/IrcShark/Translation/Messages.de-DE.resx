@@ -133,10 +133,10 @@
     <value>Extension Manager wird Initialisiert...</value>
   </data>
   <data name="Info1004_SettingsSaved" xml:space="preserve">
-    <value>Settings file successfully saved</value>
+    <value>Konfigurationsdatei erfolgreich gespeichert</value>
   </data>
   <data name="Info1005_StartedSeconds" xml:space="preserve">
-    <value>IrcShark wurde in  {0}  Sekunden gestartet</value>
+    <value>IrcShark wurde in {0} Sekunden gestartet</value>
   </data>
   <data name="Info1006_ShuttingDown" xml:space="preserve">
     <value>IrcShark wird beendet ... bye bye</value>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F6955540-7429-49FB-AE3D-A9AD916D2334}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -55,6 +55,26 @@
     <Compile Include="Extensions\Extension.cs" />
     <Compile Include="Extensions\ExtensionException.cs" />
     <Compile Include="LogMessage.cs" />
+    <Compile Include="Translation\Messages.de-DE.Designer.cs">
+      <DependentUpon>Messages.de-DE.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Translation\Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Translation\Messages.de-DE.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.de-DE.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Translation\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -71,14 +91,12 @@
         </Policies>
       </Properties>
     </MonoDevelop>
+    <VisualStudio />
   </ProjectExtensions>
   <ItemGroup>
     <None Include="settings.xsd" />
     <None Include="settings.xml" />
     <None Include="extension.xml" />
     <None Include="extensions.xsd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>

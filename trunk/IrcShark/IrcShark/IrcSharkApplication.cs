@@ -27,6 +27,7 @@ using System.Xml.Serialization;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using IrcShark.Translation;
 
 namespace IrcShark
 {
@@ -73,7 +74,7 @@ namespace IrcShark
             startTimer.Start();
 
 			InitLogging();
-			log.Log(new LogMessage(Logger.CoreChannel, 1, "Starting IrcShark, hold the line..."));
+			log.Log(new LogMessage(Logger.CoreChannel, 1001, Messages.Info1001_StartingIrcShark));
 			LoadSettings();
 			
 			InitExtensionManager();
@@ -81,7 +82,7 @@ namespace IrcShark
             startTimer.Stop();
             TimeSpan ts = startTimer.Elapsed;
             string startTime = string.Format("{0},{1}", ts.Seconds, ts.Milliseconds);
-            log.Log(new LogMessage(Logger.CoreChannel, 9, "IrcShark started in " + startTime + " seconds"));
+            log.Log(new LogMessage(Logger.CoreChannel, 5, "IrcShark started in " + startTime + " seconds"));
 
 			SaveSettings();
 			log.Log(new LogMessage(Logger.CoreChannel, 10, "Shutting down ... bye bye"));
@@ -107,11 +108,11 @@ namespace IrcShark
 					file = settingfile.OpenRead();
 					settings = serializer.Deserialize(file) as Settings;
 					file.Close();
-					log.Log(new LogMessage(Logger.CoreChannel, 2, "Successfully loaded settings file"));
+					log.Log(new LogMessage(Logger.CoreChannel, 1002, Messages.Info1002_LoadedSettings));
 				}
 				catch (Exception ex)
 				{
-					log.Log(new LogMessage(Logger.CoreChannel, 301, LogLevel.Error, "Couldn't load settings file: " + ex.ToString()));
+					log.Log(new LogMessage(Logger.CoreChannel, 3001, LogLevel.Error, Messages.Error3001_CouldntLoadSettings, ex.ToString()));
 					if (file == null)
 					{
 						if (file.CanRead)
@@ -121,7 +122,7 @@ namespace IrcShark
 			}
 			else
 			{
-				log.Log(new LogMessage(Logger.CoreChannel, 201, LogLevel.Warning, "The settingsfile doesn't exist, creating the default one"));
+				log.Log(new LogMessage(Logger.CoreChannel, 2001, LogLevel.Warning, Messages.Warning2001_SettingDoesentExist));
 			}
 			
 			// Creates the default settings if the settingsfile couldn't be loaded
@@ -146,11 +147,11 @@ namespace IrcShark
 				XmlSerializer serializer = new XmlSerializer(typeof(Settings));
 				serializer.Serialize(settingsFile, settings);
 				settingsFile.Close();
-				log.Log(new LogMessage(Logger.CoreChannel, 5, "Settings file successfully saved"));
+				log.Log(new LogMessage(Logger.CoreChannel, 1004, Messages.Info1004_SettingsSaved));
 			}
 			catch (Exception ex)
 			{
-				log.Log(new LogMessage(Logger.CoreChannel, 302, LogLevel.Error, "Couldn't save the settings file: " + ex.ToString()));
+				log.Log(new LogMessage(Logger.CoreChannel, 3002, LogLevel.Error, Messages.Error3002_CouldntSaveSettings, ex.ToString()));
 			}
 		}
 		
@@ -164,7 +165,7 @@ namespace IrcShark
 		
 		private void InitExtensionManager()
 		{
-			log.Log(new LogMessage(Logger.CoreChannel, 3, "Initialising extension manager..."));
+			log.Log(new LogMessage(Logger.CoreChannel, 1003, Messages.Info1003_InitialisingExtension));
 			extensions = new ExtensionManager(this);
 		}
 

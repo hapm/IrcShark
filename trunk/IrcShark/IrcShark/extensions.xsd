@@ -8,6 +8,7 @@
 							<xs:element name="class" type="xs:string" minOccurs="1" maxOccurs="1" />
 							<xs:element name="parent" type="xs:string" minOccurs="0" maxOccurs="1" />
 							<xs:element name="author" type="xs:string" minOccurs="1" maxOccurs="1" />
+							<xs:element name="assembly" type="xs:string" minOccurs="0" maxOccurs="1" />
 							<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1" />
 							<xs:element name="dependencies" minOccurs="0" maxOccurs="1">
 								<xs:complexType>

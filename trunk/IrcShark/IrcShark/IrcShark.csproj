@@ -40,6 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChannelFilter.cs" />
+    <Compile Include="ExtensionAnalyzer.cs" />
+    <Compile Include="ExtensionInfoCollection.cs" />
+    <Compile Include="Extensions\ExtensionInfoBuilder.cs" />
     <Compile Include="IrcSharkApplication.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ExtensionManager.cs" />
@@ -55,6 +58,7 @@
     <Compile Include="Extensions\Extension.cs" />
     <Compile Include="Extensions\ExtensionException.cs" />
     <Compile Include="LogMessage.cs" />
+    <Compile Include="StatusChangedEventArgs.cs" />
     <Compile Include="Translation\Messages.de-DE.Designer.cs">
       <DependentUpon>Messages.de-DE.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -95,7 +99,6 @@
   </ProjectExtensions>
   <ItemGroup>
     <None Include="settings.xsd" />
-    <None Include="settings.xml" />
     <None Include="extension.xml" />
     <None Include="extensions.xsd" />
   </ItemGroup>

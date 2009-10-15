@@ -18,10 +18,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using System.Collections.Generic;
 
 namespace IrcShark.Extensions
 {
@@ -33,8 +34,10 @@ namespace IrcShark.Extensions
 		private string author;
 		private string description;
 		private string classType;
-		private Version version;
+		private string sourceFile;
 		private string[] dependencies;
+		private Guid assemblyGuid;
+		private Version version;
 		private bool trusted;
 		
 		/// <summary>
@@ -43,6 +46,24 @@ namespace IrcShark.Extensions
 		public ExtensionInfo()
 		{
 			trusted = false;
+		}
+		
+		public ExtensionInfo(Type extType)
+		{
+            Assembly asm;
+            asm = extType.Assembly;
+            //TODO Add this old versioned check for the new Extension type
+            //If Not PluginType.IsSubclassOf(GetType(Plugin)) Then
+            //Throw New ArgumentOutOfRangeException("PluginType", PluginType.FullName & " is no subtype " & GetType(Plugin).FullName)
+            //End If
+            sourceFile = asm.CodeBase;
+            classType = extType.FullName;
+            assemblyGuid = extType.GUID;
+            foreach(Attribute atrb in extType.GetCustomAttributes(false))
+            {
+            	
+            }
+			trusted = true;
 		}
 		
 		/// <summary>
@@ -74,12 +95,22 @@ namespace IrcShark.Extensions
 		}
 		
 		/// <summary>
+		/// Gets the source file of the ExtensionInfo
+		/// </summary>
+		public string SourceFile {
+			get { return sourceFile; }
+		}
+		
+		/// <summary>
 		/// the version of this extension
 		/// </summary>
 		public Version Version {
 			get { return version; }
 		}
 		
+		/// <summary>
+		/// Gets if the ExtensionInfo is trusted or not
+		/// </summary>
 		public bool Trusted {
 			get { return trusted; }
 		}
@@ -95,6 +126,11 @@ namespace IrcShark.Extensions
 					return (string[])dependencies.Clone(); 
 				return null;
 			}
+		}
+		
+		public Guid AssemblyGuid
+		{
+			get { return assemblyGuid; }
 		}
 
 		/// <summary>
@@ -148,6 +184,9 @@ namespace IrcShark.Extensions
 					case "author":
 						author = reader.ReadString();
 						break;
+					case "assembly":
+						assemblyGuid = new Guid(reader.ReadString());
+						break;
 					case "description":
 						description = reader.ReadString();
 						break;
@@ -193,6 +232,10 @@ namespace IrcShark.Extensions
 			writer.WriteAttributeString("name", Name);
 			writer.WriteAttributeString("version", Version.ToString());
 			writer.WriteElementString("class", Class);
+			if (!String.IsNullOrEmpty(author))
+				writer.WriteElementString("author", Description);
+			if (assemblyGuid != null)
+				writer.WriteElementString("assembly", assemblyGuid.ToString());
 			if (!String.IsNullOrEmpty(description))
 				writer.WriteElementString("description", Description);
 			if (dependencies.Length > 0) 

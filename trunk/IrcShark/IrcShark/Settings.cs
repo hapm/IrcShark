@@ -45,9 +45,9 @@ namespace IrcShark
 		/// <summary>
 		/// saves a list of all ExtensionInfo instances for the extensions to load, when using this configuration
 		/// </summary>
-		private List<ExtensionInfo> loadedExtensions;
+		private ExtensionInfoCollection loadedExtensions;
 		
-		private LogHandlerSettingCollection logSettings;
+		private LogHandlerSettingCollection logSettings;		
 		
 		/// <summary>
 		/// creates a new configuration instance
@@ -56,7 +56,7 @@ namespace IrcShark
 		{
 			settingDirectorys = new DirectoryCollection();
 			extensionDirectorys = new DirectoryCollection();
-			loadedExtensions = new List<ExtensionInfo>();
+			loadedExtensions = new ExtensionInfoCollection();
 			logSettings = new LogHandlerSettingCollection();
 		}
 		
@@ -77,9 +77,20 @@ namespace IrcShark
 			get { return extensionDirectorys; }
 		}
 		
+		/// <summary>
+		/// A collection of all <see cref="LogHandlerSetting" />s in this settings
+		/// </summary>
 		public LogHandlerSettingCollection LogSettings
 		{
 			get { return logSettings; }
+		}
+		
+		/// <summary>
+		/// Gets the configured extensions, what should be auto loaded
+		/// </summary>
+		public ExtensionInfoCollection LoadedExtensions
+		{
+			get { return loadedExtensions; }
 		}
 
 		#region IXmlSerializable implementation

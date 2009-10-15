@@ -144,4 +144,16 @@
   <data name="Warning2001_SettingDoesentExist" xml:space="preserve">
     <value>The settingsfile doesn't exist, creating the default one</value>
   </data>
+  <data name="Warning2002_ExtensionDirDoesntExist" xml:space="preserve">
+    <value>Extension directory {0} doesn't exist and is ignored</value>
+  </data>
+  <data name="Info1007_TryToLoad" xml:space="preserve">
+    <value>Try to load {0}: {1} ({2})</value>
+  </data>
+  <data name="Error3003_ExtensionLoadFail" xml:space="preserve">
+    <value>The extension \"{0}\" couldn't be loaded</value>
+  </data>
+  <data name="Info1008_ExtensionsWaitForLoading" xml:space="preserve">
+    <value>{0} extensions wait for loading</value>
+  </data>
 </root>

@@ -225,8 +225,15 @@ namespace IrcShark
 			}
 		}
 		
+		/// <summary>
+		/// Checks if the given <see cref="LogMessage" /> is filtered by this channel filter setting or not
+		/// </summary>
+		/// <param name="msg">the message to check</param>
+		/// <returns>true if the message passes the filters, false otherwise</returns>
 		public bool ApplysTo(LogMessage msg)
 		{
+			if (msg.Channel != channelName) 
+				return false;
 			switch (msg.Level)
 			{
 				case LogLevel.Debug:

@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
+# SharpDevelop 3.1.0.4890
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark", "IrcShark\IrcShark.csproj", "{F6955540-7429-49FB-AE3D-A9AD916D2334}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkStarter", "IrcSharkStarter\IrcSharkStarter.csproj", "{340C66BE-24B0-484E-8B7C-4B492219B59E}"
@@ -12,6 +13,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharpTest", "IrcSharpTest\IrcSharpTest.csproj", "{867ABEAC-AC81-4C23-BBBD-3CFB9836B2A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharp", "IrcSharp\IrcSharp.csproj", "{B287A6A8-748D-4E26-B2FF-1EC098D536F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Chatting", "IrcShark.Chatting\IrcShark.Chatting.csproj", "{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -60,6 +63,12 @@ Global
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Default|Any CPU.Build.0 = Debug|Any CPU
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Debug|Any CPU.Build.0 = Debug|x86
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Default|Any CPU.Build.0 = Debug|x86
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Default|Any CPU.ActiveCfg = Debug|x86
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Release|Any CPU.Build.0 = Release|x86
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Release|Any CPU.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

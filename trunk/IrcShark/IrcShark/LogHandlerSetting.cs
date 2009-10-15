@@ -54,6 +54,18 @@ namespace IrcShark
 			ParseFilter(filter);
 		}
 		
+		/// <summary>
+		/// Parses a string as a filter
+		/// </summary>
+		/// <param name="filter">the string to parse</param>
+		/// <remarks>
+		/// the string is searched for the following characters. If the given char exists,
+		/// the associated option is set to true, else to false:
+		/// 'd' - Debug
+		/// 'i' - Information
+		/// 'w' - Warning
+		/// 'e' - Error
+		/// </remarks>
 		private void ParseFilter(string filter)
 		{
 			debug = filter.Contains("d");
@@ -62,6 +74,9 @@ namespace IrcShark
 			error = filter.Contains("e");
 		}
 		
+		/// <summary>
+		/// Gets a ChannelFilter for the given channel name, if the name was added to this setting
+		/// </summary>
 		public ChannelFilter this[string channel]
 		{
 			get 
@@ -143,6 +158,11 @@ namespace IrcShark
 			get { return filters.Count; }
 		}
 		
+		/// <summary>
+		/// Adds the given channel as a filter to the LogHandlerSetting
+		/// </summary>
+		/// <param name="channelName">the name of the channel to add</param>
+		/// <returns>the <see cref="ChannelFilter" /> for the given channel name</returns>
 		public ChannelFilter Add(string channelName)
 		{
 			if (Contains(channelName))
@@ -152,6 +172,10 @@ namespace IrcShark
 			return filter;
 		}
 		
+		/// <summary>
+		/// Removes the <see cref="ChannelFilter" /> for the channel with the given name
+		/// </summary>
+		/// <param name="channelName">the name of the <see cref="ChannelFilter" /> to remove</param>
 		public void Remove(string channelName)
 		{
 			foreach (ChannelFilter filter in filters)
@@ -165,6 +189,11 @@ namespace IrcShark
 			throw new ArgumentException("channelName", String.Format("The channel {0} wasn't added", channelName));
 		}
 		
+		/// <summary>
+		/// Checks if there is a <see cref="ChannelFilter" /> for the given channel name
+		/// </summary>
+		/// <param name="channelName">the name of the channel to check</param>
+		/// <returns>true if there is a <see cref="ChannelFilter" /> for the given name, else false</returns>
 		public bool Contains(string channelName)
 		{
 			foreach (ChannelFilter filter in filters)
@@ -175,6 +204,16 @@ namespace IrcShark
 			return false;
 		}
 		
+		/// <summary>
+		/// Checks if the given <see cref="LogMessage" /> is filtered by this log handler setting or not
+		/// </summary>
+		/// <param name="msg">the message to check</param>
+		/// <returns>true if the message passes the filters, false otherwise</returns>
+		/// <remarks>
+		/// When implementing a log handler, you can use this method to check if the given message
+		/// should be logged or not. You are free to implement your own check, if you want to have
+		/// some special behaviour.
+		/// </remarks>
 		public bool ApplysTo(LogMessage msg)
 		{
 			if (Count == 0)
@@ -202,11 +241,19 @@ namespace IrcShark
 			return false;
 		}
 		
+		/// <summary>
+		/// Gets an enumerator throw all ChannelFilter instances in this LogHandlerSetting
+		/// </summary>
+		/// <returns>the generic enumerator</returns>
 		public IEnumerator<ChannelFilter> GetEnumerator()
 		{
 			return filters.GetEnumerator();
 		}
 		
+		/// <summary>
+		/// Gets an enumerator throw all ChannelFilter instances in this LogHandlerSetting
+		/// </summary>
+		/// <returns>the enumerator</returns>
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return filters.GetEnumerator();
@@ -217,6 +264,10 @@ namespace IrcShark
 			throw new NotImplementedException();
 		}
 		
+		/// <summary>
+		/// Reads the instance settings from a XmlReader.
+		/// </summary>
+		/// <param name="reader">the XmlReader to read from</param>
 		public void ReadXml(XmlReader reader)
 		{
 			string tempFilter;
@@ -253,6 +304,10 @@ namespace IrcShark
 			}
 		}
 		
+		/// <summary>
+		/// Reads a <see cref="ChannelFilter" /> from a XmlReader
+		/// </summary>
+		/// <param name="reader">the XmlReader to read from</param>
 		private void ReadChannelFilter(XmlReader reader)
 		{
 			string cname = reader.GetAttribute("name");
@@ -278,6 +333,10 @@ namespace IrcShark
 			}			
 		}
 		
+		/// <summary>
+		/// Writes the current instance settings to a XmlWriter
+		/// </summary>
+		/// <param name="writer"></param>
 		public void WriteXml(XmlWriter writer)
 		{
 			StringBuilder filter = new StringBuilder();

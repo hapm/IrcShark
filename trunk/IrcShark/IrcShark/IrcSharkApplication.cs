@@ -19,15 +19,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Security.Permissions;
-using IrcShark.Policy;
-using IrcShark.Extensions;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Text;
-using System.IO;
-using System.Diagnostics;
 using IrcShark.Translation;
+
+using IrcShark.Extensions;
+using IrcShark.Policy;
 
 namespace IrcShark
 {
@@ -59,9 +60,21 @@ namespace IrcShark
 		/// </summary>
 		private Logger log;
 		
+		/// <summary>
+		/// Saves the Settings instance for this IrcSharkApplication
+		/// </summary>
 		private Settings settings;
 		
-		private bool fileLogInitiated;
+		/// <summary>
+		/// Saves if the log file was initialised or not
+		/// </summary>
+		/// <remarks>
+		/// The DefaultFileLogger needs to check if the given target log file
+		/// and its path exists or not. If not, it must create the path and the file.
+		/// To prevent a check on every log messages, this bool is set to true
+		/// when the file was initialised
+		/// </remarks>
+		private bool fileLoggingInitiated;
 		
 		/// <summary>
 		/// The constructor of this class. If you create a new instance of IrcSharkApplication, you
@@ -89,8 +102,6 @@ namespace IrcShark
 			log.Dispose();
 		}
 
-
-		
 		/// <summary>
 		/// Loads the settings from a file or creates the default settings.
 		/// </summary>
@@ -139,6 +150,9 @@ namespace IrcShark
 			}
 		}
 		
+		/// <summary>
+		/// Saves the settings to a file
+		/// </summary>
 		private void SaveSettings()
 		{
 			try
@@ -155,14 +169,20 @@ namespace IrcShark
 			}
 		}
 		
+		/// <summary>
+		/// Initialises the logging system
+		/// </summary>
 		private void InitLogging()
 		{
-			fileLogInitiated = false;
+			fileLoggingInitiated = false;
 			log = new Logger(this);
 			log.LoggedMessage += DefaultConsoleLogger;
 			log.LoggedMessage += DefaultFileLogger;
 		}
 		
+		/// <summary>
+		/// Initialises the <see cref="ExtensionManager" /> for this instance
+		/// </summary>
 		private void InitExtensionManager()
 		{
 			log.Log(new LogMessage(Logger.CoreChannel, 1003, Messages.Info1003_InitialisingExtension));
@@ -225,10 +245,10 @@ namespace IrcShark
 				if (!file.Directory.Exists)
 					file.Directory.Create();
 			}
-			if (!fileLogInitiated)
+			if (!fileLoggingInitiated)
 			{
             	File.AppendAllText(fileName, "--- New session ---" + Environment.NewLine);
-            	fileLogInitiated = true;
+            	fileLoggingInitiated = true;
 			}
 			string format = "[{0}][{1}][{2}] {3}\r\n";			
 			string logMsg = string.Format(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
@@ -267,6 +287,9 @@ namespace IrcShark
 			get { return log; }
 		}
 		
+		/// <summary>
+		/// Gets the settings belonging to this instance
+		/// </summary>
 		public Settings Settings
 		{
 			get { return settings; }

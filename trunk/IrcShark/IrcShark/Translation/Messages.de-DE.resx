@@ -130,7 +130,7 @@
     <value>Konfigurationsdatei erfolgreich geladen</value>
   </data>
   <data name="Info1003_InitialisingExtension" xml:space="preserve">
-    <value>Extension Manager wird Initialisiert...</value>
+    <value>Erweiterungs-Manager wird initialisiert...</value>
   </data>
   <data name="Info1004_SettingsSaved" xml:space="preserve">
     <value>Konfigurationsdatei erfolgreich gespeichert</value>

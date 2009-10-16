@@ -123,6 +123,9 @@
   <data name="Error3002_CouldntSaveSettings" xml:space="preserve">
     <value>Konnte Konfigurationsdatei nicht speichern: {0}</value>
   </data>
+  <data name="Error3003_ExtensionLoadFail" xml:space="preserve">
+    <value>Die Extension \"{0}\" konnte nicht geladen werden</value>
+  </data>
   <data name="Info1001_StartingIrcShark" xml:space="preserve">
     <value>Starte IrcShark, mach dich bereit...</value>
   </data>
@@ -141,7 +144,16 @@
   <data name="Info1006_ShuttingDown" xml:space="preserve">
     <value>IrcShark wird beendet ... bye bye</value>
   </data>
+  <data name="Info1007_TryToLoad" xml:space="preserve">
+    <value>Versuche {0}: {1} ({2}) zu laden</value>
+  </data>
+  <data name="Info1008_ExtensionsWaitForLoading" xml:space="preserve">
+    <value>{0} Extension stehen zum laden bereit</value>
+  </data>
   <data name="Warning2001_SettingDoesentExist" xml:space="preserve">
     <value>Konnte keine Konfigurationsdatei finden, erstelle eine...</value>
+  </data>
+  <data name="Warning2002_ExtensionDirDoesntExist" xml:space="preserve">
+    <value>Der Extension Ordner {0} existiert nicht und wird ignoriert</value>
   </data>
 </root>

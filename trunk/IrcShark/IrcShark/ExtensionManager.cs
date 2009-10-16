@@ -66,7 +66,7 @@ namespace IrcShark
 			application = app;
             extensions = new Dictionary<ExtensionInfo, Extension>();
             availableExtensions = new ExtensionInfoCollection();
-            application.Log.Log(new LogMessage(Logger.CoreChannel, 1008, LogLevel.Information, "{0} extensions wait for loading", application.Settings.LoadedExtensions.Count));
+            application.Log.Log(new LogMessage(Logger.CoreChannel, 1008, LogLevel.Information, Messages.Info1008_ExtensionsWaitForLoading, application.Settings.LoadedExtensions.Count));
             HashAvailableExtensions();
 		}
 		
@@ -173,7 +173,7 @@ namespace IrcShark
             {
             	extDir = new DirectoryInfo(dir);
             	if (!extDir.Exists)
-            		application.Log.Log(new LogMessage(Logger.CoreChannel, 2002, LogLevel.Warning, "Extension directory {0} doesn't exist and is ignored", dir));
+            		application.Log.Log(new LogMessage(Logger.CoreChannel, 2002, LogLevel.Warning, Messages.Warning2002_ExtensionDirDoesntExist, dir));
             	else 
             	{
             		foreach (FileInfo dllFile in extDir.GetFiles("*.dll"))

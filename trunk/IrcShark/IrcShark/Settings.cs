@@ -32,6 +32,11 @@ namespace IrcShark
 	[XmlRoot(Namespace = "http://www.ircshark.net/2009/settings", ElementName = "ircshark")]
 	public class Settings : IXmlSerializable
 	{
+        /// <summary>
+        /// saves all libarys of this configuration
+        /// </summary>
+        private string libraryDirectory;
+
 		/// <summary>
 		/// saves all settings directorys of this configuration
 		/// </summary>
@@ -59,6 +64,16 @@ namespace IrcShark
 			loadedExtensions = new ExtensionInfoCollection();
 			logSettings = new LogHandlerSettingCollection();
 		}
+
+        /// <summary>
+        /// Gets or set the directory for the librarys
+        /// </summary>
+        [XmlElement("librarydir")]
+        public string LibraryDirectory
+        {
+            get { return libraryDirectory; }
+            set { libraryDirectory = value; }
+        }
 		
 		/// <summary>
 		/// Gets a list of all directories searched for extension settings
@@ -224,6 +239,12 @@ namespace IrcShark
 				}
 			}
 		}
+
+        private void ReadLibraryDirectory(XmlReader reader)
+        {
+             libraryDirectory = reader.ReadString();
+             reader.Read();
+        }
 		
 		private void ReadLoadedExtensions(XmlReader reader)
 		{
@@ -271,6 +292,7 @@ namespace IrcShark
 			writer.WriteStartElement("configuration");
 			WriteDirectoryList(writer, "settingdirs", settingDirectorys);
 			WriteDirectoryList(writer, "extensiondirs", extensionDirectorys);
+            writer.WriteElementString("librarydirs", libraryDirectory);
 			WriteLoadedExtensions(writer, loadedExtensions.ToArray());
 			WriteLoggingSettings(writer, logSettings.ToArray());
 			writer.WriteEndElement();

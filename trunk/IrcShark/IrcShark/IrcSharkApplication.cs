@@ -142,6 +142,7 @@ namespace IrcShark
 				settings = new Settings();
 				settings.ExtensionDirectorys.Add(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IrcShark"), "Extensions"));
 				settings.SettingDirectorys.Add(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IrcShark"), "Settings"));
+                settings.LibraryDirectory = (Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IrcShark"), "Librarys"));
 				LogHandlerSetting logSetting = new LogHandlerSetting("IrcShark.ConsoleLogHandler", "we");
 				settings.LogSettings.Add(logSetting);
 				logSetting = new LogHandlerSetting("IrcShark.FileLogHandler", "iwe");

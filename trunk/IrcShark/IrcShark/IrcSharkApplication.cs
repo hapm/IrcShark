@@ -97,6 +97,8 @@ namespace IrcShark
 
             log.Log(new LogMessage(Logger.CoreChannel, 1005, LogLevel.Information, Messages.Info1005_StartedSeconds, finalStartTime));
 
+
+
 			SaveSettings();
 			log.Log(new LogMessage(Logger.CoreChannel, 1006, Messages.Info1006_ShuttingDown));
 			log.Dispose();

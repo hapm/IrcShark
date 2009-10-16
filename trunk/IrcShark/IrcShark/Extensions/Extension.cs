@@ -70,5 +70,7 @@ namespace IrcShark.Extensions
 		{
 			get { return info; }
 		}
+
+        public abstract void StartTerminal();
 	}
 }

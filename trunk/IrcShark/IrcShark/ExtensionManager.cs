@@ -113,6 +113,7 @@ namespace IrcShark
                 if (IsMarkedForUnload(ext))
                 {
                     application.Settings.LoadedExtensions.Add(ext);
+                    extensions[ext].StartTerminal();
                     if (StatusChanged != null) 
                     	StatusChanged(this, new StatusChangedEventArgs(ext, ExtensionStates.Loaded));
                 }

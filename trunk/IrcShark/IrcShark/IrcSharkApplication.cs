@@ -38,7 +38,7 @@ namespace IrcShark
 	/// </summary>
     /// <author>Alpha</author>
     /// <since version="0.1"/>
-	public class IrcSharkApplication
+    public class IrcSharkApplication : IDisposable
 	{		
 		/// <summary>
 		/// Saves the ExtensionManager instance for this IrcShark instance  
@@ -90,18 +90,12 @@ namespace IrcShark
 			LoadSettings();
 			
 			InitExtensionManager();
+			extensions.LoadEnabledExtensions();
 
             int stopTime = Environment.TickCount;
             double finalStartTime = (stopTime - startTime) / 1000.0;
-
-
+            
             log.Log(new LogMessage(Logger.CoreChannel, 1005, LogLevel.Information, Messages.Info1005_StartedSeconds, finalStartTime));
-
-
-
-			SaveSettings();
-			log.Log(new LogMessage(Logger.CoreChannel, 1006, Messages.Info1006_ShuttingDown));
-			log.Dispose();
 		}
 
 		/// <summary>
@@ -201,11 +195,14 @@ namespace IrcShark
 		{
 			try 
 			{
-			LogHandlerSetting logSetting = Settings.LogSettings["IrcShark.ConsoleLogHandler"];
-			if (!logSetting.ApplysTo(msg))
+				LogHandlerSetting logSetting = Settings.LogSettings["IrcShark.ConsoleLogHandler"];
+				if (!logSetting.ApplysTo(msg))
+					return;
+			}
+			catch (IndexOutOfRangeException) 
+			{
 				return;
 			}
-			catch (Exception) {}
 			string format = "[{0}][{1}][{2}] {3}";
 			switch (msg.Level)
 			{
@@ -241,7 +238,10 @@ namespace IrcShark
 				if (logSetting.Target != null)
 					fileName = logSetting.Target;
 			}
-			catch (Exception) {}
+			catch (IndexOutOfRangeException) 
+			{
+				return;
+			}
 			file = new FileInfo(fileName);
 			if (!file.Exists)
 			{
@@ -296,6 +296,21 @@ namespace IrcShark
 		public Settings Settings
 		{
 			get { return settings; }
+		}
+		
+		protected virtual void Dispose(bool disposed)
+		{
+			if (disposed) {				
+				SaveSettings();
+				log.Log(new LogMessage(Logger.CoreChannel, 1006, Messages.Info1006_ShuttingDown));
+				log.Dispose();
+			}
+		}
+    	
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 	}
 }

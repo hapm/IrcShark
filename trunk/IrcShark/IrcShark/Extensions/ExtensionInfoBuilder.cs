@@ -38,11 +38,11 @@ namespace IrcShark.Extensions
         {
             ExtensionInfo ei;
             Type[] types;
-            AssemblyName asmName;
+            //AssemblyName asmName;
             resultExtensions = new ExtensionInfoCollection();
             Type ropt = typeof(Extension);
 
-            asmName = AssemblyName.GetAssemblyName(fileName);
+            //asmName = AssemblyName.GetAssemblyName(fileName);
             sourceAssembly = Assembly.ReflectionOnlyLoadFrom(fileName);
 
             ropt = ReflectionOnlyTypeFromAssembly(sourceAssembly, ropt);
@@ -81,14 +81,19 @@ namespace IrcShark.Extensions
         /// you need to use the reflection only class type of the superclass. This method
         /// gets the reflection only type for a given normal type instance
         /// </remarks>
-        private Type ReflectionOnlyTypeFromAssembly(Assembly asm, Type type)
+        private static Type ReflectionOnlyTypeFromAssembly(Assembly asm, Type type)
         {
         	Type resType = type;
             foreach (AssemblyName asmName in asm.GetReferencedAssemblies())
             {
                 if (asmName.FullName == type.Assembly.FullName)
                 {
-                    foreach(Type t in Assembly.ReflectionOnlyLoad(asmName.FullName).GetExportedTypes())
+                	Assembly.Load(asmName.FullName);
+                	Assembly ircshark = Assembly.ReflectionOnlyLoad(asmName.FullName);
+                	foreach (AssemblyName asm2 in ircshark.GetReferencedAssemblies()) 
+                    	Assembly.ReflectionOnlyLoad(asm2.FullName);
+                	
+                    foreach(Type t in ircshark.GetExportedTypes())
                     {
                         if (t.Name == "Extension")
                             resType = t;

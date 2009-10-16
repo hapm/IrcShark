@@ -172,7 +172,7 @@ namespace IrcShark
 			directorys.CopyTo(array, arrayIndex);
 		}
 			
-		IEnumerator<string> IEnumerable<string>.GetEnumerator()
+		public IEnumerator<string> GetEnumerator()
 		{
 			return directorys.GetEnumerator();
 		}

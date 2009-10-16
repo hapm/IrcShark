@@ -109,12 +109,12 @@ namespace IrcShark
 		}
 
 		#region IXmlSerializable implementation
-		XmlSchema IXmlSerializable.GetSchema ()
+		public XmlSchema GetSchema ()
 		{
 			return XmlSchema.Read(XmlReader.Create("http://www.ircshark.net/2009/settings.xsd"), null);
 		}
 		
-		void IXmlSerializable.ReadXml (XmlReader reader)
+		public void ReadXml (XmlReader reader)
 		{
 			reader.Read();
 			while (true)
@@ -181,7 +181,7 @@ namespace IrcShark
 			}			
 		}
 		
-		private void ReadDirectoryList(XmlReader reader, DirectoryCollection dirs)
+		private static void ReadDirectoryList(XmlReader reader, DirectoryCollection dirs)
 		{
 			reader.Read();
 			while (true)
@@ -284,7 +284,7 @@ namespace IrcShark
 			}
 		}
 		
-		void IXmlSerializable.WriteXml (XmlWriter writer)
+		public void WriteXml (XmlWriter writer)
 		{
 			writer.WriteAttributeString("xmlns", "http://www.ircshark.net/2009/settings");
 			writer.WriteAttributeString("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
@@ -298,7 +298,7 @@ namespace IrcShark
 			writer.WriteEndElement();
 		}
 		
-		private void WriteDirectoryList(XmlWriter writer, string tag, DirectoryCollection dirs)
+		private static void WriteDirectoryList(XmlWriter writer, string tag, DirectoryCollection dirs)
 		{
 			if (dirs.Count > 0)
 			{
@@ -311,7 +311,7 @@ namespace IrcShark
 			}			
 		}
 		
-		private void WriteLoadedExtensions(XmlWriter writer, ExtensionInfo[] loaded)
+		private static void WriteLoadedExtensions(XmlWriter writer, ExtensionInfo[] loaded)
 		{
 			if (loaded.Length > 0)
 			{

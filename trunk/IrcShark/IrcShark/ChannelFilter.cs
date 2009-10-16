@@ -79,7 +79,6 @@ namespace IrcShark
 		{
 			channelName = channel;
 			defaultFilter = defaults;
-			useDefaults = false;
 			ParseFilter(filter);
 		}
 		

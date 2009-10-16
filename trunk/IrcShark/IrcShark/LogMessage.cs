@@ -136,5 +136,13 @@ namespace IrcShark
 		{
 			get { return time; }
 		}
+		
+		/// <summary>
+		/// Gets the identifieng number of this messages
+		/// </summary>
+		public int Id 
+		{
+			get { return identifier; }
+		}
 	}
 }

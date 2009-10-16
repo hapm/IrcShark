@@ -26,8 +26,9 @@ using System.Xml.Serialization;
 
 namespace IrcShark.Extensions
 {
-	[XmlRoot(ElementName = "extensions", DataType = "extensions", Namespace = "http://www.ircshark.net/2009/extensionmetadata.xsd", IsNullable = false)]
+	[XmlRoot(ElementName = "extension", DataType = "extension", Namespace = "http://www.ircshark.net/2009/extensions.xsd", IsNullable = false)]
 	[XmlSchemaProviderAttribute("GetSchema")]
+	[Serializable]
 	public class ExtensionInfo : IXmlSerializable
 	{		
 		private string name;
@@ -45,7 +46,6 @@ namespace IrcShark.Extensions
 		/// </summary>
 		public ExtensionInfo()
 		{
-			trusted = false;
 		}
 		
 		public ExtensionInfo(Type extType)
@@ -59,59 +59,72 @@ namespace IrcShark.Extensions
             sourceFile = asm.CodeBase;
             classType = extType.FullName;
             assemblyGuid = extType.GUID;
-            foreach(Attribute atrb in extType.GetCustomAttributes(false))
+            version = asm.GetName().Version;
+            
+            /*foreach(Attribute atrb in extType.GetCustomAttributes(false))
             {
+            	ExtensionDependencyAttribute depAttr = atrb as ExtensionDependencyAttribute;
+            	if (depAttr != null) 
+            	{
             	
-            }
+            	}
+            }*/
 			trusted = true;
 		}
 		
 		/// <summary>
 		/// the name of the extension
 		/// </summary>
-		public string Name {
+		public string Name 
+		{
 			get { return name; }
 		}
 		
 		/// <summary>
 		/// the author who wrote the extension
 		/// </summary>
-		public string Author {
+		public string Author
+		{
 			get { return author; }
 		}
 		
 		/// <summary>
 		/// a short description text for the extension
 		/// </summary>
-		public string Description {
+		public string Description
+		{
 			get { return description; }
 		}
 		
 		/// <summary>
 		/// the full qualified type name of the class implementing the Extension
 		/// </summary>
-		public string Class {
+		public string Class
+		{
 			get { return classType; }
 		}
 		
 		/// <summary>
 		/// Gets the source file of the ExtensionInfo
 		/// </summary>
-		public string SourceFile {
+		public string SourceFile 
+		{
 			get { return sourceFile; }
 		}
 		
 		/// <summary>
 		/// the version of this extension
 		/// </summary>
-		public Version Version {
+		public Version Version 
+		{
 			get { return version; }
 		}
 		
 		/// <summary>
 		/// Gets if the ExtensionInfo is trusted or not
 		/// </summary>
-		public bool Trusted {
+		public bool Trusted 
+		{
 			get { return trusted; }
 		}
 		
@@ -131,6 +144,18 @@ namespace IrcShark.Extensions
 		public Guid AssemblyGuid
 		{
 			get { return assemblyGuid; }
+		}
+		
+		public override bool Equals(object obj)
+		{
+			ExtensionInfo info = obj as ExtensionInfo;
+			if (info == null)
+				return false;
+			if (!info.AssemblyGuid.Equals(AssemblyGuid))
+				return false;
+			if (!info.Class.Equals(Class))
+				return false;
+			return true;
 		}
 
 		/// <summary>
@@ -158,7 +183,6 @@ namespace IrcShark.Extensions
 			Version version = null;
 			String classType = null;
 			String[] dependencies = null;
-			reader.Read();
 			if (reader.NodeType != XmlNodeType.Element || reader.Name != "extension") {	
 				throw new System.Runtime.Serialization.SerializationException("Couldn't load ExtensionInfo, extension tag missing");
 			}
@@ -172,23 +196,28 @@ namespace IrcShark.Extensions
 					break;
 				}
 			}
-			while (reader.Read()) {
+			while (true) {
 				switch (reader.NodeType) {
 				case XmlNodeType.Attribute:
+					reader.Read();
 					break;
 				case XmlNodeType.Element:
 					switch (reader.Name) {
 					case "class":
 						classType = reader.ReadString();
+						reader.Read();
 						break;
 					case "author":
 						author = reader.ReadString();
+						reader.Read();
 						break;
 					case "assembly":
 						assemblyGuid = new Guid(reader.ReadString());
+						reader.Read();
 						break;
 					case "description":
 						description = reader.ReadString();
+						reader.Read();
 						break;
 					case "dependencies":
 						List<String> deps = new List<String>();
@@ -211,13 +240,19 @@ namespace IrcShark.Extensions
 						break;
 					}
 					break;
+				case XmlNodeType.EndElement:
+					reader.Read();
+					this.name = name;
+					this.author = author;
+					this.version = version;
+					this.classType = classType;
+					this.dependencies = dependencies;
+					return;
+				default:
+					reader.Read();
+					break;
 				}
 			}
-			this.name = name;
-			this.author = author;
-			this.version = version;
-			this.classType = classType;
-			this.dependencies = dependencies;
 		}
 		
 		/// <summary>
@@ -238,14 +273,16 @@ namespace IrcShark.Extensions
 				writer.WriteElementString("assembly", assemblyGuid.ToString());
 			if (!String.IsNullOrEmpty(description))
 				writer.WriteElementString("description", Description);
-			if (dependencies.Length > 0) 
+			if (dependencies != null)
 			{
-				writer.WriteStartAttribute("dependencies");
-				foreach (string dep in dependencies) 
-				{
-					writer.WriteElementString("dependency", dep);
+				if (dependencies.Length > 0) {
+					writer.WriteStartAttribute("dependencies");
+					foreach (string dep in dependencies) 
+					{
+						writer.WriteElementString("dependency", dep);
+					}
+					writer.WriteEndElement();
 				}
-				writer.WriteEndElement();				
 			}
 			writer.WriteEndElement();
 		}

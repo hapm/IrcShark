@@ -24,6 +24,7 @@ namespace IrcShark.Extensions
 	/// <summary>
 	/// This exception is thrown when ever an extension causes an exception
 	/// </summary>
+	[Serializable]
 	public class ExtensionException : Exception
 	{
 		/// <summary>

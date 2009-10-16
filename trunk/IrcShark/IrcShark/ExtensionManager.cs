@@ -38,7 +38,7 @@ namespace IrcShark
     /// <summary>
     /// The delegate describing the event handler for the StatusChanged event
     /// </summary>
-    public delegate void StatusChangedEventHandler(object sender, StatusChangedEventArgs args);
+    public delegate void StatusChangedEventHandler(object sender, StatusChangedEventArgs e);
     
 	/// <summary>
 	/// This class represents the manager for all extensions loaded by an IrcShark instance.
@@ -113,7 +113,7 @@ namespace IrcShark
                 if (IsMarkedForUnload(ext))
                 {
                     application.Settings.LoadedExtensions.Add(ext);
-                    extensions[ext].StartTerminal();
+                    extensions[ext].Start();
                     if (StatusChanged != null) 
                     	StatusChanged(this, new StatusChangedEventArgs(ext, ExtensionStates.Loaded));
                 }
@@ -214,6 +214,10 @@ namespace IrcShark
                     application.Log.Log(new LogMessage(Logger.CoreChannel, 3003, LogLevel.Error, Messages.Error3003_ExtensionLoadFail, info.Class));
                     unavailable.Add(info);
                 }
+                foreach (Extension ext in extensions.Values)
+                {
+                	ext.Start();
+                }
             }
             foreach (ExtensionInfo info in unavailable)
             {
@@ -258,6 +262,10 @@ namespace IrcShark
         #region IDisposable Members
         public void Dispose()
         {
+        	foreach (ExtensionInfo ext in this.extensions.Keys) 
+        	{
+        		Unload(ext);
+        	}
         }
         #endregion
 

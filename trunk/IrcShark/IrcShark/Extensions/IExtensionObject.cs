@@ -29,5 +29,6 @@ namespace IrcShark.Extensions
 	/// This interface is mostly for later use and should be implemented by ever class that should be used by other extensions</remarks>
 	public interface IExtensionObject
 	{
+		Extension BelongsTo { get; }
 	}
 }

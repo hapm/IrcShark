@@ -117,11 +117,21 @@ namespace IrcShark
 				logAutoResetEvent.Set();
 		}
 		
+		protected virtual void Dispose(bool disposed)
+		{
+			if (disposed) 
+			{
+				running = false;
+				logAutoResetEvent.Set();
+				logThread.Join();
+				logAutoResetEvent.Close();
+			}
+		}
+		
 		public void Dispose()
 		{
-			running = false;
-			logAutoResetEvent.Set();
-			logThread.Join();
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 	}
 }

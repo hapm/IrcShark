@@ -24,7 +24,7 @@ namespace IrcShark.Extensions
 	/// <summary>
 	/// Classes deriving from this class can be loaded as an Extension in IrcShark
 	/// </summary>
-	public abstract class Extension : IExtensionObject
+	public abstract class Extension : MarshalByRefObject, IExtensionObject
 	{
 		/// <summary>
 		/// holds the instance of the IrcSharkApplication, this Extension is loaded by
@@ -45,7 +45,7 @@ namespace IrcShark.Extensions
 		/// <param name="info">
 		/// the <see cref="ExtensionInfo"/> used by the application to identify this extension
 		/// </param>
-		public Extension(IrcSharkApplication app, ExtensionInfo info)
+		protected Extension(IrcSharkApplication app, ExtensionInfo info)
 		{
 			if (!info.Trusted)
 				throw new ExtensionException(info, "You can't initialise an extension with an untrusted ExtensionInfo");
@@ -70,7 +70,12 @@ namespace IrcShark.Extensions
 		{
 			get { return info; }
 		}
+		
+		public Extension BelongsTo
+		{
+			get { return this; }
+		}
 
-        public abstract void StartTerminal();
+        public abstract void Start();
 	}
 }

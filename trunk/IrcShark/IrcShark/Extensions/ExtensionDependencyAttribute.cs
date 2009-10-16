@@ -41,7 +41,7 @@ namespace IrcShark.Extensions
 	/// other Extension, use the DependencyLevel.Strict else use DependencyLevel.Optional.
 	/// </remarks>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-	public class ExtensionDependencyAttribute : Attribute
+	public sealed class ExtensionDependencyAttribute : Attribute
 	{
 		/// <summary>
 		/// saves the type name

@@ -60,7 +60,7 @@ namespace IrcShark
         /// <remarks>
         /// The created AppDomain has very low permissions and is unloaded after analyzation is done.
         /// </remarks>
-        private AppDomain CreateAnalyzerDomain()
+        private static AppDomain CreateAnalyzerDomain()
         {
             AppDomainSetup ads = new AppDomainSetup();
             AppDomain result;
@@ -78,8 +78,8 @@ namespace IrcShark
             fiop.AddPathList(FileIOPermissionAccess.Read, Environment.CurrentDirectory);
             fiop.AddPathList(FileIOPermissionAccess.PathDiscovery, Environment.CurrentDirectory + "Extensions\\");
             fiop.AddPathList(FileIOPermissionAccess.Read, Environment.CurrentDirectory + "Extensions\\");
-            //fiop.AllLocalFiles = FileIOPermissionAccess.AllAccess
-            //fiop.AllFiles = FileIOPermissionAccess.AllAccess
+            fiop.AllLocalFiles = FileIOPermissionAccess.AllAccess;
+            fiop.AllFiles = FileIOPermissionAccess.AllAccess;
             perms.AddPermission(fiop);
             perms.AddPermission(new UIPermission(UIPermissionWindow.AllWindows, UIPermissionClipboard.OwnClipboard));
             perms.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));

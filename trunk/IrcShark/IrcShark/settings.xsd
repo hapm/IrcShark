@@ -16,6 +16,7 @@
 						<sequence>
 							<element name="settingdirs" type="settings:directorylist" minOccurs="0" maxOccurs="1" />
 							<element name="extensiondirs" type="settings:directorylist" minOccurs="0" maxOccurs="1" />
+	 						<element name="librarydir" minOccurs="0" maxOccurs="1" type="string" />
 							<element name="loaded" type="ext:extensionlist" minOccurs="0" maxOccurs="1" />
 						</sequence>
 					</complexType>

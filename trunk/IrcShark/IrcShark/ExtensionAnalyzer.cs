@@ -6,56 +6,67 @@
  * 
  * Sie können diese Vorlage unter Extras > Optionen > Codeerstellung > Standardheader ändern.
  */
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Security;
-using System.Security.Permissions;
-
-using IrcShark.Extensions;
-using System.Security.Policy;
-
 namespace IrcShark
 {
-	/// <summary>
-	///  Analyze a .NET dll to find extensions in it.
-	/// </summary>
-	/// <remarks>
-	/// The analyzer uses a sperated AppDomain to be able to unload the assembly after
-	/// analyzing it. The AppDomain has very low permissions and uses reflection only load.
-	/// </remarks>
-	public class ExtensionAnalyzer
-	{
-		/// <summary>
-		/// saves all analyzed ExtensionInfos
-		/// </summary>
-        private List<ExtensionInfo> ExtensionsValue;
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using System.Security;
+    using System.Security.Permissions;
+    using System.Security.Policy;
+
+    using IrcShark.Extensions;
+
+    /// <summary>
+    ///  Analyze a .NET dll to find extensions in it.
+    /// </summary>
+    /// <remarks>
+    /// The analyzer uses a sperated AppDomain to be able to unload the assembly after
+    /// analyzing it. The AppDomain has very low permissions and uses reflection only load.
+    /// </remarks>
+    public class ExtensionAnalyzer
+    {
+        /// <summary>
+        /// Saves all analyzed ExtensionInfos.
+        /// </summary>
+        private List<ExtensionInfo> extensions;
 
         /// <summary>
-        /// Creates a new ExtensionAnalyzer for the given dll file
+        /// Initializes a new instance of the ExtensionAnalyzer class for the given dll file.
         /// </summary>
-        /// <param name="fileToAnalyze">the path to the file to analyze</param>
+        /// <param name="fileToAnalyze">The path to the file to analyze.</param>
         public ExtensionAnalyzer(string fileToAnalyze)
         {
             string asmName;
             string typeName;
             AppDomain domain;
             ExtensionInfoBuilder extBuilder;
-            ExtensionsValue = new List<ExtensionInfo>();
+            extensions = new List<ExtensionInfo>();
             domain = CreateAnalyzerDomain();
             asmName = GetType().Assembly.FullName;
             typeName = typeof(ExtensionInfoBuilder).FullName;
-            extBuilder = (ExtensionInfoBuilder)domain.CreateInstanceAndUnwrap(asmName, typeName, false, BindingFlags.CreateInstance, null, new Object[] { fileToAnalyze }, null, null, null);
+            extBuilder = (ExtensionInfoBuilder)domain.CreateInstanceAndUnwrap(asmName, typeName, false, BindingFlags.CreateInstance, null, new object[] { fileToAnalyze }, null, null, null);
             foreach (ExtensionInfo p in extBuilder.Extensions)
-                ExtensionsValue.Add(p);
+                extensions.Add(p);
             AppDomain.Unload(domain);
         }
 
         /// <summary>
-        /// Creates an AppDomain for analyzation purpose
+        /// Gets list of extensions found in the given .NET dll.
+        /// </summary>
+        /// <value>
+        /// An array of all ExtensionInfo instances.
+        /// </value>
+        public ExtensionInfo[] Extensions
+        {
+            get { return extensions.ToArray(); }
+        }
+
+        /// <summary>
+        /// Creates an AppDomain for analyzation purpose.
         /// </summary>
         /// <returns>
-        /// the created AppDomain
+        /// The created AppDomain.
         /// </returns>
         /// <remarks>
         /// The created AppDomain has very low permissions and is unloaded after analyzation is done.
@@ -92,13 +103,5 @@ namespace IrcShark
             result.SetAppDomainPolicy(policy);
             return result;
         }
-
-        /// <summary>
-        /// A list of extensions found in the given .NET dll.
-        /// </summary>
-        public ExtensionInfo[] Extensions
-        {
-            get { return ExtensionsValue.ToArray(); }
-        }
-	}
+    }
 }

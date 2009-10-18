@@ -17,20 +17,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
 namespace IrcSharp
-{	
-	/// <summary>
-	/// Manages a complete irc connection on a low raw level
-	/// </summary>
-	public class IrcClient
-	{		
-		/// <summary>
-		/// creates a new instance without any address to connect to
-		/// </summary>
-		public IrcClient()
-		{
-		}
-	}
+{
+    using System;
+
+    /// <summary>
+    /// Manages a complete irc connection on a low raw level.
+    /// </summary>
+    public class IrcClient
+    {
+        /// <summary>
+        /// Initializes a new instance of the IrcClient class without any address to connect to.
+        /// </summary>
+        public IrcClient()
+        {
+        }
+    }
 }

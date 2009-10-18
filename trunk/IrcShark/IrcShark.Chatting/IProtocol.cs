@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace IrcShark.Extensions.Chatting
+namespace IrcShark.Chatting
 {
 	/// <summary>
 	/// Defines the minimum propertys and methods of a chat protocol

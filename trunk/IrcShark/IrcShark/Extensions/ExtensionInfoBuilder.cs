@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
-using System.Security;
-using System.Security.Permissions;
-using System.IO;
-using System.Reflection.Emit;
-
-namespace IrcShark.Extensions
+﻿namespace IrcShark.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using System.Reflection.Emit;
+    using System.Security;
+    using System.Security.Permissions;
+    using System.Text;
+
     /// <summary>
     /// Creates ExtensionInfo objects for a given dll file.
     /// </summary>
@@ -20,29 +20,27 @@ namespace IrcShark.Extensions
     /// </remarks>
     internal class ExtensionInfoBuilder : MarshalByRefObject
     {
-    	/// <summary>
-    	/// saves the instance of the source assembly
-    	/// </summary>
+        /// <summary>
+        /// Saves the instance of the source assembly.
+        /// </summary>
         private Assembly sourceAssembly;
         
         /// <summary>
-        /// saves the instance of the list of all ExtenfionInfos found
+        /// Saves the instance of the list of all ExtenfionInfos found.
         /// </summary>
         private ExtensionInfoCollection resultExtensions;
 
         /// <summary>
-        /// creates an ewn ExtensionInfoBuilder for the given dll
+        /// Initializes a new instance of the ExtensionInfoBuilder class for the given assembly.
         /// </summary>
-        /// <param name="fileName">the file name and path to the dll to check</param>
+        /// <param name="fileName">The file name and path to the assembly to check.</param>
         public ExtensionInfoBuilder(string fileName)
         {
             ExtensionInfo ei;
             Type[] types;
-            //AssemblyName asmName;
             resultExtensions = new ExtensionInfoCollection();
             Type ropt = typeof(Extension);
 
-            //asmName = AssemblyName.GetAssemblyName(fileName);
             sourceAssembly = Assembly.ReflectionOnlyLoadFrom(fileName);
 
             ropt = ReflectionOnlyTypeFromAssembly(sourceAssembly, ropt);
@@ -59,7 +57,7 @@ namespace IrcShark.Extensions
                             resultExtensions.Add(ei);
                         }
                     }
-                    catch(ArgumentOutOfRangeException)
+                    catch (ArgumentOutOfRangeException)
                     {
                         ei = null;
                     }
@@ -69,31 +67,40 @@ namespace IrcShark.Extensions
             {
             }
         }
+
+        /// <summary>
+        /// Gets all extensions of the given source assembly.
+        /// </summary>
+        /// <value>An array of all found ExtensionInfos.</value>
+        public ExtensionInfo[] Extensions
+        {
+            get { return resultExtensions.ToArray(); }
+        }
         
         /// <summary>
-        /// Gets the reflection only type instance of a given type
+        /// Gets the reflection only type instance of a given type.
         /// </summary>
-        /// <param name="asm">the assembly to search from</param>
-        /// <param name="type">the normal type instance</param>
-        /// <returns>the reflection only type</returns>
+        /// <param name="asm">The assembly to search from.</param>
+        /// <param name="type">The normal type instance.</param>
+        /// <returns>The reflection only type.</returns>
         /// <remarks>
         /// To be able to check for superclasses of a given reflection only loaded type,
         /// you need to use the reflection only class type of the superclass. This method
-        /// gets the reflection only type for a given normal type instance
+        /// gets the reflection only type for a given normal type instance.
         /// </remarks>
         private static Type ReflectionOnlyTypeFromAssembly(Assembly asm, Type type)
         {
-        	Type resType = type;
+            Type resType = type;
             foreach (AssemblyName asmName in asm.GetReferencedAssemblies())
             {
                 if (asmName.FullName == type.Assembly.FullName)
                 {
-                	Assembly.Load(asmName.FullName);
-                	Assembly ircshark = Assembly.ReflectionOnlyLoad(asmName.FullName);
-                	foreach (AssemblyName asm2 in ircshark.GetReferencedAssemblies()) 
-                    	Assembly.ReflectionOnlyLoad(asm2.FullName);
-                	
-                    foreach(Type t in ircshark.GetExportedTypes())
+                    Assembly.Load(asmName.FullName);
+                    Assembly ircshark = Assembly.ReflectionOnlyLoad(asmName.FullName);
+                    foreach (AssemblyName asm2 in ircshark.GetReferencedAssemblies()) 
+                        Assembly.ReflectionOnlyLoad(asm2.FullName);
+                    
+                    foreach (Type t in ircshark.GetExportedTypes())
                     {
                         if (t.Name == "Extension")
                             resType = t;
@@ -103,14 +110,6 @@ namespace IrcShark.Extensions
                     Assembly.ReflectionOnlyLoad(asmName.FullName);
             }
             return resType;
-        }
-
-        /// <summary>
-        /// Gets all extensions of the given source assembly
-        /// </summary>
-        public ExtensionInfo[] Extensions
-        {
-            get { return resultExtensions.ToArray(); }
         }
     }
 }

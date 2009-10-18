@@ -17,48 +17,54 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
 namespace IrcSharp
-{	
-	/// <summary>
-	/// This exception is thrown by an <see cref="IrcLine"/> if the raw format was not correct
-	/// </summary>
-	public class InvalidLineFormatException : Exception
-	{
-        string line;
+{
+    using System;
+    
+    /// <summary>
+    /// This exception is thrown by an <see cref="IrcLine"/> if the raw format was not correct.
+    /// </summary>
+    public class InvalidLineFormatException : Exception
+    {
+        /// <summary>
+        /// Saves the text line, what was tried to parse.
+        /// </summary>
+        private string line;
 
-		/// <summary>
-		/// creates a new instance of this exception
-		/// </summary>
-		/// <param name="line">
-		/// the raw string, what couldn't be parsed as a raw irc line
-		/// </param>
+        /// <summary>
+        /// Initializes a new instance of the InvalidLineFormatException class.
+        /// </summary>
+        /// <param name="line">
+        /// The raw string, what couldn't be parsed as a raw irc line.
+        /// </param>
         public InvalidLineFormatException(string line) : base(String.Format("Couldn't parse the raw line \"{0}\"", line))
         {
             this.line = line;
         }
-		
-		/// <summary>
-		/// creates a new instance of this exception with the given message
-		/// </summary>
-		/// <param name="msg">
-		/// the message of this exception
-		/// </param>
-		/// <param name="line">
-		/// the part of or a complete raw string, what couldn't be parsed as a raw irc line
-		/// </param>
+        
+        /// <summary>
+        /// Initializes a new instance of the InvalidLineFormatException class with the given message.
+        /// </summary>
+        /// <param name="msg">
+        /// The message of this exception.
+        /// </param>
+        /// <param name="line">
+        /// The part of or a complete raw string, what couldn't be parsed as a raw irc line.
+        /// </param>
         public InvalidLineFormatException(string msg, string line) : base(msg)
         {
             this.line = line;
         }
 
-		/// <value>
-		/// the raw incorrect <see cref="System.String"/>
-		/// </value>
+        /// <summary>
+        /// Gets the raw text line.
+        /// </summary>
+        /// <value>
+        /// The raw incorrect <see cref="System.String"/>.
+        /// </value>
         public string Line
         {
             get { return line; }
         }
-	}
+    }
 }

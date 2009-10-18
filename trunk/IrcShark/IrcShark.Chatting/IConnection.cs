@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace IrcShark.Extensions.Chatting
+namespace IrcShark.Chatting
 {
 	/// <summary>
 	/// Description of IConnection.

@@ -17,22 +17,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
 namespace IrcSharp
 {
-	/// <summary>
-	/// Describes if the flag was set or unset
-	/// </summary>
-	public enum FlagArt
-	{
-		/// <summary>
-		/// setting a flag, applies it to the target
-		/// </summary>
-		Set,
-		/// <summary>
-		/// unsetting a flag, removes it from the target
-		/// </summary>
-		Unset
-	}
+    /// <summary>
+    /// Describes if the flag was set or unset.
+    /// </summary>
+    public enum FlagArt
+    {
+        /// <summary>
+        /// Setting a flag, applies it to the target.
+        /// </summary>
+        Set,
+        
+        /// <summary>
+        /// Unsetting a flag, removes it from the target.
+        /// </summary>
+        Unset
+    }
 }

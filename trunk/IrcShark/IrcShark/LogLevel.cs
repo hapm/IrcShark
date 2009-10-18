@@ -17,15 +17,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
 namespace IrcShark
 {
-	public enum LogLevel
-	{
-		Debug = -1,
-		Information = 0,
-		Warning = 1,
-		Error = 2
-	}
+    /// <summary>
+    /// All levels of logging.
+    /// </summary>
+    public enum LogLevel
+    {
+        /// <summary>
+        /// This level defines the message as a debug message.
+        /// </summary>
+        Debug = -1,
+        
+        /// <summary>
+        /// This level defines the message as an information message.
+        /// </summary>
+        Information = 0,
+        
+        /// <summary>
+        /// This level defines the message as a warning message.
+        /// </summary>
+        Warning = 1,
+        
+        /// <summary>
+        /// This level defines the message as an error message.
+        /// </summary>
+        Error = 2
+    }
 }

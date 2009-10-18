@@ -16,66 +16,78 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-using System;
-
 namespace IrcShark.Extensions
 {
-	/// <summary>
-	/// Classes deriving from this class can be loaded as an Extension in IrcShark
-	/// </summary>
-	public abstract class Extension : MarshalByRefObject, IExtensionObject
-	{
-		/// <summary>
-		/// holds the instance of the IrcSharkApplication, this Extension is loaded by
-		/// </summary>
-		private IrcSharkApplication application;
-		
-		/// <summary>
-		/// The ExtensionInfo instance what identifies this extension
-		/// </summary>
-		private ExtensionInfo info;
-		
-		/// <summary>
-		/// Initialises a new Extension instance
-		/// </summary>
-		/// <param name="app">
-		/// The <see cref="IrcSharkApplication"/> initialising this instance
-		/// </param>
-		/// <param name="info">
-		/// the <see cref="ExtensionInfo"/> used by the application to identify this extension
-		/// </param>
-		protected Extension(IrcSharkApplication app, ExtensionInfo info)
-		{
-			if (!info.Trusted)
-				throw new ExtensionException(info, "You can't initialise an extension with an untrusted ExtensionInfo");
-			if (app == null)
-				
-			this.info = info;
-			application = app;
-		}
-		
-		/// <summary>
-		/// the application what loaded this extension
-		/// </summary>
-		public IrcSharkApplication Application
-		{
-			get { return application; }
-		}
-			
-		/// <summary>
-		/// the <see cref="ExtensionInfo"/> used to identify this extension
-		/// </summary>
-		public ExtensionInfo Info 
-		{
-			get { return info; }
-		}
-		
-		public Extension BelongsTo
-		{
-			get { return this; }
-		}
+    using System;
 
+    /// <summary>
+    /// Classes deriving from this class can be loaded as an Extension in IrcShark.
+    /// </summary>
+    public abstract class Extension : MarshalByRefObject, IExtensionObject
+    {
+        /// <summary>
+        /// Holds the instance of the IrcSharkApplication, this Extension is loaded by.
+        /// </summary>
+        private IrcSharkApplication application;
+        
+        /// <summary>
+        /// The ExtensionInfo instance what identifies this extension.
+        /// </summary>
+        private ExtensionInfo info;
+        
+        /// <summary>
+        /// Initializes a new instance of the Extension class.
+        /// </summary>
+        /// <param name="app">
+        /// The <see cref="IrcSharkApplication"/> initialising this instance.
+        /// </param>
+        /// <param name="info">
+        /// The <see cref="ExtensionInfo"/> used by the application to identify this extension.
+        /// </param>
+        protected Extension(IrcSharkApplication app, ExtensionInfo info)
+        {
+            if (!info.Trusted)
+                throw new ExtensionException(info, "You can't initialise an extension with an untrusted ExtensionInfo");
+            if (app == null)
+                
+            this.info = info;
+            application = app;
+        }
+        
+        /// <summary>
+        /// Gets the application what loaded this extension.
+        /// </summary>
+        /// <value>
+        /// The IrcSharkApplication instance.
+        /// </value>
+        public IrcSharkApplication Application
+        {
+            get { return application; }
+        }
+            
+        /// <summary>
+        /// Gets the <see cref="ExtensionInfo"/> used to identify this extension.
+        /// </summary>
+        /// <value>The ExtensionInfo instance.</value>
+        public ExtensionInfo Info 
+        {
+            get { return info; }
+        }
+        
+        /// <summary>
+        /// Gets the extension this IExtensionObject belongs to.
+        /// </summary>
+        /// <value>
+        /// The extension instance.
+        /// </value>
+        public Extension BelongsTo
+        {
+            get { return this; }
+        }
+
+        /// <summary>
+        /// Starts the extension after the initialisation of IrcShark.
+        /// </summary>
         public abstract void Start();
-	}
+    }
 }

@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
+# SharpDevelop 3.1.0.4890
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark", "IrcShark\IrcShark.csproj", "{F6955540-7429-49FB-AE3D-A9AD916D2334}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkStarter", "IrcSharkStarter\IrcSharkStarter.csproj", "{340C66BE-24B0-484E-8B7C-4B492219B59E}"
@@ -14,6 +15,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharp", "IrcSharp\IrcSharp.csproj", "{B287A6A8-748D-4E26-B2FF-1EC098D536F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Chatting", "IrcShark.Chatting\IrcShark.Chatting.csproj", "{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Chatting", "IrcShark.Extensions.Chatting\IrcShark.Extensions.Chatting.csproj", "{298D1D46-2F53-44B9-97B1-1CB2655AE41F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkTerminal", "IrcSharkTerminal\IrcSharkTerminal.csproj", "{22028AFF-9B26-4978-9C35-C4998A82BB46}"
 EndProject
@@ -101,6 +104,18 @@ Global
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Default|Mixed Platforms.Build.0 = Debug|Any CPU
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Debug|Any CPU.Build.0 = Debug|any CPU
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Debug|Any CPU.ActiveCfg = Debug|any CPU
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Default|Any CPU.Build.0 = Debug|any CPU
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Default|Any CPU.ActiveCfg = Debug|any CPU
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Release|Any CPU.Build.0 = Release|any CPU
+		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Release|Any CPU.ActiveCfg = Release|any CPU
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B287A6A8-748D-4E26-B2FF-1EC098D536F3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}.Debug|Any CPU.ActiveCfg = Debug|x86
@@ -127,6 +142,12 @@ Global
 		{22028AFF-9B26-4978-9C35-C4998A82BB46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{22028AFF-9B26-4978-9C35-C4998A82BB46}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{22028AFF-9B26-4978-9C35-C4998A82BB46}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Debug|Mixed Platforms.Build.0 = Debug|Mixed Platforms
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Debug|Mixed Platforms.ActiveCfg = Debug|Mixed Platforms
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Default|Mixed Platforms.Build.0 = Default|Mixed Platforms
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Default|Mixed Platforms.ActiveCfg = Default|Mixed Platforms
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Release|Mixed Platforms.Build.0 = Release|Mixed Platforms
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Release|Mixed Platforms.ActiveCfg = Release|Mixed Platforms
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

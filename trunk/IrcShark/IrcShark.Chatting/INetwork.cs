@@ -6,17 +6,22 @@
  * 
  * Sie können diese Vorlage unter Extras > Optionen > Codeerstellung > Standardheader ändern.
  */
-using System;
-
-namespace IrcShark.Extensions.Chatting
+namespace IrcShark.Chatting
 {
+    using System;
+    
 	/// <summary>
-	/// Description of INetwork.
+	/// Defines the structure of a chat network.
 	/// </summary>
-	public interface INetwork
+	public interface INetwork : System.Collections.Generic.IEnumerable<IServer>
 	{
-		string Name { get; }
+		
+		string Name { get; set; }
 		
 		IServer AddServer(string name, string address);
+		bool RemoveServer(string name);
+		void RemoveServer(int index);
+		IServer this[int index] { get; }
+		IServer this[string name] { get; }
 	}
 }

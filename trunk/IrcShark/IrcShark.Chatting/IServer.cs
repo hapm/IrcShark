@@ -8,15 +8,18 @@
  */
 using System;
 
-namespace IrcShark.Extensions.Chatting
+namespace IrcShark.Chatting
 {
 	/// <summary>
-	/// Description of IServer.
+	/// Defines the structur of a server address for chat protocols
 	/// </summary>
 	public interface IServer
 	{
-		string Name { get; }
-		string Address { get; }
+		/// <summary>
+		/// Gets or sets the display name of a server
+		/// </summary>
+		string Name { get; set; }
+		string Address { get; set; }
 		INetwork Network { get; }
 	}
 }

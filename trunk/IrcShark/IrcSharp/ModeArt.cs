@@ -16,27 +16,25 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-using System;
-
 namespace IrcSharp
 {
-	/// <summary>
-	/// The ModeArt describes if a mode can be set to a channel or to a user
-	/// </summary>
-	/// <remarks>
-	/// IRC allows to set modes to channels an users, but you can't set the same mode
-	/// on a user and on a channel.
-	/// </remarks>
-	public enum ModeArt
-	{
-		/// <summary>
-		/// the mode can be applied to users
-		/// </summary>
-		User,
-		/// <summary>
-		/// the mode can be applied to channels
-		/// </summary>
-		Channel
-	}
+    /// <summary>
+    /// The ModeArt describes if a mode can be set to a channel or to a user.
+    /// </summary>
+    /// <remarks>
+    /// IRC allows to set modes to channels an users, but you can't set the same mode
+    /// on a user and on a channel.
+    /// </remarks>
+    public enum ModeArt
+    {
+        /// <summary>
+        /// The mode can be applied to users.
+        /// </summary>
+        User,
+        
+        /// <summary>
+        /// The mode can be applied to channels.
+        /// </summary>
+        Channel
+    }
 }

@@ -17,17 +17,48 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Runtime.Serialization;
-
 namespace IrcShark
 {
-	[Serializable]
-	public class ConfigurationException : Exception
-	{
-		public ConfigurationException() : base() {}
-		public ConfigurationException(string message) : base(message) {}
-		public ConfigurationException(string message, Exception innerException) : base(message, innerException) {}
-		protected ConfigurationException(SerializationInfo info, StreamingContext context) : base(info, context) {}
-	}
+    using System;
+    using System.Runtime.Serialization;
+    
+    /// <summary>
+    /// A ConfigurationException is thrown when there was an error in the configuration of IrcShark.
+    /// </summary>
+    [Serializable]
+    public class ConfigurationException : Exception
+    {
+        /// <summary>
+        /// Initializes a new instance of the ConfigurationException class.
+        /// </summary>
+        public ConfigurationException() : base()
+        {
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the ConfigurationException class.
+        /// </summary>
+        /// <param name="message">The message of this exception.</param>
+        public ConfigurationException(string message) : base(message) 
+        { 
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the ConfigurationException class.
+        /// </summary>
+        /// <param name="message">The message of this exception.</param>
+        /// <param name="innerException">The inner exception.</param>
+        public ConfigurationException(string message, Exception innerException) : base(message, innerException) 
+        { 
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the ConfigurationException class.
+        /// </summary>
+        /// <param name="info">The SerializationInfo.</param>
+        /// <param name="context">The StreamingContext.</param>
+        protected ConfigurationException(SerializationInfo info, StreamingContext context) : base(info, context) 
+        { 
+        }
+    }
 }

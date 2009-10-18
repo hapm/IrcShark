@@ -16,20 +16,19 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-using System;
-
 namespace IrcSharp
 {
-	/// <summary>
-	/// All objects belonging to an <see cref="IrcClient"/> must implement this interface
-	/// </summary>
-	public interface IIrcObject
-	{
-		/// Gets the <see cref="IrcClient"/>, this object is associated to
-		/// <value>
-		/// the client
-		/// </value>
-		IrcClient Client { get; }
-	}
+    /// <summary>
+    /// All objects belonging to an <see cref="IrcClient"/> must implement this interface.
+    /// </summary>
+    public interface IIrcObject
+    {
+        /// <summary>
+        /// Gets the <see cref="IrcClient"/>, this object is associated to.
+        /// </summary>
+        /// <value>
+        /// The client.
+        /// </value>
+        IrcClient Client { get; }
+    }
 }

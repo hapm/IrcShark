@@ -9,14 +9,55 @@ namespace IrcSharkTerminal
 {
     public class TerminalExtension : IrcShark.Extensions.Extension
     {
+        private List<TerminalCommand> commands = new List<TerminalCommand>();
+
         public TerminalExtension(IrcSharkApplication app, ExtensionInfo info)
             : base(app, info)
         {
         }
-        
-        public override void StartTerminal()
+
+        public void SearchCommand(string CommandName)
         {
-            Console.ReadKey();
+            foreach (TerminalCommand cmd in commands)
+            {
+                if (cmd.CommandName == CommandName)
+                {
+                    cmd.Execute();
+                    Console.Write("->");
+                    string command = Console.ReadLine();
+                    while (true)
+                    {
+                        Console.Write("->");
+                        command = Console.ReadLine();
+                        SearchCommand(command);
+                    }
+                }
+            }
+            while (true)
+            {
+                Console.Write("->");
+                string command = Console.ReadLine();
+                SearchCommand(command);
+            }
+        }
+
+        public void AddCommands()
+        {
+            commands.Add(new Help());
+            commands.Add(new Exit());
+        }
+
+        public override void Start()
+        {
+            AddCommands();
+            Console.WriteLine("*******************************************************************************");
+            Console.WriteLine("*                   IrcShark started sucsessfully, have fun!                  *");
+            Console.WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
+            Console.WriteLine("*******************************************************************************");
+            Console.WriteLine();
+            Console.Write("->");
+            string command = Console.ReadLine();
+            SearchCommand(command);
         }
     }
 }

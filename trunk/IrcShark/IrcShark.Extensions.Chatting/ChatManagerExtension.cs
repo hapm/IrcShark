@@ -34,7 +34,7 @@ namespace IrcShark.Extensions.Chatting
         /// </summary>
         /// <param name="app">The app instance creating this IrcSharkApplication.</param>
         /// <param name="info">The info belonging to this extension.</param>
-        public ChatManagerExtension(IrcSharkApplication app, ExtensionInfo info) : base(app, info)
+        public ChatManagerExtension(ExtensionContext context) : base(context)
         {
             registredProtocols = new List<IProtocol>();
             openConnections = new List<IConnection>();
@@ -44,6 +44,13 @@ namespace IrcShark.Extensions.Chatting
         /// Starts the ChatManagerExtension.
         /// </summary>
         public override void Start() 
+        {            
+        }
+        
+        /// <summary>
+        /// Stops the ChatManagerExtension.
+        /// </summary>
+        public override void Stop() 
         {            
         }
     }

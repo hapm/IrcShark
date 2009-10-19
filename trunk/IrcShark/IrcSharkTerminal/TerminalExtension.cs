@@ -11,8 +11,8 @@ namespace IrcSharkTerminal
     {
         private List<TerminalCommand> commands = new List<TerminalCommand>();
 
-        public TerminalExtension(IrcSharkApplication app, ExtensionInfo info)
-            : base(app, info)
+        public TerminalExtension(ExtensionContext context)
+            : base(context)
         {
         }
 
@@ -58,6 +58,11 @@ namespace IrcSharkTerminal
             Console.Write("->");
             string command = Console.ReadLine();
             SearchCommand(command);
+        }
+        
+        public override void Stop()
+        {
+            // TODO Add code to stop Console.ReadLine() here
         }
     }
 }

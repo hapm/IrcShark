@@ -317,9 +317,10 @@ namespace IrcShark
         private bool HiddenLoad(ExtensionInfo ext)
         {
             Extension newExtension;
+            ExtensionContext newContext = new ExtensionContext(application, ext);
             if (IsLoaded(ext)) 
                 return false;
-            newExtension = (Extension)AppDomain.CurrentDomain.CreateInstanceFromAndUnwrap(ext.SourceFile, ext.Class, false, System.Reflection.BindingFlags.CreateInstance, null, new object[] { application, ext }, null, null, null);
+            newExtension = (Extension)AppDomain.CurrentDomain.CreateInstanceFromAndUnwrap(ext.SourceFile, ext.Class, false, System.Reflection.BindingFlags.CreateInstance, null, new object[] { newContext }, null, null, null);
             extensions.Add(ext, newExtension);
             return true;
         }

@@ -26,52 +26,32 @@ namespace IrcShark.Extensions
     public abstract class Extension : MarshalByRefObject, IExtensionObject
     {
         /// <summary>
-        /// Holds the instance of the IrcSharkApplication, this Extension is loaded by.
+        /// Saves the ExtensionContext belonging to the Extension instance.
         /// </summary>
-        private IrcSharkApplication application;
-        
-        /// <summary>
-        /// The ExtensionInfo instance what identifies this extension.
-        /// </summary>
-        private ExtensionInfo info;
+        private ExtensionContext context;
         
         /// <summary>
         /// Initializes a new instance of the Extension class.
         /// </summary>
-        /// <param name="app">
-        /// The <see cref="IrcSharkApplication"/> initialising this instance.
-        /// </param>
         /// <param name="info">
-        /// The <see cref="ExtensionInfo"/> used by the application to identify this extension.
+        /// The <see cref="ExtensionContext"/> for this extension.
         /// </param>
-        protected Extension(IrcSharkApplication app, ExtensionInfo info)
+        protected Extension(ExtensionContext context)
         {
-            if (!info.Trusted)
-                throw new ExtensionException(info, "You can't initialise an extension with an untrusted ExtensionInfo");
-            if (app == null)
-                
-            this.info = info;
-            application = app;
+            if (context == null)
+                throw new ArgumentNullException("context", "You must specify a context");
+            if (!context.Info.Trusted)
+                throw new ExtensionException(context.Info, "You can't initialise an extension with an untrusted ExtensionInfo");
+            this.context = context;
         }
         
         /// <summary>
-        /// Gets the application what loaded this extension.
+        /// Gets the context of this Extension.
         /// </summary>
-        /// <value>
-        /// The IrcSharkApplication instance.
-        /// </value>
-        public IrcSharkApplication Application
+        /// <value>The context.</value>
+        public ExtensionContext Context
         {
-            get { return application; }
-        }
-            
-        /// <summary>
-        /// Gets the <see cref="ExtensionInfo"/> used to identify this extension.
-        /// </summary>
-        /// <value>The ExtensionInfo instance.</value>
-        public ExtensionInfo Info 
-        {
-            get { return info; }
+            get { return context; }
         }
         
         /// <summary>
@@ -89,5 +69,10 @@ namespace IrcShark.Extensions
         /// Starts the extension after the initialisation of IrcShark.
         /// </summary>
         public abstract void Start();
+
+        /// <summary>
+        /// Stops the extension before IrcShark quits or the extension is unloaded.
+        /// </summary>
+        public abstract void Stop();
     }
 }

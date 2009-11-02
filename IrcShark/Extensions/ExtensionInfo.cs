@@ -1,19 +1,30 @@
-// $Id$
-// 
-// Note:
-// 
+// <copyright file="ExtensionInfo.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
-//  
+// </copyright>
+// <author>$Author$</author>
+// <date>$LastChangedDate$</date>
+// <summary>Contains the ChatManagerExtension class.</summary>
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcShark.Extensions
@@ -186,7 +197,10 @@ namespace IrcShark.Extensions
             get 
             { 
                 if (dependencies != null)
-                    return (string[])dependencies.Clone(); 
+                {
+                    return (string[])dependencies.Clone();
+                }
+                
                 return null;
             }
         }
@@ -208,11 +222,20 @@ namespace IrcShark.Extensions
         public bool CompareTo(ExtensionInfo info)
         {
             if (info == null)
+            {
                 return false;
+            }
+            
             if (!info.AssemblyGuid.Equals(AssemblyGuid))
+            {
                 return false;
+            }
+            
             if (!info.Class.Equals(Class))
+            {
                 return false;
+            }
+            
             return true;
         }
         
@@ -229,11 +252,20 @@ namespace IrcShark.Extensions
         public bool CompatibleWith(ExtensionInfo info)
         {
             if (info == null)
+            {
                 return false;
+            }
+            
             if (!info.Class.Equals(Class))
+            {
                 return false;
+            }
+            
             if (info.Version.CompareTo(Version) < 0)
+            {
                 return false;
+            }
+            
             return true;
         }
 
@@ -263,7 +295,10 @@ namespace IrcShark.Extensions
             string classType = null;
             string[] dependencies = null;
             if (reader.NodeType != XmlNodeType.Element || reader.Name != "extension")
+            {
                 throw new System.Runtime.Serialization.SerializationException("Couldn't load ExtensionInfo, extension tag missing");
+            }
+            
             while (reader.MoveToNextAttribute()) 
             {
                 switch (reader.LocalName) 
@@ -276,6 +311,7 @@ namespace IrcShark.Extensions
                     break;
                 }
             }
+            
             while (true) 
             {
                 switch (reader.NodeType) 
@@ -312,20 +348,28 @@ namespace IrcShark.Extensions
                             {
                             case XmlNodeType.Element:
                                 if (reader.Name.Equals("dependency"))
+                                {
                                     deps.Add(reader.ReadString());
+                                }
+                                
                                 break;
                             case XmlNodeType.EndElement:
                                 if (reader.Name == "dependencies") 
+                                {
                                     done = true;
+                                }
+                                
                                 break;
                             }
                         }
+                        
                         dependencies = deps.ToArray();
                         break;
                     default:
                         reader.Skip();
                         break;
                     }
+                    
                     break;
                 case XmlNodeType.EndElement:
                     reader.Read();
@@ -353,14 +397,26 @@ namespace IrcShark.Extensions
             writer.WriteStartElement("extension");
             writer.WriteAttributeString("name", Name);
             if (Version != null)
+            {
                 writer.WriteAttributeString("version", Version.ToString());
+            }
+            
             writer.WriteElementString("class", Class);
             if (!String.IsNullOrEmpty(author))
+            {
                 writer.WriteElementString("author", Description);
+            }
+            
             if (assemblyGuid != null)
+            {
                 writer.WriteElementString("assembly", assemblyGuid.ToString());
+            }
+            
             if (!String.IsNullOrEmpty(description))
+            {
                 writer.WriteElementString("description", Description);
+            }
+            
             if (dependencies != null)
             {
                 if (dependencies.Length > 0) 
@@ -370,9 +426,11 @@ namespace IrcShark.Extensions
                     {
                         writer.WriteElementString("dependency", dep);
                     }
+                    
                     writer.WriteEndElement();
                 }
             }
+            
             writer.WriteEndElement();
         }
         #endregion

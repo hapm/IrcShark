@@ -202,6 +202,7 @@ namespace IrcShark
                 {
                     CopyDefaults();
                 }
+                
                 warning = value; 
             }
         }
@@ -244,6 +245,7 @@ namespace IrcShark
                 {
                     CopyDefaults();
                 }
+                
                 error = value; 
             }
         }

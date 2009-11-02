@@ -161,6 +161,7 @@ namespace IrcShark.Chatting.Irc
             {
                 return address;
             }
+            
             set 
             {
                 IPAddress[] addresses = Dns.GetHostEntry(value).AddressList;
@@ -181,6 +182,7 @@ namespace IrcShark.Chatting.Irc
             { 
                 return base.Address; 
             }
+            
             set 
             { 
                 base.Address = value;
@@ -242,7 +244,10 @@ namespace IrcShark.Chatting.Irc
         {
             IrcServerEndPoint server = obj as IrcServerEndPoint;
             if (server == null)
+            {
                 return false;
+            }
+            
             return server != null && base.Equals(obj)
                 && server.Name.Equals(name);
         }

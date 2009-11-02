@@ -1,11 +1,32 @@
-﻿/*
- * Erstellt mit SharpDevelop.
- * Benutzer: markus
- * Datum: 07.09.2009
- * Zeit: 21:56
- * 
- * Sie können diese Vorlage unter Extras > Optionen > Codeerstellung > Standardheader ändern.
- */
+﻿// <copyright file="LogHandlerSetting.cs" company="IrcShark Team">
+// Copyright (C) 2009 IrcShark Team
+// </copyright>
+// <author>$Author$</author>
+// <date>$LastChangedDate$</date>
+// <summary>Contains the ChatManagerExtension class.</summary>
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcShark
 {
     using System;
@@ -164,8 +185,11 @@ namespace IrcShark
                 foreach (ChannelFilter filter in filters)
                 {
                     if (filter.ChannelName == channel)
+                    {
                         return filter;
+                    }
                 }
+                
                 throw new ArgumentOutOfRangeException("channel", String.Format("{0} wasn't added to this setting", channel));
             }
         }
@@ -178,7 +202,10 @@ namespace IrcShark
         public ChannelFilter Add(string channelName)
         {
             if (Contains(channelName))
+            {
                 throw new ArgumentException("channelName", String.Format("The channel {0} was already added", channelName));
+            }
+            
             ChannelFilter filter = new ChannelFilter(channelName, this);
             filters.Add(filter);
             return filter;
@@ -198,6 +225,7 @@ namespace IrcShark
                     return;
                 }
             }
+            
             throw new ArgumentException("channelName", String.Format("The channel {0} wasn't added", channelName));
         }
         
@@ -211,8 +239,11 @@ namespace IrcShark
             foreach (ChannelFilter filter in filters)
             {
                 if (filter.ChannelName == channelName)
+                {
                     return true;
+                }
             }
+            
             return false;
         }
         
@@ -247,9 +278,12 @@ namespace IrcShark
                 foreach (ChannelFilter filter in filters)
                 {
                     if (filter.ChannelName == msg.Channel)
+                    {
                         return filter.ApplysTo(msg);
+                    }
                 }
             }
+            
             return false;
         }
         
@@ -292,14 +326,18 @@ namespace IrcShark
             name = reader.GetAttribute("name");
             target = reader.GetAttribute("target");
             tempFilter = reader.GetAttribute("filter");
-            if (tempFilter == null) 
+            if (tempFilter == null)
+            {
                 tempFilter = "diwe";
+            }
+            
             ParseFilter(tempFilter);
             if (reader.IsEmptyElement)
             {
                 reader.Read();
                 return;
             }
+            
             reader.Read();
             while (true)
             {
@@ -307,16 +345,24 @@ namespace IrcShark
                 {
                     case XmlNodeType.Element:
                         if (reader.Name == "channel")
+                        {
                             ReadChannelFilter(reader);
+                        }
                         else
+                        {
                             reader.Skip();
+                        }
+                        
                         break;
                     case XmlNodeType.EndElement:
                         reader.Read();
                         return;
                     default:
                         if (!reader.Read())
+                        {
                             return;
+                        }
+                        
                         break;
                 }
             }
@@ -334,26 +380,32 @@ namespace IrcShark
             {
                 filter.Append('d');
             }
+            
             if (Information)
             {
                 filter.Append('i');
             }
+            
             if (Warning)
             {
                 filter.Append('w');
             }
+            
             if (Error)
             {
                 filter.Append('e');
             }
+            
             if (filter.Length < 4)
             {
                 writer.WriteAttributeString("filter", filter.ToString());
             }
+            
             if (Target != null)
             {
                 writer.WriteAttributeString("target", Target);
             }
+            
             if (Count != 0)
             {
                 foreach (ChannelFilter f in filters)
@@ -367,20 +419,25 @@ namespace IrcShark
                         {
                             filter.Append('d');
                         }
+                        
                         if (Information)
                         {
                             filter.Append('i');
                         }
+                        
                         if (Warning)
                         {
                             filter.Append('w');
                         }
+                        
                         if (Error)
                         {
                             filter.Append('e');
                         }
+                        
                         writer.WriteAttributeString("filter", filter.ToString());
                     }
+                    
                     writer.WriteEndElement();
                 }
             }
@@ -426,6 +483,7 @@ namespace IrcShark
                 reader.Read();
                 return;
             }
+            
             reader.Read();
             while (true)
             {

@@ -259,6 +259,7 @@ namespace IrcShark.Extensions.Terminal
                         {
                             Console.CursorLeft = line.Length + 3;
                         }
+                        
                         break;
                     case ConsoleKey.Home:                        
                         // Move the cursor to the begining of the entered command

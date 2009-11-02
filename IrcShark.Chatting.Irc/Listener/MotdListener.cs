@@ -123,8 +123,16 @@ namespace IrcShark.Chatting.Irc.Listener
         /// <param name="e">The event argument, holding the received line.</param>
         private void HandleLine(object sender, LineReceivedEventArgs e)
         {
-            if (!e.Line.IsNumeric) return;
-            if (!IsReading && e.Line.Numeric != 375) return;
+            if (!e.Line.IsNumeric)
+            {
+                return;
+            }
+            
+            if (!IsReading && e.Line.Numeric != 375)
+            {
+                return;
+            }
+            
             switch (e.Line.Numeric)
             {
                 case 375:
@@ -132,7 +140,10 @@ namespace IrcShark.Chatting.Irc.Listener
                     motdLines.Clear();
                     motdLines.Add(e.Line);
                     if (MotdBegin != null)
+                    {
                         MotdBegin(this, new MotdBeginEventArgs(e.Line));
+                    }
+                    
                     break;
                     
                 case 372:
@@ -142,7 +153,10 @@ namespace IrcShark.Chatting.Irc.Listener
                 case 376:
                     motdLines.Add(e.Line);
                     if (MotdEnd != null)
+                    {
                         MotdEnd(this, new MotdEndEventArgs(e.Line, MotdLines));
+                    }
+                    
                     isReading = false;
                     break;
             }

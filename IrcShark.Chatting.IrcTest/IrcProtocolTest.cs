@@ -30,9 +30,9 @@
 namespace IrcShark.Chatting.IrcTest 
 {
     using System;
-    using NUnit.Framework;
     using IrcShark.Chatting;
     using IrcShark.Chatting.Irc;
+    using NUnit.Framework;
     
     /// <summary>
     /// Tests for the IrcProtocol class.
@@ -73,7 +73,8 @@ namespace IrcShark.Chatting.IrcTest
         /// The irc protocol is a multiserver protocol.
         /// </remarks>
         [Test]
-        public void MultiServer() {
+        public void MultiServer()
+        {
             Assert.IsTrue(instance.MultiServer);
         }
         
@@ -84,7 +85,8 @@ namespace IrcShark.Chatting.IrcTest
         /// The irc protocol is a multiserver protocol.
         /// </remarks>
         [Test]
-        public void MultiNetwork() {
+        public void MultiNetwork()
+        {
             Assert.IsTrue(instance.MultiNetwork);
         }
         
@@ -92,7 +94,8 @@ namespace IrcShark.Chatting.IrcTest
         /// Tests if the CreateNetwork method creates a network.
         /// </summary>
         [Test]
-        public void CreateNetwork() {
+        public void CreateNetwork()
+        {
             INetwork network;
             network = instance.CreateNetwork("test");
             Assert.IsInstanceOf(typeof(IrcNetwork), network);

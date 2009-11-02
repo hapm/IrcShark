@@ -30,8 +30,8 @@
 namespace IrcShark.Chatting.IrcTest
 {
     using System;
-    using NUnit.Framework;
     using IrcShark.Chatting.Irc;
+    using NUnit.Framework;
 
     /// <summary>
     /// All tests for the IrcNetwork class.
@@ -79,7 +79,10 @@ namespace IrcShark.Chatting.IrcTest
                 network.AddServer("foo", "localhost:6669");
                 Assert.Fail("Added a second server with the same name, as an already added one");
             }
-            catch (ArgumentException) {}
+            catch (ArgumentException)
+            {
+                return;
+            }
         }
         
         /// <summary>

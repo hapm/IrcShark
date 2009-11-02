@@ -104,9 +104,12 @@ namespace IrcShark.Chatting.Irc.Extended
             List<Channel> result = new List<Channel>();
             foreach (string ch in channelNames)
             {
-                if (ContainsKey(ch)) 
+                if (ContainsKey(ch))
+                {
                     result.Add(this[ch]);
+                }
             }
+            
             return result.ToArray();
         }
 
@@ -120,7 +123,10 @@ namespace IrcShark.Chatting.Irc.Extended
             if (e.User.NickName == Client.Self.NickName)
             {
                 if (ContainsKey(e.ChannelName))
+                {
                     return;
+                }
+                
                 Channel newChannel = new Channel(e);
                 newChannel.Joined += new Channel.JoinedEventHandler(Channel_Joined);
                 newChannel.Left += new Channel.LeftEventHandler(Channel_Left);
@@ -140,8 +146,11 @@ namespace IrcShark.Chatting.Irc.Extended
             {
                 Add(e.Channel.Name, e.Channel);
             }
+            
             if (Joined != null) 
+            {
                 Joined(this, e);
+            }
         }
 
         /// <summary>
@@ -152,9 +161,15 @@ namespace IrcShark.Chatting.Irc.Extended
         private void Channel_Left(object sender, LeftEventArgs e)
         {
             if (!ContainsKey(e.Channel.Name)) 
+            {
                 return;
-            if (Parted != null) 
+            }
+            
+            if (Parted != null)
+            {
                 Parted(this, e);
+            }
+            
             Remove(e.Channel.Name);
             e.Channel.Dispose();
         }

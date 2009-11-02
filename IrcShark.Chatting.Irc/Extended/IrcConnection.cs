@@ -165,8 +165,10 @@ namespace IrcShark.Chatting.Irc.Extended
         /// </summary>
         public void Close()
         {
-            if (IsConnected) 
+            if (IsConnected)
+            {
                 Dispose();
+            }
         }
     }
 }

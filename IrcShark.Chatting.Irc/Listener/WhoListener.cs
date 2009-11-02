@@ -124,7 +124,9 @@ namespace IrcShark.Chatting.Irc.Listener
         private void HandleLine(object sender, LineReceivedEventArgs e)
         {
             if (!e.Line.IsNumeric)
+            {
                 return;
+            }
             
             switch (e.Line.Numeric)
             {
@@ -134,13 +136,19 @@ namespace IrcShark.Chatting.Irc.Listener
                     {
                         isReading = true;
                         if (WhoBegin != null)
+                        {
                             WhoBegin(this, new WhoBeginEventArgs(e.Line));
+                        }
                     }
+                    
                     break;
                     
                 case 315:
                     if (WhoEnd != null)
+                    {
                         WhoEnd(this, new WhoEndEventArgs(e.Line, WhoLines));
+                    }
+                    
                     isReading = false;
                     break;
             }

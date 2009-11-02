@@ -1,9 +1,10 @@
-// $Id$
-//
-// Note:
-//
+// <copyright file="IrcSharkApplication.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
-// 
+// </copyright>
+// <author>$Author$</author>
+// <date>$LastChangedDate$</date>
+// <summary>Contains the ChatManagerExtension class.</summary>
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +17,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcShark
 {
     using System;
@@ -177,12 +187,15 @@ namespace IrcShark
             {
                 LogHandlerSetting logSetting = Settings.LogSettings["IrcShark.ConsoleLogHandler"];
                 if (!logSetting.ApplysTo(msg))
+                {
                     return;
+                } 
             }
             catch (IndexOutOfRangeException)
             {
                 return;
             }
+            
             string format = "[{0}][{1}][{2}] {3}";
             switch (msg.Level)
             {
@@ -196,6 +209,7 @@ namespace IrcShark
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
             }
+            
             Console.WriteLine(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
             Console.ResetColor();
         }
@@ -239,7 +253,9 @@ namespace IrcShark
                     if (file == null)
                     {
                         if (file.CanRead)
+                        {
                             file.Close();
+                        }
                     }
                 }
             }
@@ -316,25 +332,35 @@ namespace IrcShark
             {
                 logSetting = Settings.LogSettings["IrcShark.FileLogHandler"];
                 if (!logSetting.ApplysTo(msg))
+                {
                     return;
+                }
+                
                 if (logSetting.Target != null)
+                {
                     fileName = logSetting.Target;
+                }
             }
             catch (IndexOutOfRangeException)
             {
                 return;
             }
+            
             file = new FileInfo(fileName);
             if (!file.Exists)
             {
                 if (!file.Directory.Exists)
+                {
                     file.Directory.Create();
+                }
             }
+            
             if (!fileLoggingInitiated)
             {
                 File.AppendAllText(fileName, "--- New session ---" + Environment.NewLine);
                 fileLoggingInitiated = true;
             }
+            
             string format = "[{0}][{1}][{2}] {3}\r\n";
             string logMsg = string.Format(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
             File.AppendAllText(fileName, logMsg);

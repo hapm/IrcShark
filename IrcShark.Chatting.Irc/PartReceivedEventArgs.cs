@@ -53,7 +53,9 @@ namespace IrcShark.Chatting.Irc
             channelName = line.Parameters[0];
             
             if (line.Parameters.Length > 1)
+            {
                 partMessage = line.Parameters[1];
+            }
         }
 
         /// <summary>

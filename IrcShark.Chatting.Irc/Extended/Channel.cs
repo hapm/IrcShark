@@ -186,13 +186,20 @@ namespace IrcShark.Chatting.Irc.Extended
         private void Client_JoinReceived(object sender, JoinReceivedEventArgs e)
         {
             if (e.ChannelName != Name)
+            {
                 return;
+            }
+            
             ChannelUser newUser = new ChannelUser(this, e.User.NickName);
             userList.Add(newUser);
             if (e.User.Equals(Client.Self))
+            {
                 OnJoined(new JoinedEventArgs(this));
+            }
             else
+            {
                 OnUserJoin(new UserJoinEventArgs(newUser, e));
+            }
         }
 
         /// <summary>
@@ -202,10 +209,15 @@ namespace IrcShark.Chatting.Irc.Extended
         /// <param name="e">The event args.</param>
         private void Client_PartReceived(object sender, PartReceivedEventArgs e)
         {
-            if (e.ChannelName != Name) 
+            if (e.ChannelName != Name)
+            {
                 return;
+            }
+            
             if (e.User.Equals(Client.Self))
+            {
                 OnLeft(new LeftEventArgs(this));
+            }
             else
             {
                 foreach (ChannelUser user in userList) 
@@ -229,7 +241,9 @@ namespace IrcShark.Chatting.Irc.Extended
         private void Client_QuitReceived(object sender, QuitReceivedEventArgs e)
         {
             if (e.User.Equals(Client.Self))
+            {
                 OnLeft(new LeftEventArgs(this));
+            }
             else
             {
                 foreach (ChannelUser user in userList) 
@@ -253,9 +267,14 @@ namespace IrcShark.Chatting.Irc.Extended
         private void Client_KickReceived(object sender, KickReceivedEventArgs e)
         {
             if (e.ChannelName != Name) 
+            {
                 return;
+            }
+            
             if (e.KickedName == Client.Self.NickName)
+            {
                 OnLeft(new LeftEventArgs(this));
+            }
             else
             {
                 foreach (ChannelUser user in userList) 
@@ -278,7 +297,9 @@ namespace IrcShark.Chatting.Irc.Extended
         private void OnJoined(JoinedEventArgs args)
         {
             if (Joined != null)
+            {
                 Joined(this, args);
+            }
         }
         
         /// <summary>
@@ -288,7 +309,9 @@ namespace IrcShark.Chatting.Irc.Extended
         private void OnLeft(LeftEventArgs args)
         {
             if (Left != null)
+            {
                 Left(this, args);
+            }
         }
         
         /// <summary>
@@ -298,7 +321,9 @@ namespace IrcShark.Chatting.Irc.Extended
         private void OnUserJoin(UserJoinEventArgs args)
         {
             if (UserJoin != null)
-                UserJoin(this, args);            
+            {
+                UserJoin(this, args);
+            }
         }
         
         /// <summary>
@@ -308,7 +333,9 @@ namespace IrcShark.Chatting.Irc.Extended
         private void OnUserLeave(UserLeaveEventArgs args)
         {
             if (UserLeave != null)
+            {
                 UserLeave(this, args);
+            }
         }
         
         /// <summary>

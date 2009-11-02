@@ -79,10 +79,16 @@ namespace IrcShark.Chatting.Irc
             if (m.Success) 
             {
                 if (m.Groups[1].Success)
+                {
                     prefix = m.Groups[1].Value;
+                }
+                
                 command = m.Groups[2].Value;
                 if (!Int32.TryParse(command, out numeric))
+                {
                     numeric = 0;
+                }
+                
                 normalParams = m.Groups[3].Value.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 if (m.Groups[4].Success)
                 {
@@ -127,22 +133,34 @@ namespace IrcShark.Chatting.Irc
         {
             this.client = client;
             if (prefix != null && prefix.Contains(" "))
+            {
                 throw new InvalidLineFormatException("prefix should not have spaces", prefix);
+            }
+            
             this.prefix = prefix;
             if (command.Contains(" "))
+            {
                 throw new InvalidLineFormatException("command should not have spaces", command);
+            }
+            
             this.command = command;
             if (parameters != null)
             {
                 for (int i = 0; i < parameters.Length - 1; i++)
                 {
                     if (parameters[i].Contains(" "))
+                    {
                         throw new InvalidLineFormatException("only the last parameter should have spaces", parameters[i]);
+                    }
                 }
+                
                 this.parameters = (string[])parameters.Clone();
             }
+            
             if (!Int32.TryParse(command, out numeric))
+            {
                 numeric = 0;
+            }
         }
 
         /// <summary>
@@ -209,7 +227,10 @@ namespace IrcShark.Chatting.Irc
             get
             {
                 if (parameters == null)
+                {
                     return null;
+                }
+                
                 return (string[])parameters.Clone();
             }
         }
@@ -239,6 +260,7 @@ namespace IrcShark.Chatting.Irc
                 result.Append(prefix);
                 result.Append(" ");
             }
+            
             result.Append(command);
             if (parameters != null && parameters.Length > 0) 
             {
@@ -256,6 +278,7 @@ namespace IrcShark.Chatting.Irc
                     }
                 }
             }
+            
             return result.ToString();
         }
         
@@ -272,9 +295,13 @@ namespace IrcShark.Chatting.Irc
         {
             IrcLine line = obj as IrcLine;
             if (line == null)
+            {
                 return base.Equals(obj);
+            }
             else 
+            {
                 return ToString().Equals(line.ToString());
+            }
         }
         
         /// <summary>

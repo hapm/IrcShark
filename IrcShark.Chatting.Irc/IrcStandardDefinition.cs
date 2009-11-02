@@ -165,13 +165,18 @@ namespace IrcShark.Chatting.Irc
         public bool IsAllowedChannel(string channelName) 
         {
             if (channelName.Length < 2)
+            {
                 return false;
+            }
             
             foreach (char pre in ChannelPrefixes)
             {
                 if (channelName[0] == pre)
+                {
                     return true;
+                }
             }
+            
             return false;            
         }
         
@@ -185,8 +190,11 @@ namespace IrcShark.Chatting.Irc
             foreach (FlagDefinition f in UserPrefixFlags) 
             {
                 if (f.Character == flag)
+                {
                     return f;
+                }
             }
+            
             return null;
         }
     }

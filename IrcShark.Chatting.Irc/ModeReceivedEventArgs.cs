@@ -70,14 +70,19 @@ namespace IrcShark.Chatting.Irc
                 flags.AddRange(Client.Standard.UserFlags);
                 aimArt = ModeArt.User;
             }
+            
             currentParam = 2;
 
             foreach (char c in line.Parameters[1])
             {
                 if (c == '+')
+                {
                     currentArt = FlagArt.Set;
+                }
                 else if (c == '-')
+                {
                     currentArt = FlagArt.Unset;
+                }
                 else
                 {
                     foreach (FlagDefinition currentFlag in flags)
@@ -93,11 +98,13 @@ namespace IrcShark.Chatting.Irc
                             {
                                 modes.Add(new Mode(currentFlag, currentArt));
                             }
+                            
                             break;
                         }
                     }
                 }
             }
+            
             this.modes = modes.ToArray();
         }
 

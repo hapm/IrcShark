@@ -210,16 +210,26 @@ namespace IrcShark.Chatting.Irc
             if (info != null)
             {                
                 if (!info.Host.Equals(Host))
+                {
                     return false;
+                }
+                
                 if (!info.Ident.Equals(Ident))
+                {
                     return false;
+                }
+                
                 if (!info.NickName.Equals(NickName))
+                {
                     return false;
+                }
                 
                 return true;
             }
             else
+            {
                 return base.Equals(obj);
+            }
         }
         
         /// <summary>

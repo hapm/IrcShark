@@ -59,13 +59,20 @@ namespace IrcShark.Chatting.Irc.Listener
         public ChannelListLine(IrcLine line) : base(line)
         {
             if (line.Numeric != 332)
+            {
                 throw new ArgumentOutOfRangeException("line", "CHANNELLIST_RPL 322 expected");
+            }
+            
             if (Parameters.Length < 3)
+            {
                 throw new ArgumentOutOfRangeException("line", "Need a minimum of 3 parameters");
-
+            }
+            
             if (!int.TryParse(Parameters[2], out userCount))
+            {
                 throw new ArgumentOutOfRangeException("line", "Invalid user count, integer expected");
-
+            }
+            
             if (Parameters.Length > 3)
             {
                 Regex modeTopicRegex = new Regex(@"(?:\[\+([^ \]]*)] )?(.*)");

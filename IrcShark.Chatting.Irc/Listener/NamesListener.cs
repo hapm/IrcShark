@@ -129,7 +129,11 @@ namespace IrcShark.Chatting.Irc.Listener
         /// <param name="e">The event argument, holding the received line.</param>
         private void HandleLine(object sender, LineReceivedEventArgs e)
         {
-            if (!e.Line.IsNumeric) return;
+            if (!e.Line.IsNumeric)
+            {
+                return;
+            }
+            
             switch (e.Line.Numeric)
             {
                 case 353:
@@ -144,13 +148,18 @@ namespace IrcShark.Chatting.Irc.Listener
                     {
                         isReading = true;
                         if (NamesBegin != null)
+                        {
                             NamesBegin(this, new NamesBeginEventArgs(e.Line));
+                        }
                     }
+                    
                     break;
                     
                 case 366:
                     if (NamesEnd != null)
+                    {
                         NamesEnd(this, new NamesEndEventArgs(e.Line, Names, channelName));
+                    }
                     
                     isReading = false;
                     break;

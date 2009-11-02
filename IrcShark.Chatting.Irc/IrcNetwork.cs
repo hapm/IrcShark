@@ -123,8 +123,11 @@ namespace IrcShark.Chatting.Irc
                 foreach (IrcServerEndPoint srv in servers) 
                 {
                     if (srv.Name == name)
+                    {
                         return srv;
+                    }
                 }
+                
                 return null;
             }
         }
@@ -196,6 +199,7 @@ namespace IrcShark.Chatting.Irc
                     return true;
                 }
             }
+            
             return false;
         }
         

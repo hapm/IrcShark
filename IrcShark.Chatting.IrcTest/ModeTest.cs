@@ -30,8 +30,8 @@
 namespace IrcShark.Chatting.IrcTest
 {
     using System;
-    using NUnit.Framework;
     using IrcShark.Chatting.Irc;
+    using NUnit.Framework;
 
     /// <summary>
     /// Tests the Mode class.

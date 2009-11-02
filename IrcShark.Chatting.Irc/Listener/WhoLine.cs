@@ -74,9 +74,14 @@ namespace IrcShark.Chatting.Irc.Listener
         public WhoLine(IrcLine line) : base(line)
         {
             if (line.Numeric != 352)
+            {
                 throw new ArgumentOutOfRangeException("line", "RPL_WHOREPLY 352 expected");
+            }
+            
             if (Parameters.Length < 8)
+            {
                 throw new ArgumentOutOfRangeException("line", "Need a minimum of 8 parameters");
+            }
             
             user = new UserInfo(Parameters[5], Parameters[2], Parameters[3], Client);
             List<Mode> modes = new List<Mode>();
@@ -86,7 +91,9 @@ namespace IrcShark.Chatting.Irc.Listener
             isOper = Parameters[6][i] == '*';
             
             if (IsOper)
+            {
                 i++;
+            }
             
             for (; i < Parameters[6].Length; i++)
             {
@@ -102,7 +109,9 @@ namespace IrcShark.Chatting.Irc.Listener
             realName = Parameters[7];
 
             if (!int.TryParse(realName.Substring(1, realName.IndexOf(" ")), out hopCount))
+            {
                 throw new ArgumentOutOfRangeException("line", "Invalid hop count, integer expected");
+            }
             
             realName = realName.Substring(realName.IndexOf(" ") + 1);
         }

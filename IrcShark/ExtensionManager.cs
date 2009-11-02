@@ -1,11 +1,22 @@
-// $Id$
-//
-// Note:
-//
+// <copyright file="ExtensionManager.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
-// 
+// </copyright>
+// <author>$Author$</author>
+// <date>$LastChangedDate$</date>
+// <summary>Contains the ChatManagerExtension class.</summary>
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
@@ -62,22 +73,7 @@ namespace IrcShark
     /// This class represents the manager for all extensions loaded by an IrcShark instance.
     /// </summary>
     public class ExtensionManager : IEnumerable<KeyValuePair<ExtensionInfo, Extension>>
-    {
-        /// <summary>
-        /// Saves the application instance this ExtensionManager belongs to.
-        /// </summary>
-        private IrcSharkApplication application;
-        
-        /// <summary>
-        /// Saves a collection of all available extensions.
-        /// </summary>
-        private ExtensionInfoCollection availableExtensions;
-        
-        /// <summary>
-        /// Saves a list of all loaded extensions.
-        /// </summary>
-        private Dictionary<ExtensionInfo, Extension> extensions;
-        
+    {       
         /// <summary>
         /// Initializes a new instance of the ExtensionManager class for the given IrcSharkApplication.
         /// </summary>
@@ -85,7 +81,10 @@ namespace IrcShark
         public ExtensionManager(IrcSharkApplication app)
         {
             if (app.Extensions != null)
+            {
                 throw new ArgumentException("The given IrcSharkApplication already has an ExtensionManager", "app");
+            }
+            
             application = app;
             extensions = new Dictionary<ExtensionInfo, Extension>();
             availableExtensions = new ExtensionInfoCollection();
@@ -180,19 +179,6 @@ namespace IrcShark
                 
                 // this should never happen as index is lower than the number of items in the Keys collection
                 return null; 
-            }
-        }
-
-        /// <summary>
-        /// Raises the Status Changed event.
-        /// </summary>
-        /// <param name="ext">The extensions, that changed its status.</param>
-        /// <param name="newState">The state the extension was changed to.</param>
-        protected void OnStatusChanged(ExtensionInfo ext, ExtensionStates newState)
-        {
-            if (StatusChanged != null) 
-            {
-                StatusChanged(this, new StatusChangedEventArgs(ext, newState));
             }
         }
 
@@ -375,6 +361,19 @@ namespace IrcShark
         #endregion
 
         /// <summary>
+        /// Raises the Status Changed event.
+        /// </summary>
+        /// <param name="ext">The extensions, that changed its status.</param>
+        /// <param name="newState">The state the extension was changed to.</param>
+        protected void OnStatusChanged(ExtensionInfo ext, ExtensionStates newState)
+        {
+            if (StatusChanged != null) 
+            {
+                StatusChanged(this, new StatusChangedEventArgs(ext, newState));
+            }
+        }
+        
+        /// <summary>
         /// Loads an extension without raising an event.
         /// </summary>
         /// <param name="ext">The extension to load.</param>
@@ -392,7 +391,7 @@ namespace IrcShark
             extensions.Add(ext, newExtension);
             return true;
         }
-
+        
         /// <summary>
         /// Scans all extension directorys for available extensions.
         /// </summary>
@@ -426,5 +425,20 @@ namespace IrcShark
                 }
             }
         }
+        
+        /// <summary>
+        /// Saves the application instance this ExtensionManager belongs to.
+        /// </summary>
+        private IrcSharkApplication application;
+        
+        /// <summary>
+        /// Saves a collection of all available extensions.
+        /// </summary>
+        private ExtensionInfoCollection availableExtensions;
+        
+        /// <summary>
+        /// Saves a list of all loaded extensions.
+        /// </summary>
+        private Dictionary<ExtensionInfo, Extension> extensions;
     }
 }

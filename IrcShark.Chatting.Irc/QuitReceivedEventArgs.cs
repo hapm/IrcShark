@@ -47,9 +47,13 @@ namespace IrcShark.Chatting.Irc
             user = new UserInfo(line);
             
             if (line.Parameters.Length > 0)
+            {
                 quitMessage = line.Parameters[0];
+            }
             else
+            {
                 quitMessage = string.Empty;
+            }
         }
 
         /// <summary>

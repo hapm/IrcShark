@@ -86,7 +86,10 @@ namespace IrcShark.Chatting.Irc
         public static IrcProtocol GetInstance() 
         {
             if (instance == null)
+            {
                 instance = new IrcProtocol();
+            }
+            
             return instance;
         }
         

@@ -100,7 +100,9 @@ namespace IrcShark.Chatting.Irc.Extended
         private void Client_JoinReceived(object sender, JoinReceivedEventArgs e)
         {
             if (e.User.Equals(this)) 
+            {
                 channels.Add(e.ChannelName);
+            }
         }
     }
 }

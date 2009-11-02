@@ -36,6 +36,7 @@ namespace IrcShark.Extensions.Terminal
 
     using IrcShark;
     using IrcShark.Extensions;
+    using IrcShark.Extensions.Terminal.Commands;
     
     /// <summary>
     /// This extension allows the administration of IrcShark over the console.
@@ -100,6 +101,11 @@ namespace IrcShark.Extensions.Terminal
         /// Saves if the autoCompleteList is up to date or need to be updated.
         /// </summary>
         private bool autoCompleteUpToDate;
+        
+        /// <summary>
+        /// Saves the prefix for the input row displayed in the console terminal.
+        /// </summary>
+        private string inputPrefix;
 
         /// <summary>
         /// Initializes a new instance of the TerminalExtension class.
@@ -111,6 +117,7 @@ namespace IrcShark.Extensions.Terminal
             commands = new List<TerminalCommand>();
             cmdHistory = new LinkedList<string>();
             newLine = false;
+            inputPrefix = "-> ";
         }
         
         /// <summary>
@@ -247,27 +254,30 @@ namespace IrcShark.Extensions.Terminal
                         {
                             CommandCall call = new CommandCall(line.ToString());
                             Console.WriteLine();
-                            Console.Write("-> ");
+                            Console.Write(inputPrefix);
+                            cmdHistory.AddLast(line.ToString());
+                            currentHistoryCmd = null;
                             line = null;
                             return call;
                         }
+                        
                         catch (Exception) { }
                         break;
                     case ConsoleKey.End:
                         // Move the cursor to the end of the entered command
                         if (line.Length > 0) 
                         {
-                            Console.CursorLeft = line.Length + 3;
+                            Console.CursorLeft = line.Length + inputPrefix.Length;
                         }
                         
                         break;
                     case ConsoleKey.Home:                        
                         // Move the cursor to the begining of the entered command
-                        Console.CursorLeft = 3;
+                        Console.CursorLeft = inputPrefix.Length;
                         break;
                     case ConsoleKey.LeftArrow:                        
                         // Move the cursor leftwards, but we have to be sure that the cursor is not going out of the console
-                        if (Console.CursorLeft > 3)
+                        if (Console.CursorLeft > inputPrefix.Length)
                         {
                             Console.CursorLeft--;
                         }
@@ -275,7 +285,7 @@ namespace IrcShark.Extensions.Terminal
                         break;
                     case ConsoleKey.RightArrow:                        
                         // Move the cursor rightwards, but we have to be sure that the cursor is not going out of the console
-                        if (Console.CursorLeft < Console.WindowWidth - 1 && Console.CursorLeft < line.Length + 3)
+                        if (Console.CursorLeft < Console.WindowWidth - 1 && Console.CursorLeft < line.Length + inputPrefix.Length)
                         {
                             Console.CursorLeft++;
                         }
@@ -288,17 +298,55 @@ namespace IrcShark.Extensions.Terminal
                             {
                                 break;
                             }
-                            
+
                             currentHistoryCmd = cmdHistory.Last;
-                            cmdHistory.AddLast(line.ToString());
+                            if (!string.IsNullOrEmpty(line.ToString()))
+                            {
+                                cmdHistory.AddLast(line.ToString());
+                            }
+                        } 
+                        else
+                        {
+                            if (currentHistoryCmd == cmdHistory.First)
+                            {
+                                break;
+                            }
+                            
+                            currentHistoryCmd = currentHistoryCmd.Previous;
+                        }
+                        
+                        if (currentHistoryCmd != null)
+                        {
                             line = new StringBuilder(currentHistoryCmd.Value);
-                            Console.CursorLeft = 0;
+                            CleanInputLine();
+                            Console.Write(inputPrefix);
+                            Console.CursorLeft = inputPrefix.Length;
                             Console.Write(line.ToString());
                         }
                         
                         break;
                     case ConsoleKey.DownArrow:                        
                         // TODO get next command in history
+                        if (currentHistoryCmd != null)
+                        {
+                            if (currentHistoryCmd == cmdHistory.Last)
+                            {
+                                currentHistoryCmd = null;
+                                line = new StringBuilder(string.Empty);
+                                
+                            }
+                            else
+                            {
+                                currentHistoryCmd = currentHistoryCmd.Next;
+                                line = new StringBuilder(currentHistoryCmd.Value);
+                            }
+                            
+                            CleanInputLine();
+                            Console.Write(inputPrefix);
+                            Console.CursorLeft = inputPrefix.Length;
+                            Console.Write(line.ToString());
+                        }
+                        
                         break;
                     case ConsoleKey.Tab:
                         AutoComplete();
@@ -311,7 +359,7 @@ namespace IrcShark.Extensions.Terminal
                            {
                                CleanInputLine();
                                line.Remove(line.Length - 1, 1);
-                               Console.Write("-> " + line);
+                               Console.Write(inputPrefix + line);
                            }
                            
                            break;
@@ -332,9 +380,9 @@ namespace IrcShark.Extensions.Terminal
         public void Write(string text) 
         {
             int col = Console.CursorLeft;
-            if (col < 3)
+            if (col < inputPrefix.Length)
             {
-                col = 3;
+                col = inputPrefix.Length;
             }
             
             CleanInputLine();
@@ -372,7 +420,7 @@ namespace IrcShark.Extensions.Terminal
                 }
             }
             
-            Console.Write("-> ");
+            Console.Write(inputPrefix);
             if (this.line != null) 
             {
                 Console.Write(this.line.ToString());
@@ -465,7 +513,7 @@ namespace IrcShark.Extensions.Terminal
         private void CleanInputLine()
         {
             Console.ResetColor();
-            int charCount = 3;
+            int charCount = inputPrefix.Length;
             if (line != null)
             {
                 charCount += line.Length;

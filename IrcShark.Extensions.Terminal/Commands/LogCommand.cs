@@ -27,10 +27,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcShark.Extensions.Terminal
+namespace IrcShark.Extensions.Terminal.Commands
 {
     using System;
     using IrcShark;
+    using IrcShark.Extensions.Terminal;
 
     /// <summary>
     /// The LogCommand allows the configuration of all available log handler.
@@ -120,7 +121,7 @@ namespace IrcShark.Extensions.Terminal
                     
                     Terminal.WriteLine("\n");
                     foreach (ChannelFilter cf in s) 
-                    {                        
+                    {
                     }
                 }
             }

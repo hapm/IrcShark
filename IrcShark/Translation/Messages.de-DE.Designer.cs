@@ -169,6 +169,15 @@ namespace IrcShark.Translation {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Erweiterung {0} wird bei nächten start von IrcShark entladen. ähnelt.
+        /// </summary>
+        internal static string Info1010_ExtensionMarkedForUnload {
+            get {
+                return ResourceManager.GetString("Info1010_ExtensionMarkedForUnload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Konnte keine Konfigurationsdatei finden, erstelle eine... ähnelt.
         /// </summary>
         internal static string Warning2001_SettingDoesentExist {

@@ -159,4 +159,7 @@
   <data name="Info1009_ExtensionLoaded" xml:space="preserve">
     <value>Die Erweiterung {0} wurde erfolgreich geladen.</value>
   </data>
+  <data name="Info1010_ExtensionMarkedForUnload" xml:space="preserve">
+    <value>Die Erweiterung {0} wird bei nächten start von IrcShark entladen.</value>
+  </data>
 </root>

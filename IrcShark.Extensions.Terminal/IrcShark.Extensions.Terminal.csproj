@@ -52,12 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandCall.cs" />
+    <Compile Include="Commands\ExitCommand.cs" />
+    <Compile Include="Commands\ExtensionCommand.cs" />
+    <Compile Include="Commands\HelpCommand.cs" />
+    <Compile Include="Commands\LogCommand.cs" />
     <Compile Include="ConsoleTerminal.cs" />
-    <Compile Include="ExitCommand.cs" />
-    <Compile Include="ExtensionCommand.cs" />
-    <Compile Include="HelpCommand.cs" />
     <Compile Include="ITerminal.cs" />
-    <Compile Include="LogCommand.cs" />
     <Compile Include="TerminalCommand.cs" />
     <Compile Include="TerminalExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,12 +68,14 @@
     <EmbeddedResource Include="Translation\Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <Content Include="IrcShark.Extensions.Terminal.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IrcShark\IrcShark.csproj">
       <Project>{F6955540-7429-49FB-AE3D-A9AD916D2334}</Project>
       <Name>IrcShark</Name>
     </ProjectReference>
+    <Folder Include="Commands" />
     <Folder Include="Translation" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -147,4 +147,16 @@
   <data name="SpecifyAnExtensionToUnload" xml:space="preserve">
     <value>Gib bitte eine zu entladende Erweiterung an.</value>
   </data>
+  <data name="ExtensionAlreadyLoaded" xml:space="preserve">
+    <value>Die ausgewählte Erweierung wurde bereits geladen und läuft.</value>
+  </data>
+  <data name="ExtensionNotLoaded" xml:space="preserve">
+    <value>Die ausgewählte Erweierung ist nicht geladen.</value>
+  </data>
+  <data name="NoAvailableExtensionWithThisNumber" xml:space="preserve">
+    <value>Es gibt keine Erweierung mit der ausgewählten Nummer.</value>
+  </data>
+  <data name="NoLoadedExtensionWithThisNumber" xml:space="preserve">
+    <value>Es ist keine Erweierung mit der ausgewählten Nummer geladen.</value>
+  </data>
 </root>

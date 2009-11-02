@@ -141,7 +141,6 @@ namespace IrcSharkTest
             }
             catch (IndexOutOfRangeException)
             {
-                return;
             }
             
             result = new string[6];

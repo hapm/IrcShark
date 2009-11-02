@@ -52,7 +52,7 @@ namespace IrcSharkStarter
             ircShark.Run();
         }
 
-        static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
             ircShark.Dispose();
         }

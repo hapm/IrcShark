@@ -40,7 +40,7 @@ namespace IrcShark.Policy
     [AttributeUsageAttribute(AttributeTargets.All, AllowMultiple = true)]
     public class IrcSharkAdministrationPermissionAttribute : CodeAccessSecurityAttribute
     {
-        bool unrestricted = false;
+        private bool unrestricted = false;
         
         public IrcSharkAdministrationPermissionAttribute(SecurityAction action) : base(action)
         {

@@ -39,7 +39,7 @@ namespace IrcShark.Chatting.IrcTest
     [TestFixture()]
     public class IrcLineTest : IIrcObjectTest
     {
-        IrcClient client;
+        private IrcClient client;
         private string line1;
         private string line2;
         private string numeric1;
@@ -69,7 +69,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (InvalidLineFormatException)
             {
-                return;
             }
             
              Assert.IsNotNull(line);
@@ -89,7 +88,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (InvalidLineFormatException)
             {
-                return;
             }
             
             try 
@@ -99,7 +97,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (InvalidLineFormatException)
             {
-                return;
             }
             
             try 
@@ -109,7 +106,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (InvalidLineFormatException)
             {
-                return;
             }
             
             Assert.IsNotNull(line);

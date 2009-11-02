@@ -260,8 +260,11 @@ namespace IrcShark.Extensions.Terminal
                             line = null;
                             return call;
                         }
+                        catch (Exception)
+                        {
+                            // TODO: Should add some action here.
+                        }
                         
-                        catch (Exception) { }
                         break;
                     case ConsoleKey.End:
                         // Move the cursor to the end of the entered command
@@ -333,7 +336,6 @@ namespace IrcShark.Extensions.Terminal
                             {
                                 currentHistoryCmd = null;
                                 line = new StringBuilder(string.Empty);
-                                
                             }
                             else
                             {

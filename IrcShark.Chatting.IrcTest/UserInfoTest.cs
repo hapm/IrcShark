@@ -39,7 +39,7 @@ namespace IrcShark.Chatting.IrcTest
     [TestFixture()]
     public class UserInfoTest : IIrcObjectTest
     {
-        IrcClient client;
+        private IrcClient client;
         
         [TestFixtureSetUp()]
         public void TestFixtureSetUp() 
@@ -59,7 +59,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (ArgumentException)
             {
-                return;
             }
             
             try 
@@ -69,7 +68,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (ArgumentException)
             {
-                return;
             }
             
             try 
@@ -79,7 +77,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (ArgumentException)
             {
-                return;
             }
             
             try 
@@ -89,7 +86,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (ArgumentException)
             {
-                return;
             }
             
             try 
@@ -97,9 +93,8 @@ namespace IrcShark.Chatting.IrcTest
                 info = new UserInfo(client, "f!bla@");
                 Assert.Fail("userinfo was created without host");
             }
-            catch (ArgumentException)
-            {
-                return;
+            catch (ArgumentException) 
+            { 
             }
             
             try 
@@ -109,7 +104,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (ArgumentException)
             {
-                return;
             }
         }
         
@@ -125,7 +119,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (ArgumentException)
             {
-                return;
             }
         }
         

@@ -84,7 +84,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (Exception)
             {
-                return;
             }
             
             point = new IrcServerEndPoint(ip1, port1);
@@ -132,7 +131,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (Exception)
             {
-                return;
             }
         }
     }

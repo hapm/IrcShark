@@ -37,6 +37,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BadNickEventArgs.cs" />
+    <Compile Include="IrcEventArgs.cs" />
     <Compile Include="IrcServerEndPoint.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IrcClient.cs" />

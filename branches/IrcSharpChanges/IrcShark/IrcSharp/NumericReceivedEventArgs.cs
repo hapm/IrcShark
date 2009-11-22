@@ -1,9 +1,9 @@
-// <copyright file="ModeArt.cs" company="IrcShark Team">
+﻿// <copyright file="NumericReceivedEventArgs.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Contains the ModeArt enum.</summary>
+// <summary>Contains the NumericReceivedEventArgs class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,23 +19,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcSharp
 {
+    using System;
+
     /// <summary>
-    /// The ModeArt describes if a mode can be set to a channel or to a user.
+    /// The NumericReceivedEventArgs belongs to the <see cref="NumericReceivedEventHandler" /> and the <see cref="IrcClient.NumericReceived" /> event.
     /// </summary>
-    /// <remarks>
-    /// IRC allows to set modes to channels an users, but you can't set the same mode
-    /// on a user and on a channel.
-    /// </remarks>
-    public enum ModeArt
+    public class NumericReceivedEventArgs : IrcEventArgs
     {
         /// <summary>
-        /// The mode can be applied to users.
+        /// Initializes a new instance of the NumericReceivedEventArgs class.
         /// </summary>
-        User,
-        
+        /// <param name="line">The line with the numeric command.</param>
+        public NumericReceivedEventArgs(IrcLine line) : base(line)
+        {
+        }
+
         /// <summary>
-        /// The mode can be applied to channels.
+        /// Gets the numeric value of this numeric reply line.
         /// </summary>
-        Channel
+        /// <value>The numeric as an int.</value>
+        public int Numeric
+        {
+            get { return Line.Numeric; }
+        }
     }
 }

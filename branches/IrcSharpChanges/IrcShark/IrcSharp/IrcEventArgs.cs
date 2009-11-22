@@ -1,15 +1,10 @@
-﻿// $Id$
-//
-// Add description here
-//
-// Benutzer: markus
-// Datum: 12.11.2009
-// Zeit: 22:00 
-//
-// Note:
-// 
+﻿// <copyright file="IrcEventArgs.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
-//  
+// </copyright>
+// <author>$Author$</author>
+// <date>$LastChangedDate$</date>
+// <summary>Contains the IrcEventArgs class.</summary>
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -22,8 +17,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-// Erstellt mit SharpDevelop.
 namespace IrcSharp 
 {
     using System;
@@ -46,32 +39,33 @@ namespace IrcSharp
         /// <summary>
         /// Saves the IrcLine the EventArgs instance was created from.
         /// </summary>
-        private IrcLine baseLine;
+        private IrcLine line;
 
         /// <summary>
         /// Initializes a new instance of the IrcEventArgs class.
         /// </summary>
-        /// <param name="Client">The client instance, the EventArgs belongs to.</param>
-        public IrcEventArgs(IrcClient Client)
+        /// <param name="client">The client instance, the EventArgs belongs to.</param>
+        public IrcEventArgs(IrcClient client)
         {
             handled = false;
-            client = Client;
+            this.client = client;
         }
 
         /// <summary>
-        /// Initializes a new isntance of the IrcEventArgs class.
+        /// Initializes a new instance of the IrcEventArgs class.
         /// </summary>
-        /// <param name="BaseLine">The line, the EventArgs where created from.</param>
-        public IrcEventArgs(IrcLine BaseLine)
+        /// <param name="line">The line, the EventArgs where created from.</param>
+        public IrcEventArgs(IrcLine line)
         {
             handled = false;
-            client = BaseLine.Client;
-            baseLine = BaseLine;
+            client = line.Client;
+            this.line = line;
         }
 
         /// <summary>
-        /// Gets or sets wether the event of the EventArgs is handled.
+        /// Gets or sets a value indicating whether the event of the EventArgs is handled.
         /// </summary>
+        /// <value>Its true when the event was handled, false otherwise.</value>
         public bool Handled
         {
             get { return handled; }
@@ -81,15 +75,17 @@ namespace IrcSharp
         /// <summary>
         /// Gets the line, this EventArgs belong to.
         /// </summary>
-        public IrcLine BaseLine
+        /// <value>The line that caused the event.</value>
+        public IrcLine Line
         {
-            get { return baseLine; }
+            get { return line; }
         }
 
         #region IIrcObject Member
         /// <summary>
         /// Gets the IrcClient the EventArgs where created for.
         /// </summary>
+        /// <value>The client the event was raised from.</value>
         public IrcClient Client
         {
             get { return client; }

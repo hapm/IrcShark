@@ -1,10 +1,15 @@
-// <copyright file="ModeArt.cs" company="IrcShark Team">
+﻿// $Id$
+//
+// Add description here
+//
+// Benutzer: markus
+// Datum: 17.11.2009
+// Zeit: 00:28 
+//
+// Note:
+// 
 // Copyright (C) 2009 IrcShark Team
-// </copyright>
-// <author>$Author$</author>
-// <date>$LastChangedDate$</date>
-// <summary>Contains the ModeArt enum.</summary>
-
+//  
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -17,25 +22,33 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcSharp
+//
+// Erstellt mit SharpDevelop.
+using System;
+
+namespace IrcShark.Chatting
 {
     /// <summary>
-    /// The ModeArt describes if a mode can be set to a channel or to a user.
+    /// Represents a message send over the chat protocol.
     /// </summary>
-    /// <remarks>
-    /// IRC allows to set modes to channels an users, but you can't set the same mode
-    /// on a user and on a channel.
-    /// </remarks>
-    public enum ModeArt
+    public interface IMessage : ICommand
     {
         /// <summary>
-        /// The mode can be applied to users.
+        /// Gets the message sent.
         /// </summary>
-        User,
+        /// <value>The message as a string.</value>
+        string Message { get; }
         
         /// <summary>
-        /// The mode can be applied to channels.
+        /// Gets the target, what sent the message.
         /// </summary>
-        Channel
+        /// <value>The sending target.</value>
+        ITarget Sender { get; }
+        
+        /// <summary>
+        /// Gets the target what receives the message.
+        /// </summary>
+        /// <value>The receiving target.</value>
+        ITarget Receiver { get; }
     }
 }

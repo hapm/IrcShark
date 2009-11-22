@@ -14,6 +14,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <SourceAnalysisOverrideSettingsFile>C:\Users\markus\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <RootNamespace>IrcSharp</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +39,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BadNickEventArgs.cs" />
+    <Compile Include="ConnectEventArgs.cs" />
+    <Compile Include="CtcpCommands.cs" />
+    <Compile Include="ErrorEventArgs.cs" />
     <Compile Include="IrcEventArgs.cs" />
     <Compile Include="IrcServerEndPoint.cs" />
     <Compile Include="AssemblyInfo.cs" />
@@ -46,6 +50,19 @@
     <Compile Include="IIrcObject.cs" />
     <Compile Include="IrcLine.cs" />
     <Compile Include="InvalidLineFormatException.cs" />
+    <Compile Include="JoinReceivedEventArgs.cs" />
+    <Compile Include="KickReceivedEventArgs.cs" />
+    <Compile Include="LineReceivedEventArgs.cs" />
+    <Compile Include="LoginEventArgs.cs" />
+    <Compile Include="MessageReceivedEventArgs.cs" />
+    <Compile Include="Mode.cs" />
+    <Compile Include="ModeReceivedEventArgs.cs" />
+    <Compile Include="NickChangeReceivedEventArgs.cs" />
+    <Compile Include="NoticeReceivedEventArgs.cs" />
+    <Compile Include="NumericReceivedEventArgs.cs" />
+    <Compile Include="PartReceivedEventArgs.cs" />
+    <Compile Include="PingReceivedEventArgs.cs" />
+    <Compile Include="QuitReceivedEventArgs.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="FlagArt.cs" />
     <Compile Include="FlagParameter.cs" />

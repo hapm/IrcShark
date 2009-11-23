@@ -24,6 +24,7 @@ namespace IrcSharp
     /// <summary>
     /// This exception is thrown by an <see cref="IrcLine"/> if the raw format was not correct.
     /// </summary>
+    [Serializable]
     public class InvalidLineFormatException : Exception
     {
         /// <summary>
@@ -37,7 +38,7 @@ namespace IrcSharp
         /// <param name="line">
         /// The raw string, what couldn't be parsed as a raw irc line.
         /// </param>
-        public InvalidLineFormatException(string line) : base(String.Format("Couldn't parse the raw line \"{0}\"", line))
+        public InvalidLineFormatException(string line) : base(string.Format("Couldn't parse the raw line \"{0}\"", line))
         {
             this.line = line;
         }

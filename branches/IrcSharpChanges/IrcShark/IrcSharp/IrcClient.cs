@@ -32,7 +32,7 @@ namespace IrcSharp
     /// <see cref="IrcLine " /> objects to be easier accessible. After connection was established, 
     /// you should call <see cref="ReceiveLine" /> to get the lines from the server.
     /// </remarks>
-    public class IrcClient
+    public class IrcClient : IDisposable
     {
         /// <summary>
         /// Saves the underlying tcp connection.
@@ -385,6 +385,15 @@ namespace IrcSharp
         }
         
         /// <summary>
+        /// Gets the UserInfo for the user his self.
+        /// </summary>
+        /// <value>The UserInfo of the client user.</value>
+        public UserInfo Self
+        {
+            get { return self; }
+        }
+        
+        /// <summary>
         /// Connects to the irc server addressed by <see cref="ServerAddress"/>.
         /// </summary>
         public void Connect()
@@ -498,6 +507,118 @@ namespace IrcSharp
                     Error(this, new ErrorEventArgs(this, "Couldn't send line", ex));
                 }
             }
+        }
+        
+        /// <summary>
+        /// Sends a message to a channel or nick (in a query).
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        /// <param name="receiver">The receiver (a channel or a nick).</param>
+        public void SendMessage(string message, string receiver)
+        {
+            if (Connected)
+            {
+                try
+                {
+                    SendLine(String.Format("PRIVMSG {0} :{1}", receiver, message));
+                }
+                catch (Exception ex)
+                {
+                    Error(this, new ErrorEventArgs(this, "Couldn't send message", ex.InnerException));
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Sends a message to a channel, nick (directly).
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        /// <param name="receiver">The receiver (a channel or a nick).</param>
+        public void SendNotice(string message, string receiver)
+        {
+            if (Connected)
+            {
+                try
+                {
+                    SendLine(string.Format("NOTICE {0} :{1}", receiver, message));
+                }
+                catch (Exception ex)
+                {
+                    Error(this, new ErrorEventArgs(this, "Couldn't send notice", ex.InnerException));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Joins a given channel on the irc server.
+        /// </summary>
+        /// <remarks>
+        /// The given <paramref name="chanName"/> should follow the given <see cref="Standard"/> of the IrcClient. 
+        /// The IrcClient will wait for the acknowledge of the server.
+        /// </remarks>
+        /// <param name="chanName">The channel name the client should join.</param>
+        public void Join(string chanName)
+        {
+            SendLine(string.Format("JOIN {0}", chanName));
+        }
+
+        /// <summary>
+        /// Parts a given channel on the irc server.
+        /// </summary>
+        /// <remarks>
+        /// The <paramref name="chanName"/> should follow the given <see cref="Standard"/> of the IrcClient. 
+        /// The IrcClient will wait for the acknowledge of the server.
+        /// </remarks>
+        /// <param name="chanName">The channel name the client should join.</param>
+        public void Part(string chanName)
+        {
+            SendLine(string.Format("PART {0}", chanName));
+        }
+        
+        /// <summary>
+        /// Quits the IRC connection with a Message.
+        /// </summary>
+        /// <param name="quitMsg">The message to use when quitting.</param>
+        public void Quit(string quitMsg)
+        {
+            if (Connected)
+            {
+                try
+                {
+                    SendLine(String.Format("QUIT :{0}", quitMsg));
+                }
+                catch (Exception ex)
+                {
+                    Error(this, new ErrorEventArgs(this, "Couldn't send quit message.", ex.InnerException));
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Quits the IRC Connection without a Message.
+        /// </summary>
+        public void Quit()
+        {
+            if (Connected)
+            {
+                try
+                {
+                    SendLine("QUIT");
+                }
+                catch (Exception ex)
+                {
+                    Error(this, new ErrorEventArgs(this, "Couldn't send quit.", ex.InnerException));
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            inStream.Dispose();
+            outStream.Dispose();
         }
 
         /// <summary>

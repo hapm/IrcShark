@@ -174,5 +174,20 @@ namespace IrcSharp
             }
             return false;            
         }
+        
+        /// <summary>
+        /// Gets the FlagDefinition for the given flag if it is a user prefix flag.
+        /// </summary>
+        /// <param name="flag">The flag character.</param>
+        /// <returns>The FlagDefinition for the given flag or null if the flag wasn't found.</returns>
+        public FlagDefinition GetUserPrefixFlag(char flag) 
+        {
+            foreach (FlagDefinition f in UserPrefixFlags) 
+            {
+                if (f.Character == flag)
+                    return f;
+            }
+            return null;
+        }
     }
 }

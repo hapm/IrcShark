@@ -1,9 +1,10 @@
-// $Id$
-// 
-// Note:
-// 
+// <copyright file="IIrcObject.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
-//  
+// </copyright>
+// <author>$Author$</author>
+// <date>$LastChangedDate$</date>
+// <summary>Contains the IIrcObject class.</summary>
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or

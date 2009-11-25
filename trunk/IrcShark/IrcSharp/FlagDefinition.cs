@@ -1,9 +1,10 @@
-// $Id$
-// 
-// Note:
-// 
+// <copyright file="FlagDefinition.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
-//  
+// </copyright>
+// <author>$Author$</author>
+// <date>$LastChangedDate$</date>
+// <summary>Contains the FlagDefinition class.</summary>
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +17,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 namespace IrcSharp
 {
     using System;
@@ -182,6 +182,27 @@ namespace IrcSharp
                 return UnsetParameter == FlagParameter.Required;
             }
             return false;
+        }
+        
+        /// <summary>
+        /// Checks if the given parameter is valide for the given flag.
+        /// </summary>
+        /// <param name="art">The flag art to check for.</param>
+        /// <param name="text">The parameter text to check.</param>
+        /// <returns>If the parameter is valid true is returned, false otherwise.</returns>
+        public bool IsParameter(FlagArt art, string text) 
+        {
+            if (art == FlagArt.Set && SetParameter == FlagParameter.None)
+                return false;
+            else if (art == FlagArt.Unset && UnsetParameter == FlagParameter.None)
+                return false;
+            
+            return true;
+
+            // TODO: disabled until ParameterCheck is needed.
+            // if (ParameterCheck == null)
+            //    return true;
+            // return ParameterCheck.IsMatch(Parameter); 
         }
     }
 }

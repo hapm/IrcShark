@@ -1,9 +1,9 @@
-// <copyright file="ModeArt.cs" company="IrcShark Team">
+﻿// <copyright file="LineReceivedEventArgs.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Contains the ModeArt enum.</summary>
+// <summary>Contains the LineReceivedEventArgs class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,23 +19,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcSharp
 {
+    using System;
+
     /// <summary>
-    /// The ModeArt describes if a mode can be set to a channel or to a user.
+    /// The LineReceivedEventArgs belongs to the <see cref="LineReceivedEventHandler" /> and the <see cref="IrcClient.LineReceived" /> event.
     /// </summary>
-    /// <remarks>
-    /// IRC allows to set modes to channels an users, but you can't set the same mode
-    /// on a user and on a channel.
-    /// </remarks>
-    public enum ModeArt
+    public class LineReceivedEventArgs : IrcEventArgs
     {
         /// <summary>
-        /// The mode can be applied to users.
+        /// Initializes a new instance of the LineReceivedEventArgs class.
         /// </summary>
-        User,
-        
-        /// <summary>
-        /// The mode can be applied to channels.
-        /// </summary>
-        Channel
+        /// <param name="line">The line to use.</param>
+        public LineReceivedEventArgs(IrcLine line) : base(line)
+        {
+        }
     }
 }

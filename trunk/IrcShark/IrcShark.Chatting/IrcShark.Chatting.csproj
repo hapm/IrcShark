@@ -60,10 +60,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICommand.cs" />
     <Compile Include="IConnection.cs" />
+    <Compile Include="IMessage.cs" />
     <Compile Include="INetwork.cs" />
     <Compile Include="IProtocol.cs" />
     <Compile Include="IServer.cs" />
+    <Compile Include="ITarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 </Project>

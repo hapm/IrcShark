@@ -1,9 +1,10 @@
-// $Id$
-// 
-// Note:
-// 
+// <copyright file="UserInfo.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
-//  
+// </copyright>
+// <author>$Author$</author>
+// <date>$LastChangedDate$</date>
+// <summary>Contains the UserInfo class.</summary>
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -16,16 +17,47 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 namespace IrcSharp
 {
     using System;
+    using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Holds host informations about a user.
     /// </summary>
     public class UserInfo : IIrcObject
     {
+        /// <summary>
+        /// This regex is used for parsing a mirc user address into its different parts.
+        /// </summary>
+        private static Regex hostRegex = new Regex("([^!]*)!([^@]*)@(.*)", RegexOptions.Compiled & RegexOptions.Singleline);
+        
+        /// <summary>
+        /// Saves the name of the user.
+        /// </summary>
+        private string nickName;
+        
+        /// <summary>
+        /// Saves the ident of the user.
+        /// </summary>
+        private string ident;
+        
+        /// <summary>
+        /// Saves the host of the user.
+        /// </summary>
+        private string host;
+        
+        /// <summary>
+        /// If the user host was created by an IrcLine, it is saved here.
+        /// </summary>
+        private IrcLine baseLine;
+        
+        /// <summary>
+        /// The client, this UserInfo belongs to.
+        /// </summary>
+        private IrcClient client;
+        
         /// <summary>
         /// Initializes a new instance of the UserInfo class based on the host.
         /// </summary>
@@ -47,6 +79,35 @@ namespace IrcSharp
         /// </param>
         public UserInfo(IrcLine baseLine)
         {
+            this.baseLine = BaseLine;
+            Match hostPieces;
+            hostPieces = hostRegex.Match(BaseLine.Prefix);
+            if (hostPieces.Success)
+            {
+                nickName = hostPieces.Groups[1].Value;
+                ident = hostPieces.Groups[2].Value;
+                host = hostPieces.Groups[3].Value;
+                client = BaseLine.Client;
+            }
+            else
+            {
+                // TODO: trow Exception
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the UserInfo class with the given values.
+        /// </summary>
+        /// <param name="nickName">The nickname of the user.</param>
+        /// <param name="ident">The ident of the user.</param>
+        /// <param name="host">The user host.</param>
+        /// <param name="client">The client, where the user was seen on.</param>
+        public UserInfo(string nickName, string ident, string host, IrcClient client)
+        {
+            this.nickName = nickName;
+            this.ident = ident;
+            this.host = host;
+            this.client = client;
         }
         
         /// <summary>
@@ -57,7 +118,7 @@ namespace IrcSharp
         /// </value>
         public string NickName 
         {
-            get { throw new System.NotImplementedException(); }
+            get { return nickName; }
         }
         
         /// <summary>
@@ -68,7 +129,7 @@ namespace IrcSharp
         /// </value>
         public string Ident 
         {
-            get { throw new System.NotImplementedException(); }
+            get { return ident; }
         }
         
         /// <summary>Gets the host of the user.</summary>
@@ -77,7 +138,7 @@ namespace IrcSharp
         /// </value>
         public string Host 
         {
-            get { throw new System.NotImplementedException(); }
+            get { return host; }
         }
         
         /// <summary>
@@ -91,7 +152,7 @@ namespace IrcSharp
         /// </remarks>
         public IrcLine BaseLine
         {
-            get { throw new System.NotImplementedException(); }
+            get { return baseLine; }
         }
 
         #region IIrcObject implementation

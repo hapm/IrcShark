@@ -1,9 +1,10 @@
-// $Id$
-// 
-// Note:
-// 
+// <copyright file="IrcStandardDefinition.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
-//  
+// </copyright>
+// <author>$Author$</author>
+// <date>$LastChangedDate$</date>
+// <summary>Contains the IrcStandardDefinition class.</summary>
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +17,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 namespace IrcSharp
 {
     using System;
@@ -156,5 +156,38 @@ namespace IrcSharp
             get { return client; }
         }
         #endregion
+        
+        /// <summary>
+        /// Checks if the given string can be used as a channelname in this standard.
+        /// </summary>
+        /// <param name="channelName">The name to test.</param>
+        /// <returns>Returns true, if the name can be used, false otherwise.</returns>
+        public bool IsAllowedChannel(string channelName) 
+        {
+            if (channelName.Length < 2)
+                return false;
+            
+            foreach (char pre in ChannelPrefixes)
+            {
+                if (channelName[0] == pre)
+                    return true;
+            }
+            return false;            
+        }
+        
+        /// <summary>
+        /// Gets the FlagDefinition for the given flag if it is a user prefix flag.
+        /// </summary>
+        /// <param name="flag">The flag character.</param>
+        /// <returns>The FlagDefinition for the given flag or null if the flag wasn't found.</returns>
+        public FlagDefinition GetUserPrefixFlag(char flag) 
+        {
+            foreach (FlagDefinition f in UserPrefixFlags) 
+            {
+                if (f.Character == flag)
+                    return f;
+            }
+            return null;
+        }
     }
 }

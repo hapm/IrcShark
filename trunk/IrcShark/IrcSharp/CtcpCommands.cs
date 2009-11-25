@@ -1,9 +1,9 @@
-// <copyright file="ModeArt.cs" company="IrcShark Team">
+﻿// <copyright file="CtcpCommands.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Contains the ModeArt enum.</summary>
+// <summary>Contains the CtcpCommands enum.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,25 +17,31 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcSharp
+namespace IrcSharp 
 {
     /// <summary>
-    /// The ModeArt describes if a mode can be set to a channel or to a user.
+    /// A listing of all well known ctcp commands.
     /// </summary>
-    /// <remarks>
-    /// IRC allows to set modes to channels an users, but you can't set the same mode
-    /// on a user and on a channel.
-    /// </remarks>
-    public enum ModeArt
+    public enum CtcpCommands
     {
         /// <summary>
-        /// The mode can be applied to users.
+        /// The ctcp action command.
         /// </summary>
-        User,
+        Action,
         
         /// <summary>
-        /// The mode can be applied to channels.
+        /// The ctcp version command.
         /// </summary>
-        Channel
+        Version,
+        
+        /// <summary>
+        /// An unknown ctcp command.
+        /// </summary>
+        Unkown,
+        
+        /// <summary>
+        /// None means, the message is no ctcp message.
+        /// </summary>
+        None
     }
 }

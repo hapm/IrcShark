@@ -69,6 +69,19 @@ namespace IrcSharp
         /// </param>
         public UserInfo(IrcClient client, string host)
         {
+            Match hostPieces;
+            hostPieces = hostRegex.Match(host);
+            if (hostPieces.Success)
+            {
+                nickName = hostPieces.Groups[1].Value;
+                ident = hostPieces.Groups[2].Value;
+                host = hostPieces.Groups[3].Value;
+                this.client = client;
+            }
+            else
+            {
+                // TODO: trow Exception
+            }
         }
         
         /// <summary>
@@ -79,7 +92,7 @@ namespace IrcSharp
         /// </param>
         public UserInfo(IrcLine baseLine)
         {
-            this.baseLine = BaseLine;
+            this.baseLine = baseLine;
             Match hostPieces;
             hostPieces = hostRegex.Match(BaseLine.Prefix);
             if (hostPieces.Success)
@@ -87,11 +100,11 @@ namespace IrcSharp
                 nickName = hostPieces.Groups[1].Value;
                 ident = hostPieces.Groups[2].Value;
                 host = hostPieces.Groups[3].Value;
-                client = BaseLine.Client;
+                this.client = BaseLine.Client;
             }
             else
             {
-                // TODO: trow Exception
+                // TODO: throw Exception
             }
         }
 
@@ -108,6 +121,19 @@ namespace IrcSharp
             this.ident = ident;
             this.host = host;
             this.client = client;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the UserInfo class, based on an existing UserInfo.
+        /// </summary>
+        /// <param name="source">The UserInfo instance to copy from.</param>
+        public UserInfo(UserInfo source) 
+        {
+            baseLine = source.BaseLine;
+            client = source.Client;
+            host = source.Host;
+            ident = source.Ident;
+            nickName = source.NickName;
         }
         
         /// <summary>
@@ -164,20 +190,9 @@ namespace IrcSharp
         /// </value>
         public IrcClient Client 
         {
-            get { throw new System.NotImplementedException(); }
+            get { return client; }
         }
         #endregion
-        
-        /// <summary>
-        /// Gives back the raw host this UserInfo was created from.
-        /// </summary>
-        /// <returns>
-        /// The full raw host as a <see cref="System.String"/>.
-        /// </returns>
-        public override string ToString()
-        {
-            return string.Format("[UserInfo: NickName={0}, Ident={1}, Host={2}, Client={3}]", NickName, Ident, Host, Client);
-        }
         
         /// <summary>
         /// Compare this UserInfo with other objects.
@@ -191,7 +206,20 @@ namespace IrcSharp
         /// </returns>
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            UserInfo info = obj as UserInfo;
+            if (info != null)
+            {                
+                if (!info.Host.Equals(Host))
+                    return false;
+                if (!info.Ident.Equals(Ident))
+                    return false;
+                if (!info.NickName.Equals(NickName))
+                    return false;
+                
+                return true;
+            }
+            else
+                return base.Equals(obj);
         }
         
         /// <summary>
@@ -200,7 +228,18 @@ namespace IrcSharp
         /// <returns>The hashcode as an int.</returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return host.GetHashCode() ^ ident.GetHashCode() ^ nickName.GetHashCode();
+        }
+        
+        /// <summary>
+        /// Gives back the raw host this UserInfo was created from.
+        /// </summary>
+        /// <returns>
+        /// The full raw host as a <see cref="System.String"/>.
+        /// </returns>
+        public override string ToString()
+        {
+            return string.Format("{0}!{1}@{2}", NickName, Ident, Host);
         }
     }
 }

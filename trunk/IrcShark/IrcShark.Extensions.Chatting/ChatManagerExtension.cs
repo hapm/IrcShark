@@ -41,6 +41,18 @@ namespace IrcShark.Extensions.Chatting
         }
         
         /// <summary>
+        /// Registeres a new chat protocol, that can be used by the chatting extension. 
+        /// </summary>
+        /// <param name="prot">
+        /// An instance of the IProtocol interface for the given protocol.
+        /// </param>
+        public void RegisterProtocol(IProtocol prot) {
+            if (registredProtocols.Contains(prot))
+                return;
+            registredProtocols.Add(prot);
+        }
+        
+        /// <summary>
         /// Starts the ChatManagerExtension.
         /// </summary>
         public override void Start() 

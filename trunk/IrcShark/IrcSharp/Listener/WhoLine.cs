@@ -102,7 +102,7 @@ namespace IrcSharp.Listener
             realName = Parameters[7];
 
             if (!int.TryParse(realName.Substring(1, realName.IndexOf(" ")), out hopCount))
-                throw new ArgumentOutOfRangeException("baseLine", "Invalid hop count, integer expected");
+                throw new ArgumentOutOfRangeException("line", "Invalid hop count, integer expected");
             
             realName = realName.Substring(realName.IndexOf(" ") + 1);
         }

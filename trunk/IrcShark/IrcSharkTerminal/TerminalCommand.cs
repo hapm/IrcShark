@@ -38,7 +38,6 @@ namespace IrcSharkTerminal
         public Exit()
             : base("exit")
         {
-
         }
         public override void Execute()
         {

@@ -13,6 +13,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\markus\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +47,10 @@
     <Compile Include="FlagDefinitionTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IrcShark.Chatting\IrcShark.Chatting.csproj">
+      <Project>{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}</Project>
+      <Name>IrcShark.Chatting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IrcSharp\IrcSharp.csproj">
       <Project>{B287A6A8-748D-4E26-B2FF-1EC098D536F3}</Project>
       <Name>IrcSharp</Name>

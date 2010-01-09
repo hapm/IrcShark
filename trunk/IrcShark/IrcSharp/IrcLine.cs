@@ -81,7 +81,8 @@ namespace IrcSharp
                 if (m.Groups[1].Success)
                     prefix = m.Groups[1].Value;
                 command = m.Groups[2].Value;
-                Int32.TryParse(command, out numeric);
+                if (!Int32.TryParse(command, out numeric))
+                    numeric = 0;
                 normalParams = m.Groups[3].Value.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 if (m.Groups[4].Success)
                 {
@@ -138,7 +139,8 @@ namespace IrcSharp
                 }
                 this.parameters = (string[])parameters.Clone();
             }
-            Int32.TryParse(command, out numeric);
+            if (!Int32.TryParse(command, out numeric))
+                numeric = 0;
         }
 
         /// <summary>
@@ -266,10 +268,11 @@ namespace IrcSharp
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is IrcLine))
+            IrcLine line = obj as IrcLine;
+            if (line == null)
                 return base.Equals(obj);
             else 
-                return ToString().Equals((obj as IrcLine).ToString());
+                return ToString().Equals(line.ToString());
         }
         
         /// <summary>

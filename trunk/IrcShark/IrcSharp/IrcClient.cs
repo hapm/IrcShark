@@ -90,7 +90,6 @@ namespace IrcSharp
         public IrcClient()
         {
             client = new TcpClient();
-            loggedIn = false;
             currentNickname = "Default";
             username = "Default";
             usedStandard = new IrcStandardDefinition(this);

@@ -347,6 +347,10 @@ namespace IrcShark
                         {
                             availableExtensions.AddRange(extAnalyzer.Extensions);
                         }
+                        foreach (ExtensionInfo info in extAnalyzer.Extensions)
+                        {
+                            application.Log.Log(new LogMessage(Logger.CoreChannel, 0101, LogLevel.Debug, "Extension {0}: {1} - {2} available.", info.Name, info.Class, info.AssemblyGuid));
+                        }
                     }
                 }
             }

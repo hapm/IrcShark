@@ -21,16 +21,22 @@ namespace IrcSharp
 {
     using System;
     using System.Net;
+    using IrcShark.Chatting;
 
     /// <summary>
     /// Represents an irc endpoint for an irc connection.
     /// </summary>
-    public class IrcServerEndPoint : System.Net.IPEndPoint
+    public class IrcServerEndPoint : System.Net.IPEndPoint, IServer
     {
+        /// <summary>
+        /// Saves the name of the server.
+        /// </summary>
+        private string name;
+        
         /// <summary>
         /// Saves the server host name as a string.
         /// </summary>
-        private string serverHostName;
+        private string address;
         
         /// <summary>
         /// Saves if an identd is required or not.
@@ -45,18 +51,74 @@ namespace IrcSharp
         /// <summary>
         /// Initializes a new instance of the IrcServerEndPoint class.
         /// </summary>
-        /// <param name="hostname">
+        /// <param name="hostName">
         /// The dns of the irc server as a <see cref="System.String"/>.
         /// </param>
         /// <param name="port">
         /// The port where the irc server is listening on.
         /// </param>
-        public IrcServerEndPoint(string hostname, int port) : base(0, 0)
+        public IrcServerEndPoint(string hostName) : base(0, 6667)
         {
-            IPAddress[] addresses = Dns.GetHostEntry(hostname).AddressList;
-            Address = addresses[0];
+            IPAddress[] addresses = Dns.GetHostEntry(hostName).AddressList;
+            Address = addresses[0].ToString();
+            address = hostName;
+            name = hostName;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the IrcServerEndPoint class.
+        /// </summary>
+        /// <param name="hostName">
+        /// The dns of the irc server as a <see cref="System.String"/>.
+        /// </param>
+        /// <param name="port">
+        /// The port where the irc server is listening on.
+        /// </param>
+        public IrcServerEndPoint(string hostName, int port) : base(0, 0)
+        {
+            IPAddress[] addresses = Dns.GetHostEntry(hostName).AddressList;
+            Address = addresses[0].ToString();
             Port = port;
-            serverHostName = hostname;
+            address = hostName;
+            name = hostName;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the IrcServerEndPoint class.
+        /// </summary>
+        /// <param name="name">
+        /// The displayed name of the server.
+        /// </param>
+        /// <param name="address">
+        /// The dns of the irc server as a <see cref="System.String"/>.
+        /// </param>
+        public IrcServerEndPoint(string name, string address) : base(0, 6667)
+        {
+            IPAddress[] addresses = Dns.GetHostEntry(address).AddressList;
+            Address = addresses[0].ToString();
+            this.address = address;
+            this.name = name;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the IrcServerEndPoint class.
+        /// </summary>
+        /// <param name="name">
+        /// The displayed name of the server.
+        /// </param>
+        /// <param name="address">
+        /// The dns of the irc server as a <see cref="System.String"/>.
+        /// </param>
+        /// <param name="port">
+        /// The port where the irc server is listening on.
+        /// </param>
+        public IrcServerEndPoint(string name, string address, int port) : base(0, 0)
+        {
+            IPAddress[] addresses = Dns.GetHostEntry(address).AddressList;
+            Address = addresses[0].ToString();
+            Port = port;
+            this.address = address;
+            this.name = name;
         }
         
         /// <summary>
@@ -70,25 +132,43 @@ namespace IrcSharp
         /// </param>
         public IrcServerEndPoint(IPAddress address, int port) : base(address, port)
         {
+            name = address.ToString();
         }
         
+        /// <summary>
+        /// Initializes a new instance of the IrcServerEndPoint class.
+        /// </summary>
+        /// <param name="name">
+        /// The displayed name of the server.
+        /// </param>
+        /// <param name="address">
+        /// The ip address of the irc server.
+        /// </param>
+        /// <param name="port">
+        /// The port where the irc server is listening on.
+        /// </param>
+        public IrcServerEndPoint(string name, IPAddress address, int port) : base(address, port)
+        {
+            this.name = name;
+        }
+
         /// <summary>
         /// Gets or sets the server host name.
         /// </summary>
         /// <value>
         /// The dns of the ircserver, if could be resolved, else null.
         /// </value>
-        public string ServerHostName 
+        public new string Address 
         {
             get 
-            { 
-                return serverHostName;
+            {
+                return address;
             }
             set 
-            { 
+            {
                 IPAddress[] addresses = Dns.GetHostEntry(value).AddressList;
-                Address = addresses[0];
-                serverHostName = value; 
+                Address = addresses[0].ToString();
+                address = value; 
             }
         }
         
@@ -114,6 +194,25 @@ namespace IrcSharp
         {
             get { return password; }
             set { password = value; }
+        }
+        
+        /// <summary>
+        /// Gets or sets the display name of a server.
+        /// </summary>
+        /// <value>The name as a string.</value>
+        public string Name 
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        /// <summary>
+        /// Gets the network, the server configuration was created for.
+        /// </summary>
+        /// <value>The network instance.</value>
+        public INetwork Network 
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

@@ -29,7 +29,14 @@ namespace IrcSharp.Extended
     /// <remarks>This class uses all classes of IrcSharp to manage an irc connection.</remarks>
     public class IrcConnection : IrcClient
     {
+        /// <summary>
+        /// Saves the ChannelManager instance of this irc connection.
+        /// </summary>
         private ChannelManager channels;
+        
+        /// <summary>
+        /// Saves the number of instances.
+        /// </summary>
         private static int instanceCount = 0;
         private int connectionID;
 

@@ -42,7 +42,18 @@
     <Compile Include="ConnectEventArgs.cs" />
     <Compile Include="CtcpCommands.cs" />
     <Compile Include="ErrorEventArgs.cs" />
+    <Compile Include="Extended\Channel.cs" />
+    <Compile Include="Extended\ChannelManager.cs" />
+    <Compile Include="Extended\ChannelUser.cs" />
+    <Compile Include="Extended\IrcConnection.cs" />
+    <Compile Include="Extended\JoinedEventArgs.cs" />
+    <Compile Include="Extended\LeftEventArgs.cs" />
+    <Compile Include="Extended\User.cs" />
+    <Compile Include="Extended\UserJoinEventArgs.cs" />
+    <Compile Include="Extended\UserLeaveEventArgs.cs" />
     <Compile Include="IrcEventArgs.cs" />
+    <Compile Include="IrcNetwork.cs" />
+    <Compile Include="IrcProtocol.cs" />
     <Compile Include="IrcServerEndPoint.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IrcClient.cs" />
@@ -93,6 +104,10 @@
   <ItemGroup>
     <Folder Include="Extended\" />
     <Folder Include="Listener" />
+    <ProjectReference Include="..\IrcShark.Chatting\IrcShark.Chatting.csproj">
+      <Project>{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}</Project>
+      <Name>IrcShark.Chatting</Name>
+    </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

@@ -47,7 +47,6 @@ namespace IrcSharp
         /// <param name="client">The client instance, the EventArgs belongs to.</param>
         public IrcEventArgs(IrcClient client)
         {
-            handled = false;
             this.client = client;
         }
 
@@ -57,7 +56,6 @@ namespace IrcSharp
         /// <param name="line">The line, the EventArgs where created from.</param>
         public IrcEventArgs(IrcLine line)
         {
-            handled = false;
             client = line.Client;
             this.line = line;
         }

@@ -60,11 +60,11 @@ namespace IrcSharpTest
 			IrcServerEndPoint point = new IrcServerEndPoint(address1, port1);
 			Assert.IsNotNull(point);
 			Assert.IsInstanceOfType(typeof(IPEndPoint), point);
-			Assert.AreEqual(address1, point.ServerHostName);
+			Assert.AreEqual(address1, point.Address);
 			Assert.AreEqual(ip1, point.Address);
 			Assert.AreEqual(port1, point.Port);
 			point = new IrcServerEndPoint(address2, port2);
-			Assert.AreEqual(address2, point.ServerHostName);
+			Assert.AreEqual(address2, point.Address);
 			Assert.AreEqual(ip2, point.Address);
 			Assert.AreEqual(port2, point.Port);
 			try 
@@ -108,13 +108,13 @@ namespace IrcSharpTest
 		public void ServerHostName()
 		{
 			IrcServerEndPoint point = new IrcServerEndPoint(address1, port1);
-			Assert.AreEqual(address1, point.ServerHostName);
-			point.ServerHostName = address2;
-			Assert.AreEqual(address2, point.ServerHostName);
+			Assert.AreEqual(address1, point.Address);
+			point.Address = address2;
+			Assert.AreEqual(address2, point.Address);
 			Assert.AreEqual(ip2, point.Address);
 			try 
 			{
-				point.ServerHostName = "foobar";
+				point.Address = "foobar";
 				Assert.Fail("why the hell you can use a nonexisting hostname?");
 			}
 			catch (Exception) {}

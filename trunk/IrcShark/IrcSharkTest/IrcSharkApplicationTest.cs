@@ -59,5 +59,41 @@ namespace IrcSharkTest
 			extensions = System.IO.Path.Combine(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "IrcShark"), "Extensions");
 			Assert.AreEqual(extensions, instance.ExtensionsDirectorys.Default);
 		}
+		
+		/// <summary>
+		/// Tests the Extension property.
+		/// </summary>
+		[Test]
+		public void Extensions()
+		{
+			IrcSharkApplication instance;
+			instance = new IrcSharkApplication();
+			Assert.NotNull(instance.Extensions);
+			Assert.IsInstanceOf(typeof(ExtensionManager),instance.Extensions);
+		}
+		
+		/// <summary>
+		/// Tests the Log property.
+		/// </summary>
+		[Test]
+		public void Log()
+		{
+			IrcSharkApplication instance;
+			instance = new IrcSharkApplication();
+			Assert.NotNull(instance.Log);
+			Assert.IsInstanceOf(typeof(Logger),instance.Log);
+		}
+		
+		/// <summary>
+		/// Tests the Setting property.
+		/// </summary>
+		[Test]
+		public void Setting()
+		{
+			IrcSharkApplication instance;
+			instance = new IrcSharkApplication();
+			Assert.NotNull(instance.Settings);
+			Assert.IsInstanceOf(typeof(Settings),instance.Settings);
+		}
 	}
 }

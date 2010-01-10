@@ -51,8 +51,9 @@ namespace IrcSharp
         /// <summary>
         /// Initializes a new instance of the IrcNetwork class.
         /// </summary>
-        public IrcNetwork()
+        public IrcNetwork(string name)
         {
+            this.name = name;
             servers = new List<IrcServerEndPoint>();
         }
         

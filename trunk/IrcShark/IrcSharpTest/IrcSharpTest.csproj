@@ -14,6 +14,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <SourceAnalysisOverrideSettingsFile>C:\Users\markus\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <RootNamespace>IrcSharpTest</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IrcClientTest.cs" />
+    <Compile Include="IrcProtocolTest.cs" />
     <Compile Include="IrcServerEndPointTest.cs" />
     <Compile Include="IrcStandardDefinitionTest.cs" />
     <Compile Include="IrcLineTest.cs" />

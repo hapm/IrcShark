@@ -31,7 +31,7 @@ namespace IrcSharp
         /// <summary>
         /// This regex is used for parsing a mirc user address into its different parts.
         /// </summary>
-        private static Regex hostRegex = new Regex("([^!]*)!([^@]*)@(.*)", RegexOptions.Compiled & RegexOptions.Singleline);
+        private static Regex hostRegex = new Regex("([^!@]+)!([^!@]+)@([^!@]+)", RegexOptions.Compiled & RegexOptions.Singleline);
         
         /// <summary>
         /// Saves the name of the user.
@@ -75,12 +75,12 @@ namespace IrcSharp
             {
                 nickName = hostPieces.Groups[1].Value;
                 ident = hostPieces.Groups[2].Value;
-                host = hostPieces.Groups[3].Value;
+                this.host = hostPieces.Groups[3].Value;
                 this.client = client;
             }
             else
             {
-                // TODO: trow Exception
+                throw new ArgumentException("Malformed userhost can't be parsed correctly", "host");
             }
         }
         
@@ -99,12 +99,12 @@ namespace IrcSharp
             {
                 nickName = hostPieces.Groups[1].Value;
                 ident = hostPieces.Groups[2].Value;
-                host = hostPieces.Groups[3].Value;
+                this.host = hostPieces.Groups[3].Value;
                 this.client = BaseLine.Client;
             }
             else
             {
-                // TODO: throw Exception
+                throw new ArgumentException("Malformed userhost can't be parsed correctly", "baseLine");
             }
         }
 
@@ -228,7 +228,7 @@ namespace IrcSharp
         /// <returns>The hashcode as an int.</returns>
         public override int GetHashCode()
         {
-            return host.GetHashCode() ^ ident.GetHashCode() ^ nickName.GetHashCode();
+            return ToString().GetHashCode();
         }
         
         /// <summary>

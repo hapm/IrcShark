@@ -45,13 +45,13 @@ namespace IrcSharpTest
 			try 
 			{
 				info = new UserInfo(client, "blubl@bla@blubb");
-				Assert.Fail("userinfo was created with bad host");
+				Assert.Fail("userinfo was created with @ in host");
 			}
 			catch (ArgumentException) {}
 			try 
 			{
 				info = new UserInfo(client, "");
-				Assert.Fail("userinfo was created with bad host");
+				Assert.Fail("userinfo was created with empty host");
 			}
 			catch (ArgumentException) {}
 			try 
@@ -63,19 +63,19 @@ namespace IrcSharpTest
 			try 
 			{
 				info = new UserInfo(client, "!bla@blubb");
-				Assert.Fail("userinfo was created with bad host");
+				Assert.Fail("userinfo was created without nickname");
 			}
 			catch (ArgumentException) {}
 			try 
 			{
 				info = new UserInfo(client, "f!bla@");
-				Assert.Fail("userinfo was created with bad host");
+				Assert.Fail("userinfo was created without host");
 			}
 			catch (ArgumentException) {}
 			try 
 			{
 				info = new UserInfo(client, "bla!@blubb");
-				Assert.Fail("userinfo was created with bad host");
+				Assert.Fail("userinfo was created without ident");
 			}
 			catch (ArgumentException) {}
 		}
@@ -124,7 +124,7 @@ namespace IrcSharpTest
 			UserInfo info = new UserInfo(client, "nick!ident@host.de");
 			Assert.AreEqual("host.de", info.Host);
 			info = new UserInfo(client, "me!foobar@you");
-			Assert.AreEqual("you", info.Ident);
+			Assert.AreEqual("you", info.Host);
 			info = new UserInfo(new IrcLine(client, ":nick!ident@host.de CMD :test"));
 			Assert.AreEqual("host.de", info.Host);
 			info = new UserInfo(new IrcLine(client, ":me!foobar@you CMD :test"));

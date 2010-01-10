@@ -77,7 +77,7 @@ namespace IrcSharp
         public IrcServerEndPoint(string hostName, int port) : base(0, 0)
         {
             IPAddress[] addresses = Dns.GetHostEntry(hostName).AddressList;
-            Address = addresses[0].ToString();
+            base.Address = addresses[0];
             Port = port;
             address = hostName;
             name = hostName;
@@ -167,8 +167,21 @@ namespace IrcSharp
             set 
             {
                 IPAddress[] addresses = Dns.GetHostEntry(value).AddressList;
-                Address = addresses[0].ToString();
+                base.Address = addresses[0];
                 address = value; 
+            }
+        }
+        
+        public IPAddress IPAddress 
+        {
+            get 
+            { 
+                return base.Address; 
+            }
+            set 
+            { 
+                base.Address = value;
+                address = value.ToString();
             }
         }
         

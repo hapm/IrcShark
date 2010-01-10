@@ -107,7 +107,7 @@ namespace IrcShark
         /// <value>The DirectoryCollection for the settings directorys.</value>
         public DirectoryCollection SettingsDirectorys
         {
-            get { return new DirectoryCollection(settingsDirectorys); }
+            get { return settings.SettingDirectorys; }
         }
         
         /// <summary>
@@ -116,7 +116,7 @@ namespace IrcShark
         /// <value>The DirectoryCollection for the extension directorys.</value>
         public DirectoryCollection ExtensionsDirectorys
         {
-            get { return new DirectoryCollection(extensionsDirectorys); }
+            get { return settings.ExtensionDirectorys; }
         }
         
         /// <summary>

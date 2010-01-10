@@ -27,14 +27,6 @@
                 if (cmd.CommandName == CommandName)
                 {
                     cmd.Execute();
-                    Console.Write("->");
-                    string command = Console.ReadLine();
-                    while (true)
-                    {
-                        Console.Write("->");
-                        command = Console.ReadLine();
-                        SearchCommand(command);
-                    }
                 }
             }
             while (true)
@@ -54,17 +46,21 @@
         public override void Start()
         {
             AddCommands();
-            readerThread = new Thread();
-            readerThread.st
+            readerThread = new Thread(new ThreadStart(this.Run));
             running = true;
             Console.WriteLine("*******************************************************************************");
             Console.WriteLine("*                   IrcShark started sucsessfully, have fun!                  *");
             Console.WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
             Console.WriteLine("*******************************************************************************");
             Console.WriteLine();
-            Console.Write("->");
-            string command = ReadCommand();
-            SearchCommand(command);
+            readerThread.Start();
+        }
+        
+        private void Run() {
+            string command;
+            while (running) {
+                command = ReadCommand();
+            }
         }
         
         public string ReadCommand() 
@@ -80,9 +76,8 @@
                 switch (key.Key)
                 {
                     case ConsoleKey.Enter:
-                        return line.ToString();
                         Console.WriteLine();
-                        break;
+                        return line.ToString();
                     case ConsoleKey.End:
                         //TODO handle moving the cursor to the endline here
                         break;
@@ -116,6 +111,7 @@
         public override void Stop()
         {
             running = true;
+            readerThread.Join();
         }
     }
 }

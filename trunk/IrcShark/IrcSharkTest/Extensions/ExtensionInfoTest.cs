@@ -39,7 +39,10 @@ namespace IrcSharkTest.Extensions
 		{
 			String xml = "<extension name=\"test\" version=\"1.0.0\"><class></class></extension>";
 			ExtensionInfo info = new ExtensionInfo ();
-			info.ReadXml (XmlReader.Create (new System.IO.StringReader (xml)));
+			XmlReader reader = XmlReader.Create (new System.IO.StringReader (xml));
+			while (!reader.IsStartElement())
+			    reader.Read();
+			info.ReadXml (reader);
 			Assert.AreEqual ("test", info.Name);
 			Assert.AreEqual (new Version ("1.0.0"), info.Version);
 			Assert.IsNull (info.Author);
@@ -47,9 +50,11 @@ namespace IrcSharkTest.Extensions
 			Assert.IsNull (info.Dependencies);
 			Assert.IsEmpty (info.Class);
 			xml = "<extension version=\"1.0\" name=\"My displayed name\"><class>the full qualified name of the class implementing the extension</class><author>Someone</author><dependencies><dependency>a fullname to the extension</dependency><dependency>a second extension</dependency></dependencies></extension>";
-			Console.WriteLine(xml);
+			reader = XmlReader.Create (new System.IO.StringReader (xml));
+			while (!reader.IsStartElement())
+			    reader.Read();
 			info = new ExtensionInfo ();
-			info.ReadXml (XmlReader.Create (new System.IO.StringReader (xml)));
+			info.ReadXml (reader);
 			Assert.AreEqual ("My displayed name", info.Name);
 			Assert.AreEqual (new Version ("1.0"), info.Version);
 			Assert.IsNull (info.Description);

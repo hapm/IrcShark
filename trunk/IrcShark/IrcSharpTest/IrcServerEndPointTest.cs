@@ -61,11 +61,11 @@ namespace IrcSharpTest
 			Assert.IsNotNull(point);
 			Assert.IsInstanceOfType(typeof(IPEndPoint), point);
 			Assert.AreEqual(address1, point.Address);
-			Assert.AreEqual(ip1, point.Address);
+			Assert.AreEqual(ip1, point.IPAddress);
 			Assert.AreEqual(port1, point.Port);
 			point = new IrcServerEndPoint(address2, port2);
 			Assert.AreEqual(address2, point.Address);
-			Assert.AreEqual(ip2, point.Address);
+			Assert.AreEqual(ip2, point.IPAddress);
 			Assert.AreEqual(port2, point.Port);
 			try 
 			{
@@ -75,10 +75,10 @@ namespace IrcSharpTest
 			catch (Exception) {}
 			
 			point = new IrcServerEndPoint(ip1, port1);
-			Assert.AreEqual(ip1, point.Address);
+			Assert.AreEqual(ip1, point.IPAddress);
 			Assert.AreEqual(port1, point.Port);
 			point = new IrcServerEndPoint(ip2, port2);
-			Assert.AreEqual(ip2, point.Address);
+			Assert.AreEqual(ip2, point.IPAddress);
 			Assert.AreEqual(port2, point.Port);
 		}
 		
@@ -105,13 +105,13 @@ namespace IrcSharpTest
 		}
 		
 		[Test()]
-		public void ServerHostName()
+		public void Address()
 		{
 			IrcServerEndPoint point = new IrcServerEndPoint(address1, port1);
 			Assert.AreEqual(address1, point.Address);
 			point.Address = address2;
 			Assert.AreEqual(address2, point.Address);
-			Assert.AreEqual(ip2, point.Address);
+			Assert.AreEqual(ip2, point.IPAddress);
 			try 
 			{
 				point.Address = "foobar";

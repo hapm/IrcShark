@@ -97,7 +97,7 @@ namespace IrcSharp
         /// <returns>The new instance of the network configuration.</returns>
         public INetwork CreateNetwork(string name)
         {
-            return new IrcNetwork();
+            return new IrcNetwork(name);
         }
     }
 }

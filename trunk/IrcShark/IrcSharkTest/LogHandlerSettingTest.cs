@@ -6,12 +6,11 @@
  * 
  * Sie können diese Vorlage unter Extras > Optionen > Codeerstellung > Standardheader ändern.
  */
-
-using System;
-using NUnit.Framework;
-
 namespace IrcShark 
 {
+    using System;
+    using NUnit.Framework;
+
 	[TestFixture]
 	public class LogHandlerSettingTest
 	{

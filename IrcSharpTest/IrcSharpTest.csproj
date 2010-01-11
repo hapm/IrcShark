@@ -55,7 +55,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BadNickEventArgsTest.cs" />
     <Compile Include="IrcClientTest.cs" />
+    <Compile Include="IrcNetworkTest.cs" />
     <Compile Include="IrcProtocolTest.cs" />
     <Compile Include="IrcServerEndPointTest.cs" />
     <Compile Include="IrcStandardDefinitionTest.cs" />

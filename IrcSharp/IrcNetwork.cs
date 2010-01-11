@@ -131,25 +131,41 @@ namespace IrcSharp
         /// </summary>
         /// <param name="name">The name of the server configuration.</param>
         /// <param name="address">The network address as a string.</param>
-        /// <returns>The new IrcServerEndPoint instance for the implemented protocol.</returns>
+        /// <returns>
+        /// The new IrcServerEndPoint instance for the implemented protocol.
+        /// </returns>
         public IrcServerEndPoint AddServer(string name, string address)
         {
             IrcServerEndPoint newServer = null;
+            if (this[name] != null)
+                throw new ArgumentException("The given name already exists in the list of servers", "name");
             if (address.Contains(":"))
             {
                 string addr;
                 string strPort;
                 int port;
                 addr = address.Substring(0, address.IndexOf(':'));
-                strPort = address.Substring(address.IndexOf(':'));
+                strPort = address.Substring(address.IndexOf(':')+1);
                 if (int.TryParse(strPort, out port))
                     newServer = new IrcServerEndPoint(name, addr, port);
                 else
-                    newServer = new IrcServerEndPoint(name, addr);
+                    newServer = new IrcServerEndPoint(name, addr, 6667);
             }
             else 
                 newServer = new IrcServerEndPoint(name, address, 6669);
+            servers.Add(newServer);
             return newServer;
+        }
+        
+        /// <summary>
+        /// Gets the number of servers added to this network.
+        /// </summary>
+        /// <value>
+        /// The number of servers added to this network.
+        /// </value>
+        public int ServerCount
+        {
+            get { return servers.Count; }
         }
         
         /// <summary>
@@ -173,7 +189,9 @@ namespace IrcSharp
         /// <summary>
         /// Removes the server configuration at the given index.
         /// </summary>
-        /// <param name="index">The index of the server configuration to remove.</param>
+        /// <param name="index">
+        /// The index of the server configuration to remove.
+        /// </param>
         public void RemoveServer(int index)
         {
             servers.RemoveAt(index);

@@ -99,6 +99,22 @@ namespace IrcSharpTest
 			Assert.IsFalse(fd.NeedsParameter(FlagArt.Unset));
 		}
 		
+		[Test]
+		public void IsParameter() {
+			FlagDefinition fd = new FlagDefinition('f', ModeArt.User, FlagParameter.Required);
+			Assert.IsTrue(fd.IsParameter(FlagArt.Set, "any text here"));
+			Assert.IsTrue(fd.IsParameter(FlagArt.Unset, "any other text here"));
+			fd = new FlagDefinition('f', ModeArt.User, FlagParameter.Optional);
+			Assert.IsTrue(fd.IsParameter(FlagArt.Set, "any text here"));
+			Assert.IsTrue(fd.IsParameter(FlagArt.Unset, "any other text here"));
+			fd = new FlagDefinition('f', ModeArt.User, FlagParameter.None);
+			Assert.IsFalse(fd.IsParameter(FlagArt.Set, "bla"));
+			Assert.IsFalse(fd.IsParameter(FlagArt.Unset, "foo"));
+			fd = new FlagDefinition('f', ModeArt.User, FlagParameter.Required, FlagParameter.None);
+			Assert.IsTrue(fd.IsParameter(FlagArt.Set, "bar"));
+			Assert.IsFalse(fd.IsParameter(FlagArt.Unset, "blubb"));
+		}
+		
 		/*[Test]
 		public void ParameterRegex()
 		{

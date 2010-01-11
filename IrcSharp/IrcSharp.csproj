@@ -57,6 +57,7 @@
     <Compile Include="BadNickEventArgs.cs" />
     <Compile Include="ConnectEventArgs.cs" />
     <Compile Include="CtcpCommands.cs" />
+    <Compile Include="BadNickReasons.cs" />
     <Compile Include="ErrorEventArgs.cs" />
     <Compile Include="Extended\Channel.cs" />
     <Compile Include="Extended\ChannelManager.cs" />

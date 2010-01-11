@@ -60,7 +60,7 @@ namespace IrcSharpTest
 		public void Client ()
 		{
 			IrcStandardDefinition standard = new IrcStandardDefinition(client);
-			Assert.IsInstanceOfType(typeof(IIrcObject), standard);
+			Assert.IsInstanceOf(typeof(IIrcObject), standard);
 			Assert.AreSame(client, standard.Client);		
 		}
 		#endregion

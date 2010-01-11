@@ -188,7 +188,7 @@ namespace IrcSharpTest
 		public void Client ()
 		{
 			IrcLine line = new IrcLine(client, line1);
-			Assert.IsInstanceOfType(typeof(IIrcObject), line);
+			Assert.IsInstanceOf(typeof(IIrcObject), line);
 			Assert.AreSame(client, line.Client);
 		}
 		#endregion

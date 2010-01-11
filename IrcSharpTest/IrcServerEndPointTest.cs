@@ -59,7 +59,7 @@ namespace IrcSharpTest
 		{
 			IrcServerEndPoint point = new IrcServerEndPoint(address1, port1);
 			Assert.IsNotNull(point);
-			Assert.IsInstanceOfType(typeof(IPEndPoint), point);
+			Assert.IsInstanceOf(typeof(IPEndPoint), point);
 			Assert.AreEqual(address1, point.Address);
 			Assert.AreEqual(ip1, point.IPAddress);
 			Assert.AreEqual(port1, point.Port);

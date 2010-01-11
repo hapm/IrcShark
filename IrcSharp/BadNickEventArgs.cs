@@ -30,6 +30,11 @@ namespace IrcSharp
         /// Saves if the event was fired when logging in.
         /// </summary>
         private bool isLogin;
+        
+        /// <summary>
+        /// Saves the reason why the nick was refused.
+        /// </summary>
+        private BadNickReasons reason;
 
         /// <summary>
         /// Initializes a new instance of the BadNickEventArgs class.
@@ -38,6 +43,17 @@ namespace IrcSharp
         /// <param name="inLogin">Determines if the event was fired in the login state.</param>
         public BadNickEventArgs(IrcLine baseLine, bool inLogin) : base(baseLine)
         {
+            switch (baseLine.Numeric) 
+            {
+                case 432:
+                    reason = BadNickReasons.ErroneusNickname;
+                    break;
+                case 433:
+                    reason = BadNickReasons.NicknameInUse;
+                    break;
+                default:
+                    throw new ArgumentException("The given line is no 432 or 433 numeric", "baseLine");
+            }
             isLogin = inLogin;
         }
 
@@ -49,6 +65,17 @@ namespace IrcSharp
         public bool IsLogin
         {
             get { return isLogin; }
+        }
+        
+        /// <summary>
+        /// Gets the reason why the nickname was refused.
+        /// </summary>
+        /// <value>
+        /// The reason as defined in <see cref="BadNickReasons" />.
+        /// </value>
+        public BadNickReasons Reason
+        {
+            get { return reason; }
         }
     }
 }

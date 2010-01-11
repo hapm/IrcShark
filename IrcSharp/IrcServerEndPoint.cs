@@ -172,6 +172,12 @@ namespace IrcSharp
             }
         }
         
+        /// <summary>
+        /// Gets the ip address of the server.
+        /// </summary>
+        /// <value>
+        /// The IPAddress instance for the server.
+        /// </value>
         public IPAddress IPAddress 
         {
             get 
@@ -226,6 +232,31 @@ namespace IrcSharp
         public INetwork Network 
         {
             get { throw new NotImplementedException(); }
+        }
+        
+        /// <summary>
+        /// Compares this IrcNetwork with another object.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns>
+        /// Returns true if the given object is equals to this, false otherwise.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            IrcServerEndPoint server = obj as IrcServerEndPoint;
+            if (server == null)
+                return false;
+            return server != null && base.Equals(obj)
+                && server.Name.Equals(name);
+        }
+        
+        /// <summary>
+        /// Gets the hashcode of this object.
+        /// </summary>
+        /// <returns>The hashcode.</returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ name.GetHashCode();
         }
     }
 }

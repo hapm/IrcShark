@@ -46,16 +46,6 @@ namespace IrcShark
         private ExtensionManager extensions;
         
         /// <summary>
-        /// Saves the extension directorys for this IrcShark instance.
-        /// </summary>
-        private List<string> extensionsDirectorys;
-        
-        /// <summary>
-        /// Saves the settings directorys for this IrcShark instance.
-        /// </summary>
-        private List<string> settingsDirectorys;
-        
-        /// <summary>
         /// The Logger instance belonging to this IrcSharkApplication.
         /// </summary>
         private Logger log;

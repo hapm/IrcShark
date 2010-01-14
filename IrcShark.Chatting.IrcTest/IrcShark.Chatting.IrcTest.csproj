@@ -72,7 +72,7 @@
       <Project>{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}</Project>
       <Name>IrcShark.Chatting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IrcSharp\IrcShark.Chatting.Irc.csproj">
+    <ProjectReference Include="..\IrcShark.Chatting.Irc\IrcShark.Chatting.Irc.csproj">
       <Project>{B287A6A8-748D-4E26-B2FF-1EC098D536F3}</Project>
       <Name>IrcShark.Chatting.Irc</Name>
     </ProjectReference>

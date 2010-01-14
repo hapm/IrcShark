@@ -39,7 +39,7 @@ namespace IrcSharkStarter
 		public static void Main(string[] args)
 		{
 			ircShark = new IrcSharkApplication();
-            IrcShark.Dispose();
+			ircShark.Run();
 		}
 	}
 }

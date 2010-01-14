@@ -29,6 +29,9 @@ namespace IrcSharpTest
 	[TestFixture()]
 	public class IrcClientTest
 	{
+	    /// <summary>
+	    /// Tests the contructor.
+	    /// </summary>
 		[Test()]
 		public void Constructor() 
 		{

@@ -22,7 +22,7 @@ namespace IrcSharp
     using System;
 
     /// <summary>
-    /// The LoginEventArgs belongs to the <see cref="LoginEventHandler" /> and the <see cref="IrcClient.OnLogin" /> event.
+    /// The LoginEventArgs belongs to the <see cref="IrcClient.LoginEventHandler" /> and the <see cref="IrcClient.OnLogin" /> event.
     /// </summary>
     /// <remarks>
     /// Gives information about the network and nickname of the successfully logged in connection.

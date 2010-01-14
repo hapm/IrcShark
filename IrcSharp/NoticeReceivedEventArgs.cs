@@ -22,14 +22,16 @@ namespace IrcSharp
     using System;
 
     /// <summary>
-    /// The NoticeReceivedEventArgs belongs to the <see cref="NoticeReceivedEventHandler" /> and the <see cref="IrcClient.NoticeReceived" /> event.
+    /// The NoticeReceivedEventArgs belongs to the 
+    /// <see cref="IrcClient.NoticeReceivedEventHandler" /> and the 
+    /// <see cref="IrcClient.NoticeReceived" /> event.
     /// </summary>
     public class NoticeReceivedEventArgs : IrcEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the NoticeReceivedEventArgs class.
         /// </summary>
-        /// <param name="line">The line creating thenotice event.</param>
+        /// <param name="line">The line creating the notice event.</param>
         public NoticeReceivedEventArgs(IrcLine line) : base(line)
         {
         }

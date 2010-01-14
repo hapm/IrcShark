@@ -145,7 +145,7 @@ namespace IrcSharp.Extended
         }
 
         /// <summary>
-        /// Handles the <see cref="Channel.Parted" /> event.
+        /// Handles the <see cref="Channel.Left" /> event.
         /// </summary>
         /// <param name="sender">The sender of the parted event.</param>
         /// <param name="e">The event args.</param>

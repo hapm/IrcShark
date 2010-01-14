@@ -22,7 +22,7 @@ namespace IrcSharp
     using System;
 
     /// <summary>
-    /// The JoinReceivedEventArgs belongs to the <see cref="JoinReceivedEventHandler" /> and the <see cref="IrcClient.JoinReceived" /> event.
+    /// The JoinReceivedEventArgs belongs to the <see cref="IrcClient.JoinReceivedEventHandler" /> and the <see cref="IrcClient.JoinReceived" /> event.
     /// </summary>
     public class JoinReceivedEventArgs : IrcEventArgs
     {

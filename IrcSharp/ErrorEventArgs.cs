@@ -22,7 +22,7 @@ namespace IrcSharp
     using System;
 
     /// <summary>
-    /// The ErrorEventArgs belongs to the <see cref="ErrorEventHandler" /> and the <see cref="IrcClient.Error" /> event.
+    /// The ErrorEventArgs belongs to the <see cref="IrcClient.ErrorEventHandler" /> and the <see cref="IrcClient.Error" /> event.
     /// </summary>
     public class ErrorEventArgs : IrcEventArgs
     {

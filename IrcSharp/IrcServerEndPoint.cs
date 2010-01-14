@@ -54,9 +54,6 @@ namespace IrcSharp
         /// <param name="hostName">
         /// The dns of the irc server as a <see cref="System.String"/>.
         /// </param>
-        /// <param name="port">
-        /// The port where the irc server is listening on.
-        /// </param>
         public IrcServerEndPoint(string hostName) : base(0, 6667)
         {
             IPAddress[] addresses = Dns.GetHostEntry(hostName).AddressList;

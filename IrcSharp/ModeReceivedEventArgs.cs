@@ -23,7 +23,7 @@ namespace IrcSharp
     using System.Collections.Generic;
 
     /// <summary>
-    /// The ModeReceivedEventArgs belongs to the <see cref="ModeReceivedEventHandler" /> and the <see cref="IrcClient.ModeReceived" /> event.
+    /// The ModeReceivedEventArgs belongs to the <see cref="IrcClient.ModeReceivedEventHandler" /> and the <see cref="IrcClient.ModeReceived" /> event.
     /// </summary>
     public class ModeReceivedEventArgs : IrcEventArgs
     {

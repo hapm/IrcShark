@@ -22,7 +22,9 @@ namespace IrcSharp
     using System;
 
     /// <summary>
-    /// The QuitReceivedEventArgs belongs to the <see cref="QuitReceivedEventHandler" /> and the <see cref="IrcClient.QuitReceived" /> event.
+    /// The QuitReceivedEventArgs belongs to the 
+    /// <see cref="IrcClient.QuitReceivedEventHandler" /> and the 
+    /// <see cref="IrcClient.QuitReceived" /> event.
     /// </summary>
     public class QuitReceivedEventArgs : IrcEventArgs
     {

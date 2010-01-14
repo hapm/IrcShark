@@ -53,7 +53,7 @@ namespace IrcSharp.Extended
     }
     
     /// <summary>
-    /// The UserLeaveEventArgs are used by the <see cref="Channel.UserLeave" /> event.
+    /// The UserLeaveEventArgs are used by the <see cref="IrcSharp.Extended.Channel.UserLeave" /> event.
     /// </summary>
     public class UserLeaveEventArgs : IrcEventArgs
     {

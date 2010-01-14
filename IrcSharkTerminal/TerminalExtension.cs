@@ -8,16 +8,23 @@
     using IrcShark;
     using IrcShark.Extensions;
     using System.Threading;
-
+    
+    /// <summary>
+    /// This extension allows the administration of IrcShark over the console.
+    /// </summary>
     public class TerminalExtension : IrcShark.Extensions.Extension
     {
-        private List<TerminalCommand> commands = new List<TerminalCommand>();
+        private List<TerminalCommand> commands;
         private bool running;
         private Thread readerThread;
+        private LinkedList<string> cmdHistory;
+        private LinkedListNode<string> currentHistoryCmd;
 
         public TerminalExtension(ExtensionContext context)
             : base(context)
         {
+            commands = new List<TerminalCommand>();
+            cmdHistory = new LinkedList<string>();
         }
 
         public void SearchCommand(string CommandName)
@@ -28,12 +35,6 @@
                 {
                     cmd.Execute();
                 }
-            }
-            while (true)
-            {
-                Console.Write("->");
-                string command = Console.ReadLine();
-                SearchCommand(command);
             }
         }
 
@@ -82,16 +83,24 @@
                         //TODO handle moving the cursor to the endline here
                         break;
                     case ConsoleKey.Home:
-                        //TODO handle moving the cursor to the beginning here
+                        Console.CursorLeft = 0;
                         break;
                     case ConsoleKey.LeftArrow:
-                        //TODO handle moving the cursor one left
+                        Console.CursorLeft--;
                         break;
                     case ConsoleKey.RightArrow:
-                        //TODO handle moving the cursor one right
+                        Console.CursorLeft--;
                         break;
                     case ConsoleKey.UpArrow:
-                        //TODO get previous command in history
+                        if (currentHistoryCmd == null) {
+                            if (cmdHistory.Last == null)
+                                break;
+                            currentHistoryCmd = cmdHistory.Last;
+                            cmdHistory.AddLast(line.ToString());
+                            line = new StringBuilder(currentHistoryCmd.Value);
+                            Console.CursorLeft = 0;
+                            Console.Write(line.ToString());
+                        }
                         break;
                     case ConsoleKey.DownArrow:
                         //TODO get next command in history

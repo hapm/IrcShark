@@ -22,7 +22,9 @@ namespace IrcSharp
     using System;
 
     /// <summary>
-    /// The NickChangeReceivedEventArgs belongs to the <see cref="NickchangeReceivedEventHandler" /> and the <see cref="IrcClient.NickChangeReceived" /> event.
+    /// The NickChangeReceivedEventArgs belongs to the 
+    /// <see cref="IrcClient.NickChangeReceivedEventHandler" /> and the 
+    /// <see cref="IrcClient.NickChangeReceived" /> event.
     /// </summary>
     public class NickChangeReceivedEventArgs : IrcEventArgs
     {

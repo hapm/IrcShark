@@ -22,7 +22,7 @@ namespace IrcSharp
     using System;
 
     /// <summary>
-    /// The ConnectEventArgs belongs to the <see cref="ConnectEventHandler" /> and the <see cref="IrcClient.OnConnect" /> event.
+    /// The ConnectEventArgs belongs to the <see cref="IrcClient.ConnectEventHandler" /> and the <see cref="IrcClient.OnConnect" /> event.
     /// </summary>
     public class ConnectEventArgs : IrcEventArgs
     {

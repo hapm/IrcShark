@@ -22,7 +22,9 @@ namespace IrcSharp
     using System;
 
     /// <summary>
-    /// The PartReceivedEventArgs belongs to the <see cref="PartReceivedEventHandler" /> and the <see cref="IrcClient.PartReceived" /> event.
+    /// The PartReceivedEventArgs belongs to the 
+    /// <see cref="IrcClient.PartReceivedEventHandler" /> and the 
+    /// <see cref="IrcClient.PartReceived" /> event.
     /// </summary>
     public class PartReceivedEventArgs : IrcEventArgs
     {

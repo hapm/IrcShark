@@ -63,6 +63,7 @@
     <Compile Include="IrcStandardDefinitionTest.cs" />
     <Compile Include="IrcLineTest.cs" />
     <Compile Include="IIrcObjectTest.cs" />
+    <Compile Include="ModeTest.cs" />
     <Compile Include="UserInfoTest.cs" />
     <Compile Include="FlagDefinitionTest.cs" />
   </ItemGroup>

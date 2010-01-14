@@ -22,7 +22,9 @@ namespace IrcSharp
     using System;
 
     /// <summary>
-    /// The PingReceivedEventArgs belongs to the <see cref="PingReceivedEventHandler" /> and the <see cref="IrcClient.PingReceived" /> event.
+    /// The PingReceivedEventArgs belongs to the 
+    /// <see cref="IrcClient.PingReceivedEventHandler" /> and the 
+    /// <see cref="IrcClient.PingReceived" /> event.
     /// </summary>
     public class PingReceivedEventArgs : IrcEventArgs
     {

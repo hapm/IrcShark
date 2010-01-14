@@ -1,0 +1,7 @@
+*.Cache
+StyleCopViolations.xml
+bin/
+obj/
+Output/
+*.user
+*.bak

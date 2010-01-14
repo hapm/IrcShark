@@ -10,9 +10,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Policy", "IrcShark
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkTest", "IrcSharkTest\IrcSharkTest.csproj", "{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharpTest", "IrcSharpTest\IrcSharpTest.csproj", "{867ABEAC-AC81-4C23-BBBD-3CFB9836B2A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Chatting.IrcTest", "IrcShark.Chatting.IrcTest\IrcShark.Chatting.IrcTest.csproj", "{867ABEAC-AC81-4C23-BBBD-3CFB9836B2A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharp", "IrcSharp\IrcSharp.csproj", "{B287A6A8-748D-4E26-B2FF-1EC098D536F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Chatting.Irc", "IrcShark.Chatting.Irc\IrcShark.Chatting.Irc.csproj", "{B287A6A8-748D-4E26-B2FF-1EC098D536F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Chatting", "IrcShark.Chatting\IrcShark.Chatting.csproj", "{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}"
 EndProject

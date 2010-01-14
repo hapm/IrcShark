@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B287A6A8-748D-4E26-B2FF-1EC098D536F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>IrcShark.Chatting.Irc</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\markus\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <RootNamespace>IrcShark.Chatting.Irc</RootNamespace>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\IrcSharp.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug</OutputPath>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BadNickEventArgs.cs" />
+    <Compile Include="ConnectEventArgs.cs" />
+    <Compile Include="CtcpCommands.cs" />
+    <Compile Include="BadNickReasons.cs" />
+    <Compile Include="ErrorEventArgs.cs" />
+    <Compile Include="Extended\Channel.cs" />
+    <Compile Include="Extended\ChannelManager.cs" />
+    <Compile Include="Extended\ChannelUser.cs" />
+    <Compile Include="Extended\IrcConnection.cs" />
+    <Compile Include="Extended\JoinedEventArgs.cs" />
+    <Compile Include="Extended\LeftEventArgs.cs" />
+    <Compile Include="Extended\User.cs" />
+    <Compile Include="Extended\UserJoinEventArgs.cs" />
+    <Compile Include="Extended\UserLeaveEventArgs.cs" />
+    <Compile Include="IrcEventArgs.cs" />
+    <Compile Include="IrcNetwork.cs" />
+    <Compile Include="IrcProtocol.cs" />
+    <Compile Include="IrcServerEndPoint.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="IrcClient.cs" />
+    <Compile Include="IrcStandardDefinition.cs" />
+    <Compile Include="IIrcObject.cs" />
+    <Compile Include="IrcLine.cs" />
+    <Compile Include="InvalidLineFormatException.cs" />
+    <Compile Include="JoinReceivedEventArgs.cs" />
+    <Compile Include="KickReceivedEventArgs.cs" />
+    <Compile Include="LineReceivedEventArgs.cs" />
+    <Compile Include="Listener\ChannelListBeginEventArgs.cs" />
+    <Compile Include="Listener\ChannelListEndEventArgs.cs" />
+    <Compile Include="Listener\ChannelListLine.cs" />
+    <Compile Include="Listener\ChannelListListener.cs" />
+    <Compile Include="Listener\InfoBeginEventArgs.cs" />
+    <Compile Include="Listener\InfoEndEventArgs.cs" />
+    <Compile Include="Listener\InfoListener.cs" />
+    <Compile Include="Listener\LinksBeginEventArgs.cs" />
+    <Compile Include="Listener\LinksEndEventArgs.cs" />
+    <Compile Include="Listener\LinksListener.cs" />
+    <Compile Include="Listener\MotdBeginEventArgs.cs" />
+    <Compile Include="Listener\MotdEndEventArgs.cs" />
+    <Compile Include="Listener\MotdListener.cs" />
+    <Compile Include="Listener\NamesBeginEventArgs.cs" />
+    <Compile Include="Listener\NamesEndEventArgs.cs" />
+    <Compile Include="Listener\NamesListener.cs" />
+    <Compile Include="Listener\WhoBeginEventArgs.cs" />
+    <Compile Include="Listener\WhoEndEventArgs.cs" />
+    <Compile Include="Listener\WhoLine.cs" />
+    <Compile Include="Listener\WhoListener.cs" />
+    <Compile Include="LoginEventArgs.cs" />
+    <Compile Include="MessageReceivedEventArgs.cs" />
+    <Compile Include="Mode.cs" />
+    <Compile Include="ModeReceivedEventArgs.cs" />
+    <Compile Include="NickChangeReceivedEventArgs.cs" />
+    <Compile Include="NoticeReceivedEventArgs.cs" />
+    <Compile Include="NumericReceivedEventArgs.cs" />
+    <Compile Include="PartReceivedEventArgs.cs" />
+    <Compile Include="PingReceivedEventArgs.cs" />
+    <Compile Include="QuitReceivedEventArgs.cs" />
+    <Compile Include="UserInfo.cs" />
+    <Compile Include="FlagArt.cs" />
+    <Compile Include="FlagParameter.cs" />
+    <Compile Include="ModeArt.cs" />
+    <Compile Include="FlagDefinition.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Extended\" />
+    <Folder Include="Listener" />
+    <ProjectReference Include="..\IrcShark.Chatting\IrcShark.Chatting.csproj">
+      <Project>{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}</Project>
+      <Name>IrcShark.Chatting</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties InternalTargetFrameworkVersion="3.5" />
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>

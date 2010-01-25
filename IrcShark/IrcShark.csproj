@@ -57,10 +57,12 @@
   <ItemGroup>
     <Compile Include="ChannelFilter.cs" />
     <Compile Include="ExtensionAnalyzer.cs" />
+    <Compile Include="ExtensionDependencyResolver.cs" />
     <Compile Include="ExtensionInfoCollection.cs" />
     <Compile Include="Extensions\ExtensionContext.cs" />
     <Compile Include="Extensions\ExtensionDependencyAttribute.cs" />
     <Compile Include="Extensions\ExtensionInfoBuilder.cs" />
+    <Compile Include="IContext.cs" />
     <Compile Include="IrcSharkApplication.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ExtensionManager.cs" />

@@ -269,7 +269,7 @@ namespace IrcShark
         /// </summary>
         /// <param name="logger">The logger, what raised the event.</param>
         /// <param name="msg">The message to log.</param>
-        private void DefaultConsoleLogger(object logger, LogMessage msg)
+        public void DefaultConsoleLogger(object logger, LogMessage msg)
         {
             try
             {

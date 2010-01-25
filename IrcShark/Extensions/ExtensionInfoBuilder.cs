@@ -93,7 +93,7 @@
             Type resType = type;
             foreach (AssemblyName asmName in asm.GetReferencedAssemblies())
             {
-                if (asmName.FullName == type.Assembly.FullName)
+                if (CompareAssemblys(asmName, type.Assembly.GetName()))
                 {
                     Assembly.Load(asmName.FullName);
                     Assembly ircshark = Assembly.ReflectionOnlyLoad(asmName.FullName);
@@ -103,13 +103,34 @@
                     foreach (Type t in ircshark.GetExportedTypes())
                     {
                         if (t.Name == "Extension")
+                        {
                             resType = t;
+                            break; 
+                        }
                     }
                 }
                 else
                     Assembly.ReflectionOnlyLoad(asmName.FullName);
             }
             return resType;
+        }
+        
+        /// <summary>
+        /// Compares to AssemblyNames to check if they a re the same.
+        /// </summary>
+        /// <param name="asm1">The first AssemblyName.</param>
+        /// <param name="asm2">The second AssemblyName.</param>
+        /// <returns>Its true if the AssemblyNames are equals, false otherwise.</returns>
+        /// <remarks>
+        /// This is a quick and dirty solution, as the method only compares the
+        /// textual name. Need to find a better method here!
+        /// </remarks>
+        private static bool CompareAssemblys(AssemblyName asm1, AssemblyName asm2)
+        {
+            // TODO change this simple comparision to something more robust.
+            if (asm1.Name != asm2.Name)
+                return false;
+            return true;
         }
     }
 }

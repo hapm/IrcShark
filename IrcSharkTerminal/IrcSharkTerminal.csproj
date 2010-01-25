@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExitCommand.cs" />
+    <Compile Include="HelpCommand.cs" />
     <Compile Include="TerminalCommand.cs" />
     <Compile Include="TerminalExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -239,8 +239,8 @@ namespace IrcShark
             unavailable = new List<ExtensionInfo>();
             unloaded.AddRange(AvailableExtensions);
             foreach (ExtensionInfo info in application.Settings.LoadedExtensions)
-            {
-                application.Log.Log(new LogMessage(Logger.CoreChannel, 1007, String.Format("Try to load {0}: {1} ({2})", info.Class, info.SourceFile, info.AssemblyGuid)));
+            {               
+                application.Log.Log(new LogMessage(Logger.CoreChannel, 1007, String.Format(Messages.Info1007_TryToLoad, info.Class, info.SourceFile, info.AssemblyGuid)));
                 foreach (ExtensionInfo realInfo in unloaded)
                 {
                     if (info.CompareTo(realInfo))
@@ -259,7 +259,7 @@ namespace IrcShark
             }
             foreach (ExtensionInfo info in unavailable)
             {
-                application.Settings.LoadedExtensions.Remove(info);
+                //application.Settings.LoadedExtensions.Remove(info);
             }
         }
 

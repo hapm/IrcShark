@@ -14,49 +14,135 @@
     /// </summary>
     public class TerminalExtension : IrcShark.Extensions.Extension
     {
+        /// <summary>
+        /// Saves a list of all commands added to the terminal.
+        /// </summary>
         private List<TerminalCommand> commands;
+        
+        /// <summary>
+        /// Saves the state of the extension.
+        /// </summary>
         private bool running;
+        
+        /// <summary>
+        /// Saves the thread, what is used to read input from the terminal.
+        /// </summary>
         private Thread readerThread;
+        
+        /// <summary>
+        /// Saves a list of the last typed commands.
+        /// </summary>
         private LinkedList<string> cmdHistory;
+        
+        /// <summary>
+        /// A reference to the currently selected command in the history.
+        /// </summary>
         private LinkedListNode<string> currentHistoryCmd;
 
+        /// <summary>
+        /// Initializes a new instance of the TerminalExtension class.
+        /// </summary>
+        /// <param name="context">The context, this extension is created for.</param>
         public TerminalExtension(ExtensionContext context)
             : base(context)
         {
             commands = new List<TerminalCommand>();
             cmdHistory = new LinkedList<string>();
         }
+        
+        /// <summary>
+        /// Gets all commands currently added to the TerminalExtension.
+        /// </summary>
+        /// <value>
+        /// An array of TerminalCommands.
+        /// </value>
+        public TerminalCommand[] Commands
+        {
+            get { return commands.ToArray(); }
+        }
 
-        public void SearchCommand(string CommandName)
+        /// <summary>
+        /// Executes the command with the given name.
+        /// </summary>
+        /// <param name="name">The name of the command to execute.</param>
+        public void ExecuteCommand(string name)
         {
             foreach (TerminalCommand cmd in commands)
             {
-                if (cmd.CommandName == CommandName)
+                if (cmd.CommandName == name)
                 {
                     cmd.Execute();
                 }
             }
         }
-
-        public void AddCommands()
+        
+        /// <summary>
+        /// Adds all the default commands, that are part of the TerminalExtension.
+        /// </summary>
+        private void AddDefaultCommands()
         {
-            commands.Add(new Help());
-            commands.Add(new Exit());
+            commands.Add(new HelpCommand(this));
+            commands.Add(new ExitCommand(this));
         }
 
+        /// <summary>
+        /// Starts the TerminalExtension.
+        /// </summary>
         public override void Start()
         {
-            AddCommands();
+            AddDefaultCommands();
             readerThread = new Thread(new ThreadStart(this.Run));
             running = true;
-            Console.WriteLine("*******************************************************************************");
-            Console.WriteLine("*                   IrcShark started sucsessfully, have fun!                  *");
-            Console.WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
-            Console.WriteLine("*******************************************************************************");
-            Console.WriteLine();
+            WriteLine("*******************************************************************************");
+            WriteLine("*                   IrcShark started successfully, have fun!                  *");
+            WriteLine("*      Use the \"help\" command to get a list of all available commands       *");
+            WriteLine("*******************************************************************************");
+            WriteLine();
+            // unregister the default console logger as of incompatibility
+            Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
+            Context.Application.Log.LoggedMessage += new LoggedMessageEventHandler(TerminalLogger);
             readerThread.Start();
         }
+
+        public void TerminalLogger(object sender, LogMessage msg)
+        {
+            LogHandlerSetting logSetting;
+            try
+            { 
+                logSetting = Context.Application.Settings.LogSettings["IrcShark.Extensions.TerminalLogHandler"];
+            }
+            catch (IndexOutOfRangeException)
+            {
+                logSetting = new LogHandlerSetting("IrcShark.Extensions.TerminalLogHandler");
+                logSetting.Debug = false;
+                logSetting.Warning = true;
+                logSetting.Error = true;
+                Context.Application.Settings.LogSettings.Add(logSetting);
+                return;
+            }
+            if (!logSetting.ApplysTo(msg))
+                return;
+            string format = "[{0}][{1}][{2}] {3}";
+            switch (msg.Level)
+            {
+                case LogLevel.Debug:
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    break;
+                case LogLevel.Warning:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case LogLevel.Error:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+            }
+            WriteLine(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
+            Console.ResetColor();
+        }
         
+        /// <summary>
+        /// This method is used by the internal reading thread for reading a
+        /// command from the terminal.
+        /// </summary>
         private void Run() {
             string command;
             while (running) {
@@ -64,6 +150,10 @@
             }
         }
         
+        /// <summary>
+        /// Reads a command from the Terminal.
+        /// </summary>
+        /// <returns>The command line that was read form the terminal.</returns>
         public string ReadCommand() 
         {
             Console.Write("-> ");
@@ -117,9 +207,48 @@
             return null;
         }
         
+        /// <summary>
+        /// Writes text to the terminal.
+        /// </summary>
+        /// <param name="text">The text to write.</param>
+        public void Write(string text) 
+        {
+            Console.Write(text);
+        }
+        
+        /// <summary>
+        /// Writes a complete line and appends a linebreak at the end.
+        /// </summary>
+        /// <param name="line">The line to write.</param>
+        public void WriteLine(string line)
+        {
+            Console.WriteLine(line);
+        }
+        
+        /// <summary>
+        /// Writes a complete formated line and appends a linebreak at the end.
+        /// </summary>
+        /// <param name="format">The format to write.</param>
+        /// <param name="arg">The objects to use when formating the line.</param>
+        public void WriteLine(string format, params object[] arg)
+        {
+            Console.WriteLine(format, arg);
+        }
+        
+        /// <summary>
+        /// Writes a linebreak to the terminal.
+        /// </summary>
+        public void WriteLine()
+        {
+            Console.WriteLine();
+        }
+        
+        /// <summary>
+        /// Stops the execution of the TerminalExtension.
+        /// </summary>
         public override void Stop()
         {
-            running = true;
+            running = false;
             readerThread.Join();
         }
     }

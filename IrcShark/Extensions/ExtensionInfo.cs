@@ -328,8 +328,9 @@ namespace IrcShark.Extensions
         {
             writer.WriteStartElement("extension");
             writer.WriteAttributeString("name", Name);
-            writer.WriteAttributeString("version", Version.ToString());
             writer.WriteElementString("class", Class);
+            if (Version != null)
+            	writer.WriteAttributeString("version", Version.ToString());
             if (!String.IsNullOrEmpty(author))
                 writer.WriteElementString("author", Description);
             if (assemblyGuid != null)

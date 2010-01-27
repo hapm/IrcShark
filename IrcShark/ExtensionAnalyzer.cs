@@ -35,14 +35,14 @@ namespace IrcShark
         /// Initializes a new instance of the ExtensionAnalyzer class for the given dll file.
         /// </summary>
         /// <param name="fileToAnalyze">The path to the file to analyze.</param>
-        public ExtensionAnalyzer(string fileToAnalyze)
+        public ExtensionAnalyzer(string fileToAnalyze/*, string[] recoveryPathes*/)
         {
             string asmName;
             string typeName;
             AppDomain domain;
             ExtensionInfoBuilder extBuilder;
             extensions = new List<ExtensionInfo>();
-            domain = CreateAnalyzerDomain();
+            domain = CreateAnalyzerDomain(/*recoveryPathes*/);
             asmName = GetType().Assembly.FullName;
             typeName = typeof(ExtensionInfoBuilder).FullName;
             extBuilder = (ExtensionInfoBuilder)domain.CreateInstanceAndUnwrap(asmName, typeName, false, BindingFlags.CreateInstance, null, new object[] { fileToAnalyze }, null, null, null);
@@ -71,7 +71,7 @@ namespace IrcShark
         /// <remarks>
         /// The created AppDomain has very low permissions and is unloaded after analyzation is done.
         /// </remarks>
-        private static AppDomain CreateAnalyzerDomain()
+        private static AppDomain CreateAnalyzerDomain(/*string[] recoveryPathes*/)
         {
             AppDomainSetup ads = new AppDomainSetup();
             AppDomain result;

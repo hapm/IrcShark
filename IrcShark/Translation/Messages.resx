@@ -151,7 +151,7 @@
     <value>Try to load {0}: {1} ({2})</value>
   </data>
   <data name="Error3003_ExtensionLoadFail" xml:space="preserve">
-    <value>The extension \"{0}\" couldn't be loaded</value>
+    <value>The extension "{0}" couldn't be loaded</value>
   </data>
   <data name="Info1008_ExtensionsWaitForLoading" xml:space="preserve">
     <value>{0} extensions wait for loading</value>

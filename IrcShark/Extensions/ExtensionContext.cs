@@ -35,7 +35,7 @@ namespace IrcShark.Extensions
     /// The context of an extension holds all information an extension needs to run. It gives access 
     /// to all needed informations as propertys.
     /// </remarks>
-    public class ExtensionContext
+    public class ExtensionContext : MarshalByRefObject
     {
         /// <summary>
         /// Saves the instance of the ExtensionInfo for the Extension, this ExtensionContext was created for.

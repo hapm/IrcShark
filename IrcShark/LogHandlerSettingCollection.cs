@@ -72,7 +72,14 @@ namespace IrcShark
         /// </summary>
         public LogHandlerSetting this[string name]
         {
-            get { return settings[name]; }
+            get 
+            { 
+            	try { return settings[name]; }
+            	catch (KeyNotFoundException ex)
+            	{
+            		throw new IndexOutOfRangeException(name + " wasn't found in the LogHnadlerSettings", ex);
+            	}
+            }
         }
         
         /// <summary>

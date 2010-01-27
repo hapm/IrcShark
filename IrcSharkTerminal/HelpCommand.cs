@@ -68,14 +68,16 @@ namespace IrcSharkTerminal
                     else
                     {
                         line.Append(' ');
-                        line.Append(cmd.CommandName);
-                        if (line.Length > 40)
-                        {
-                            Terminal.WriteLine(line.ToString());
-                            line = null;
-                        }
+                    	line.Append(cmd.CommandName);
+                    }
+                    if (line.Length > 40)
+                    {
+                        Terminal.WriteLine(line.ToString());
+                        line = null;
                     }
                 }
+                if (line != null)
+                    Terminal.WriteLine(line.ToString());                	
             }
         }
     }

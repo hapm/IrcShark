@@ -21,6 +21,7 @@
 
 using System;
 using IrcShark;
+using System.Diagnostics;
 
 namespace IrcSharkStarter
 {
@@ -38,8 +39,14 @@ namespace IrcSharkStarter
 		
 		public static void Main(string[] args)
 		{
+			Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);;
 			ircShark = new IrcSharkApplication();
 			ircShark.Run();
+		}
+
+		static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+		{
+			ircShark.Dispose();
 		}
 	}
 }

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
 
     using IrcShark;
@@ -18,6 +17,11 @@
         /// Saves a list of all commands added to the terminal.
         /// </summary>
         private List<TerminalCommand> commands;
+        
+        /// <summary>
+        /// Saves the line buffer of the current input line.
+        /// </summary>
+        private StringBuilder line;
         
         /// <summary>
         /// Saves the state of the extension.
@@ -38,6 +42,8 @@
         /// A reference to the currently selected command in the history.
         /// </summary>
         private LinkedListNode<string> currentHistoryCmd;
+        
+        private bool newLine;
 
         /// <summary>
         /// Initializes a new instance of the TerminalExtension class.
@@ -48,6 +54,7 @@
         {
             commands = new List<TerminalCommand>();
             cmdHistory = new LinkedList<string>();
+            newLine = false;
         }
         
         /// <summary>
@@ -91,16 +98,17 @@
         public override void Start()
         {
             AddDefaultCommands();
-            readerThread = new Thread(new ThreadStart(this.Run));
-            running = true;
-            WriteLine("*******************************************************************************");
-            WriteLine("*                   IrcShark started successfully, have fun!                  *");
-            WriteLine("*      Use the \"help\" command to get a list of all available commands       *");
-            WriteLine("*******************************************************************************");
-            WriteLine();
-            // unregister the default console logger as of incompatibility
+            // disable the default console logger and replace it with the TerminalLogger
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
             Context.Application.Log.LoggedMessage += new LoggedMessageEventHandler(TerminalLogger);
+            WriteLine("*******************************************************************************");
+            WriteLine("*                   IrcShark started successfully, have fun!                  *");
+            WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
+            WriteLine("*******************************************************************************");
+            WriteLine();
+            // unregister the default console logger as of incompatibility;
+            readerThread = new Thread(new ThreadStart(this.Run));
+            running = true;
             readerThread.Start();
         }
 
@@ -147,6 +155,8 @@
             string command;
             while (running) {
                 command = ReadCommand();
+                if (command != null)
+	                ExecuteCommand(command);
             }
         }
         
@@ -156,11 +166,10 @@
         /// <returns>The command line that was read form the terminal.</returns>
         public string ReadCommand() 
         {
-            Console.Write("-> ");
-            StringBuilder line = new StringBuilder();
+            line = new StringBuilder();
             while (running) 
             {
-                Thread.Sleep(300);
+            	Thread.Sleep(10);
                 if (!Console.KeyAvailable)
                     continue;
                 ConsoleKeyInfo key = Console.ReadKey(true);
@@ -168,7 +177,10 @@
                 {
                     case ConsoleKey.Enter:
                         Console.WriteLine();
-                        return line.ToString();
+                        Console.Write("-> ");
+                        String cmd = line.ToString();
+                        line = null;
+                        return cmd;
                     case ConsoleKey.End:
                         //TODO handle moving the cursor to the endline here
                         break;
@@ -179,7 +191,7 @@
                         Console.CursorLeft--;
                         break;
                     case ConsoleKey.RightArrow:
-                        Console.CursorLeft--;
+                        Console.CursorLeft++;
                         break;
                     case ConsoleKey.UpArrow:
                         if (currentHistoryCmd == null) {
@@ -213,7 +225,17 @@
         /// <param name="text">The text to write.</param>
         public void Write(string text) 
         {
-            Console.Write(text);
+        	int col = Console.CursorLeft;
+        	if (col < 3)
+        		col = 3;
+        	CleanInputLine();
+            Console.WriteLine(text);
+            Console.Write("-> ");
+            if (this.line != null) 
+            {
+    	        Console.Write(this.line.ToString());
+            }
+	        Console.CursorLeft = col;
         }
         
         /// <summary>
@@ -222,7 +244,22 @@
         /// <param name="line">The line to write.</param>
         public void WriteLine(string line)
         {
-            Console.WriteLine(line);
+            Write(line);
+            newLine = true;
+        }
+        
+        private void CleanInputLine()
+        {
+        	int charCount = 3;
+        	if (line != null)
+        		charCount += line.Length;
+        	if (!newLine)
+        		charCount++;
+        	else
+        		newLine = false;
+        	Console.Write(new string('\b', charCount));
+        	Console.Write(new string(' ', charCount));
+        	Console.Write(new string('\b', charCount));
         }
         
         /// <summary>
@@ -232,7 +269,7 @@
         /// <param name="arg">The objects to use when formating the line.</param>
         public void WriteLine(string format, params object[] arg)
         {
-            Console.WriteLine(format, arg);
+        	WriteLine(string.Format(format, arg));
         }
         
         /// <summary>
@@ -240,7 +277,7 @@
         /// </summary>
         public void WriteLine()
         {
-            Console.WriteLine();
+            WriteLine("");
         }
         
         /// <summary>

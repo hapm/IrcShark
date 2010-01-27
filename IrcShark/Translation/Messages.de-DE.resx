@@ -124,7 +124,7 @@
     <value>Konnte Konfigurationsdatei nicht speichern: {0}</value>
   </data>
   <data name="Error3003_ExtensionLoadFail" xml:space="preserve">
-    <value>Die Extension \"{0}\" konnte nicht geladen werden</value>
+    <value>Die Extension "{0}" konnte nicht geladen werden</value>
   </data>
   <data name="Info1001_StartingIrcShark" xml:space="preserve">
     <value>Starte IrcShark, mach dich bereit...</value>

@@ -104,7 +104,9 @@ namespace IrcShark
 
             log.Log(new LogMessage(Logger.CoreChannel, 1005, LogLevel.Information, Messages.Info1005_StartedSeconds, finalStartTime));
             while (running)
-                Thread.Sleep(0);
+                Thread.Sleep(100);
+            extensions.Dispose();
+            log.Dispose();
         }
         
         /// <summary>
@@ -170,9 +172,8 @@ namespace IrcShark
             if (disposed)
             {
                 running = false;
-                //SaveSettings();
+                SaveSettings();
                 log.Log(new LogMessage(Logger.CoreChannel, 1006, Messages.Info1006_ShuttingDown));
-                log.Dispose();
             }
         }
 

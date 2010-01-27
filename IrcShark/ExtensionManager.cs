@@ -211,14 +211,13 @@ namespace IrcShark
         /// <param name="ext">The ExtensionInfo for the extension to mark for unload.</param>
         public void Unload(ExtensionInfo ext)
         {
-            if (!IsLoaded(ext)) return;
+            if (!IsLoaded(ext)) 
+            	return;
             List<ExtensionInfo> toRemove = new List<ExtensionInfo>();
             foreach (ExtensionInfo enabledExt in application.Settings.LoadedExtensions)
             {
                 if (enabledExt.CompareTo(ext))
-                {
                     toRemove.Add(enabledExt);
-                }
             }
             foreach (ExtensionInfo toDel in toRemove)
             {
@@ -245,12 +244,18 @@ namespace IrcShark
                 {
                     if (info.CompareTo(realInfo))
                     {
-                        HiddenLoad(realInfo);
-                        unloaded.Remove(realInfo);
+                    	try 
+                    	{
+                        	HiddenLoad(realInfo);
+                        	unloaded.Remove(realInfo);
+                    	}
+                    	catch (Exception) 
+                    	{
+                    		application.Log.Log(new LogMessage(Logger.CoreChannel, 3003, LogLevel.Error, Messages.Error3003_ExtensionLoadFail, info.Class));
+                    		unavailable.Add(info);                    		
+                    	}
                         break;
                     }
-                    application.Log.Log(new LogMessage(Logger.CoreChannel, 3003, LogLevel.Error, Messages.Error3003_ExtensionLoadFail, info.Class));
-                    unavailable.Add(info);
                 }
                 foreach (Extension ext in extensions.Values)
                 {
@@ -280,9 +285,9 @@ namespace IrcShark
         /// </summary>
         public void Dispose()
         {
-            foreach (ExtensionInfo ext in this.extensions.Keys) 
+            foreach (Extension ext in this.extensions.Values) 
             {
-                Unload(ext);
+            	ext.Stop();
             }
         }
         #endregion

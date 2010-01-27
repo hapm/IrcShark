@@ -43,6 +43,14 @@
         /// </summary>
         private LinkedListNode<string> currentHistoryCmd;
         
+        /// <summary>
+        /// Saves a value indicating whether the last written console line has 
+        /// a linebreak at the end or not.
+        /// </summary>
+        /// <remarks>
+        /// This value is needed in <see cref="CleanInputLine" /> to know if
+        /// the linebreak should be cleared or not.
+        /// </remarks>
         private bool newLine;
 
         /// <summary>
@@ -100,7 +108,7 @@
             AddDefaultCommands();
             // disable the default console logger and replace it with the TerminalLogger
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
-            Context.Application.Log.LoggedMessage += new LoggedMessageEventHandler(TerminalLogger);
+            Context.Application.Log.LoggedMessage += TerminalLogger;
             WriteLine("*******************************************************************************");
             WriteLine("*                   IrcShark started successfully, have fun!                  *");
             WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
@@ -112,6 +120,15 @@
             readerThread.Start();
         }
 
+        /// <summary>
+        /// This is a replacement logger for the <see cref="IrcSharkApplication.DefaultConsoleLogger" />.
+        /// </summary>
+        /// <remarks>
+        /// The default loghandler is not compatible with the TerminalExtension and is replaced with this 
+        /// loghandler.
+        /// </remarks>
+        /// <param name="sender">The Logger what send the message.</param>
+        /// <param name="msg">The Message.</param>
         public void TerminalLogger(object sender, LogMessage msg)
         {
             LogHandlerSetting logSetting;
@@ -287,6 +304,9 @@
         {
             running = false;
             readerThread.Join();
+            CleanInputLine();
+            Context.Application.Log.LoggedMessage += Context.Application.DefaultConsoleLogger;
+            Context.Application.Log.LoggedMessage -= TerminalLogger;
         }
     }
 }

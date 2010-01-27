@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-# SharpDevelop 3.1.0.4890
+# SharpDevelop 3.1.0.4977
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark", "IrcShark\IrcShark.csproj", "{F6955540-7429-49FB-AE3D-A9AD916D2334}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkStarter", "IrcSharkStarter\IrcSharkStarter.csproj", "{340C66BE-24B0-484E-8B7C-4B492219B59E}"
@@ -16,9 +16,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Chatting.Irc", "Ir
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Chatting", "IrcShark.Chatting\IrcShark.Chatting.csproj", "{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IrcShark.Extensions", "IrcShark.Extensions", "{9C4752AE-4357-4FC5-842C-2F44B4B15992}"
+	ProjectSection(SolutionItems) = postProject
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Chatting", "IrcShark.Extensions.Chatting\IrcShark.Extensions.Chatting.csproj", "{298D1D46-2F53-44B9-97B1-1CB2655AE41F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Scripting", "IrcShark.Extensions.Scripting\IrcShark.Extensions.Scripting.csproj", "{02C99BBE-4D3F-4372-A5D9-8941117D15DC}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkTerminal", "IrcSharkTerminal\IrcSharkTerminal.csproj", "{22028AFF-9B26-4978-9C35-C4998A82BB46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkTerminalTest", "IrcSharkTerminalTest\IrcSharkTerminalTest.csproj", "{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -148,6 +156,30 @@ Global
 		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Default|Mixed Platforms.ActiveCfg = Default|Mixed Platforms
 		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Release|Mixed Platforms.Build.0 = Release|Mixed Platforms
 		{298D1D46-2F53-44B9-97B1-1CB2655AE41F}.Release|Mixed Platforms.ActiveCfg = Release|Mixed Platforms
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Debug|Any CPU.Build.0 = Debug|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Default|Any CPU.Build.0 = Debug|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Default|Any CPU.ActiveCfg = Debug|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Default|Mixed Platforms.Build.0 = Debug|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Default|Mixed Platforms.ActiveCfg = Debug|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Release|Any CPU.Build.0 = Release|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Release|Any CPU.ActiveCfg = Release|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Debug|Any CPU.Build.0 = Debug|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Default|Any CPU.Build.0 = Debug|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Default|Any CPU.ActiveCfg = Debug|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Default|Mixed Platforms.Build.0 = Debug|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Default|Mixed Platforms.ActiveCfg = Debug|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Release|Any CPU.Build.0 = Release|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Release|Any CPU.ActiveCfg = Release|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Release|Mixed Platforms.Build.0 = Release|x86
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Release|Mixed Platforms.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,5 +196,11 @@ Global
 		$2.ResourceNamePolicy = FileFormatDefault
 		$0.VersionControlPolicy = $3
 		$3.inheritsSet = Mono
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
+		{22028AFF-9B26-4978-9C35-C4998A82BB46} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
 	EndGlobalSection
 EndGlobal

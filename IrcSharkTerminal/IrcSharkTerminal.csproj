@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandCall.cs" />
     <Compile Include="ExitCommand.cs" />
     <Compile Include="HelpCommand.cs" />
     <Compile Include="TerminalCommand.cs" />

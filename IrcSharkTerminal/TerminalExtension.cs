@@ -52,6 +52,20 @@
         /// the linebreak should be cleared or not.
         /// </remarks>
         private bool newLine;
+        
+        /// <summary>
+        /// Saves the length of the lastly written line.
+        /// </summary>
+        /// <remarks>
+        /// This value is needed for the Write method to be able to determine where
+        /// new written text should start.
+        /// </remarks>
+        private int lastLineLength;
+        
+        /// <summary>
+        /// Saves the currently selected foreground color.
+        /// </summary>
+        private ConsoleColor fgColor;
 
         /// <summary>
         /// Initializes a new instance of the TerminalExtension class.
@@ -75,18 +89,28 @@
         {
             get { return commands.ToArray(); }
         }
+        
+        /// <summary>
+        /// Gets or sets the foregroundcolor of the drawn text.
+        /// </summary>
+        /// <value>A ConsoleColor value indicating the current foreground color.</value>
+        public ConsoleColor ForegroundColor
+        {
+        	get { return fgColor; }
+        	set { fgColor = value; }
+        }
 
         /// <summary>
         /// Executes the command with the given name.
         /// </summary>
-        /// <param name="name">The name of the command to execute.</param>
-        public void ExecuteCommand(string name)
+        /// <param name="call">The CommandCall to execute.</param>
+        public void ExecuteCommand(CommandCall call)
         {
             foreach (TerminalCommand cmd in commands)
             {
-                if (cmd.CommandName == name)
+                if (cmd.CommandName == call.CommandName)
                 {
-                    cmd.Execute();
+                    cmd.Execute(call.Parameters);
                 }
             }
         }
@@ -96,8 +120,9 @@
         /// </summary>
         private void AddDefaultCommands()
         {
-            commands.Add(new HelpCommand(this));
             commands.Add(new ExitCommand(this));
+            commands.Add(new LogCommand(this));
+            commands.Add(new HelpCommand(this));
         }
 
         /// <summary>
@@ -109,6 +134,8 @@
             // disable the default console logger and replace it with the TerminalLogger
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
             Context.Application.Log.LoggedMessage += TerminalLogger;
+            Console.ResetColor();
+            fgColor = Console.ForegroundColor;
             WriteLine("*******************************************************************************");
             WriteLine("*                   IrcShark started successfully, have fun!                  *");
             WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
@@ -169,7 +196,7 @@
         /// command from the terminal.
         /// </summary>
         private void Run() {
-            string command;
+            CommandCall command;
             while (running) {
                 command = ReadCommand();
                 if (command != null)
@@ -181,7 +208,7 @@
         /// Reads a command from the Terminal.
         /// </summary>
         /// <returns>The command line that was read form the terminal.</returns>
-        public string ReadCommand() 
+        public CommandCall ReadCommand() 
         {
             line = new StringBuilder();
             while (running) 
@@ -193,11 +220,16 @@
                 switch (key.Key)
                 {
                     case ConsoleKey.Enter:
-                        Console.WriteLine();
-                        Console.Write("-> ");
-                        String cmd = line.ToString();
-                        line = null;
-                        return cmd;
+                		try
+                		{
+                			CommandCall call = new CommandCall(line.ToString());
+                        	Console.WriteLine();
+                        	Console.Write("-> ");
+                        	line = null;
+                        	return call;
+                		}
+                		catch(Exception) {}
+                		break;
                     case ConsoleKey.End:
                         //TODO handle moving the cursor to the endline here
                         break;
@@ -246,7 +278,36 @@
         	if (col < 3)
         		col = 3;
         	CleanInputLine();
-            Console.WriteLine(text);
+            if (lastLineLength > 0)
+            {
+            	if (text.Contains("\n"))
+            	{
+            		string[] lines;
+            	    lines = text.Split(new char[] { '\n' }, StringSplitOptions.None);
+            	    Console.Write(lines[0]);
+            	    Console.MoveBufferArea(0, Console.CursorTop, lines[0].Length, 1, lastLineLength, Console.CursorTop - 1);
+            	    Console.Write(new string('\b', lines[0].Length));
+            		for (int i = 1; i < lines.Length; i++)
+            		{
+            			Console.WriteLine(lines[i]);
+            		}
+            		lastLineLength = lines[lines.Length - 1].Length;
+            	}
+            	else 
+            	{
+            		Console.Write(text);
+            		Console.MoveBufferArea(0, Console.CursorTop, text.Length, 1, lastLineLength, Console.CursorTop - 1);
+            		Console.Write(new string('\b', text.Length));
+            		lastLineLength += text.Length;
+            	}
+            }
+            else
+            {
+            	Console.WriteLine(text);
+            	lastLineLength = text.Length;
+            	if (text.Contains("\n"))
+            		lastLineLength -= 1 + text.LastIndexOf('\n');
+            }
             Console.Write("-> ");
             if (this.line != null) 
             {
@@ -263,20 +324,35 @@
         {
             Write(line);
             newLine = true;
+            lastLineLength = 0;
         }
         
+        /// <summary>
+        /// Resets the foreground and background color of the terminal.
+        /// </summary>
+        public void ResetColor()
+        {
+        	Console.ResetColor();
+        	fgColor = Console.ForegroundColor;
+        }
+        
+        /// <summary>
+        /// Cleans the current input line to draw something else instead.
+        /// </summary>
         private void CleanInputLine()
         {
+        	Console.ResetColor();
         	int charCount = 3;
         	if (line != null)
         		charCount += line.Length;
         	if (!newLine)
-        		charCount++;
+        		charCount += 10;
         	else
         		newLine = false;
         	Console.Write(new string('\b', charCount));
         	Console.Write(new string(' ', charCount));
         	Console.Write(new string('\b', charCount));
+        	Console.ForegroundColor = fgColor;
         }
         
         /// <summary>

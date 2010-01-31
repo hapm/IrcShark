@@ -159,7 +159,7 @@ namespace IrcShark
         
         public IEnumerator<LogHandlerSetting> GetEnumerator()
         {
-            return (settings as IEnumerable<LogHandlerSetting>).GetEnumerator();
+        	return ((IEnumerable<LogHandlerSetting>)settings.Values).GetEnumerator();
         }
         
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

@@ -69,7 +69,7 @@ namespace IrcSharkTerminal
 				if (c.Value[0] == '"')
 					parameters[i] = escapeReplace.Replace(c.Value.Substring(1, c.Value.Length - 2), "$1");
 				else
-					parameters[i] = c.Value;
+					parameters[i] = escapeReplace.Replace(c.Value, "$1");
 			}
 		}
 		

@@ -28,14 +28,13 @@ namespace IrcSharkTest
 	[TestFixture()]
 	public class ExtensionManagerTest
 	{
-		
 		[Test()]
 		public void Constructor()
 		{
 			// we can't create an instance of ExtensionManager by ourself
 			// only IrcSharkApplication can do that for us
 			IrcSharkApplication app = new IrcSharkApplication();
-			ExtensionManager extMan;
+			ExtensionManager extMan = new ExtensionManager(app);
 			Assert.IsNotNull(app.Extensions);
 			try 
 			{
@@ -46,7 +45,5 @@ namespace IrcSharkTest
 			catch (ArgumentException) { }
 			Assert.AreSame(app, app.Extensions.Application);
 		}
-		
-		
 	}
 }

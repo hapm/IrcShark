@@ -211,7 +211,7 @@ namespace IrcShark
                 log.Log(new LogMessage(Logger.CoreChannel, 2001, LogLevel.Warning, Messages.Warning2001_SettingDoesentExist));
             }
             
-            // Creates the default settings if the settingsfile couldn't be loaded
+            // Creates the default settin if the settingsfile couldn't be loadedgs
             if (settings == null)
             {
                 settings = new Settings();

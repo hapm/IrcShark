@@ -53,6 +53,7 @@
     <Compile Include="CommandCall.cs" />
     <Compile Include="ConsoleTerminal.cs" />
     <Compile Include="ExitCommand.cs" />
+    <Compile Include="ExtensionCommand.cs" />
     <Compile Include="HelpCommand.cs" />
     <Compile Include="ITerminal.cs" />
     <Compile Include="LogCommand.cs" />

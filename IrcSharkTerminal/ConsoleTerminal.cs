@@ -35,7 +35,7 @@ namespace IrcSharkTerminal
 	/// This class allows the TerminalExtension to use the local Console as
 	/// as a terminal for a user.
 	/// </summary>
-	public class ConsoleTerminal : ITerminal
+	public class ConsoleTerminal
 	{
         
         /// <summary>

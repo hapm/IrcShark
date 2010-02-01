@@ -45,29 +45,29 @@ namespace IrcSharkTerminal
         /// Writes a complete line and appends a linebreak at the end.
         /// </summary>
         /// <param name="line">The line to write.</param>
-        public void WriteLine(string line);
+        void WriteLine(string line);
         
         /// <summary>
         /// Resets the foreground and background color of the terminal.
         /// </summary>
-        public void ResetColor();
+        void ResetColor();
         
         /// <summary>
         /// Writes a complete formated line and appends a linebreak at the end.
         /// </summary>
         /// <param name="format">The format to write.</param>
         /// <param name="arg">The objects to use when formating the line.</param>
-        public void WriteLine(string format, params object[] arg);
+        void WriteLine(string format, params object[] arg);
         
         /// <summary>
         /// Writes a linebreak to the terminal.
         /// </summary>
-        public void WriteLine();
+        void WriteLine();
         
         /// <summary>
         /// Gets or sets the foregroundcolor of the drawn text.
         /// </summary>
         /// <value>A ConsoleColor value indicating the current foreground color.</value>
-        public ConsoleColor ForegroundColor { get; set; }
+        ConsoleColor ForegroundColor { get; set; }
 	}
 }

@@ -220,6 +220,7 @@
                 switch (key.Key)
                 {
                     case ConsoleKey.Enter:
+                		//Search and execute the entered command
                 		try
                 		{
                 			CommandCall call = new CommandCall(line.ToString());
@@ -231,16 +232,24 @@
                 		catch(Exception) {}
                 		break;
                     case ConsoleKey.End:
-                        //TODO handle moving the cursor to the endline here
+                		//Move the cursor to the end of the entered command
+                		if (line.Length > 0) {
+                			Console.CursorLeft = line.Length + 3;
+                		}
                         break;
                     case ConsoleKey.Home:
-                        Console.CursorLeft = 0;
+                        //Move the cursor to the begining of the entered command
+                        Console.CursorLeft = 3;
                         break;
                     case ConsoleKey.LeftArrow:
-                        Console.CursorLeft--;
+                        //Move the cursor leftwards, but we have to be sure that the cursor is not going out of the console
+                        if (Console.CursorLeft > 3)
+                        	Console.CursorLeft--;
                         break;
                     case ConsoleKey.RightArrow:
-                        Console.CursorLeft++;
+                        //Move the cursor rightwards, but we have to be sure that the cursor is not going out of the console
+                        if ( Console.CursorLeft < Console.WindowWidth - 1 && Console.CursorLeft < line.Length + 3)
+                        	Console.CursorLeft++;
                         break;
                     case ConsoleKey.UpArrow:
                         if (currentHistoryCmd == null) {
@@ -259,7 +268,15 @@
                     case ConsoleKey.Tab:
                         //TODO autocomplete command here
                         break;
-                    default:
+                    case ConsoleKey.Backspace:
+                   		//Make it for the user impossible to press backspace if the command line is blank
+                   		if (line.Length > 0) {
+                   			CleanInputLine();
+                   			line.Remove(line.Length - 1, 1);
+                   			Console.Write("-> " + line);
+                   		}
+                   		break;
+                    default:;
                         line.Append(key.KeyChar);
                         Console.Write(key.KeyChar);
                         break;

@@ -193,9 +193,13 @@ namespace IrcShark.Chatting.Irc
         public bool IsParameter(FlagArt art, string text) 
         {
             if (art == FlagArt.Set && SetParameter == FlagParameter.None)
+            {
                 return false;
+            }
             else if (art == FlagArt.Unset && UnsetParameter == FlagParameter.None)
+            {
                 return false;
+            }
             
             return true;
 

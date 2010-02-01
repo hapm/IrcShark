@@ -24,10 +24,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 // Erstellt mit SharpDevelop.
-using System;
-
 namespace IrcShark.Extensions
 {
+    using System;
+
     /// <summary>
     /// The ExtensionContext class saves informations about the context, the Extension is running in.
     /// </summary>

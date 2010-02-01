@@ -51,6 +51,9 @@ namespace IrcShark.Chatting.Irc
         /// <summary>
         /// Initializes a new instance of the IrcNetwork class.
         /// </summary>
+        /// <param name="name">
+        /// The network name.
+        /// </param>
         public IrcNetwork(string name)
         {
             this.name = name;
@@ -65,6 +68,17 @@ namespace IrcShark.Chatting.Irc
         {
             get { return name; }
             set { name = value; }
+        }
+        
+        /// <summary>
+        /// Gets the number of servers added to this network.
+        /// </summary>
+        /// <value>
+        /// The number of servers added to this network.
+        /// </value>
+        public int ServerCount
+        {
+            get { return servers.Count; }
         }
         
         /// <summary>
@@ -138,34 +152,33 @@ namespace IrcShark.Chatting.Irc
         {
             IrcServerEndPoint newServer = null;
             if (this[name] != null)
+            {
                 throw new ArgumentException("The given name already exists in the list of servers", "name");
+            }
+            
             if (address.Contains(":"))
             {
                 string addr;
                 string strPort;
                 int port;
                 addr = address.Substring(0, address.IndexOf(':'));
-                strPort = address.Substring(address.IndexOf(':')+1);
+                strPort = address.Substring(address.IndexOf(':') + 1);
                 if (int.TryParse(strPort, out port))
+                {
                     newServer = new IrcServerEndPoint(name, addr, port);
+                }
                 else
+                {
                     newServer = new IrcServerEndPoint(name, addr, 6667);
+                }
             }
             else 
+            {
                 newServer = new IrcServerEndPoint(name, address, 6669);
+            }
+            
             servers.Add(newServer);
             return newServer;
-        }
-        
-        /// <summary>
-        /// Gets the number of servers added to this network.
-        /// </summary>
-        /// <value>
-        /// The number of servers added to this network.
-        /// </value>
-        public int ServerCount
-        {
-            get { return servers.Count; }
         }
         
         /// <summary>

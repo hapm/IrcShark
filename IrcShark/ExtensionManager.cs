@@ -212,7 +212,7 @@ namespace IrcShark
         public void Unload(ExtensionInfo ext)
         {
             if (!IsLoaded(ext)) 
-            	return;
+                return;
             List<ExtensionInfo> toRemove = new List<ExtensionInfo>();
             foreach (ExtensionInfo enabledExt in application.Settings.LoadedExtensions)
             {
@@ -244,16 +244,16 @@ namespace IrcShark
                 {
                     if (info.CompareTo(realInfo))
                     {
-                    	try 
-                    	{
-                        	HiddenLoad(realInfo);
-                        	unloaded.Remove(realInfo);
-                    	}
-                    	catch (Exception) 
-                    	{
-                    		application.Log.Log(new LogMessage(Logger.CoreChannel, 3003, LogLevel.Error, Messages.Error3003_ExtensionLoadFail, info.Class));
-                    		unavailable.Add(info);                    		
-                    	}
+                        try 
+                        {
+                            HiddenLoad(realInfo);
+                            unloaded.Remove(realInfo);
+                        }
+                        catch (Exception) 
+                        {
+                            application.Log.Log(new LogMessage(Logger.CoreChannel, 3003, LogLevel.Error, Messages.Error3003_ExtensionLoadFail, info.Class));
+                            unavailable.Add(info);
+                        }
                         break;
                     }
                 }
@@ -264,7 +264,7 @@ namespace IrcShark
             }
             foreach (ExtensionInfo info in unavailable)
             {
-                //application.Settings.LoadedExtensions.Remove(info);
+                ////application.Settings.LoadedExtensions.Remove(info);
             }
         }
 
@@ -287,7 +287,7 @@ namespace IrcShark
         {
             foreach (Extension ext in this.extensions.Values) 
             {
-            	ext.Stop();
+                ext.Stop();
             }
         }
         #endregion

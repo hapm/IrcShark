@@ -29,29 +29,85 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcSharkTerminal
 {
-	using System;
+    using System;
+    using IrcShark;
+    using IrcShark.Extensions;
 
-	/// <summary>
-	/// The ExtensionCommand is used to manage extenions.
-	/// </summary>
-	public class ExtensionCommand : TerminalCommand
-	{
-		/// <summary>
-		/// Initializes a new instance of the ExtensionCommand class.
-		/// </summary>
-		/// <param name="extension">The instance of the TerminalExtension.</param>
-		public ExtensionCommand(TerminalExtension extension)
+    /// <summary>
+    /// The ExtensionCommand is used to manage extenions.
+    /// </summary>
+    public class ExtensionCommand : TerminalCommand
+    {
+        /// <summary>
+        /// Saves the instance of the ExtensionManager.
+        /// </summary>
+        ExtensionManager extManager;
+        
+        /// <summary>
+        /// Initializes a new instance of the ExtensionCommand class.
+        /// </summary>
+        /// <param name="extension">The instance of the TerminalExtension.</param>
+        public ExtensionCommand(TerminalExtension extension)
             : base("ext", extension)
-		{
-		}
-		
-		/// <summary>
-		/// Executes the ExtensionCommand.
-		/// </summary>
-		/// <param name="paramList">All parameters of the command.</param>
-		public override void Execute(params string[] paramList)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        {
+            extManager = Terminal.Context.Application.Extensions;
+        }
+        
+        /// <summary>
+        /// Executes the ExtensionCommand.
+        /// </summary>
+        /// <param name="paramList">All parameters of the command.</param>
+        public override void Execute(params string[] paramList)
+        {
+            if (paramList.Length < 1)
+            {
+                Terminal.WriteLine(Translation.Messages.SpecifyFlag);
+                return;
+            }
+            switch (paramList[0])
+            {
+                case "-l":
+                    ListLoadedExtensions();
+                    break;
+                case "-a":
+                    ListAvailableExtensions();
+                    break;
+                default:
+                    Terminal.WriteLine(string.Format(Translation.Messages.UnknownFlag, paramList[0]));
+                    break;
+            }
+        }
+
+        void ListAvailableExtensions()
+        {
+            Terminal.WriteLine(Translation.Messages.ListingAvailableExtensions);
+            foreach (ExtensionInfo info in extManager.AvailableExtensions) {
+                if (!string.IsNullOrEmpty(info.Name)) {
+                    Terminal.Write(info.Name);
+                } else {
+                    Terminal.Write(info.Class);
+                }
+                if (!string.IsNullOrEmpty(info.Description)) {
+                    Terminal.Write(" " + info.Description);
+                }
+                Terminal.WriteLine();
+            }
+        }
+
+        void ListLoadedExtensions()
+        {
+            Terminal.WriteLine(Translation.Messages.ListingLoadedExtensions);
+            foreach (ExtensionInfo info in extManager.Keys) {
+                if (!string.IsNullOrEmpty(info.Name)) {
+                    Terminal.Write(info.Name);
+                } else {
+                    Terminal.Write(info.Class);
+                }
+                if (!string.IsNullOrEmpty(info.Description)) {
+                    Terminal.Write(" " + info.Description);
+                }
+                Terminal.WriteLine();
+            }
+        }
+    }
 }

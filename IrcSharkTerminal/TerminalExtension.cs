@@ -66,6 +66,11 @@
         /// Saves the currently selected foreground color.
         /// </summary>
         private ConsoleColor fgColor;
+        
+        /// <summary>
+        /// Saves if the autoCompleteList is up to date or need to be updated.
+        /// </summary>
+        private bool autoCompleteUpToDate;
 
         /// <summary>
         /// Initializes a new instance of the TerminalExtension class.
@@ -77,6 +82,41 @@
             commands = new List<TerminalCommand>();
             cmdHistory = new LinkedList<string>();
             newLine = false;
+        }
+        
+        /// <summary>
+        /// Adds all the default commands, that are part of the TerminalExtension.
+        /// </summary>
+        private void AddDefaultCommands()
+        {
+            commands.Add(new ExitCommand(this));
+            commands.Add(new ExtensionCommand(this));
+            commands.Add(new LogCommand(this));
+            commands.Add(new HelpCommand(this));
+        }
+        
+        /// <summary>
+        /// This method is used by the internal reading thread for reading a
+        /// command from the terminal.
+        /// </summary>
+        private void Run() {
+            CommandCall command;
+            while (running) {
+                command = ReadCommand();
+                if (command != null)
+	                ExecuteCommand(command);
+            }
+        }
+        
+        /// <summary>
+        /// Autocompletes the word, the cursor is currently on.
+        /// </summary>
+        private void AutoComplete()
+        {
+            if (!autoCompleteUpToDate)
+            {
+                
+            }
         }
         
         /// <summary>
@@ -113,16 +153,6 @@
                     cmd.Execute(call.Parameters);
                 }
             }
-        }
-        
-        /// <summary>
-        /// Adds all the default commands, that are part of the TerminalExtension.
-        /// </summary>
-        private void AddDefaultCommands()
-        {
-            commands.Add(new ExitCommand(this));
-            commands.Add(new LogCommand(this));
-            commands.Add(new HelpCommand(this));
         }
 
         /// <summary>
@@ -192,19 +222,6 @@
         }
         
         /// <summary>
-        /// This method is used by the internal reading thread for reading a
-        /// command from the terminal.
-        /// </summary>
-        private void Run() {
-            CommandCall command;
-            while (running) {
-                command = ReadCommand();
-                if (command != null)
-	                ExecuteCommand(command);
-            }
-        }
-        
-        /// <summary>
         /// Reads a command from the Terminal.
         /// </summary>
         /// <returns>The command line that was read form the terminal.</returns>
@@ -217,6 +234,7 @@
                 if (!Console.KeyAvailable)
                     continue;
                 ConsoleKeyInfo key = Console.ReadKey(true);
+                autoCompleteUpToDate = autoCompleteUpToDate && key.Key == ConsoleKey.Tab;
                 switch (key.Key)
                 {
                     case ConsoleKey.Enter:
@@ -266,6 +284,7 @@
                         //TODO get next command in history
                         break;
                     case ConsoleKey.Tab:
+                        AutoComplete();
                         //TODO autocomplete command here
                         break;
                     case ConsoleKey.Backspace:

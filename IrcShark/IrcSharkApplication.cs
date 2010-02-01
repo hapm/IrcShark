@@ -83,31 +83,6 @@ namespace IrcShark
         public IrcSharkApplication()
         {
         }
-
-        /// <summary>
-        /// Starts IrcShark.
-        /// </summary>
-        public void Run()
-        {
-            int startTime = Environment.TickCount;
-            running = true;
-
-            InitLogging();
-            log.Log(new LogMessage(Logger.CoreChannel, 1001, Messages.Info1001_StartingIrcShark));
-            LoadSettings();
-
-            InitExtensionManager();
-            extensions.LoadEnabledExtensions();
-
-            int stopTime = Environment.TickCount;
-            double finalStartTime = (stopTime - startTime) / 1000.0;
-
-            log.Log(new LogMessage(Logger.CoreChannel, 1005, LogLevel.Information, Messages.Info1005_StartedSeconds, finalStartTime));
-            while (running)
-                Thread.Sleep(100);
-            extensions.Dispose();
-            log.Dispose();
-        }
         
         /// <summary>
         /// Gets a list of all directorys used for settings lookup.
@@ -153,6 +128,31 @@ namespace IrcShark
         {
             get { return settings; }
         }
+
+        /// <summary>
+        /// Starts IrcShark.
+        /// </summary>
+        public void Run()
+        {
+            int startTime = Environment.TickCount;
+            running = true;
+
+            InitLogging();
+            log.Log(new LogMessage(Logger.CoreChannel, 1001, Messages.Info1001_StartingIrcShark));
+            LoadSettings();
+
+            InitExtensionManager();
+            extensions.LoadEnabledExtensions();
+
+            int stopTime = Environment.TickCount;
+            double finalStartTime = (stopTime - startTime) / 1000.0;
+
+            log.Log(new LogMessage(Logger.CoreChannel, 1005, LogLevel.Information, Messages.Info1005_StartedSeconds, finalStartTime));
+            while (running)
+                Thread.Sleep(100);
+            extensions.Dispose();
+            log.Dispose();
+        }
         
         /// <summary>
         /// Disposes the IrcSharkApplication instance.
@@ -161,6 +161,40 @@ namespace IrcShark
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// The default console logger.
+        /// </summary>
+        /// <param name="logger">The logger, what raised the event.</param>
+        /// <param name="msg">The message to log.</param>
+        public void DefaultConsoleLogger(object logger, LogMessage msg)
+        {
+            try
+            {
+                LogHandlerSetting logSetting = Settings.LogSettings["IrcShark.ConsoleLogHandler"];
+                if (!logSetting.ApplysTo(msg))
+                    return;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return;
+            }
+            string format = "[{0}][{1}][{2}] {3}";
+            switch (msg.Level)
+            {
+                case LogLevel.Debug:
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    break;
+                case LogLevel.Warning:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case LogLevel.Error:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+            }
+            Console.WriteLine(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
+            Console.ResetColor();
         }
         
         /// <summary>
@@ -263,40 +297,6 @@ namespace IrcShark
         {
             log.Log(new LogMessage(Logger.CoreChannel, 1003, Messages.Info1003_InitialisingExtension));
             extensions = new ExtensionManager(this);
-        }
-
-        /// <summary>
-        /// The default console logger.
-        /// </summary>
-        /// <param name="logger">The logger, what raised the event.</param>
-        /// <param name="msg">The message to log.</param>
-        public void DefaultConsoleLogger(object logger, LogMessage msg)
-        {
-            try
-            {
-                LogHandlerSetting logSetting = Settings.LogSettings["IrcShark.ConsoleLogHandler"];
-                if (!logSetting.ApplysTo(msg))
-                    return;
-            }
-            catch (IndexOutOfRangeException)
-            {
-                return;
-            }
-            string format = "[{0}][{1}][{2}] {3}";
-            switch (msg.Level)
-            {
-                case LogLevel.Debug:
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    break;
-                case LogLevel.Warning:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    break;
-                case LogLevel.Error:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-            }
-            Console.WriteLine(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
-            Console.ResetColor();
         }
         
         /// <summary>

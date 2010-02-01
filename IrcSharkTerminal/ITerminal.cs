@@ -65,6 +65,14 @@ namespace IrcSharkTerminal
         void WriteLine();
         
         /// <summary>
+        /// Reads a command from the terminal.
+        /// </summary>
+        /// <returns>
+        /// The CommandCall instance for the command or null, if the user din't type a command.
+        /// </returns>
+        CommandCall ReadCommand();
+        
+        /// <summary>
         /// Gets or sets the foregroundcolor of the drawn text.
         /// </summary>
         /// <value>A ConsoleColor value indicating the current foreground color.</value>

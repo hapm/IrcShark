@@ -74,11 +74,14 @@ namespace IrcShark
         {
             get 
             { 
-            	try { return settings[name]; }
-            	catch (KeyNotFoundException ex)
-            	{
-            		throw new IndexOutOfRangeException(name + " wasn't found in the LogHnadlerSettings", ex);
-            	}
+                try 
+                { 
+                    return settings[name]; 
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    throw new IndexOutOfRangeException(name + " wasn't found in the LogHnadlerSettings", ex);
+                }
             }
         }
         
@@ -159,7 +162,7 @@ namespace IrcShark
         
         public IEnumerator<LogHandlerSetting> GetEnumerator()
         {
-        	return ((IEnumerable<LogHandlerSetting>)settings.Values).GetEnumerator();
+            return ((IEnumerable<LogHandlerSetting>)settings.Values).GetEnumerator();
         }
         
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

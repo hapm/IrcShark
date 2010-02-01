@@ -98,7 +98,9 @@
                     Assembly.Load(asmName.FullName);
                     Assembly ircshark = Assembly.ReflectionOnlyLoad(asmName.FullName);
                     foreach (AssemblyName asm2 in ircshark.GetReferencedAssemblies()) 
+                    {
                         Assembly.ReflectionOnlyLoad(asm2.FullName);
+                    }
                     
                     foreach (Type t in ircshark.GetExportedTypes())
                     {
@@ -110,7 +112,9 @@
                     }
                 }
                 else
+                {
                     Assembly.ReflectionOnlyLoad(asmName.FullName);
+                }
             }
             return resType;
         }

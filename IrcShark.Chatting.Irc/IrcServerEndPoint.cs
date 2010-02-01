@@ -170,7 +170,7 @@ namespace IrcShark.Chatting.Irc
         }
         
         /// <summary>
-        /// Gets the ip address of the server.
+        /// Gets or sets the ip address of the server.
         /// </summary>
         /// <value>
         /// The IPAddress instance for the server.

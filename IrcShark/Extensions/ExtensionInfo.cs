@@ -330,7 +330,7 @@ namespace IrcShark.Extensions
             writer.WriteAttributeString("name", Name);
             writer.WriteElementString("class", Class);
             if (Version != null)
-            	writer.WriteAttributeString("version", Version.ToString());
+                writer.WriteAttributeString("version", Version.ToString());
             if (!String.IsNullOrEmpty(author))
                 writer.WriteElementString("author", Description);
             if (assemblyGuid != null)

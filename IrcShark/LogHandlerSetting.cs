@@ -331,17 +331,29 @@ namespace IrcShark
             StringBuilder filter = new StringBuilder();
             writer.WriteAttributeString("name", HandlerName);
             if (Debug)
+            {
                 filter.Append('d');
+            }
             if (Information)
+            {
                 filter.Append('i');
+            }
             if (Warning)
+            {
                 filter.Append('w');
+            }
             if (Error)
+            {
                 filter.Append('e');
+            }
             if (filter.Length < 4)
+            {
                 writer.WriteAttributeString("filter", filter.ToString());
+            }
             if (Target != null)
+            {
                 writer.WriteAttributeString("target", Target);
+            }
             if (Count != 0)
             {
                 foreach (ChannelFilter f in filters)
@@ -352,13 +364,21 @@ namespace IrcShark
                     {
                         filter = new StringBuilder();
                         if (Debug)
+                        {
                             filter.Append('d');
+                        }
                         if (Information)
+                        {
                             filter.Append('i');
+                        }
                         if (Warning)
+                        {
                             filter.Append('w');
+                        }
                         if (Error)
+                        {
                             filter.Append('e');
+                        }
                         writer.WriteAttributeString("filter", filter.ToString());
                     }
                     writer.WriteEndElement();

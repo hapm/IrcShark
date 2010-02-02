@@ -64,20 +64,26 @@ namespace IrcShark.Extensions.Terminal
                 foreach (TerminalCommand cmd in Terminal.Commands)
                 {
                     if (line == null)
+                    {
                         line = new StringBuilder(cmd.CommandName);
+                    }
                     else
                     {
                         line.Append(' ');
-                    	line.Append(cmd.CommandName);
+                        line.Append(cmd.CommandName);
                     }
+                    
                     if (line.Length > 40)
                     {
                         Terminal.WriteLine(line.ToString());
                         line = null;
                     }
                 }
+                
                 if (line != null)
-                    Terminal.WriteLine(line.ToString());                	
+                {
+                    Terminal.WriteLine(line.ToString());
+                }
             }
         }
     }

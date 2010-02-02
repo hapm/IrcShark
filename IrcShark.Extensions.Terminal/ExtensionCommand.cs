@@ -41,7 +41,7 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Saves the instance of the ExtensionManager.
         /// </summary>
-        ExtensionManager extManager;
+        private ExtensionManager extManager;
         
         /// <summary>
         /// Initializes a new instance of the ExtensionCommand class.
@@ -51,133 +51,6 @@ namespace IrcShark.Extensions.Terminal
             : base("ext", extension)
         {
             extManager = Terminal.Context.Application.Extensions;
-        }
-
-        /// <summary>
-        /// Lists all available extensions on the terminal.
-        /// </summary>
-        private void ListAvailableExtensions()
-        {
-            int i = 1;
-            Terminal.WriteLine(Translation.Messages.ListingAvailableExtensions);
-            foreach (ExtensionInfo info in extManager.AvailableExtensions) {
-                Terminal.Write(i.ToString() + ". ");
-                
-                if (!string.IsNullOrEmpty(info.Name)) 
-                {
-                    Terminal.Write(info.Name);
-                } 
-                else
-                {
-                    Terminal.Write(info.Class);
-                }
-                
-                if (!string.IsNullOrEmpty(info.Description)) {
-                    Terminal.Write(" " + info.Description);
-                }
-                
-                Terminal.WriteLine();
-                i++;
-            }
-        }
-
-        /// <summary>
-        /// Lists all loaded extensions on the terminal.
-        /// </summary>
-        private void ListRunningExtensions()
-        {
-            Terminal.WriteLine(Translation.Messages.ListingRunningExtensions);
-            int i = 1;
-            foreach (ExtensionInfo info in extManager.Keys) {
-                Terminal.Write(i.ToString() + ". ");
-                if (!string.IsNullOrEmpty(info.Name)) 
-                {
-                    Terminal.Write(info.Name);
-                } 
-                else 
-                {
-                    Terminal.Write(info.Class);
-                }
-                
-                if (!string.IsNullOrEmpty(info.Description)) {
-                    Terminal.Write(" " + info.Description);
-                }
-                
-                Terminal.WriteLine();
-                i++;
-            }
-        }
-        
-        /// <summary>
-        /// Trys to load a given extension.
-        /// </summary>
-        /// <param name="args">The parameters for this command.</param>
-        private void LoadExtension(string[] args)
-        {
-            if (args.Length < 2)
-            {
-                Terminal.WriteLine(Translation.Messages.SpecifyAnExtensionToLoad);
-                return;
-            }
-            
-            int nr;
-            ExtensionInfo info;
-            if (int.TryParse(args[1], out nr))
-            {
-                if (extManager.AvailableExtensions.Length < nr || nr < 1)
-                {
-                    Terminal.WriteLine(Translation.Messages.NoAvailableExtensionWithThisNumber);
-                    return;
-                }
-                info = extManager.AvailableExtensions[nr - 1];
-            }
-            else
-            {
-                // TODO resolve the ExtensionInfo from the given name in the args here
-                return;
-            }
-            if (extManager.IsLoaded(info))
-            {
-                Terminal.WriteLine(Translation.Messages.ExtensionAlreadyLoaded);
-                return;
-            }
-            extManager.Load(info);
-        }
-        
-        /// <summary>
-        /// Trys to unload a gicen extension.
-        /// </summary>
-        /// <param name="args">The parameters for this command.</param>
-        private void UnloadExtension(string[] args)
-        {
-            if (args.Length < 2)
-            {
-                Terminal.WriteLine(Translation.Messages.SpecifyAnExtensionToUnload);
-                return;
-            }
-            
-            int nr;
-            ExtensionInfo info;
-            if (int.TryParse(args[1], out nr))
-            {
-                if (extManager.Count < nr || nr < 1)
-                {
-                    Terminal.WriteLine(Translation.Messages.NoLoadedExtensionWithThisNumber);
-                    return;
-                }
-                info = extManager[nr - 1];
-            }
-            else
-            {
-                // TODO resolve the ExtensionInfo from the given name in the args here
-                return;
-            }
-            if (!extManager.IsLoaded(info))
-            {
-                Terminal.WriteLine(Translation.Messages.ExtensionNotLoaded);
-                return;
-            }
-            extManager.Unload(info);            
         }
         
         /// <summary>
@@ -210,6 +83,142 @@ namespace IrcShark.Extensions.Terminal
                     Terminal.WriteLine(string.Format(Translation.Messages.UnknownFlag, paramList[0]));
                     break;
             }
+        }
+
+        /// <summary>
+        /// Lists all available extensions on the terminal.
+        /// </summary>
+        private void ListAvailableExtensions()
+        {
+            int i = 1;
+            Terminal.WriteLine(Translation.Messages.ListingAvailableExtensions);
+            foreach (ExtensionInfo info in extManager.AvailableExtensions) 
+            {
+                Terminal.Write(i.ToString() + ". ");                
+                if (!string.IsNullOrEmpty(info.Name)) 
+                {
+                    Terminal.Write(info.Name);
+                } 
+                else
+                {
+                    Terminal.Write(info.Class);
+                }
+                
+                if (!string.IsNullOrEmpty(info.Description)) 
+                {
+                    Terminal.Write(" " + info.Description);
+                }
+                
+                Terminal.WriteLine();
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Lists all loaded extensions on the terminal.
+        /// </summary>
+        private void ListRunningExtensions()
+        {
+            Terminal.WriteLine(Translation.Messages.ListingRunningExtensions);
+            int i = 1;
+            foreach (ExtensionInfo info in extManager.Keys) 
+            {
+                Terminal.Write(i.ToString() + ". ");
+                if (!string.IsNullOrEmpty(info.Name)) 
+                {
+                    Terminal.Write(info.Name);
+                } 
+                else 
+                {
+                    Terminal.Write(info.Class);
+                }
+                
+                if (!string.IsNullOrEmpty(info.Description)) 
+                {
+                    Terminal.Write(" " + info.Description);
+                }
+                
+                Terminal.WriteLine();
+                i++;
+            }
+        }
+        
+        /// <summary>
+        /// Trys to load a given extension.
+        /// </summary>
+        /// <param name="args">The parameters for this command.</param>
+        private void LoadExtension(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                Terminal.WriteLine(Translation.Messages.SpecifyAnExtensionToLoad);
+                return;
+            }
+            
+            int nr;
+            ExtensionInfo info;
+            if (int.TryParse(args[1], out nr))
+            {
+                if (extManager.AvailableExtensions.Length < nr || nr < 1)
+                {
+                    Terminal.WriteLine(Translation.Messages.NoAvailableExtensionWithThisNumber);
+                    return;
+                }
+                
+                info = extManager.AvailableExtensions[nr - 1];
+            }
+            else
+            {
+                // TODO resolve the ExtensionInfo from the given name in the args here
+                return;
+            }
+            
+            if (extManager.IsLoaded(info))
+            {
+                Terminal.WriteLine(Translation.Messages.ExtensionAlreadyLoaded);
+                return;
+            }
+            
+            extManager.Load(info);
+        }
+        
+        /// <summary>
+        /// Trys to unload a gicen extension.
+        /// </summary>
+        /// <param name="args">The parameters for this command.</param>
+        private void UnloadExtension(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                Terminal.WriteLine(Translation.Messages.SpecifyAnExtensionToUnload);
+                return;
+            }
+            
+            int nr;
+            ExtensionInfo info;
+            if (int.TryParse(args[1], out nr))
+            {
+                if (extManager.Count < nr || nr < 1)
+                {
+                    Terminal.WriteLine(Translation.Messages.NoLoadedExtensionWithThisNumber);
+                    return;
+                }
+                
+                info = extManager[nr - 1];
+            }
+            else
+            {
+                // TODO resolve the ExtensionInfo from the given name in the args here
+                return;
+            }
+            
+            if (!extManager.IsLoaded(info))
+            {
+                Terminal.WriteLine(Translation.Messages.ExtensionNotLoaded);
+                return;
+            }
+            
+            extManager.Unload(info);            
         }
     }
 }

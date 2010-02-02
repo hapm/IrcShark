@@ -1,4 +1,4 @@
-﻿// <copyright file="CammandCall.cs" company="IrcShark Team">
+﻿// <copyright file="CommandCall.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -29,67 +29,83 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcShark.Extensions.Terminal
 {
-	using System;
-	using System.Collections;
-	using System.Text.RegularExpressions;
+    using System;
+    using System.Collections;
+    using System.Text.RegularExpressions;
 
-	/// <summary>
-	/// The CommandCall class is used to parse a command from a text line to give easy access to its parameters.
-	/// </summary>
-	public class CommandCall
-	{
-		/// <summary>
-		/// Saves the command name.
-		/// </summary>
-		private string commandName;
-		
-		/// <summary>
-		/// Saves the list of parameters.
-		/// </summary>
-		private string[] parameters;
-		
-		private static Regex cmdCallRegex = new Regex("([^ ]+)(?: +(\"(?:[^\\\\\"]|\\\\.)*\"|[^ ]*))*");
-		
-		private static Regex escapeReplace = new Regex(@"\\(.)");
-		
-		/// <summary>
-		/// Initializes a new instance of the CommandCall class.
-		/// </summary>
-		/// <param name="line">The line to parse.</param>
-		public CommandCall(string line)
-		{
-			Match result = cmdCallRegex.Match(line);
-			if (!result.Success)
-				throw new ArgumentException("The line couldn't be parsed to a command call", "line");
-			commandName = result.Groups[1].Value;
-			parameters = new string[result.Groups[2].Captures.Count];
-			for (int i = 0; i < parameters.Length; i++)
-			{
-				Capture c = result.Groups[2].Captures[i];
-				if (c.Value[0] == '"')
-					parameters[i] = escapeReplace.Replace(c.Value.Substring(1, c.Value.Length - 2), "$1");
-				else
-					parameters[i] = escapeReplace.Replace(c.Value, "$1");
-			}
-		}
-		
-		/// <summary>
-		/// Gets the name of the command.
-		/// </summary>
-		public string CommandName
-		{
-			get { return commandName; }
-		}
-		
-		/// <summary>
-		/// Gets the list of parameters.
-		/// </summary>
-		/// <returns>
-		/// The array of parameters.
-		/// </returns>
-		public string[] Parameters
-		{
-			get { return parameters; }
-		}
-	}
+    /// <summary>
+    /// The CommandCall class is used to parse a command from a text line to give easy access to its parameters.
+    /// </summary>
+    public class CommandCall
+    {
+        /// <summary>
+        /// Regular expression for parsing a command line.
+        /// </summary>
+        private static Regex cmdCallRegex = new Regex("([^ ]+)(?: +(\"(?:[^\\\\\"]|\\\\.)*\"|[^ ]*))*");
+        
+        /// <summary>
+        /// Regular expression for parsing escaped characters.
+        /// </summary>
+        private static Regex escapeReplace = new Regex(@"\\(.)");
+        
+        /// <summary>
+        /// Saves the command name.
+        /// </summary>
+        private string commandName;
+        
+        /// <summary>
+        /// Saves the list of parameters.
+        /// </summary>
+        private string[] parameters;
+        
+        /// <summary>
+        /// Initializes a new instance of the CommandCall class.
+        /// </summary>
+        /// <param name="line">The line to parse.</param>
+        public CommandCall(string line)
+        {
+            Match result = cmdCallRegex.Match(line);
+            if (!result.Success)
+            {
+                throw new ArgumentException("The line couldn't be parsed to a command call", "line");
+            }
+            
+            commandName = result.Groups[1].Value;
+            parameters = new string[result.Groups[2].Captures.Count];
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                Capture c = result.Groups[2].Captures[i];
+                if (c.Value[0] == '"')
+                {
+                    parameters[i] = escapeReplace.Replace(c.Value.Substring(1, c.Value.Length - 2), "$1");
+                }
+                else
+                {
+                    parameters[i] = escapeReplace.Replace(c.Value, "$1");
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Gets the name of the command.
+        /// </summary>
+        /// <value>
+        /// The command name as a string.
+        /// </value>
+        public string CommandName
+        {
+            get { return commandName; }
+        }
+        
+        /// <summary>
+        /// Gets the list of parameters.
+        /// </summary>
+        /// <value>
+        /// The array of parameters.
+        /// </value>
+        public string[] Parameters
+        {
+            get { return parameters; }
+        }
+    }
 }

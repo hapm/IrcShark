@@ -29,76 +29,101 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcShark.Extensions.Terminal
 {
-	using System;
-	using IrcShark;
+    using System;
+    using IrcShark;
 
-	/// <summary>
-	/// The LogCommand allows the configuration of all available log handler.
-	/// </summary>
-	public class LogCommand : TerminalCommand
-	{
-		/// <summary>
-		/// Initializes a new instance of the LogCommand class.
-		/// </summary>
-		/// <param name="ext">
-		/// The TerminalExtension, this command gets registred to.
-		/// </param>
-		public LogCommand(TerminalExtension ext) : base("log", ext)
-		{
-		}
-		
-		public override void Execute(params string[] paramList)
-		{
-			if (paramList == null || paramList.Length == 0) 
-			{
-				foreach (LogHandlerSetting s in Terminal.Context.Application.Settings.LogSettings)
-				{
-					Terminal.Write(string.Format("{0}\n  Target: {1}\n  Filter: ", s.HandlerName, s.Target));
-					bool written = false;
-					if (s.Error)
-					{
-						written = true;
-						Terminal.ForegroundColor = ConsoleColor.Red;
-						Terminal.Write("Error");
-						Terminal.ResetColor();
-					}
-					if (s.Warning)
-					{
-						if (written)
-							Terminal.Write(", ");
-						else
-							written = true;
-						Terminal.ForegroundColor = ConsoleColor.Yellow;
-						Terminal.Write("Warning");
-						Terminal.ResetColor();
-					}
-					if (s.Information)
-					{
-						if (written)
-							Terminal.Write(", ");
-						else
-							written = true;
-						Terminal.Write("Information");
-					}
-					if (s.Debug)
-					{
-						if (written)
-							Terminal.Write(", ");
-						else
-							written = true;
-						Terminal.ForegroundColor = ConsoleColor.Gray;
-						Terminal.Write("Debug");
-						Terminal.ResetColor();
-					}
-					if (!written)
-						Terminal.Write("ALL");
-					Terminal.WriteLine("\n");
-					foreach (ChannelFilter cf in s) 
-					{
-						
-					}
-				}
-			}
-		}
-	}
+    /// <summary>
+    /// The LogCommand allows the configuration of all available log handler.
+    /// </summary>
+    public class LogCommand : TerminalCommand
+    {
+        /// <summary>
+        /// Initializes a new instance of the LogCommand class.
+        /// </summary>
+        /// <param name="ext">
+        /// The TerminalExtension, this command gets registred to.
+        /// </param>
+        public LogCommand(TerminalExtension ext) : base("log", ext)
+        {
+        }
+        
+        /// <summary>
+        /// Executes the log command.
+        /// </summary>
+        /// <param name="paramList">The list of arguments.</param>
+        public override void Execute(params string[] paramList)
+        {
+            if (paramList == null || paramList.Length == 0) 
+            {
+                foreach (LogHandlerSetting s in Terminal.Context.Application.Settings.LogSettings)
+                {
+                    Terminal.Write(string.Format("{0}\n  Target: {1}\n  Filter: ", s.HandlerName, s.Target));
+                    bool written = false;
+                    if (s.Error)
+                    {
+                        written = true;
+                        Terminal.ForegroundColor = ConsoleColor.Red;
+                        Terminal.Write("Error");
+                        Terminal.ResetColor();
+                    }
+                    
+                    if (s.Warning)
+                    {
+                        if (written)
+                        {
+                            Terminal.Write(", ");
+                        }
+                        else
+                        {
+                            written = true;
+                        }
+                        
+                        Terminal.ForegroundColor = ConsoleColor.Yellow;
+                        Terminal.Write("Warning");
+                        Terminal.ResetColor();
+                    }
+                    
+                    if (s.Information)
+                    {
+                        if (written)
+                        {
+                            Terminal.Write(", ");
+                        }
+                        else
+                        {
+                            written = true;
+                        }
+                        
+                        Terminal.Write("Information");
+                    }
+                    
+                    if (s.Debug)
+                    {
+                        if (written)
+                        {
+                            Terminal.Write(", ");
+                        }
+                        else
+                        {
+                            written = true;
+                        }
+                        
+                        Terminal.ForegroundColor = ConsoleColor.Gray;
+                        Terminal.Write("Debug");
+                        Terminal.ResetColor();
+                    }
+                    
+                    if (!written)
+                    {
+                        Terminal.Write("ALL");
+                    }
+                    
+                    Terminal.WriteLine("\n");
+                    foreach (ChannelFilter cf in s) 
+                    {                        
+                    }
+                }
+            }
+        }
+    }
 }

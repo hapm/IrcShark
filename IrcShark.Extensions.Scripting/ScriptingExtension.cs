@@ -1,9 +1,9 @@
-﻿// <copyright file="ConsoleTerminal.cs" company="IrcShark Team">
+﻿// <copyright file="ScriptingExtension.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Contains the ConsoleTerminal class.</summary>
+// <summary>Contains the ScriptingExtension class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,45 +27,15 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcShark.Extensions.Terminal
+namespace IrcShark.Extensions.Scripting
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// This class allows the TerminalExtension to use the local Console as
-    /// as a terminal for a user.
+    /// Description of MyClass.
     /// </summary>
-    public class ConsoleTerminal
+    public class ScriptingExtension
     {        
-        /// <summary>
-        /// Saves a value indicating whether the last written console line has 
-        /// a linebreak at the end or not.
-        /// </summary>
-        /// <remarks>
-        /// This value is needed in <see cref="CleanInputLine" /> to know if
-        /// the linebreak should be cleared or not.
-        /// </remarks>
-        private bool newLine;
-        
-        /// <summary>
-        /// Saves the length of the lastly written line.
-        /// </summary>
-        /// <remarks>
-        /// This value is needed for the Write method to be able to determine where
-        /// new written text should start.
-        /// </remarks>
-        private int lastLineLength;
-        
-        /// <summary>
-        /// Saves the currently selected foreground color.
-        /// </summary>
-        private ConsoleColor foregroundColor;
-        
-        /// <summary>
-        /// Initializes a new instance of the ConsoleTerminal class.
-        /// </summary>
-        public ConsoleTerminal()
-        {
-        }
     }
 }

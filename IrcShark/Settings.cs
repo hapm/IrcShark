@@ -152,6 +152,10 @@ namespace IrcShark
             }
         }
         
+        /// <summary>
+        /// Serializes the Settings to xml.
+        /// </summary>
+        /// <param name="writer">The writer to write the settings to.</param>
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteAttributeString("xmlns", "http://www.ircshark.net/2009/settings");
@@ -166,6 +170,11 @@ namespace IrcShark
             writer.WriteEndElement();
         }
         
+        /// <summary>
+        /// Reads al ist of directorys.
+        /// </summary>
+        /// <param name="reader">Thre reader to read from.</param>
+        /// <param name="dirs">The directory list to add the readed directorys to.</param>
         private static void ReadDirectoryList(XmlReader reader, DirectoryCollection dirs)
         {
             reader.Read();

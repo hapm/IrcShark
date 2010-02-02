@@ -17,8 +17,8 @@
     <ProjectGuid>{22028AFF-9B26-4978-9C35-C4998A82BB46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IrcSharkTerminal</RootNamespace>
-    <AssemblyName>IrcSharkTerminal</AssemblyName>
+    <RootNamespace>IrcShark.Extensions.Terminal</RootNamespace>
+    <AssemblyName>IrcShark.Extensions.Terminal</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SourceAnalysisOverrideSettingsFile>C:\Users\markus\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>

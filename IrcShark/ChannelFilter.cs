@@ -171,6 +171,7 @@ namespace IrcShark
                 {
                     CopyDefaults();
                 }
+                
                 information = value; 
             }
         }

@@ -149,7 +149,10 @@ namespace IrcShark
 
             log.Log(new LogMessage(Logger.CoreChannel, 1005, LogLevel.Information, Messages.Info1005_StartedSeconds, finalStartTime));
             while (running)
+            {
                 Thread.Sleep(100);
+            }
+            
             extensions.Dispose();
             log.Dispose();
         }
@@ -245,7 +248,7 @@ namespace IrcShark
                 log.Log(new LogMessage(Logger.CoreChannel, 2001, LogLevel.Warning, Messages.Warning2001_SettingDoesentExist));
             }
             
-            // Creates the default settin if the settingsfile couldn't be loadedgs
+            // Creates the default settings if the settingsfile couldn't be loaded
             if (settings == null)
             {
                 settings = new Settings();

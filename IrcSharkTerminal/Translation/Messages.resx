@@ -117,46 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error3001_CouldntLoadSettings" xml:space="preserve">
-    <value>Couldn't load settings file: {0}</value>
+  <data name="SpecifyFlag" xml:space="preserve">
+    <value>Please specify a flag.</value>
   </data>
-  <data name="Error3002_CouldntSaveSettings" xml:space="preserve">
-    <value>Couldn't save the settings file: {0}</value>
+  <data name="ListingRunningExtensions" xml:space="preserve">
+    <value>Listing loaded extensions:</value>
   </data>
-  <data name="Info1001_StartingIrcShark" xml:space="preserve">
-    <value>Starting IrcShark, hold the line...</value>
+  <data name="UnknownFlag" xml:space="preserve">
+    <value>Unknown flag: {0}</value>
   </data>
-  <data name="Info1002_LoadedSettings" xml:space="preserve">
-    <value>Successfully loaded settings file</value>
+  <data name="ListingAvailableExtensions" xml:space="preserve">
+    <value>Listing all running extensions:</value>
   </data>
-  <data name="Info1003_InitialisingExtension" xml:space="preserve">
-    <value>Initialising extension manager...</value>
+  <data name="LogWarning" xml:space="preserve">
+    <value>Warning</value>
   </data>
-  <data name="Info1004_SettingsSaved" xml:space="preserve">
-    <value>Settings file successfully saved</value>
+  <data name="LogDebug" xml:space="preserve">
+    <value>Debug</value>
   </data>
-  <data name="Info1005_StartedSeconds" xml:space="preserve">
-    <value>IrcShark started in  {0}  seconds</value>
+  <data name="LogError" xml:space="preserve">
+    <value>Error</value>
   </data>
-  <data name="Info1006_ShuttingDown" xml:space="preserve">
-    <value>Shutting down ... bye bye</value>
+  <data name="LogInformation" xml:space="preserve">
+    <value>Information</value>
   </data>
-  <data name="Warning2001_SettingDoesentExist" xml:space="preserve">
-    <value>The settingsfile doesn't exist, creating the default one</value>
+  <data name="SpecifyAnExtensionToLoad" xml:space="preserve">
+    <value>Please specify the extension to load.</value>
   </data>
-  <data name="Warning2002_ExtensionDirDoesntExist" xml:space="preserve">
-    <value>Extension directory {0} doesn't exist and is ignored</value>
+  <data name="SpecifyAnExtensionToUnload" xml:space="preserve">
+    <value>Please specify an extension to unload.</value>
   </data>
-  <data name="Info1007_TryToLoad" xml:space="preserve">
-    <value>Try to load {0}: {1} ({2})</value>
+  <data name="NoAvailableExtensionWithThisNumber" xml:space="preserve">
+    <value>There is no available extension with this number.</value>
   </data>
-  <data name="Error3003_ExtensionLoadFail" xml:space="preserve">
-    <value>The extension "{0}" couldn't be loaded</value>
+  <data name="NoLoadedExtensionWithThisNumber" xml:space="preserve">
+    <value>There is no loaded extension with this number.</value>
   </data>
-  <data name="Info1008_ExtensionsWaitForLoading" xml:space="preserve">
-    <value>{0} extensions wait for loading</value>
-  </data>
-  <data name="Info1009_ExtensionLoaded" xml:space="preserve">
-    <value>The extension {0} was successfully loaded.</value>
+  <data name="ExtensionAlreadyLoaded" xml:space="preserve">
+    <value>The selected extension is already loaded and running.</value>
   </data>
 </root>

@@ -61,7 +61,16 @@ namespace IrcSharkTerminal.Translation {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Listing all available extensions: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The selected extension is already loaded and running. ähnelt.
+        /// </summary>
+        internal static string ExtensionAlreadyLoaded {
+            get {
+                return ResourceManager.GetString("ExtensionAlreadyLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Listing all running extensions: ähnelt.
         /// </summary>
         internal static string ListingAvailableExtensions {
             get {
@@ -72,9 +81,81 @@ namespace IrcSharkTerminal.Translation {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Listing loaded extensions: ähnelt.
         /// </summary>
-        internal static string ListingLoadedExtensions {
+        internal static string ListingRunningExtensions {
             get {
-                return ResourceManager.GetString("ListingLoadedExtensions", resourceCulture);
+                return ResourceManager.GetString("ListingRunningExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Debug ähnelt.
+        /// </summary>
+        internal static string LogDebug {
+            get {
+                return ResourceManager.GetString("LogDebug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error ähnelt.
+        /// </summary>
+        internal static string LogError {
+            get {
+                return ResourceManager.GetString("LogError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Information ähnelt.
+        /// </summary>
+        internal static string LogInformation {
+            get {
+                return ResourceManager.GetString("LogInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warning ähnelt.
+        /// </summary>
+        internal static string LogWarning {
+            get {
+                return ResourceManager.GetString("LogWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die There is no available extension with this number. ähnelt.
+        /// </summary>
+        internal static string NoAvailableExtensionWithThisNumber {
+            get {
+                return ResourceManager.GetString("NoAvailableExtensionWithThisNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die There is no loaded extension with this number. ähnelt.
+        /// </summary>
+        internal static string NoLoadedExtensionWithThisNumber {
+            get {
+                return ResourceManager.GetString("NoLoadedExtensionWithThisNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please specify the extension to load. ähnelt.
+        /// </summary>
+        internal static string SpecifyAnExtensionToLoad {
+            get {
+                return ResourceManager.GetString("SpecifyAnExtensionToLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please specify an extension to unload. ähnelt.
+        /// </summary>
+        internal static string SpecifyAnExtensionToUnload {
+            get {
+                return ResourceManager.GetString("SpecifyAnExtensionToUnload", resourceCulture);
             }
         }
         

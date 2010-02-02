@@ -9,172 +9,181 @@
 //------------------------------------------------------------------------------
 
 namespace IrcShark.Translation {
-	using System;
-	
-	
-	/// <summary>
-	///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
-	/// </summary>
-	// Diese Klasse wurde von der StronglyTypedResourceBuilder automatisch generiert
-	// -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
-	// Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
-	// mit der /str-Option erneut aus, oder Sie erstellen Ihr VS-Projekt neu.
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
-	[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-	internal class Messages {
-		
-		private static global::System.Resources.ResourceManager resourceMan;
-		
-		private static global::System.Globalization.CultureInfo resourceCulture;
-		
-		[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-		internal Messages() {
-		}
-		
-		/// <summary>
-		///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
-		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-		internal static global::System.Resources.ResourceManager ResourceManager {
-			get {
-				if (object.ReferenceEquals(resourceMan, null)) {
-					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IrcShark.Translation.Messages", typeof(Messages).Assembly);
-					resourceMan = temp;
-				}
-				return resourceMan;
-			}
-		}
-		
-		/// <summary>
-		///   Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
-		///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
-		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-		internal static global::System.Globalization.CultureInfo Culture {
-			get {
-				return resourceCulture;
-			}
-			set {
-				resourceCulture = value;
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die Couldn&apos;t load settings file: {0} ähnelt.
-		/// </summary>
-		internal static string Error3001_CouldntLoadSettings {
-			get {
-				return ResourceManager.GetString("Error3001_CouldntLoadSettings", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die Couldn&apos;t save the settings file: {0} ähnelt.
-		/// </summary>
-		internal static string Error3002_CouldntSaveSettings {
-			get {
-				return ResourceManager.GetString("Error3002_CouldntSaveSettings", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die The extension &quot;{0}&quot; couldn&apos;t be loaded ähnelt.
-		/// </summary>
-		internal static string Error3003_ExtensionLoadFail {
-			get {
-				return ResourceManager.GetString("Error3003_ExtensionLoadFail", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die Starting IrcShark, hold the line... ähnelt.
-		/// </summary>
-		internal static string Info1001_StartingIrcShark {
-			get {
-				return ResourceManager.GetString("Info1001_StartingIrcShark", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die Successfully loaded settings file ähnelt.
-		/// </summary>
-		internal static string Info1002_LoadedSettings {
-			get {
-				return ResourceManager.GetString("Info1002_LoadedSettings", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die Initialising extension manager... ähnelt.
-		/// </summary>
-		internal static string Info1003_InitialisingExtension {
-			get {
-				return ResourceManager.GetString("Info1003_InitialisingExtension", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die Settings file successfully saved ähnelt.
-		/// </summary>
-		internal static string Info1004_SettingsSaved {
-			get {
-				return ResourceManager.GetString("Info1004_SettingsSaved", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die IrcShark started in  {0}  seconds ähnelt.
-		/// </summary>
-		internal static string Info1005_StartedSeconds {
-			get {
-				return ResourceManager.GetString("Info1005_StartedSeconds", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die Shutting down ... bye bye ähnelt.
-		/// </summary>
-		internal static string Info1006_ShuttingDown {
-			get {
-				return ResourceManager.GetString("Info1006_ShuttingDown", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die Try to load {0}: {1} ({2}) ähnelt.
-		/// </summary>
-		internal static string Info1007_TryToLoad {
-			get {
-				return ResourceManager.GetString("Info1007_TryToLoad", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die {0} extensions wait for loading ähnelt.
-		/// </summary>
-		internal static string Info1008_ExtensionsWaitForLoading {
-			get {
-				return ResourceManager.GetString("Info1008_ExtensionsWaitForLoading", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die The settingsfile doesn&apos;t exist, creating the default one ähnelt.
-		/// </summary>
-		internal static string Warning2001_SettingDoesentExist {
-			get {
-				return ResourceManager.GetString("Warning2001_SettingDoesentExist", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Sucht eine lokalisierte Zeichenfolge, die Extension directory {0} doesn&apos;t exist and is ignored ähnelt.
-		/// </summary>
-		internal static string Warning2002_ExtensionDirDoesntExist {
-			get {
-				return ResourceManager.GetString("Warning2002_ExtensionDirDoesntExist", resourceCulture);
-			}
-		}
-	}
+    using System;
+    
+    
+    /// <summary>
+    ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+    /// </summary>
+    // Diese Klasse wurde von der StronglyTypedResourceBuilder automatisch generiert
+    // -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
+    // Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
+    // mit der /str-Option erneut aus, oder Sie erstellen Ihr VS-Projekt neu.
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    internal class Messages {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Messages() {
+        }
+        
+        /// <summary>
+        ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IrcShark.Translation.Messages", typeof(Messages).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+        ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Couldn&apos;t load settings file: {0} ähnelt.
+        /// </summary>
+        internal static string Error3001_CouldntLoadSettings {
+            get {
+                return ResourceManager.GetString("Error3001_CouldntLoadSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Couldn&apos;t save the settings file: {0} ähnelt.
+        /// </summary>
+        internal static string Error3002_CouldntSaveSettings {
+            get {
+                return ResourceManager.GetString("Error3002_CouldntSaveSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The extension &quot;{0}&quot; couldn&apos;t be loaded ähnelt.
+        /// </summary>
+        internal static string Error3003_ExtensionLoadFail {
+            get {
+                return ResourceManager.GetString("Error3003_ExtensionLoadFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Starting IrcShark, hold the line... ähnelt.
+        /// </summary>
+        internal static string Info1001_StartingIrcShark {
+            get {
+                return ResourceManager.GetString("Info1001_StartingIrcShark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Successfully loaded settings file ähnelt.
+        /// </summary>
+        internal static string Info1002_LoadedSettings {
+            get {
+                return ResourceManager.GetString("Info1002_LoadedSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Initialising extension manager... ähnelt.
+        /// </summary>
+        internal static string Info1003_InitialisingExtension {
+            get {
+                return ResourceManager.GetString("Info1003_InitialisingExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Settings file successfully saved ähnelt.
+        /// </summary>
+        internal static string Info1004_SettingsSaved {
+            get {
+                return ResourceManager.GetString("Info1004_SettingsSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die IrcShark started in  {0}  seconds ähnelt.
+        /// </summary>
+        internal static string Info1005_StartedSeconds {
+            get {
+                return ResourceManager.GetString("Info1005_StartedSeconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shutting down ... bye bye ähnelt.
+        /// </summary>
+        internal static string Info1006_ShuttingDown {
+            get {
+                return ResourceManager.GetString("Info1006_ShuttingDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Try to load {0}: {1} ({2}) ähnelt.
+        /// </summary>
+        internal static string Info1007_TryToLoad {
+            get {
+                return ResourceManager.GetString("Info1007_TryToLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} extensions wait for loading ähnelt.
+        /// </summary>
+        internal static string Info1008_ExtensionsWaitForLoading {
+            get {
+                return ResourceManager.GetString("Info1008_ExtensionsWaitForLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The extension {0} was successfully loaded. ähnelt.
+        /// </summary>
+        internal static string Info1009_ExtensionLoaded {
+            get {
+                return ResourceManager.GetString("Info1009_ExtensionLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The settingsfile doesn&apos;t exist, creating the default one ähnelt.
+        /// </summary>
+        internal static string Warning2001_SettingDoesentExist {
+            get {
+                return ResourceManager.GetString("Warning2001_SettingDoesentExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Extension directory {0} doesn&apos;t exist and is ignored ähnelt.
+        /// </summary>
+        internal static string Warning2002_ExtensionDirDoesntExist {
+            get {
+                return ResourceManager.GetString("Warning2002_ExtensionDirDoesntExist", resourceCulture);
+            }
+        }
+    }
 }

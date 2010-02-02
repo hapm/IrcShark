@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ListingLoadedExtensions" xml:space="preserve">
+  <data name="ListingRunningExtensions" xml:space="preserve">
     <value>Liste aller geladenen Erweiterungens:</value>
   </data>
   <data name="SpecifyFlag" xml:space="preserve">
@@ -128,5 +128,23 @@
   </data>
   <data name="ListingAvailableExtensions" xml:space="preserve">
     <value>Liste aller verfügbaren Erweiterungen:</value>
+  </data>
+  <data name="LogWarning" xml:space="preserve">
+    <value>Warnung</value>
+  </data>
+  <data name="LogDebug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="LogError" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="LogInformation" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="SpecifyAnExtensionToLoad" xml:space="preserve">
+    <value>Gib bitte eine zu ladende Erweiterung an.</value>
+  </data>
+  <data name="SpecifyAnExtensionToUnload" xml:space="preserve">
+    <value>Gib bitte eine zu entladende Erweiterung an.</value>
   </data>
 </root>

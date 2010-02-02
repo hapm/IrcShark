@@ -156,4 +156,7 @@
   <data name="Warning2002_ExtensionDirDoesntExist" xml:space="preserve">
     <value>Der Extension Ordner {0} existiert nicht und wird ignoriert</value>
   </data>
+  <data name="Info1009_ExtensionLoaded" xml:space="preserve">
+    <value>Die Erweiterung {0} wurde erfolgreich geladen.</value>
+  </data>
 </root>

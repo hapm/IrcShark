@@ -111,7 +111,7 @@ namespace IrcSharkTerminal
         /// <summary>
         /// Trys to load a given extension.
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">The parameters for this command.</param>
         private void LoadExtension(string[] args)
         {
             if (args.Length < 2)
@@ -145,6 +145,42 @@ namespace IrcSharkTerminal
         }
         
         /// <summary>
+        /// Trys to unload a gicen extension.
+        /// </summary>
+        /// <param name="args">The parameters for this command.</param>
+        private void UnloadExtension(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                Terminal.WriteLine(Translation.Messages.SpecifyAnExtensionToUnload);
+                return;
+            }
+            
+            int nr;
+            ExtensionInfo info;
+            if (int.TryParse(args[1], out nr))
+            {
+                if (extManager.Count < nr || nr < 1)
+                {
+                    Terminal.WriteLine(Translation.Messages.NoLoadedExtensionWithThisNumber);
+                    return;
+                }
+                info = extManager[nr - 1];
+            }
+            else
+            {
+                // TODO resolve the ExtensionInfo from the given name in the args here
+                return;
+            }
+            if (!extManager.IsLoaded(info))
+            {
+                Terminal.WriteLine(Translation.Messages.ExtensionNotLoaded);
+                return;
+            }
+            extManager.Unload(info);            
+        }
+        
+        /// <summary>
         /// Executes the ExtensionCommand.
         /// </summary>
         /// <param name="paramList">All parameters of the command.</param>
@@ -166,6 +202,9 @@ namespace IrcSharkTerminal
                     break;
                 case "-l":
                     LoadExtension(paramList);
+                    break;
+                case "-u":
+                    UnloadExtension(paramList);
                     break;
                 default:
                     Terminal.WriteLine(string.Format(Translation.Messages.UnknownFlag, paramList[0]));

@@ -156,4 +156,7 @@
   <data name="ExtensionAlreadyLoaded" xml:space="preserve">
     <value>The selected extension is already loaded and running.</value>
   </data>
+  <data name="ExtensionNotLoaded" xml:space="preserve">
+    <value>The selected extension isn't loaded.</value>
+  </data>
 </root>

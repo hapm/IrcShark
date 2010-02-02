@@ -152,6 +152,36 @@ namespace IrcShark
         {
             get { return extensions[key]; }
         }
+        
+        /// <summary>
+        /// Gets the Extension belonging to the given ExtensionInfo.
+        /// </summary>
+        /// <param name="key">The ExtensionInfo to lookup.</param>
+        /// <value>The Extension for the given ExtensionInfo.</value>
+        public ExtensionInfo this[int index]
+        {
+            get 
+            { 
+                if (index >= extensions.Count  || index < 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                
+                int i = 0;
+                foreach (ExtensionInfo info in extensions.Keys) 
+                {
+                    if (i == index)
+                    {
+                        return info;
+                    }
+                    
+                    i++;
+                }
+                
+                // this should never happen as index is lower than the number of items in the Keys collection
+                return null; 
+            }
+        }
 
         /// <summary>
         /// Raises the Status Changed event.
@@ -248,6 +278,7 @@ namespace IrcShark
             foreach (ExtensionInfo toDel in toRemove)
             {
                 application.Settings.LoadedExtensions.Remove(toDel);
+                application.Log.Log(new LogMessage(Logger.CoreChannel, 1010, LogLevel.Information, Translation.Messages.Info1010_ExtensionMarkedForUnload, toDel.Class));
             }
             
             OnStatusChanged(ext, ExtensionStates.MarkedForUnload);

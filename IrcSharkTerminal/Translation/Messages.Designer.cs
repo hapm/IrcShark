@@ -70,6 +70,15 @@ namespace IrcSharkTerminal.Translation {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The selected extension isn&apos;t loaded. ähnelt.
+        /// </summary>
+        internal static string ExtensionNotLoaded {
+            get {
+                return ResourceManager.GetString("ExtensionNotLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Listing all running extensions: ähnelt.
         /// </summary>
         internal static string ListingAvailableExtensions {

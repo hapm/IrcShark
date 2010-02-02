@@ -22,6 +22,9 @@ using System.Runtime.InteropServices;
 // If you need to expose a type to COM, use [ComVisible(true)] on that type.
 [assembly: ComVisible(false)]
 
+// Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
+[assembly: Guid("a77946ef-5a9f-401b-a3cb-2e4f5a6c7c8a")]
+
 // The assembly version has following format :
 //
 // Major.Minor.Build.Revision

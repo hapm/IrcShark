@@ -169,6 +169,15 @@ namespace IrcShark.Translation {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The extension {0} was marked for unloading on the next restart of ircshark. ähnelt.
+        /// </summary>
+        internal static string Info1010_ExtensionMarkedForUnload {
+            get {
+                return ResourceManager.GetString("Info1010_ExtensionMarkedForUnload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The settingsfile doesn&apos;t exist, creating the default one ähnelt.
         /// </summary>
         internal static string Warning2001_SettingDoesentExist {

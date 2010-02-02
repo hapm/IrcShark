@@ -254,18 +254,13 @@ namespace IrcShark.Extensions.Terminal
                         catch (Exception) { }
                         break;
                     case ConsoleKey.End:
-<<<<<<< HEAD:IrcSharkTerminal/TerminalExtension.cs
-                		//Move the cursor to the end of the entered command
-                		if (line.Length > 0)
-                			Console.CursorLeft = line.Length + 3;
-=======
+
                         // Move the cursor to the end of the entered command
                         if (line.Length > 0) 
                         {
                             Console.CursorLeft = line.Length + 3;
                         }
                         
->>>>>>> 96f9c2a0ef968aae17e00df9fd96d5093fc0da03:IrcShark.Extensions.Terminal/TerminalExtension.cs
                         break;
                     case ConsoleKey.Home:                        
                         // Move the cursor to the begining of the entered command

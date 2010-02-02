@@ -53,6 +53,9 @@ namespace IrcShark
         /// </summary>
         private ExtensionInfoCollection loadedExtensions;
         
+        /// <summary>
+        /// Saves all log handler settings of the app.
+        /// </summary>
         private LogHandlerSettingCollection logSettings;
         
         /// <summary>
@@ -116,6 +119,10 @@ namespace IrcShark
             return XmlSchema.Read(XmlReader.Create("http://www.ircshark.net/2009/settings.xsd"), null);
         }
         
+        /// <summary>
+        /// Reads the complete instance from an XmlReader.
+        /// </summary>
+        /// <param name="reader">The reader to read from.</param>
         public void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -215,6 +222,10 @@ namespace IrcShark
             }
         }
         
+        /// <summary>
+        /// Reads the configuration form an XmlReader.
+        /// </summary>
+        /// <param name="reader">The reader to read from.</param>
         private void ReadConfiguration(XmlReader reader)
         {
             reader.Read();
@@ -253,6 +264,10 @@ namespace IrcShark
             }
         }
         
+        /// <summary>
+        /// Reads the logging settings.
+        /// </summary>
+        /// <param name="reader">The reader to read from.</param>
         private void ReadLoggingSettings(XmlReader reader)
         {
             LogHandlerSetting logHandler;
@@ -282,12 +297,20 @@ namespace IrcShark
             }
         }
 
+        /// <summary>
+        /// Read the configuread library directory.
+        /// </summary>
+        /// <param name="reader">The reader to read from.</param>
         private void ReadLibraryDirectory(XmlReader reader)
         {
              libraryDirectory = reader.ReadString();
              reader.Read();
         }
         
+        /// <summary>
+        /// Reads the list of loaded extensions.
+        /// </summary>
+        /// <param name="reader">The reader to read from.</param>
         private void ReadLoadedExtensions(XmlReader reader)
         {
             reader.Read();
@@ -326,6 +349,11 @@ namespace IrcShark
             }
         }
         
+        /// <summary>
+        /// Writes the logging settings to the XmlWriter.
+        /// </summary>
+        /// <param name="writer">The writer to write to.</param>
+        /// <param name="settings">The list of settings to write.</param>
         private void WriteLoggingSettings(XmlWriter writer, LogHandlerSetting[] settings)
         {
             if (logSettings.Count != 0) 

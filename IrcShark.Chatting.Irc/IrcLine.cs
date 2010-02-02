@@ -96,7 +96,9 @@ namespace IrcShark.Chatting.Irc
                 }
             }
             else 
+            {
                 throw new InvalidLineFormatException(line);
+            }
         }
 
         /// <summary>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IrcShark.Translation {
+namespace IrcShark.Extensions.Terminal.Translation {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace IrcShark.Translation {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Messages_de_DE {
+    internal class Messages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Messages_de_DE() {
+        internal Messages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace IrcShark.Translation {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IrcShark.Translation.Messages.de-DE", typeof(Messages_de_DE).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IrcShark.Extensions.Terminal.Translation.Messages", typeof(Messages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,128 +61,128 @@ namespace IrcShark.Translation {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Konnte Konfigurationsdatei nicht laden: {0} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The selected extension is already loaded and running. ähnelt.
         /// </summary>
-        internal static string Error3001_CouldntLoadSettings {
+        internal static string ExtensionAlreadyLoaded {
             get {
-                return ResourceManager.GetString("Error3001_CouldntLoadSettings", resourceCulture);
+                return ResourceManager.GetString("ExtensionAlreadyLoaded", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Konnte Konfigurationsdatei nicht speichern: {0} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The selected extension isn&apos;t loaded. ähnelt.
         /// </summary>
-        internal static string Error3002_CouldntSaveSettings {
+        internal static string ExtensionNotLoaded {
             get {
-                return ResourceManager.GetString("Error3002_CouldntSaveSettings", resourceCulture);
+                return ResourceManager.GetString("ExtensionNotLoaded", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Extension &quot;{0}&quot; konnte nicht geladen werden ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Listing all running extensions: ähnelt.
         /// </summary>
-        internal static string Error3003_ExtensionLoadFail {
+        internal static string ListingAvailableExtensions {
             get {
-                return ResourceManager.GetString("Error3003_ExtensionLoadFail", resourceCulture);
+                return ResourceManager.GetString("ListingAvailableExtensions", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Starte IrcShark, mach dich bereit... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Listing loaded extensions: ähnelt.
         /// </summary>
-        internal static string Info1001_StartingIrcShark {
+        internal static string ListingRunningExtensions {
             get {
-                return ResourceManager.GetString("Info1001_StartingIrcShark", resourceCulture);
+                return ResourceManager.GetString("ListingRunningExtensions", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Konfigurationsdatei erfolgreich geladen ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Debug ähnelt.
         /// </summary>
-        internal static string Info1002_LoadedSettings {
+        internal static string LogDebug {
             get {
-                return ResourceManager.GetString("Info1002_LoadedSettings", resourceCulture);
+                return ResourceManager.GetString("LogDebug", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Erweiterungs-Manager wird initialisiert... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error ähnelt.
         /// </summary>
-        internal static string Info1003_InitialisingExtension {
+        internal static string LogError {
             get {
-                return ResourceManager.GetString("Info1003_InitialisingExtension", resourceCulture);
+                return ResourceManager.GetString("LogError", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Konfigurationsdatei erfolgreich gespeichert ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Information ähnelt.
         /// </summary>
-        internal static string Info1004_SettingsSaved {
+        internal static string LogInformation {
             get {
-                return ResourceManager.GetString("Info1004_SettingsSaved", resourceCulture);
+                return ResourceManager.GetString("LogInformation", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die IrcShark wurde in {0} Sekunden gestartet ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warning ähnelt.
         /// </summary>
-        internal static string Info1005_StartedSeconds {
+        internal static string LogWarning {
             get {
-                return ResourceManager.GetString("Info1005_StartedSeconds", resourceCulture);
+                return ResourceManager.GetString("LogWarning", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die IrcShark wird beendet ... bye bye ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die There is no available extension with this number. ähnelt.
         /// </summary>
-        internal static string Info1006_ShuttingDown {
+        internal static string NoAvailableExtensionWithThisNumber {
             get {
-                return ResourceManager.GetString("Info1006_ShuttingDown", resourceCulture);
+                return ResourceManager.GetString("NoAvailableExtensionWithThisNumber", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Versuche {0}: {1} ({2}) zu laden ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die There is no loaded extension with this number. ähnelt.
         /// </summary>
-        internal static string Info1007_TryToLoad {
+        internal static string NoLoadedExtensionWithThisNumber {
             get {
-                return ResourceManager.GetString("Info1007_TryToLoad", resourceCulture);
+                return ResourceManager.GetString("NoLoadedExtensionWithThisNumber", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} Extension stehen zum laden bereit ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please specify the extension to load. ähnelt.
         /// </summary>
-        internal static string Info1008_ExtensionsWaitForLoading {
+        internal static string SpecifyAnExtensionToLoad {
             get {
-                return ResourceManager.GetString("Info1008_ExtensionsWaitForLoading", resourceCulture);
+                return ResourceManager.GetString("SpecifyAnExtensionToLoad", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Erweiterung {0} wurde erfolgreich geladen. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please specify an extension to unload. ähnelt.
         /// </summary>
-        internal static string Info1009_ExtensionLoaded {
+        internal static string SpecifyAnExtensionToUnload {
             get {
-                return ResourceManager.GetString("Info1009_ExtensionLoaded", resourceCulture);
+                return ResourceManager.GetString("SpecifyAnExtensionToUnload", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Konnte keine Konfigurationsdatei finden, erstelle eine... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please specify a flag. ähnelt.
         /// </summary>
-        internal static string Warning2001_SettingDoesentExist {
+        internal static string SpecifyFlag {
             get {
-                return ResourceManager.GetString("Warning2001_SettingDoesentExist", resourceCulture);
+                return ResourceManager.GetString("SpecifyFlag", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Der Extension Ordner {0} existiert nicht und wird ignoriert ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unknown flag: {0} ähnelt.
         /// </summary>
-        internal static string Warning2002_ExtensionDirDoesntExist {
+        internal static string UnknownFlag {
             get {
-                return ResourceManager.GetString("Warning2002_ExtensionDirDoesntExist", resourceCulture);
+                return ResourceManager.GetString("UnknownFlag", resourceCulture);
             }
         }
     }

@@ -1,9 +1,9 @@
-﻿// <copyright file="IContext.cs" company="IrcShark Team">
+﻿// <copyright file="ScriptingExtension.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Contains the IContext interface.</summary>
+// <summary>Contains the ScriptingExtension class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,28 +27,15 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcShark
+namespace IrcShark.Extensions.Scripting
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// The IContext interface specifies the methods and propertys a context 
-    /// must provide.
+    /// Description of MyClass.
     /// </summary>
-    public interface IContext
-    {
-        /// <summary>
-        /// Gets the logger for this context.
-        /// </summary>
-        /// <value>
-        /// The logger instance.
-        /// </value>
-        Logger Log { get; }
-        
-        /// <summary>
-        /// Gets all settings of the current context.
-        /// </summary>
-        /// <value>The settings instance.</value>
-        Settings Settings { get; }
+    public class ScriptingExtension
+    {        
     }
 }

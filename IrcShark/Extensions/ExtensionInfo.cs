@@ -215,6 +215,27 @@ namespace IrcShark.Extensions
                 return false;
             return true;
         }
+        
+        /// <summary>
+        /// Checks if the current ExtensionInfo is compatible to the given one.
+        /// </summary>
+        /// <param name="info">
+        /// The ExtensionInfo to check for compatiblity.
+        /// </param>
+        /// <returns>
+        /// Returns true if the given ExtensionInfo describes the same extension
+        /// with the same or a newer version number.
+        /// </returns>
+        public bool CompatibleWith(ExtensionInfo info)
+        {
+            if (info == null)
+                return false;
+            if (!info.Class.Equals(Class))
+                return false;
+            if (info.Version.CompareTo(Version) < 0)
+                return false;
+            return true;
+        }
 
         #region IXmlSerializable implementation
         /// <summary>
@@ -301,6 +322,9 @@ namespace IrcShark.Extensions
                         }
                         dependencies = deps.ToArray();
                         break;
+                    default:
+                        reader.Skip();
+                        break;
                     }
                     break;
                 case XmlNodeType.EndElement:
@@ -328,9 +352,9 @@ namespace IrcShark.Extensions
         {
             writer.WriteStartElement("extension");
             writer.WriteAttributeString("name", Name);
-            writer.WriteElementString("class", Class);
             if (Version != null)
-            	writer.WriteAttributeString("version", Version.ToString());
+                writer.WriteAttributeString("version", Version.ToString());
+            writer.WriteElementString("class", Class);
             if (!String.IsNullOrEmpty(author))
                 writer.WriteElementString("author", Description);
             if (assemblyGuid != null)

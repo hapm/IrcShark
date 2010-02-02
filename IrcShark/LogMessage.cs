@@ -26,10 +26,29 @@ namespace IrcShark
     /// </summary>
     public class LogMessage
     {
+        /// <summary>
+        /// Saves a numeric identifier of this message.
+        /// </summary>
         private int identifier;
+        
+        /// <summary>
+        /// Saves the name of the channe, this message was send from.
+        /// </summary>
         private string channel;
+        
+        /// <summary>
+        /// Saves the text of the message.
+        /// </summary>
         private string message;
+        
+        /// <summary>
+        /// Saves the level of the message.
+        /// </summary>
         private LogLevel level;
+        
+        /// <summary>
+        /// Saves the time when the message was created.
+        /// </summary>
         private DateTime time;
 
         /// <summary>

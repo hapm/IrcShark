@@ -46,7 +46,7 @@ namespace IrcShark
         Available = 1,
         
         /// <summary>
-        /// If the extension is in the Loaded state, it is installed and loaded and 
+        /// If the extension is in the Loaded state, it is installed and loaded and
         /// can be used by other extensions.
         /// </summary>
         Loaded = 2,
@@ -85,7 +85,7 @@ namespace IrcShark
         public ExtensionManager(IrcSharkApplication app)
         {
             if (app.Extensions != null)
-                throw new ArgumentException("the given IrcSharkApplication already has an ExtensionManager", "app");
+                throw new ArgumentException("The given IrcSharkApplication already has an ExtensionManager", "app");
             application = app;
             extensions = new Dictionary<ExtensionInfo, Extension>();
             availableExtensions = new ExtensionInfoCollection();
@@ -148,9 +148,52 @@ namespace IrcShark
         /// </summary>
         /// <param name="key">The ExtensionInfo to lookup.</param>
         /// <value>The Extension for the given ExtensionInfo.</value>
-        public Extension this[ExtensionInfo key] 
+        public Extension this[ExtensionInfo key]
         {
             get { return extensions[key]; }
+        }
+        
+        /// <summary>
+        /// Gets the Extension belonging to the given ExtensionInfo.
+        /// </summary>
+        /// <param name="key">The ExtensionInfo to lookup.</param>
+        /// <value>The Extension for the given ExtensionInfo.</value>
+        public ExtensionInfo this[int index]
+        {
+            get 
+            { 
+                if (index >= extensions.Count  || index < 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                
+                int i = 0;
+                foreach (ExtensionInfo info in extensions.Keys) 
+                {
+                    if (i == index)
+                    {
+                        return info;
+                    }
+                    
+                    i++;
+                }
+                
+                // this should never happen as index is lower than the number of items in the Keys collection
+                return null; 
+            }
+        }
+
+        /// <summary>
+        /// Raises the Status Changed event.
+        /// </summary>
+        /// <param name="ext">The extensions, that changed its status.</param>
+        /// <param name="newState">The state the extension was changed to.</param>
+        protected void OnStatusChanged(ExtensionInfo ext, ExtensionStates newState)
+        {
+            if (StatusChanged != null) 
+            {
+                StatusChanged(this, new StatusChangedEventArgs(ext, newState));
+            }
         }
 
         /// <summary>
@@ -160,13 +203,19 @@ namespace IrcShark
         /// <returns>True, if the extension will be unloaded, else false.</returns>
         public bool IsMarkedForUnload(ExtensionInfo ext)
         {
-            if (!IsLoaded(ext)) 
+            if (!IsLoaded(ext))
+            {
                 return true;
+            }
+            
             foreach (ExtensionInfo enabledExt in application.Settings.LoadedExtensions)
             {
-                if (enabledExt.CompareTo(ext)) 
+                if (enabledExt.CompareTo(ext))
+                {
                     return false;
+                }
             }
+            
             return true;
         }
 
@@ -192,16 +241,17 @@ namespace IrcShark
                 {
                     application.Settings.LoadedExtensions.Add(ext);
                     extensions[ext].Start();
-                    if (StatusChanged != null) 
-                        StatusChanged(this, new StatusChangedEventArgs(ext, ExtensionStates.Loaded));
+                    OnStatusChanged(ext, ExtensionStates.Loaded);
                 }
+                
                 return;
             }
-            if (HiddenLoad(ext)) 
+            
+            if (HiddenLoad(ext))
             {
+                Application.Log.Log(new LogMessage(Logger.CoreChannel, 1009, LogLevel.Information, string.Format(Translation.Messages.Info1009_ExtensionLoaded, ext.Class)));
                 application.Settings.LoadedExtensions.Add(ext);
-                if (StatusChanged != null) 
-                    StatusChanged(this, new StatusChangedEventArgs(ext, ExtensionStates.Loaded));
+                OnStatusChanged(ext, ExtensionStates.Loaded);
             }
         }
 
@@ -211,20 +261,27 @@ namespace IrcShark
         /// <param name="ext">The ExtensionInfo for the extension to mark for unload.</param>
         public void Unload(ExtensionInfo ext)
         {
-            if (!IsLoaded(ext)) 
-            	return;
+            if (!IsLoaded(ext))
+            {
+                return;
+            }
+            
             List<ExtensionInfo> toRemove = new List<ExtensionInfo>();
             foreach (ExtensionInfo enabledExt in application.Settings.LoadedExtensions)
             {
                 if (enabledExt.CompareTo(ext))
+                {
                     toRemove.Add(enabledExt);
+                }
             }
+            
             foreach (ExtensionInfo toDel in toRemove)
             {
                 application.Settings.LoadedExtensions.Remove(toDel);
+                application.Log.Log(new LogMessage(Logger.CoreChannel, 1010, LogLevel.Information, Translation.Messages.Info1010_ExtensionMarkedForUnload, toDel.Class));
             }
-            if (StatusChanged != null) 
-                StatusChanged(this, new StatusChangedEventArgs(ext, ExtensionStates.MarkedForUnload));
+            
+            OnStatusChanged(ext, ExtensionStates.MarkedForUnload);
         }
 
         /// <summary>
@@ -238,33 +295,36 @@ namespace IrcShark
             unavailable = new List<ExtensionInfo>();
             unloaded.AddRange(AvailableExtensions);
             foreach (ExtensionInfo info in application.Settings.LoadedExtensions)
-            {               
+            {
                 application.Log.Log(new LogMessage(Logger.CoreChannel, 1007, String.Format(Messages.Info1007_TryToLoad, info.Class, info.SourceFile, info.AssemblyGuid)));
                 foreach (ExtensionInfo realInfo in unloaded)
                 {
                     if (info.CompareTo(realInfo))
                     {
-                    	try 
-                    	{
-                        	HiddenLoad(realInfo);
-                        	unloaded.Remove(realInfo);
-                    	}
-                    	catch (Exception) 
-                    	{
-                    		application.Log.Log(new LogMessage(Logger.CoreChannel, 3003, LogLevel.Error, Messages.Error3003_ExtensionLoadFail, info.Class));
-                    		unavailable.Add(info);                    		
-                    	}
+                        try
+                        {
+                            HiddenLoad(realInfo);
+                            unloaded.Remove(realInfo);
+                        }
+                        catch (Exception)
+                        {
+                            application.Log.Log(new LogMessage(Logger.CoreChannel, 3003, LogLevel.Error, Messages.Error3003_ExtensionLoadFail, info.Class));
+                            unavailable.Add(info);
+                        }
+                        
                         break;
                     }
                 }
-                foreach (Extension ext in extensions.Values)
-                {
-                    ext.Start();
-                }
             }
+                
+            foreach (Extension ext in extensions.Values)
+            {
+                ext.Start();
+            }
+            
             foreach (ExtensionInfo info in unavailable)
             {
-                //application.Settings.LoadedExtensions.Remove(info);
+                ////application.Settings.LoadedExtensions.Remove(info);
             }
         }
 
@@ -285,9 +345,9 @@ namespace IrcShark
         /// </summary>
         public void Dispose()
         {
-            foreach (Extension ext in this.extensions.Values) 
+            foreach (Extension ext in this.extensions.Values)
             {
-            	ext.Stop();
+                ext.Stop();
             }
         }
         #endregion
@@ -323,8 +383,11 @@ namespace IrcShark
         {
             Extension newExtension;
             ExtensionContext newContext = new ExtensionContext(application, ext);
-            if (IsLoaded(ext)) 
+            if (IsLoaded(ext))
+            {
                 return false;
+            }
+            
             newExtension = (Extension)AppDomain.CurrentDomain.CreateInstanceFromAndUnwrap(ext.SourceFile, ext.Class, false, System.Reflection.BindingFlags.CreateInstance, null, new object[] { newContext }, null, null, null);
             extensions.Add(ext, newExtension);
             return true;
@@ -342,8 +405,10 @@ namespace IrcShark
             {
                 extDir = new DirectoryInfo(dir);
                 if (!extDir.Exists)
+                {
                     application.Log.Log(new LogMessage(Logger.CoreChannel, 2002, LogLevel.Warning, Messages.Warning2002_ExtensionDirDoesntExist, dir));
-                else 
+                }
+                else
                 {
                     foreach (FileInfo dllFile in extDir.GetFiles("*.dll"))
                     {
@@ -352,6 +417,7 @@ namespace IrcShark
                         {
                             availableExtensions.AddRange(extAnalyzer.Extensions);
                         }
+                        
                         foreach (ExtensionInfo info in extAnalyzer.Extensions)
                         {
                             application.Log.Log(new LogMessage(Logger.CoreChannel, 0101, LogLevel.Debug, "Extension {0}: {1} - {2} available.", info.Name, info.Class, info.AssemblyGuid));

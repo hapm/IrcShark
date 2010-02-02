@@ -37,8 +37,7 @@ namespace IrcShark
     /// dependencys to extension and library assemblys.
     /// </summary>
     public class ExtensionDependencyResolver
-    {
-        
+    {        
         /// <summary>
         /// Initializes a new instance of the ExtensionDependencyResolver class.
         /// </summary>
@@ -46,16 +45,15 @@ namespace IrcShark
         {
         }
         
-        
         /// <summary>
         /// Resolves an assembly for the given ResolveEventArgs.
         /// </summary>
         /// <param name="sender">The object that wnats to resolve something.</param>
         /// <param name="args">The arguments that hold the name of what type to resolve.</param>
-        /// <returns></returns>
+        /// <returns>The resolved assembly.</returns>
         public Assembly Resolve(object sender, ResolveEventArgs args)
         {
-            //application.Log.Log(new LogMessage(Logger.CoreChannel, 4001, LogLevel.Debug, "Resolving " + args.Name));
+            ////application.Log.Log(new LogMessage(Logger.CoreChannel, 4001, LogLevel.Debug, "Resolving " + args.Name));
             return null;
         }
     }

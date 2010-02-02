@@ -117,46 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error3001_CouldntLoadSettings" xml:space="preserve">
-    <value>Konnte Konfigurationsdatei nicht laden: {0}</value>
+  <data name="SpecifyFlag" xml:space="preserve">
+    <value>Please specify a flag.</value>
   </data>
-  <data name="Error3002_CouldntSaveSettings" xml:space="preserve">
-    <value>Konnte Konfigurationsdatei nicht speichern: {0}</value>
+  <data name="ListingRunningExtensions" xml:space="preserve">
+    <value>Listing loaded extensions:</value>
   </data>
-  <data name="Error3003_ExtensionLoadFail" xml:space="preserve">
-    <value>Die Extension "{0}" konnte nicht geladen werden</value>
+  <data name="UnknownFlag" xml:space="preserve">
+    <value>Unknown flag: {0}</value>
   </data>
-  <data name="Info1001_StartingIrcShark" xml:space="preserve">
-    <value>Starte IrcShark, mach dich bereit...</value>
+  <data name="ListingAvailableExtensions" xml:space="preserve">
+    <value>Listing all running extensions:</value>
   </data>
-  <data name="Info1002_LoadedSettings" xml:space="preserve">
-    <value>Konfigurationsdatei erfolgreich geladen</value>
+  <data name="LogWarning" xml:space="preserve">
+    <value>Warning</value>
   </data>
-  <data name="Info1003_InitialisingExtension" xml:space="preserve">
-    <value>Erweiterungs-Manager wird initialisiert...</value>
+  <data name="LogDebug" xml:space="preserve">
+    <value>Debug</value>
   </data>
-  <data name="Info1004_SettingsSaved" xml:space="preserve">
-    <value>Konfigurationsdatei erfolgreich gespeichert</value>
+  <data name="LogError" xml:space="preserve">
+    <value>Error</value>
   </data>
-  <data name="Info1005_StartedSeconds" xml:space="preserve">
-    <value>IrcShark wurde in {0} Sekunden gestartet</value>
+  <data name="LogInformation" xml:space="preserve">
+    <value>Information</value>
   </data>
-  <data name="Info1006_ShuttingDown" xml:space="preserve">
-    <value>IrcShark wird beendet ... bye bye</value>
+  <data name="SpecifyAnExtensionToLoad" xml:space="preserve">
+    <value>Please specify the extension to load.</value>
   </data>
-  <data name="Info1007_TryToLoad" xml:space="preserve">
-    <value>Versuche {0}: {1} ({2}) zu laden</value>
+  <data name="SpecifyAnExtensionToUnload" xml:space="preserve">
+    <value>Please specify an extension to unload.</value>
   </data>
-  <data name="Info1008_ExtensionsWaitForLoading" xml:space="preserve">
-    <value>{0} Extension stehen zum laden bereit</value>
+  <data name="NoAvailableExtensionWithThisNumber" xml:space="preserve">
+    <value>There is no available extension with this number.</value>
   </data>
-  <data name="Warning2001_SettingDoesentExist" xml:space="preserve">
-    <value>Konnte keine Konfigurationsdatei finden, erstelle eine...</value>
+  <data name="NoLoadedExtensionWithThisNumber" xml:space="preserve">
+    <value>There is no loaded extension with this number.</value>
   </data>
-  <data name="Warning2002_ExtensionDirDoesntExist" xml:space="preserve">
-    <value>Der Extension Ordner {0} existiert nicht und wird ignoriert</value>
+  <data name="ExtensionAlreadyLoaded" xml:space="preserve">
+    <value>The selected extension is already loaded and running.</value>
   </data>
-  <data name="Info1009_ExtensionLoaded" xml:space="preserve">
-    <value>Die Erweiterung {0} wurde erfolgreich geladen.</value>
+  <data name="ExtensionNotLoaded" xml:space="preserve">
+    <value>The selected extension isn't loaded.</value>
   </data>
 </root>

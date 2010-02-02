@@ -24,9 +24,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Chattin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Scripting", "IrcShark.Extensions.Scripting\IrcShark.Extensions.Scripting.csproj", "{02C99BBE-4D3F-4372-A5D9-8941117D15DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkTerminal", "IrcSharkTerminal\IrcSharkTerminal.csproj", "{22028AFF-9B26-4978-9C35-C4998A82BB46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Terminal", "IrcShark.Extensions.Terminal\IrcShark.Extensions.Terminal.csproj", "{22028AFF-9B26-4978-9C35-C4998A82BB46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkTerminalTest", "IrcSharkTerminalTest\IrcSharkTerminalTest.csproj", "{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.TerminalTest", "IrcShark.Extensions.TerminalTest\IrcShark.Extensions.TerminalTest.csproj", "{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution

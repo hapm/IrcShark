@@ -1,26 +1,32 @@
-﻿// <copyright file="ChannelFilter.cs" company="IrcShark">
+﻿// <copyright file="ChannelFilter.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
-//  
+// </copyright>
+// <author>$Author$</author>
+// <date>$LastChangedDate$</date>
+// <summary>Contains the ChannelFilter class.</summary>
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// </copyright>
-// <author>Markus Andree</author>
-// <email>alpha@ircshark.net</email>
-// <date>2009-10-17</date>
-// <summary>
-// $Id$
 //
-// Add description here
-// </summary>
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcShark
 {
     using System;
@@ -78,10 +84,10 @@ namespace IrcShark
         /// </remarks>
         internal ChannelFilter(string channel, LogHandlerSetting defaults)
         {
-            channelName = channel;
-            defaultFilter = defaults;
-            CopyDefaults();
-            useDefaults = true;
+            this.channelName = channel;
+            this.defaultFilter = defaults;
+            this.CopyDefaults();
+            this.useDefaults = true;
         }
         
         /// <summary>
@@ -119,14 +125,22 @@ namespace IrcShark
             get 
             {
                 if (useDefaults)
+                {
                     return defaultFilter.Debug;
+                }
                 else
+                {
                     return debug; 
+                }
             }
+            
             set 
             {
                 if (useDefaults)
+                {
                     CopyDefaults();
+                }
+                
                 debug = value; 
             }
         }
@@ -142,14 +156,22 @@ namespace IrcShark
             get 
             { 
                 if (useDefaults)
+                {
                     return defaultFilter.Information;
+                }
                 else
+                {
                     return information; 
+                }
             }
+            
             set 
             { 
                 if (useDefaults)
+                {
                     CopyDefaults();
+                }
+                
                 information = value; 
             }
         }
@@ -165,14 +187,21 @@ namespace IrcShark
             get 
             { 
                 if (useDefaults)
+                {
                     return defaultFilter.Warning;
+                }
                 else
+                {
                     return warning; 
+                }
             }
+            
             set
             { 
                 if (useDefaults)
+                {
                     CopyDefaults();
+                }
                 warning = value; 
             }
         }
@@ -200,14 +229,21 @@ namespace IrcShark
             get 
             { 
                 if (useDefaults)
+                {
                     return defaultFilter.Error;
+                }
                 else
+                {
                     return error; 
+                }
             }
+            
             set 
             { 
                 if (useDefaults)
+                {
                     CopyDefaults();
+                }
                 error = value; 
             }
         }
@@ -260,7 +296,10 @@ namespace IrcShark
         public bool ApplysTo(LogMessage msg)
         {
             if (msg.Channel != channelName) 
+            {
                 return false;
+            }
+            
             switch (msg.Level)
             {
                 case LogLevel.Debug:

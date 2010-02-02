@@ -27,11 +27,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcSharkTerminalTest
+namespace IrcShark.Extensions.TerminalTest
 {
 	using System;
 	using NUnit.Framework;
-	using IrcSharkTerminal;
+	using IrcShark.Extensions.Terminal;
 
 	/// <summary>
 	/// Tests for the CommandCall class.

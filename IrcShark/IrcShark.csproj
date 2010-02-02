@@ -13,12 +13,13 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <SourceAnalysisOverrideSettingsFile>C:\Users\markus\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <SourceAnalysisOverrideSettingsFile>..\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <RootNamespace>IrcShark</RootNamespace>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <RunSourceAnalysis>False</RunSourceAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -91,6 +92,8 @@
     </Compile>
     <Content Include="ProfilingSessions\Session20091016_194223.sdps" />
     <Content Include="ProfilingSessions\Session20091016_195454.sdps" />
+    <Content Include="ProfilingSessions\Session20100201_223114.sdps" />
+    <Content Include="ProfilingSessions\Session20100201_223742.sdps" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Translation\Messages.de-DE.resx">

@@ -27,17 +27,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcSharkTerminal
+namespace IrcShark.Extensions.Terminal
 {
-	using System;
+    using System;
 
-	/// <summary>
-	/// This class allows the TerminalExtension to use the local Console as
-	/// as a terminal for a user.
-	/// </summary>
-	public class ConsoleTerminal
-	{
-        
+    /// <summary>
+    /// This class allows the TerminalExtension to use the local Console as
+    /// as a terminal for a user.
+    /// </summary>
+    public class ConsoleTerminal
+    {        
         /// <summary>
         /// Saves a value indicating whether the last written console line has 
         /// a linebreak at the end or not.
@@ -60,13 +59,13 @@ namespace IrcSharkTerminal
         /// <summary>
         /// Saves the currently selected foreground color.
         /// </summary>
-        private ConsoleColor fgColor;
+        private ConsoleColor foregroundColor;
         
         /// <summary>
-        /// Initializes a new instances of the ConsoleTerminal class.
+        /// Initializes a new instance of the ConsoleTerminal class.
         /// </summary>
-		public ConsoleTerminal()
-		{
-		}
-	}
+        public ConsoleTerminal()
+        {
+        }
+    }
 }

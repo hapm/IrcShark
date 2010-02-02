@@ -47,7 +47,9 @@ namespace IrcShark
             typeName = typeof(ExtensionInfoBuilder).FullName;
             extBuilder = (ExtensionInfoBuilder)domain.CreateInstanceAndUnwrap(asmName, typeName, false, BindingFlags.CreateInstance, null, new object[] { fileToAnalyze }, null, null, null);
             foreach (ExtensionInfo p in extBuilder.Extensions)
+            {
                 extensions.Add(p);
+            }
             AppDomain.Unload(domain);
         }
 

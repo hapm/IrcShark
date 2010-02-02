@@ -27,21 +27,27 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcSharkTerminal
+namespace IrcShark.Extensions.Terminal
 {
-	using System;
+    using System;
 
-	/// <summary>
-	/// Represents a terminal where information can be presented to and 
-	/// received from a user.
-	/// </summary>
-	/// <remarks>
-	/// This for the interface to the different terminal types like the
-	/// local console or a ssl network terminal.
-	/// </remarks>
-	public interface ITerminal
-	{
-		/// <summary>
+    /// <summary>
+    /// Represents a terminal where information can be presented to and 
+    /// received from a user.
+    /// </summary>
+    /// <remarks>
+    /// This for the interface to the different terminal types like the
+    /// local console or a ssl network terminal.
+    /// </remarks>
+    public interface ITerminal
+    {
+        /// <summary>
+        /// Gets or sets the foregroundcolor of the drawn text.
+        /// </summary>
+        /// <value>A ConsoleColor value indicating the current foreground color.</value>
+        ConsoleColor ForegroundColor { get; set; }
+        
+        /// <summary>
         /// Writes a complete line and appends a linebreak at the end.
         /// </summary>
         /// <param name="line">The line to write.</param>
@@ -65,9 +71,11 @@ namespace IrcSharkTerminal
         void WriteLine();
         
         /// <summary>
-        /// Gets or sets the foregroundcolor of the drawn text.
+        /// Reads a command from the terminal.
         /// </summary>
-        /// <value>A ConsoleColor value indicating the current foreground color.</value>
-        ConsoleColor ForegroundColor { get; set; }
-	}
+        /// <returns>
+        /// The CommandCall instance for the command or null, if the user din't type a command.
+        /// </returns>
+        CommandCall ReadCommand();
+    }
 }

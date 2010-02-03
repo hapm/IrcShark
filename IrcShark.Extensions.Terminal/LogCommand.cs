@@ -120,7 +120,7 @@ namespace IrcShark.Extensions.Terminal
                     
                     Terminal.WriteLine("\n");
                     foreach (ChannelFilter cf in s) 
-                    {                        
+                    {
                     }
                 }
             }

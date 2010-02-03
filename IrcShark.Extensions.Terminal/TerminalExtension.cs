@@ -248,6 +248,7 @@ namespace IrcShark.Extensions.Terminal
                             CommandCall call = new CommandCall(line.ToString());
                             Console.WriteLine();
                             Console.Write("-> ");
+                            cmdHistory.AddLast(line.ToString());
                             line = null;
                             return call;
                         }

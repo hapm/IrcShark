@@ -171,7 +171,7 @@ namespace IrcShark
         }
         
         /// <summary>
-        /// Reads al ist of directorys.
+        /// Reads a list of directorys.
         /// </summary>
         /// <param name="reader">Thre reader to read from.</param>
         /// <param name="dirs">The directory list to add the readed directorys to.</param>

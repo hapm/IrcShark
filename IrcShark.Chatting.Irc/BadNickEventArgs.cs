@@ -54,6 +54,7 @@ namespace IrcShark.Chatting.Irc
                 default:
                     throw new ArgumentException("The given line is no 432 or 433 numeric", "baseLine");
             }
+            
             isLogin = inLogin;
         }
 

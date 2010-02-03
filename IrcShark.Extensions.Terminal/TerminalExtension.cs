@@ -253,7 +253,7 @@ namespace IrcShark.Extensions.Terminal
                         {
                             CommandCall call = new CommandCall(line.ToString());
                             Console.WriteLine();
-                            Console.Write("-> ");
+                            Console.Write(inputPrefix);
                             line = null;
                             return call;
                         }

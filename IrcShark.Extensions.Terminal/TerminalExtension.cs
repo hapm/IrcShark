@@ -100,6 +100,11 @@ namespace IrcShark.Extensions.Terminal
         /// Saves if the autoCompleteList is up to date or need to be updated.
         /// </summary>
         private bool autoCompleteUpToDate;
+        
+        /// <summary>
+        /// Saves the prefix for the input row displayed in the console terminal.
+        /// </summary>
+        private string inputPrefix;
 
         /// <summary>
         /// Initializes a new instance of the TerminalExtension class.
@@ -111,6 +116,7 @@ namespace IrcShark.Extensions.Terminal
             commands = new List<TerminalCommand>();
             cmdHistory = new LinkedList<string>();
             newLine = false;
+            inputPrefix = "-> ";
         }
         
         /// <summary>
@@ -257,16 +263,16 @@ namespace IrcShark.Extensions.Terminal
                         // Move the cursor to the end of the entered command
                         if (line.Length > 0) 
                         {
-                            Console.CursorLeft = line.Length + 3;
+                            Console.CursorLeft = line.Length + inputPrefix.Length;
                         }
                         break;
                     case ConsoleKey.Home:                        
                         // Move the cursor to the begining of the entered command
-                        Console.CursorLeft = 3;
+                        Console.CursorLeft = inputPrefix.Length;
                         break;
                     case ConsoleKey.LeftArrow:                        
                         // Move the cursor leftwards, but we have to be sure that the cursor is not going out of the console
-                        if (Console.CursorLeft > 3)
+                        if (Console.CursorLeft > inputPrefix.Length)
                         {
                             Console.CursorLeft--;
                         }
@@ -274,7 +280,7 @@ namespace IrcShark.Extensions.Terminal
                         break;
                     case ConsoleKey.RightArrow:                        
                         // Move the cursor rightwards, but we have to be sure that the cursor is not going out of the console
-                        if (Console.CursorLeft < Console.WindowWidth - 1 && Console.CursorLeft < line.Length + 3)
+                        if (Console.CursorLeft < Console.WindowWidth - 1 && Console.CursorLeft < line.Length + inputPrefix.Length)
                         {
                             Console.CursorLeft++;
                         }
@@ -291,7 +297,7 @@ namespace IrcShark.Extensions.Terminal
                             currentHistoryCmd = cmdHistory.Last;
                             cmdHistory.AddLast(line.ToString());
                             line = new StringBuilder(currentHistoryCmd.Value);
-                            Console.CursorLeft = 0;
+                            Console.CursorLeft = inputPrefix.Length;
                             Console.Write(line.ToString());
                         }
                         
@@ -310,7 +316,7 @@ namespace IrcShark.Extensions.Terminal
                            {
                                CleanInputLine();
                                line.Remove(line.Length - 1, 1);
-                               Console.Write("-> " + line);
+                               Console.Write(inputPrefix + line);
                            }
                            
                            break;
@@ -331,9 +337,9 @@ namespace IrcShark.Extensions.Terminal
         public void Write(string text) 
         {
             int col = Console.CursorLeft;
-            if (col < 3)
+            if (col < inputPrefix.Length)
             {
-                col = 3;
+                col = inputPrefix.Lengths;
             }
             
             CleanInputLine();
@@ -371,7 +377,7 @@ namespace IrcShark.Extensions.Terminal
                 }
             }
             
-            Console.Write("-> ");
+            Console.Write(inputPrefix);
             if (this.line != null) 
             {
                 Console.Write(this.line.ToString());
@@ -464,7 +470,7 @@ namespace IrcShark.Extensions.Terminal
         private void CleanInputLine()
         {
             Console.ResetColor();
-            int charCount = 3;
+            int charCount = inputPrefix.Length;
             if (line != null)
             {
                 charCount += line.Length;

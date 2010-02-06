@@ -254,6 +254,7 @@ namespace IrcShark.Extensions.Terminal
                             CommandCall call = new CommandCall(line.ToString());
                             Console.WriteLine();
                             Console.Write(inputPrefix);
+                            cmdHistory.AddLast(line.ToString());
                             line = null;
                             return call;
                         }
@@ -339,7 +340,7 @@ namespace IrcShark.Extensions.Terminal
             int col = Console.CursorLeft;
             if (col < inputPrefix.Length)
             {
-                col = inputPrefix.Lengths;
+                col = inputPrefix.Length;
             }
             
             CleanInputLine();

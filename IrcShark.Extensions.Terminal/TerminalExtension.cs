@@ -255,9 +255,11 @@ namespace IrcShark.Extensions.Terminal
                             Console.WriteLine();
                             Console.Write(inputPrefix);
                             cmdHistory.AddLast(line.ToString());
+                            currentHistoryCmd = null;
                             line = null;
                             return call;
                         }
+                        
                         catch (Exception) { }
                         break;
                     case ConsoleKey.End:
@@ -294,10 +296,28 @@ namespace IrcShark.Extensions.Terminal
                             {
                                 break;
                             }
-                            
+
                             currentHistoryCmd = cmdHistory.Last;
-                            cmdHistory.AddLast(line.ToString());
+                            if (!string.IsNullOrEmpty(line.ToString()))
+                            {
+                                cmdHistory.AddLast(line.ToString());
+                            }
+                        } 
+                        else
+                        {
+                            if (currentHistoryCmd == cmdHistory.First)
+                            {
+                                break;
+                            }
+                            
+                            currentHistoryCmd = currentHistoryCmd.Previous;
+                        }
+                        
+                        if (currentHistoryCmd != null)
+                        {
                             line = new StringBuilder(currentHistoryCmd.Value);
+                            CleanInputLine();
+                            Console.Write(inputPrefix);
                             Console.CursorLeft = inputPrefix.Length;
                             Console.Write(line.ToString());
                         }
@@ -305,6 +325,26 @@ namespace IrcShark.Extensions.Terminal
                         break;
                     case ConsoleKey.DownArrow:                        
                         // TODO get next command in history
+                        if (currentHistoryCmd != null)
+                        {
+                            if (currentHistoryCmd == cmdHistory.Last)
+                            {
+                                currentHistoryCmd = null;
+                                line = new StringBuilder(string.Empty);
+                                
+                            }
+                            else
+                            {
+                                currentHistoryCmd = currentHistoryCmd.Next;
+                                line = new StringBuilder(currentHistoryCmd.Value);
+                            }
+                            
+                            CleanInputLine();
+                            Console.Write(inputPrefix);
+                            Console.CursorLeft = inputPrefix.Length;
+                            Console.Write(line.ToString());
+                        }
+                        
                         break;
                     case ConsoleKey.Tab:
                         AutoComplete();

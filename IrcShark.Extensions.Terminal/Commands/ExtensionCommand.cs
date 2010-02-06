@@ -27,11 +27,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcShark.Extensions.Terminal
+namespace IrcShark.Extensions.Terminal.Commands
 {
     using System;
     using IrcShark;
     using IrcShark.Extensions;
+    using IrcShark.Extensions.Terminal;
 
     /// <summary>
     /// The ExtensionCommand is used to manage extenions.

@@ -36,6 +36,7 @@ namespace IrcShark.Extensions.Terminal
 
     using IrcShark;
     using IrcShark.Extensions;
+    using IrcShark.Extensions.Terminal.Commands;
     
     /// <summary>
     /// This extension allows the administration of IrcShark over the console.

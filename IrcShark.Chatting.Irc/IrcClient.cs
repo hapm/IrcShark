@@ -296,7 +296,10 @@ namespace IrcShark.Chatting.Irc
             get 
             {
                 if (client == null)
+                {
                     return false;
+                }
+                
                 return client.Connected;
             }
         }
@@ -314,9 +317,15 @@ namespace IrcShark.Chatting.Irc
             get 
             {
                 if (client == null)
+                {
                     return false;
+                }
+                
                 if (!client.Connected)
+                {
                     return false;
+                }
+                
                 return client.Available > 0;
             }
         }
@@ -354,10 +363,13 @@ namespace IrcShark.Chatting.Irc
             { 
                 return username; 
             }
+            
             set
             {
                 if (Connected)
+                {
                     username = value;
+                }
             }
         }
         
@@ -399,7 +411,10 @@ namespace IrcShark.Chatting.Irc
         {
             IAsyncResult test;
             if (ServerAddress == null)
+            {
                 return;
+            }
+            
             try
             {
                 test = client.BeginConnect(ServerAddress.Address, ServerAddress.Port, null, this);
@@ -408,7 +423,9 @@ namespace IrcShark.Chatting.Irc
                 {
                     ConnectEventArgs args = new ConnectEventArgs(this);
                     if (OnConnect != null)
+                    {
                         OnConnect(this, new ConnectEventArgs(this));
+                    }
                     
                     inStream = new StreamReader(client.GetStream(), System.Text.Encoding.Default);
                     outStream = new StreamWriter(client.GetStream(), System.Text.Encoding.Default);
@@ -446,8 +463,11 @@ namespace IrcShark.Chatting.Irc
             {
                 try
                 {
-                    if (inStream == null) 
+                    if (inStream == null)
+                    {
                         return null;
+                    }
+                    
                     line = inStream.ReadLine();
                     if (line != null)
                     {
@@ -464,6 +484,7 @@ namespace IrcShark.Chatting.Irc
                     Error(this, new ErrorEventArgs(this, "Couldn't receive line", ex));
                 }
             }
+            
             return null;
         }
         
@@ -479,12 +500,20 @@ namespace IrcShark.Chatting.Irc
         {
             IrcLine line = ReadLine();
             if (line == null)
+            {
                 return;
+            }
+            
             LineReceivedEventArgs args = new LineReceivedEventArgs(line);
             if (LineReceived != null)
+            {
                 LineReceived(this, args);
+            }
+            
             if (!args.Handled)
+            {
                 HandleLine(args);
+            }
         }
 
         /// <summary>
@@ -628,7 +657,11 @@ namespace IrcShark.Chatting.Irc
         {
             if (e.Line.IsNumeric)
             {
-                if (NumericReceived != null) NumericReceived(this, new NumericReceivedEventArgs(e.Line));
+                if (NumericReceived != null)
+                {
+                    NumericReceived(this, new NumericReceivedEventArgs(e.Line));
+                }
+                
                 switch (e.Line.Numeric)
                 {
                     case 1: // Parse the Server Info
@@ -640,13 +673,19 @@ namespace IrcShark.Chatting.Irc
                     case 3: // Parse Welcome-Message
                         loggedIn = true;
                         if (OnLogin != null) 
+                        {
                             OnLogin(this, new LoginEventArgs(Network, CurrentNickname, this));
+                        }
+                        
                         break;
                         
                     case 376: // End of MOTD message
                         loggedIn = true;
                         if (OnLogin != null) 
+                        {
                             OnLogin(this, new LoginEventArgs(Network, CurrentNickname, this));
+                        }
+                        
                         break;
                 }
             }
@@ -658,63 +697,99 @@ namespace IrcShark.Chatting.Irc
                     case "PING": // Handle the Ping here
                         PingReceivedEventArgs pingArgs = new PingReceivedEventArgs(e.Line);
                         if (PingReceived != null)
+                        {
                             PingReceived(this, pingArgs);
+                        }
+                        
                         if (!pingArgs.Handled)
+                        {
                             if (e.Line.Parameters.Length > 0)
+                            {
                                 SendLine("PONG :" + e.Line.Parameters[0]);
+                            }
                             else
+                            {
                                 SendLine("PONG");
+                            }
+                        }
+                        
                         break;
 
                     case "JOIN": // Parse Join-Message
                         JoinReceivedEventArgs joinArgs = new JoinReceivedEventArgs(e.Line);
                         if (JoinReceived != null)
+                        {
                             JoinReceived(this, joinArgs);
+                        }
+                        
                         break;
 
                     case "PART": // Parse Part-Message
                         PartReceivedEventArgs partArgs = new PartReceivedEventArgs(e.Line);
                         if (PartReceived != null)
+                        {
                             PartReceived(this, partArgs);
+                        }
+                        
                         break;
 
                     case "QUIT": // Parse Quit-Message
                         QuitReceivedEventArgs quitArgs = new QuitReceivedEventArgs(e.Line);
                         if (QuitReceived != null)
+                        {
                             QuitReceived(this, quitArgs);
+                        }
+                        
                         break;
 
                     case "NICK": // Parse Nick-Message
                         if (e.Line.Client.ToString() == this.ToString())
+                        {
                             this.currentNickname = e.Line.Parameters[0];
+                        }
                         
                         NickChangeReceivedEventArgs nickChangeArgs = new NickChangeReceivedEventArgs(e.Line);
                         if (NickChangeReceived != null)
+                        {
                             NickChangeReceived(this, nickChangeArgs);
+                        }
+                        
                         break;
 
                     case "MODE": // Parse Mode-Message
                         ModeReceivedEventArgs modeArgs = new ModeReceivedEventArgs(e.Line);
                         if (ModeReceived != null)
+                        {
                             ModeReceived(this, modeArgs);
+                        }
+                        
                         break;
 
                     case "NOTICE": // Parse Notice-Message
                         NoticeReceivedEventArgs noticeArgs = new NoticeReceivedEventArgs(e.Line);
                         if (NoticeReceived != null)
+                        {
                             NoticeReceived(this, noticeArgs);
+                        }
+                        
                         break;
 
                     case "PRIVMSG": // Parse Private-Message
                         MessageReceivedEventArgs privmsgArgs = new MessageReceivedEventArgs(e.Line);
                         if (MessageReceived != null)
+                        {
                             MessageReceived(this, privmsgArgs);
+                        }
+                        
                         break;
 
                     case "KICK": // Parse Kick-Message
                         KickReceivedEventArgs kickArgs = new KickReceivedEventArgs(e.Line);
                         if (KickReceived != null)
+                        {
                             KickReceived(this, kickArgs);
+                        }
+                        
                         break;
 
                     default:

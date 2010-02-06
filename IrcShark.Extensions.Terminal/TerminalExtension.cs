@@ -248,20 +248,17 @@ namespace IrcShark.Extensions.Terminal
                             CommandCall call = new CommandCall(line.ToString());
                             Console.WriteLine();
                             Console.Write("-> ");
-                            cmdHistory.AddLast(line.ToString());
                             line = null;
                             return call;
                         }
                         catch (Exception) { }
                         break;
                     case ConsoleKey.End:
-
                         // Move the cursor to the end of the entered command
                         if (line.Length > 0) 
                         {
                             Console.CursorLeft = line.Length + 3;
                         }
-                        
                         break;
                     case ConsoleKey.Home:                        
                         // Move the cursor to the begining of the entered command

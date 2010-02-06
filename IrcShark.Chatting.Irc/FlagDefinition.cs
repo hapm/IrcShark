@@ -181,6 +181,7 @@ namespace IrcShark.Chatting.Irc
             case FlagArt.Unset:
                 return UnsetParameter == FlagParameter.Required;
             }
+            
             return false;
         }
         

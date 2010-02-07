@@ -68,7 +68,6 @@
     <EmbeddedResource Include="Translation\Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <Content Include="IrcShark.Extensions.Terminal.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IrcShark\IrcShark.csproj">

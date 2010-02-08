@@ -363,6 +363,17 @@ namespace IrcShark.Extensions.Terminal
                            }
                            
                            break;
+                    case ConsoleKey.Oem1:
+                    case ConsoleKey.Oem2:
+                    case ConsoleKey.Oem3:
+                    case ConsoleKey.Oem4:
+                    case ConsoleKey.Oem5:
+                    case ConsoleKey.Oem6:
+                    case ConsoleKey.Oem7:
+                    case ConsoleKey.Oem8:
+                        line.Append((char)key.Key);
+                        Console.Write((char)key.Key);
+                        break;
                     default:
                         line.Append(key.KeyChar);
                         Console.Write(key.KeyChar);

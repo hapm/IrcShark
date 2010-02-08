@@ -81,7 +81,6 @@ namespace IrcShark.Chatting.IrcTest
             }
             catch (ArgumentException)
             {
-                return;
             }
         }
         

@@ -94,6 +94,7 @@ namespace IrcShark.Extensions
             }
             catch (ReflectionTypeLoadException)
             {
+                return;
             }
         }
 

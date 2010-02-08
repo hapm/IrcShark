@@ -43,7 +43,7 @@ namespace IrcShark.Chatting.IrcTest
         /// <summary>
         /// The instance used for all tests.
         /// </summary>
-        IrcProtocol instance;
+        private IrcProtocol instance;
         
         /// <summary>
         /// Initializes the test instance.

@@ -104,9 +104,9 @@ namespace IrcShark.Policy
                }          
         }
         
-        public override void FromXml(SecurityElement PassedElement)
+        public override void FromXml(SecurityElement passedElement)
         {
-            string element = PassedElement.Attribute("Unrestricted");
+            string element = passedElement.Attribute("Unrestricted");
             if (null != element)
             {  
                 this.unrestricted = Convert.ToBoolean(element);

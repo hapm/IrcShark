@@ -73,7 +73,22 @@ namespace IrcShark
     /// This class represents the manager for all extensions loaded by an IrcShark instance.
     /// </summary>
     public class ExtensionManager : IEnumerable<KeyValuePair<ExtensionInfo, Extension>>
-    {       
+    {
+        /// <summary>
+        /// Saves the application instance this ExtensionManager belongs to.
+        /// </summary>
+        private IrcSharkApplication application;
+        
+        /// <summary>
+        /// Saves a collection of all available extensions.
+        /// </summary>
+        private ExtensionInfoCollection availableExtensions;
+        
+        /// <summary>
+        /// Saves a list of all loaded extensions.
+        /// </summary>
+        private Dictionary<ExtensionInfo, Extension> extensions;
+        
         /// <summary>
         /// Initializes a new instance of the ExtensionManager class for the given IrcSharkApplication.
         /// </summary>
@@ -425,20 +440,5 @@ namespace IrcShark
                 }
             }
         }
-        
-        /// <summary>
-        /// Saves the application instance this ExtensionManager belongs to.
-        /// </summary>
-        private IrcSharkApplication application;
-        
-        /// <summary>
-        /// Saves a collection of all available extensions.
-        /// </summary>
-        private ExtensionInfoCollection availableExtensions;
-        
-        /// <summary>
-        /// Saves a list of all loaded extensions.
-        /// </summary>
-        private Dictionary<ExtensionInfo, Extension> extensions;
     }
 }

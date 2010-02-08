@@ -52,7 +52,6 @@ namespace IrcSharkTest
             }
             catch (ArgumentException)
             {
-                return;
             }
             
             Assert.AreSame(app, app.Extensions.Application);

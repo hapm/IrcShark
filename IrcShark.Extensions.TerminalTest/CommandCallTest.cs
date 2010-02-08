@@ -53,7 +53,7 @@ namespace IrcShark.Extensions.TerminalTest
             }
             catch (Exception)
             {
-                return;
+                // TODO: Should add some action here.
             }
             
             call = new CommandCall("testline");

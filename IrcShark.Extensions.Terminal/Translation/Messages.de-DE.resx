@@ -159,4 +159,13 @@
   <data name="NoLoadedExtensionWithThisNumber" xml:space="preserve">
     <value>Es ist keine Erweierung mit der ausgewählten Nummer geladen.</value>
   </data>
+  <data name="ListingAvailableCommands" xml:space="preserve">
+    <value>Alle verfügbaren Befehle:</value>
+  </data>
+  <data name="UnknowCommand" xml:space="preserve">
+    <value>Unbekanter Befehl "{0}"</value>
+  </data>
+  <data name="GetCommandDetails" xml:space="preserve">
+    <value>Benutze "help [Befehl]" oder "[Befehl] -h" um mehr Informationen zu erhalten</value>
+  </data>
 </root>

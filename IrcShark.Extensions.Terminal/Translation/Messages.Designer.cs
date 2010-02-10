@@ -79,6 +79,24 @@ namespace IrcShark.Extensions.Terminal.Translation {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Use &quot;help [command]&quot; or &quot;[command] -h to get more informations  ähnelt.
+        /// </summary>
+        internal static string GetCommandDetails {
+            get {
+                return ResourceManager.GetString("GetCommandDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Listing all available commands: ähnelt.
+        /// </summary>
+        internal static string ListingAvailableCommands {
+            get {
+                return ResourceManager.GetString("ListingAvailableCommands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Listing all running extensions: ähnelt.
         /// </summary>
         internal static string ListingAvailableExtensions {
@@ -174,6 +192,15 @@ namespace IrcShark.Extensions.Terminal.Translation {
         internal static string SpecifyFlag {
             get {
                 return ResourceManager.GetString("SpecifyFlag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unknow command &quot;{0}&quot; ähnelt.
+        /// </summary>
+        internal static string UnknowCommand {
+            get {
+                return ResourceManager.GetString("UnknowCommand", resourceCulture);
             }
         }
         

@@ -61,7 +61,7 @@ namespace IrcShark.Extensions.Terminal.Commands
             if (paramList.Length == 0) 
             {
                 StringBuilder line = null;
-                Terminal.WriteLine("Listing all available commands:");
+                Terminal.WriteLine(Translation.Messages.ListingAvailableCommands);
                 foreach (TerminalCommand cmd in Terminal.Commands)
                 {
                     if (line == null)
@@ -85,6 +85,20 @@ namespace IrcShark.Extensions.Terminal.Commands
                 {
                     Terminal.WriteLine(line.ToString());
                 }
+                
+                Terminal.WriteLine(Translation.Messages.GetCommandDetails);
+                
+            } else if (paramList.Length == 1)
+            {
+                foreach (TerminalCommand cmd in Terminal.Commands)
+                {
+                    if (paramList[0].ToString() == cmd.CommandName) 
+                    {
+                        cmd.Execute("-h");
+                        return;
+                    }
+                }
+              Terminal.WriteLine(Translation.Messages.UnknowCommand, paramList[0].ToString());    
             }
         }
     }

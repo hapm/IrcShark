@@ -159,4 +159,13 @@
   <data name="ExtensionNotLoaded" xml:space="preserve">
     <value>The selected extension isn't loaded.</value>
   </data>
+  <data name="ListingAvailableCommands" xml:space="preserve">
+    <value>Listing all available commands:</value>
+  </data>
+  <data name="UnknowCommand" xml:space="preserve">
+    <value>Unknow command "{0}"</value>
+  </data>
+  <data name="GetCommandDetails" xml:space="preserve">
+    <value>Use "help [command]" or "[command] -h to get more informations </value>
+  </data>
 </root>

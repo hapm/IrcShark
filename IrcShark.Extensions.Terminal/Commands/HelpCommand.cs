@@ -87,17 +87,18 @@ namespace IrcShark.Extensions.Terminal.Commands
                 }
                 
                 Terminal.WriteLine(Translation.Messages.GetCommandDetails);
-                
-            } else if (paramList.Length == 1)
+            } 
+            else if (paramList.Length == 1)
             {
                 foreach (TerminalCommand cmd in Terminal.Commands)
                 {
                     if (paramList[0].ToString() == cmd.CommandName) 
                     {
-                        cmd.Execute("-h");
+                        cmd.Execute("-?");
                         return;
                     }
                 }
+                
               Terminal.WriteLine(Translation.Messages.UnknowCommand, paramList[0].ToString());    
             }
         }

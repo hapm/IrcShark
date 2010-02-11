@@ -79,7 +79,7 @@ namespace IrcShark.Extensions.Terminal.Translation {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Use &quot;help [command]&quot; or &quot;[command] -h to get more informations  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Use &quot;help [command]&quot; or &quot;[command] -? to get more informations  ähnelt.
         /// </summary>
         internal static string GetCommandDetails {
             get {

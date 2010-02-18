@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ClassDiagram Zoom="1" MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="IrcShark.ChannelFilter" Collapsed="False">
+    <Position X="0.5" Y="0.5" Width="2.111906" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.ExtensionAnalyzer" Collapsed="False">
+    <Position X="0.5" Y="5.2" Width="2.457643" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.ExtensionDependencyResolver" Collapsed="False">
+    <Position X="0.5" Y="7.4" Width="3.742409" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.ExtensionInfoCollection" Collapsed="False">
+    <Position X="0.5" Y="9" Width="2.951569" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.ExtensionContext" Collapsed="False">
+    <Position X="0.5" Y="13.1" Width="2.355592" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Enum Name="IrcShark.Extensions.DependencyLevel" Collapsed="False">
+    <Position X="0.5" Y="15.5" Width="2.109254" />
+    <Compartments />
+  </Enum>
+  <Class Name="IrcShark.Extensions.ExtensionDependencyAttribute" Collapsed="False">
+    <Position X="0.5" Y="16.9" Width="3.692135" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.ExtensionInfoBuilder" Collapsed="False">
+    <Position X="0.5" Y="19.3" Width="2.660563" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Interface Name="IrcShark.IContext" Collapsed="False">
+    <Position X="0.5" Y="21.9" Width="1.428356" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+    </Compartments>
+  </Interface>
+  <Class Name="IrcShark.IrcSharkApplication" Collapsed="False">
+    <Position X="0.5" Y="23.5" Width="2.627023" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Delegate Name="IrcShark.StatusChangedEventHandler" Collapsed="False">
+    <Position X="0.5" Y="28.3" Width="2.059963" />
+    <Compartments />
+  </Delegate>
+  <Enum Name="IrcShark.ExtensionStates" Collapsed="False">
+    <Position X="0.5" Y="29.6" Width="2.50505" />
+    <Compartments />
+  </Enum>
+  <Class Name="IrcShark.ExtensionManager" Collapsed="False">
+    <Position X="0.5" Y="31.1" Width="4.17548" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+      <Compartment Name="Events" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.DirectoryCollection" Collapsed="False">
+    <Position X="0.5" Y="36.8" Width="2.484928" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.LogHandlerSetting" Collapsed="False">
+    <Position X="0.5" Y="41" Width="2.784152" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.LogHandlerSettingCollection" Collapsed="False">
+    <Position X="0.5" Y="47.1" Width="3.456666" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Settings" Collapsed="False">
+    <Position X="0.5" Y="51.1" Width="2.727839" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Delegate Name="IrcShark.LoggedMessageEventHandler" Collapsed="False">
+    <Position X="0.5" Y="56.2" Width="2.116627" />
+    <Compartments />
+  </Delegate>
+  <Class Name="IrcShark.Logger" Collapsed="False">
+    <Position X="0.5" Y="57.5" Width="2.950827" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+      <Compartment Name="Events" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Enum Name="IrcShark.LogLevel" Collapsed="False">
+    <Position X="0.5" Y="61" Width="1.806164" />
+    <Compartments />
+  </Enum>
+  <Class Name="IrcShark.ConfigurationException" Collapsed="False">
+    <Position X="0.5" Y="62.6" Width="2.925036" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.ExtensionInfo" Collapsed="False">
+    <Position X="0.5" Y="64.4" Width="1.952653" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Interface Name="IrcShark.Extensions.IExtensionObject" Collapsed="False">
+    <Position X="0.5" Y="70.1" Width="1.648839" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+    </Compartments>
+  </Interface>
+  <Class Name="IrcShark.Extensions.Extension" Collapsed="False">
+    <Position X="0.5" Y="71.5" Width="1.88737" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.ExtensionException" Collapsed="False">
+    <Position X="0.5" Y="74.1" Width="2.571188" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.LogMessage" Collapsed="False">
+    <Position X="0.5" Y="76.4" Width="1.875739" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.StatusChangedEventArgs" Collapsed="False">
+    <Position X="0.5" Y="80.1" Width="3.185641" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Translation.Messages_de_DE" Collapsed="False">
+    <Position X="0.5" Y="82.6" Width="2.87173" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Translation.Messages" Collapsed="False">
+    <Position X="0.5" Y="87.7" Width="2.87173" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+</ClassDiagram>

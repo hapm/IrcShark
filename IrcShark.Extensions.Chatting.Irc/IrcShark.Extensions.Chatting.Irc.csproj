@@ -1,0 +1,71 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{08BDDD77-FE18-4093-8E53-A65F756FBD96}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>IrcShark.Extensions.Chatting.Irc</RootNamespace>
+    <AssemblyName>IrcShark.Extensions.Chatting.Irc</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\markus\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IrcProtocolExtension.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IrcShark.Chatting.Irc\IrcShark.Chatting.Irc.csproj">
+      <Project>{B287A6A8-748D-4E26-B2FF-1EC098D536F3}</Project>
+      <Name>IrcShark.Chatting.Irc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IrcShark.Chatting\IrcShark.Chatting.csproj">
+      <Project>{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}</Project>
+      <Name>IrcShark.Chatting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IrcShark.Extensions.Chatting\IrcShark.Extensions.Chatting.csproj">
+      <Project>{298D1D46-2F53-44B9-97B1-1CB2655AE41F}</Project>
+      <Name>IrcShark.Extensions.Chatting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IrcShark\IrcShark.csproj">
+      <Project>{F6955540-7429-49FB-AE3D-A9AD916D2334}</Project>
+      <Name>IrcShark</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

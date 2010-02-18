@@ -290,6 +290,7 @@ namespace IrcShark
             {
                 Application.Log.Log(new LogMessage(Logger.CoreChannel, 1009, LogLevel.Information, string.Format(Translation.Messages.Info1009_ExtensionLoaded, ext.Class)));
                 application.Settings.LoadedExtensions.Add(ext);
+                extensions[ext].Start();
                 OnStatusChanged(ext, ExtensionStates.Loaded);
             }
         }

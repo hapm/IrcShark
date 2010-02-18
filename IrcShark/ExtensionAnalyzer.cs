@@ -113,10 +113,19 @@ namespace IrcShark
             fiop.AddPathList(FileIOPermissionAccess.Read, Environment.CurrentDirectory);
             fiop.AddPathList(FileIOPermissionAccess.PathDiscovery, Environment.CurrentDirectory + "Extensions\\");
             fiop.AddPathList(FileIOPermissionAccess.Read, Environment.CurrentDirectory + "Extensions\\");
+            string dirs = null;
             foreach (string dir in recoveryPathes)
             {
                 fiop.AddPathList(FileIOPermissionAccess.PathDiscovery, dir);
-                fiop.AddPathList(FileIOPermissionAccess.Read, dir);                
+                fiop.AddPathList(FileIOPermissionAccess.Read, dir);
+                if (dirs == null)
+                {
+                    dirs = dir;
+                }
+                else
+                {
+                    dirs = dirs + ";" + dir;
+                }
             }
             
             fiop.AllLocalFiles = FileIOPermissionAccess.AllAccess;
@@ -127,6 +136,7 @@ namespace IrcShark
 
             PolicyLevel policy = PolicyLevel.CreateAppDomainLevel();
             policy.RootCodeGroup.PolicyStatement = new PolicyStatement(perms);
+            ads.PrivateBinPath = dirs;
 
             // create the Domain
             result = AppDomain.CreateDomain("analyzer", null, ads);

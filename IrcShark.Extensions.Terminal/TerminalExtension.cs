@@ -154,6 +154,7 @@ namespace IrcShark.Extensions.Terminal
                 if (cmd.CommandName == call.CommandName)
                 {
                     cmd.Execute(call.Parameters);
+                    break;
                 }
             }
         }

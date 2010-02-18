@@ -30,6 +30,7 @@
 namespace IrcShark.Extensions.Terminal
 {
     using System;
+    using System.Runtime.InteropServices;
     using System.Collections.Generic;
     using System.Text;
     using System.Threading;
@@ -41,6 +42,7 @@ namespace IrcShark.Extensions.Terminal
     /// <summary>
     /// This extension allows the administration of IrcShark over the console.
     /// </summary>
+    [GuidAttribute("50562fac-c166-4c0f-8ef4-6d8456add5d9")]
     public class TerminalExtension : IrcShark.Extensions.Extension
     {
         /// <summary>
@@ -167,13 +169,14 @@ namespace IrcShark.Extensions.Terminal
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
             Context.Application.Log.LoggedMessage += TerminalLogger;
             Console.ResetColor();
+            Console.Title = ("IrcShark Terminal");
             foregroundColor = Console.ForegroundColor;
             WriteLine("*******************************************************************************");
             WriteLine("*                   IrcShark started successfully, have fun!                  *");
             WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
             WriteLine("*******************************************************************************");
             WriteLine();
-            
+                        
             // unregister the default console logger as of incompatibility;
             readerThread = new Thread(new ThreadStart(this.Run));
             running = true;

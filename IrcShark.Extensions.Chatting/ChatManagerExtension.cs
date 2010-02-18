@@ -31,6 +31,8 @@ namespace IrcShark.Extensions.Chatting
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
+    
     using IrcShark.Chatting;
     using IrcShark.Extensions;
 
@@ -38,6 +40,7 @@ namespace IrcShark.Extensions.Chatting
     /// The ChatManagerExtension allows to manage connections to chat servers
     /// with different protocols.
     /// </summary>
+    [GuidAttribute("85a0b0ad-6015-41e5-80aa-ccb6c0cad044")]
     public class ChatManagerExtension : Extension
     {
         /// <summary>

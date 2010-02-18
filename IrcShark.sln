@@ -8,8 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkStarter", "IrcShark
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Policy", "IrcShark.Policy\IrcShark.Policy.csproj", "{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkTest", "IrcSharkTest\IrcSharkTest.csproj", "{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Chatting.IrcTest", "IrcShark.Chatting.IrcTest\IrcShark.Chatting.IrcTest.csproj", "{867ABEAC-AC81-4C23-BBBD-3CFB9836B2A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Chatting.Irc", "IrcShark.Chatting.Irc\IrcShark.Chatting.Irc.csproj", "{B287A6A8-748D-4E26-B2FF-1EC098D536F3}"
@@ -27,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Terminal", "IrcShark.Extensions.Terminal\IrcShark.Extensions.Terminal.csproj", "{22028AFF-9B26-4978-9C35-C4998A82BB46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.TerminalTest", "IrcShark.Extensions.TerminalTest\IrcShark.Extensions.TerminalTest.csproj", "{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkTest", "IrcSharkTest\IrcSharkTest.csproj", "{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -78,18 +78,6 @@ Global
 		{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Default|Any CPU.ActiveCfg = Debug|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Default|Any CPU.Build.0 = Debug|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Default|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Default|Mixed Platforms.Build.0 = Debug|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{867ABEAC-AC81-4C23-BBBD-3CFB9836B2A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{867ABEAC-AC81-4C23-BBBD-3CFB9836B2A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{867ABEAC-AC81-4C23-BBBD-3CFB9836B2A1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -180,6 +168,18 @@ Global
 		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Release|Any CPU.ActiveCfg = Release|x86
 		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Release|Mixed Platforms.Build.0 = Release|x86
 		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Default|Mixed Platforms.Build.0 = Debug|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Default|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{99EC1B2C-8F03-40C5-82CF-4E5A726F1AFD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

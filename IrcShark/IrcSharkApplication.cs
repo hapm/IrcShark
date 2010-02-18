@@ -50,7 +50,7 @@ namespace IrcShark
     /// <author>Markus Andree</author>
     /// <since version="0.1"/>
     public class IrcSharkApplication : IDisposable
-    {
+    {        
         /// <summary>
         /// Saves the ExtensionManager instance for this IrcShark instance.
         /// </summary>

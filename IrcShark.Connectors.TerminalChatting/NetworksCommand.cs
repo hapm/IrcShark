@@ -3,7 +3,7 @@
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Place a summary here.</summary>
+// <summary>Contains the NetworksCommand class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,17 +27,42 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-
 namespace IrcShark.Connectors.TerminalChatting
 {
+    using System;
+    using IrcShark.Extensions.Terminal;
+
     /// <summary>
     /// Description of NetworksCommand.
     /// </summary>
-    public class NetworksCommand
+    public class NetworksCommand : TerminalCommand
     {
-        public NetworksCommand()
+        /// <summary>
+        /// Initializes a new instance of the NetworksCommand class.
+        /// </summary>
+        /// <param name="terminal">The terminal to create the command for.</param>
+        public NetworksCommand(TerminalExtension terminal) : base("network", terminal)
         {
+        }
+        
+        /// <summary>
+        /// Executes the networks command.
+        /// </summary>
+        /// <param name="paramList">A list of parameters.</param>
+        public override void Execute(params string[] paramList)
+        {
+            if (paramList.Length == 0)
+            {
+                ListNetworks();
+            }
+        }
+        
+        /// <summary>
+        /// Shows a list of all networks.
+        /// </summary>
+        private void ListNetworks()
+        {
+            Terminal.WriteLine("Showing the networks here");
         }
     }
 }

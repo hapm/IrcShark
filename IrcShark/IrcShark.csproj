@@ -90,6 +90,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
+    <Content Include="IrcShark.cd" />
     <Content Include="ProfilingSessions\Session20091016_194223.sdps" />
     <Content Include="ProfilingSessions\Session20091016_195454.sdps" />
     <Content Include="ProfilingSessions\Session20100201_223114.sdps" />

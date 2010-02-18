@@ -27,14 +27,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System.Runtime.InteropServices;
+
 namespace IrcShark.Extensions.Scripting
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Description of MyClass.
     /// </summary>
+    [GuidAttribute("a004129f-4013-4b15-ba2e-ba0c063b5530")]
     public class ScriptingExtension
     {        
     }

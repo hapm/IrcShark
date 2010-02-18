@@ -27,17 +27,55 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-
 namespace IrcShark.Connectors.TerminalChatting
 {
+    using System;
+    using IrcShark.Extensions;
+    using IrcShark.Extensions.Chatting;
+    using IrcShark.Extensions.Terminal;
+
     /// <summary>
-    /// Description of TerminalChattingConnector.
+    /// The TerminalChattingConnector connects the TerminalExtension and the ChatManagerExtension.
     /// </summary>
-    public class TerminalChattingConnector
+    public class TerminalChattingConnector : Extension
     {
-        public TerminalChattingConnector()
+        /// <summary>
+        /// Saves a reference to the ChatManagerExtension.
+        /// </summary>
+        private ChatManagerExtension chatting;
+        
+        /// <summary>
+        /// Saves a reference to the TerminalExtension.
+        /// </summary>
+        private TerminalExtension terminal;
+        
+        /// <summary>
+        /// Initializes a new instance of the TerminalChattingExtension.
+        /// </summary>
+        /// <param name="context">The context the connector runs in.</param>
+        public TerminalChattingConnector(ExtensionContext context) : base(context)
         {
+            
+        }
+        
+        /// <summary>
+        /// Starts the connector.
+        /// </summary>
+        public override void Start()
+        {
+            ExtensionInfo chattingInfo = Context.Application.Extensions["IrcShark.Extensions.Chatting"];
+            ExtensionInfo terminalInfo = Context.Application.Extensions["IrcShark.Extensions.Terminal"];
+            chatting = Context.Application.Extensions[chattingInfo] as ChatManagerExtension;
+            terminal = Context.Application.Extensions[terminalInfo] as TerminalExtension;
+            terminal.Commands.Add(new NetworksCommand(terminal));
+        }
+        
+        /// <summary>
+        /// Stops the connector.
+        /// </summary>
+        public override void Stop()
+        {
+            throw new NotImplementedException();
         }
     }
 }

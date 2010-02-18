@@ -166,6 +166,6 @@
     <value>Unbekanter Befehl "{0}"</value>
   </data>
   <data name="GetCommandDetails" xml:space="preserve">
-    <value>Benutze "help [Befehl]" oder "[Befehl] -h" um mehr Informationen zu erhalten</value>
+    <value>Benutze "help [Befehl]" oder "[Befehl] -?" um mehr Informationen zu erhalten</value>
   </data>
 </root>

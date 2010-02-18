@@ -166,6 +166,6 @@
     <value>Unknow command "{0}"</value>
   </data>
   <data name="GetCommandDetails" xml:space="preserve">
-    <value>Use "help [command]" or "[command] -h to get more informations </value>
+    <value>Use "help [command]" or "[command] -? to get more informations </value>
   </data>
 </root>

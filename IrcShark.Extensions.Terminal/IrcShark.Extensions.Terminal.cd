@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ClassDiagram Zoom="1" MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="IrcShark.Extensions.Terminal.TerminalExtension" Collapsed="False">
+    <Position X="0.5" Y="5.6" Width="2.715509" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.Terminal.TerminalCommand" Collapsed="False">
+    <Position X="0.5" Y="0.5" Width="2.50738" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.Terminal.Commands.HelpCommand" Collapsed="False">
+    <Position X="0.5" Y="3.1" Width="2.09069" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.Terminal.CommandCall" Collapsed="False">
+    <Position X="0.5" Y="11.5" Width="2.016354" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.Terminal.Commands.ExitCommand" Collapsed="False">
+    <Position X="2.9" Y="3.1" Width="2.002497" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.Terminal.Commands.ExtensionCommand" Collapsed="False">
+    <Position X="5.3" Y="3.1" Width="2.61985" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.Terminal.Commands.LogCommand" Collapsed="False">
+    <Position X="8.3" Y="3.1" Width="2.001422" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="IrcShark.Extensions.Terminal.ConsoleTerminal" Collapsed="False">
+    <Position X="0.5" Y="14.2" Width="2.294899" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Interface Name="IrcShark.Extensions.Terminal.ITerminal" Collapsed="False">
+    <Position X="0.5" Y="16.3" Width="2.15297" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Interface>
+  <Class Name="IrcShark.Extensions.Terminal.Translation.Messages" Collapsed="False">
+    <Position X="0.5" Y="18.6" Width="2.835636" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+</ClassDiagram>

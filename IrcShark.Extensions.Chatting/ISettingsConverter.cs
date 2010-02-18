@@ -27,15 +27,21 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-
 namespace IrcShark.Extensions.Chatting
 {
+    using System;
+    using IrcShark.Chatting;
+
     /// <summary>
-    /// Description of ISettingsConverter.
+    /// Defines the interface to implmenet to convert NetworkSettings to an INetwork instance and back.
     /// </summary>
     public interface ISettingsConverter
     {
-        
+        /// <summary>
+        /// Loads a network from the given network settings.
+        /// </summary>
+        /// <param name="settings">The settings to load the network from.</param>
+        /// <returns>The created network.</returns>
+        INetwork LoadNetwork(NetworkSettings settings);            
     }
 }

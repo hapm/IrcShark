@@ -27,17 +27,55 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-
 namespace IrcShark.Extensions.Chatting
 {
+    using System;
+    using IrcShark.Chatting;
+
     /// <summary>
-    /// Description of ProtocolExtension.
+    /// Defines all methods an propertys a ProtocolExtension should implement.
     /// </summary>
-    public class ProtocolExtension
+    public abstract class ProtocolExtension : Extension
     {
-        public ProtocolExtension()
+        /// <summary>
+        /// Initializes a new instance of the ProtocolExtension class.
+        /// </summary>
+        /// <param name="context">The context of the extension.</param>
+        public ProtocolExtension(ExtensionContext context) : base(context)
         {
         }
+        
+        /// <summary>
+        /// Gets the protocol, represented by this extension.
+        /// </summary>
+        /// <value>
+        /// The instance for the supported protocol.
+        /// </value>
+        public abstract IProtocol Protocol
+        {
+            get;
+        }
+        
+        /// <summary>
+        /// Loads a network of the supported protocol from the given NetworkSettings.
+        /// </summary>
+        /// <param name="settings">The settings to load from.</param>
+        /// <returns>The generated instance for the network.</returns>
+        /// <exception cref="UnsupportedProtocolExteption">
+        /// An UnsupportedProtocolExteption is thrown, if the given settings object is for
+        /// another protocol.
+        /// </exception>
+        public abstract INetwork LoadNetwork(NetworkSettings settings);
+        
+        /// <summary>
+        /// Saves the given network to a new NetworkSettings instance.
+        /// </summary>
+        /// <param name="network">The network to save.</param>
+        /// <returns>The setting instance holding all settings of the network.</returns>
+        /// <exception cref="UnsupportedProtocolExteption">
+        /// An UnsupportedProtocolExteption is thrown, if the given network object is for
+        /// another protocol.
+        /// </exception>
+        public abstract NetworkSettings SaveNetwork(INetwork network);
     }
 }

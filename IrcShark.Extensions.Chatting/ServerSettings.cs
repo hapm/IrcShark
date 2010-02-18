@@ -27,17 +27,71 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-
 namespace IrcShark.Extensions.Chatting
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Xml.Serialization;
+
     /// <summary>
-    /// Description of ServerSettings.
+    /// Saves all settings for a server of a network.
     /// </summary>
     public class ServerSettings
     {
+        /// <summary>
+        /// Saves the name of the server.
+        /// </summary>
+        private string name;
+        
+        /// <summary>
+        /// Saves the address of the server.
+        /// </summary>
+        private string address;
+        
+        /// <summary>
+        /// Protocol dependent parameters.
+        /// </summary>
+        private ParameterCollection parameters;
+        
+        /// <summary>
+        /// Initializes a new instance of the ServerSettings class.
+        /// </summary>
         public ServerSettings()
         {
+            parameters = new ParameterCollection();
+        }
+        
+        /// <summary>
+        /// Gets or sets the address of the server.
+        /// </summary>
+        /// <value>The address of the server.</value>
+        [XmlAttribute("address")]
+        public string Address
+        {
+            get { return address; }
+            set { address = value; }
+        }
+        
+        /// <summary>
+        /// Gets or sets the name of the server.
+        /// </summary>
+        /// <value>The name of the server.</value>
+        [XmlAttribute("name")]
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+        
+        /// <summary>
+        /// Gets or sets a collection of protocol dependent parameters for this server.
+        /// </summary>
+        /// <value>A ParameterCollection with all parameter names and values.</value>
+        [XmlElement("params")]
+        public ParameterCollection Parameters
+        {
+            get { return parameters; }
+            set { parameters = value; }
         }
     }
 }

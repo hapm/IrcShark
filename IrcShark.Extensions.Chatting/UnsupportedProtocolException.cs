@@ -27,16 +27,46 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-
 namespace IrcShark.Extensions.Chatting
 {
+    using System;
+    using System.Runtime.Serialization;
+
     /// <summary>
-    /// Description of UnsupportedProtocolException.
+    /// The UnsupportedProtocolException is thrown if a ProtocolExtension gets objects not supported by its protocol.
     /// </summary>
-    public class UnsupportedProtocolException
+    public class UnsupportedProtocolException : Exception
     {
-        public UnsupportedProtocolException()
+        /// <summary>
+        /// Initializes a new instance of the UnsupportedProtocolException class.
+        /// </summary>
+        public UnsupportedProtocolException() : base("The protocol of the given object is not supported.")
+        {
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the UnsupportedProtocolException class.
+        /// </summary>
+        /// <param name="message">The message to use with the exception.</param>
+        public UnsupportedProtocolException(string message) : base(message)
+        {
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the UnsupportedProtocolException class.
+        /// </summary>
+        /// <param name="message">The message to use with the exception.</param>
+        /// <param name="innerException">The inner exception causing this exception.</param>
+        public UnsupportedProtocolException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the UnsupportedProtocolException class.
+        /// </summary>
+        /// <param name="info">The serialization information.</param>
+        /// <param name="context">The streaming context.</param>
+        public UnsupportedProtocolException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

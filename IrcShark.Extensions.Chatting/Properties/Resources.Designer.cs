@@ -60,9 +60,9 @@ namespace IrcShark.Extensions.Chatting.Properties {
             }
         }
         
-        internal static byte[] parameters {
+        internal static byte[] ParametersSchema {
             get {
-                object obj = ResourceManager.GetObject("parameters", resourceCulture);
+                object obj = ResourceManager.GetObject("ParametersSchema", resourceCulture);
                 return ((byte[])(obj));
             }
         }

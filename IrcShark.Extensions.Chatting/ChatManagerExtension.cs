@@ -41,9 +41,19 @@ namespace IrcShark.Extensions.Chatting
     public class ChatManagerExtension : Extension
     {
         /// <summary>
+        /// Saves if the extension is running or not.
+        /// </summary>
+        private bool running;
+        
+        /// <summary>
         /// Saves a list of all registred protocols.
         /// </summary>
-        private List<IProtocol> registredProtocols;
+        private List<ProtocolExtension> registredProtocols;
+        
+        /// <summary>
+        /// Saves the list of configured networks.
+        /// </summary>
+        private List<INetwork> configuredNetworks;
         
         /// <summary>
         /// Saves a list of all open connections.
@@ -56,17 +66,27 @@ namespace IrcShark.Extensions.Chatting
         /// <param name="context">The context, this extension runs in.</param>
         public ChatManagerExtension(ExtensionContext context) : base(context)
         {
-            registredProtocols = new List<IProtocol>();
+            registredProtocols = new List<ProtocolExtension>();
             openConnections = new List<IConnection>();
+            configuredNetworks = new List<INetwork>();
         }
         
         /// <summary>
-        /// Registeres a new chat protocol, that can be used by the chatting extension. 
+        /// Gets a list of all configured networks.
+        /// </summary>
+        /// <value>A list of INetwork instances.</value>
+        public List<INetwork> Networks
+        {
+            get { return configuredNetworks; }
+        }
+        
+        /// <summary>
+        /// Registeres a new chat protocol, that can be used by the chatting extension.
         /// </summary>
         /// <param name="prot">
         /// An instance of the IProtocol interface for the given protocol.
         /// </param>
-        public void RegisterProtocol(IProtocol prot) 
+        public void RegisterProtocol(ProtocolExtension prot)
         {
             if (registredProtocols.Contains(prot))
             {
@@ -79,15 +99,17 @@ namespace IrcShark.Extensions.Chatting
         /// <summary>
         /// Starts the ChatManagerExtension.
         /// </summary>
-        public override void Start() 
-        {            
+        public override void Start()
+        {
+            running = true;
         }
         
         /// <summary>
         /// Stops the ChatManagerExtension.
         /// </summary>
-        public override void Stop() 
-        {            
+        public override void Stop()
+        {
+            running = false;
         }
     }
 }

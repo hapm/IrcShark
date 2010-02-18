@@ -126,9 +126,9 @@ namespace IrcShark.Extensions.Terminal
         /// <value>
         /// An array of TerminalCommands.
         /// </value>
-        public TerminalCommand[] Commands
+        public List<TerminalCommand> Commands
         {
-            get { return commands.ToArray(); }
+            get { return commands; }
         }
         
         /// <summary>

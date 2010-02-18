@@ -37,7 +37,7 @@ namespace IrcShark.Extensions.Terminal
     /// By inheriting from the TerminalCommand class, you can write your own 
     /// commands for the TerminalExtension.
     /// </summary>
-    public abstract class TerminalCommand
+    public abstract class TerminalCommand : MarshalByRefObject
     {
         /// <summary>
         /// Saves the name of the command.

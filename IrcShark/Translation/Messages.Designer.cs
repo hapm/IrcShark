@@ -178,7 +178,7 @@ namespace IrcShark.Translation {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The settingsfile doesn&apos;t exist, creating the default one ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The settingsfile &quot;{0}&quot; doesn&apos;t exist, creating the default one ähnelt.
         /// </summary>
         internal static string Warning2001_SettingDoesentExist {
             get {

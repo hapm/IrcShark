@@ -56,14 +56,14 @@ namespace IrcShark
         /// Initializes a new instance of the ExtensionAnalyzer class for the given dll file.
         /// </summary>
         /// <param name="fileToAnalyze">The path to the file to analyze.</param>
-        public ExtensionAnalyzer(string fileToAnalyze/*, string[] recoveryPathes*/)
+        public ExtensionAnalyzer(string fileToAnalyze, string[] recoveryPathes)
         {
             string asmName;
             string typeName;
             AppDomain domain;
             ExtensionInfoBuilder extBuilder;
             extensions = new List<ExtensionInfo>();
-            domain = CreateAnalyzerDomain(/*recoveryPathes*/);
+            domain = CreateAnalyzerDomain(recoveryPathes);
             asmName = GetType().Assembly.FullName;
             typeName = typeof(ExtensionInfoBuilder).FullName;
             extBuilder = (ExtensionInfoBuilder)domain.CreateInstanceAndUnwrap(asmName, typeName, false, BindingFlags.CreateInstance, null, new object[] { fileToAnalyze }, null, null, null);
@@ -95,7 +95,7 @@ namespace IrcShark
         /// <remarks>
         /// The created AppDomain has very low permissions and is unloaded after analyzation is done.
         /// </remarks>
-        private static AppDomain CreateAnalyzerDomain(/*string[] recoveryPathes*/)
+        private static AppDomain CreateAnalyzerDomain(string[] recoveryPathes)
         {
             AppDomainSetup ads = new AppDomainSetup();
             AppDomain result;
@@ -113,6 +113,12 @@ namespace IrcShark
             fiop.AddPathList(FileIOPermissionAccess.Read, Environment.CurrentDirectory);
             fiop.AddPathList(FileIOPermissionAccess.PathDiscovery, Environment.CurrentDirectory + "Extensions\\");
             fiop.AddPathList(FileIOPermissionAccess.Read, Environment.CurrentDirectory + "Extensions\\");
+            foreach (string dir in recoveryPathes)
+            {
+                fiop.AddPathList(FileIOPermissionAccess.PathDiscovery, dir);
+                fiop.AddPathList(FileIOPermissionAccess.Read, dir);                
+            }
+            
             fiop.AllLocalFiles = FileIOPermissionAccess.AllAccess;
             fiop.AllFiles = FileIOPermissionAccess.AllAccess;
             perms.AddPermission(fiop);

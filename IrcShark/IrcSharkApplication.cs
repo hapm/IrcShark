@@ -234,7 +234,7 @@ namespace IrcShark
         private void LoadSettings()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-            FileInfo settingfile = new FileInfo("ircshark.config");
+            FileInfo settingfile = new FileInfo("IrcShark.config");
             
             // Loads the file if it exists
             if (settingfile.Exists)
@@ -261,7 +261,7 @@ namespace IrcShark
             }
             else
             {
-                log.Log(new LogMessage(Logger.CoreChannel, 2001, LogLevel.Warning, Messages.Warning2001_SettingDoesentExist));
+                log.Log(new LogMessage(Logger.CoreChannel, 2001, LogLevel.Warning, Messages.Warning2001_SettingDoesentExist, settingfile.FullName));
             }
             
             // Creates the default settings if the settingsfile couldn't be loaded
@@ -276,6 +276,7 @@ namespace IrcShark
                 logSetting = new LogHandlerSetting("IrcShark.FileLogHandler", "iwe");
                 logSetting.Target = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IrcShark"), "default.log");
                 settings.LogSettings.Add(logSetting);
+                SaveSettings();
             }
         }
         

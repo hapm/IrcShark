@@ -196,6 +196,27 @@ namespace IrcShark
                 return null; 
             }
         }
+        
+        /// <summary>
+        /// Gets the Extension belonging to the given class name.
+        /// </summary>
+        /// <param name="className">The class name to lookup.</param>
+        /// <value>The Extension for the given class name.</value>
+        public ExtensionInfo this[string className]
+        {
+            get 
+            { 
+                foreach (ExtensionInfo info in extensions.Keys) 
+                {
+                    if (info.Class.Equals(className))
+                    {
+                        return info;
+                    }
+                }
+                
+                throw new IndexOutOfRangeException();
+            }
+        }
 
         /// <summary>
         /// Checks if the given extension will be unloaded next time IrcShark starts.
@@ -228,6 +249,23 @@ namespace IrcShark
         public bool IsLoaded(ExtensionInfo info)
         {
             return extensions.ContainsKey(info);
+        }
+
+        /// <summary>
+        /// Checks if the extension with the given class name is loaded or not.
+        /// </summary>
+        /// <param name="className">The class name for the Extension to check.</param>
+        /// <returns>True, if the extension is loaded, else false.</returns>
+        public bool IsLoaded(string className)
+        {
+            foreach (Extension ext in extensions.Values)
+            {
+                if (ext.Context.Info.Class.Equals(className))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -415,6 +453,8 @@ namespace IrcShark
             DirectoryInfo extDir;
             ExtensionAnalyzer extAnalyzer;
             availableExtensions.Clear();
+            string[] dirs = new string[application.ExtensionsDirectorys.Count];
+            application.ExtensionsDirectorys.CopyTo(dirs, 0);
             foreach (string dir in application.Settings.ExtensionDirectorys)
             {
                 extDir = new DirectoryInfo(dir);
@@ -426,7 +466,7 @@ namespace IrcShark
                 {
                     foreach (FileInfo dllFile in extDir.GetFiles("*.dll"))
                     {
-                        extAnalyzer = new ExtensionAnalyzer(dllFile.FullName);
+                        extAnalyzer = new ExtensionAnalyzer(dllFile.FullName, dirs);
                         if (extAnalyzer.Extensions.Length > 0)
                         {
                             availableExtensions.AddRange(extAnalyzer.Extensions);

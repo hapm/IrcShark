@@ -80,7 +80,7 @@ namespace IrcShark.Extensions
                 {
                     try
                     {
-                        if (t.IsSubclassOf(ropt))
+                        if (t.IsSubclassOf(ropt) && !t.IsAbstract)
                         {
                             ei = new ExtensionInfo(t);
                             resultExtensions.Add(ei);

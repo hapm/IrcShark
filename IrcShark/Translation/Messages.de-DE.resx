@@ -151,7 +151,7 @@
     <value>{0} Extension stehen zum laden bereit</value>
   </data>
   <data name="Warning2001_SettingDoesentExist" xml:space="preserve">
-    <value>Konnte keine Konfigurationsdatei finden, erstelle eine...</value>
+    <value>Konnte die Konfigurationsdatei "{0}" nicht finden, erstelle eine...</value>
   </data>
   <data name="Warning2002_ExtensionDirDoesntExist" xml:space="preserve">
     <value>Der Extension Ordner {0} existiert nicht und wird ignoriert</value>

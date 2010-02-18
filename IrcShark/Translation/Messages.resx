@@ -142,7 +142,7 @@
     <value>Shutting down ... bye bye</value>
   </data>
   <data name="Warning2001_SettingDoesentExist" xml:space="preserve">
-    <value>The settingsfile doesn't exist, creating the default one</value>
+    <value>The settingsfile "{0}" doesn't exist, creating the default one</value>
   </data>
   <data name="Warning2002_ExtensionDirDoesntExist" xml:space="preserve">
     <value>Extension directory {0} doesn't exist and is ignored</value>

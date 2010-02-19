@@ -336,6 +336,7 @@ namespace IrcShark.Extensions.Terminal
                         // TODO get next command in history
                         if (currentHistoryCmd != null)
                         {
+                            CleanInputLine();
                             if (currentHistoryCmd == cmdHistory.Last)
                             {
                                 currentHistoryCmd = null;
@@ -347,7 +348,7 @@ namespace IrcShark.Extensions.Terminal
                                 line = new StringBuilder(currentHistoryCmd.Value);
                             }
                             
-                            CleanInputLine();
+                            //CleanInputLine();
                             Console.Write(inputPrefix);
                             Console.CursorLeft = inputPrefix.Length;
                             Console.Write(line.ToString());
@@ -556,6 +557,7 @@ namespace IrcShark.Extensions.Terminal
                 newLine = false;
             }
             
+            Console.CursorLeft = charCount;
             Console.Write(new string('\b', charCount));
             Console.Write(new string(' ', charCount));
             Console.Write(new string('\b', charCount));

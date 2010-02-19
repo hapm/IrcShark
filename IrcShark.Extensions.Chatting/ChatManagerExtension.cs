@@ -84,6 +84,22 @@ namespace IrcShark.Extensions.Chatting
         }
         
         /// <summary>
+        /// Gets an array of all registered protocols.
+        /// </summary>
+        /// <value>
+        /// The array of all registred protocols.
+        /// </value>
+        public ProtocolExtension[] Protocols
+        {
+            get 
+            {
+                ProtocolExtension[] protocols = new ProtocolExtension[registredProtocols.Count];
+                registredProtocols.CopyTo(protocols);
+                return protocols;
+            }
+        }
+        
+        /// <summary>
         /// Registeres a new chat protocol, that can be used by the chatting extension.
         /// </summary>
         /// <param name="prot">

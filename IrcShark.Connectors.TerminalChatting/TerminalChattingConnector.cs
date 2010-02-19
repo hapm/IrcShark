@@ -37,6 +37,7 @@ namespace IrcShark.Connectors.TerminalChatting
     /// <summary>
     /// The TerminalChattingConnector connects the TerminalExtension and the ChatManagerExtension.
     /// </summary>
+    [System.Runtime.InteropServices.Guid("c319eb31-313b-4770-824f-18d0110e3a37")]
     public class TerminalChattingConnector : Extension
     {
         /// <summary>
@@ -68,6 +69,7 @@ namespace IrcShark.Connectors.TerminalChatting
             chatting = Context.Application.Extensions[chattingInfo] as ChatManagerExtension;
             terminal = Context.Application.Extensions[terminalInfo] as TerminalExtension;
             terminal.Commands.Add(new NetworksCommand(terminal));
+            terminal.Commands.Add(new SupportedProtocolsCommand(chatting, terminal));
         }
         
         /// <summary>

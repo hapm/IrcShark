@@ -40,6 +40,7 @@ namespace IrcShark.Extensions.Chatting.Irc
     /// The IrcProtocolExtension allows the ChatManagerExtension to manage irc 
     /// protocol connections.
     /// </summary>
+    [System.Runtime.InteropServices.Guid("1c0d853e-3e84-4451-a384-40a663669a9e")]
     public class IrcProtocolExtension : ProtocolExtension
     {
         /// <summary>
@@ -92,7 +93,7 @@ namespace IrcShark.Extensions.Chatting.Irc
             ChatManagerExtension extension;
             try
             {
-                info = Context.Application.Extensions["IrcSHark.Extensions.Chatting.ChatManagerExtension"];
+                info = Context.Application.Extensions["IrcShark.Extensions.Chatting.ChatManagerExtension"];
                 extension = (ChatManagerExtension)Context.Application.Extensions[info];
             }
             catch (IndexOutOfRangeException)
@@ -145,6 +146,11 @@ namespace IrcShark.Extensions.Chatting.Irc
             return result;
         }
         
+        /// <summary>
+        /// Saves an IrcNetwork to a NetworkSettings instance.
+        /// </summary>
+        /// <param name="network">The IrcNetwork to save.</param>
+        /// <returns>The generated NetworkSettings instance.</returns>
         public override NetworkSettings SaveNetwork(IrcShark.Chatting.INetwork network)
         {
             throw new NotImplementedException();

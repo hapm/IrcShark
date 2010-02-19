@@ -369,6 +369,17 @@ namespace IrcShark.Extensions.Terminal
                            }
                            
                            break;
+                       case ConsoleKey.Delete:
+                            if (line.Length > 0 && Console.CursorLeft < inputPrefix.Length + line.Length) 
+                            {
+                                int iCursorLeft = Console.CursorLeft;
+                                CleanInputLine();
+                                line.Remove(iCursorLeft - inputPrefix.Length , 1);
+                                Console.Write(inputPrefix + line);
+                                Console.CursorLeft = iCursorLeft;
+                            }
+                           break;
+                                  
                     case ConsoleKey.Oem1:
                     case ConsoleKey.Oem2:
                     case ConsoleKey.Oem3:

@@ -19,18 +19,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcShark.Connectors.TerminalChatting
 {
     using System;
     using IrcShark.Extensions.Terminal;
+    using IrcShark.Extensions.Chatting;
+    using IrcShark.Chatting;
 
     /// <summary>
     /// Description of NetworksCommand.
@@ -38,11 +32,17 @@ namespace IrcShark.Connectors.TerminalChatting
     public class NetworksCommand : TerminalCommand
     {
         /// <summary>
+        /// Saves the instance of the ChatManagerExtension.
+        /// </summary>
+        private ChatManagerExtension chatting;
+        
+        /// <summary>
         /// Initializes a new instance of the NetworksCommand class.
         /// </summary>
         /// <param name="terminal">The terminal to create the command for.</param>
-        public NetworksCommand(TerminalExtension terminal) : base("network", terminal)
+        public NetworksCommand(ChatManagerExtension chatting, TerminalExtension terminal) : base("network", terminal)
         {
+            this.chatting = chatting;
         }
         
         /// <summary>
@@ -54,6 +54,19 @@ namespace IrcShark.Connectors.TerminalChatting
             if (paramList.Length == 0)
             {
                 ListNetworks();
+                return;
+            }
+            switch (paramList[0])
+            {
+                case "-a":
+                case "--add":
+                    AddNetwork(paramList);
+                    break;
+                    
+                case "-d":
+                case "--delete":
+                    DeleteNetwork(paramList);
+                    break;
             }
         }
         
@@ -62,7 +75,111 @@ namespace IrcShark.Connectors.TerminalChatting
         /// </summary>
         private void ListNetworks()
         {
-            Terminal.WriteLine("Showing the networks here");
+            int i = 0;
+            if (chatting.Networks.Count == 0)
+            {            
+                Terminal.WriteLine("There are no configured networks. Use network -a to add some.");                
+                return;
+            }
+            
+            Terminal.WriteLine("Listing all configured networks:");
+            foreach (INetwork network in chatting.Networks)
+            {
+                i++;
+                Terminal.WriteLine("{0}. {1}", i, network.Name);
+            }
+        }
+        
+        /// <summary>
+        /// Adds a new network to the networ configuration.
+        /// </summary>
+        /// <param name="paramList">
+        /// The parameters of the network.
+        /// </param>
+        private void AddNetwork(string[] paramList) 
+        {
+            ProtocolExtension protocol = null;
+            string protocolName;
+            string networkName;
+            INetwork network;
+            
+            if (paramList.Length < 2)
+            {
+                Terminal.WriteLine("Please specify a protocol to use.");
+                return;
+            }
+            protocolName = paramList[1].ToUpper();
+            
+            if (paramList.Length != 3)
+            {
+                Terminal.WriteLine("Please specify a network name.");
+                return;
+            }
+            networkName = paramList[2];
+            
+            foreach (ProtocolExtension pro in chatting.Protocols)
+            {
+                if (pro.Protocol.Name.ToUpper().Equals(protocolName))
+                {
+                    protocol = pro;
+                    break;
+                }
+            }
+            
+            if (protocol == null)
+            {
+                Terminal.WriteLine("The protocol '{0}' doesn't exist, type protcols to get a list of currently installed protocols.", protocolName);
+                return;
+            }
+            
+            network = protocol.Protocol.CreateNetwork(networkName);
+            chatting.Networks.Add(network);
+            Terminal.WriteLine("The network '{0}' was successfully created.", networkName);            
+        }
+        
+        /// <summary>
+        /// Removes a network from the configuration.
+        /// </summary>
+        /// <param name="paramList">The parameters of the command.</param>
+        private void DeleteNetwork(string[] paramList)
+        {
+            string networkName;
+            int networkNr = 0;
+            INetwork toDelete = null;
+            if (paramList.Length < 2)
+            {
+                Terminal.WriteLine("Please specify a network numbor or name.");
+                return;
+            }
+            networkName = paramList[1];
+            
+            if (int.TryParse(networkName, out networkNr)) 
+            {
+                if (networkNr < 1 || networkNr > chatting.Networks.Count)
+                {
+                    Terminal.WriteLine("There is no network with the number {0}, type network to get a list of configured networks.", networkNr);
+                    return;
+                }
+                toDelete = chatting.Networks[networkNr - 1];
+            }
+            else
+            {
+                foreach (INetwork net in chatting.Networks)
+                {
+                    if (net.Name.Equals(networkName))
+                    {
+                        toDelete = net;
+                        break;
+                    }
+                }
+                if (toDelete == null)
+                {
+                    Terminal.WriteLine("There is no network with the name {0}, type network to get a list of configured networks.", networkName);
+                    return;                    
+                }
+            }
+            chatting.Networks.Remove(toDelete);
+            Terminal.WriteLine("The network {0} was successfully deleted.", toDelete.Name);
         }
     }
 }

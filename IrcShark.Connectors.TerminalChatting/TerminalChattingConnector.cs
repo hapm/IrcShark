@@ -68,7 +68,7 @@ namespace IrcShark.Connectors.TerminalChatting
             ExtensionInfo terminalInfo = Context.Application.Extensions["IrcShark.Extensions.Terminal.TerminalExtension"];
             chatting = Context.Application.Extensions[chattingInfo] as ChatManagerExtension;
             terminal = Context.Application.Extensions[terminalInfo] as TerminalExtension;
-            terminal.Commands.Add(new NetworksCommand(terminal));
+            terminal.Commands.Add(new NetworksCommand(chatting, terminal));
             terminal.Commands.Add(new SupportedProtocolsCommand(chatting, terminal));
         }
         

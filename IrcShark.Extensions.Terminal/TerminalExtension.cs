@@ -46,6 +46,11 @@ namespace IrcShark.Extensions.Terminal
     public class TerminalExtension : IrcShark.Extensions.Extension
     {
         /// <summary>
+        /// The log channel for the TerminalExtension.
+        /// </summary>
+        public const string LogChannel = "terminal";
+        
+        /// <summary>
         /// Saves a list of all commands added to the terminal.
         /// </summary>
         private List<TerminalCommand> commands;
@@ -264,9 +269,9 @@ namespace IrcShark.Extensions.Terminal
                             line = null;
                             return call;
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            // TODO: Should add some action here.
+                            Context.Application.Log.Log(new LogMessage(LogChannel, 1337, LogLevel.Error, "Couldn't execute command: {0}", ex.ToString()));
                         }
                         
                         break;

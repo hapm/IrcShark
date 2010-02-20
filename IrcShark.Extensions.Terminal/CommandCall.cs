@@ -41,7 +41,7 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Regular expression for parsing a command line.
         /// </summary>
-        private static Regex cmdCallRegex = new Regex("([^ ]+)(?: +(\"(?:[^\\\\\"]|\\\\.)*(?:\"|$)||[^ ]*))*");
+        private static Regex cmdCallRegex = new Regex("([^ ]+)(?: +(\"(?:[^\\\\\"]|\\\\.)*(?:\"|$)|[^ ]*))*");
         
         /// <summary>
         /// Regular expression for parsing escaped characters.

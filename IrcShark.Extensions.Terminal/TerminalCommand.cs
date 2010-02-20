@@ -93,7 +93,7 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="call">The commandline to create auto complete info for.</param>
         /// <param name="paramIndex">The parameter to complete.</param>
         /// <returns></returns>
-        public string[] AutoComplete(CommandCall call, int paramIndex)
+        public virtual string[] AutoComplete(CommandCall call, int paramIndex)
         {
             return null;
         }

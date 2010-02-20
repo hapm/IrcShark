@@ -30,6 +30,8 @@
 namespace IrcShark.Extensions.Terminal.Commands
 {
     using System;
+    using System.Collections.Generic;
+
     using IrcShark;
     using IrcShark.Extensions;
     using IrcShark.Extensions.Terminal;
@@ -84,6 +86,55 @@ namespace IrcShark.Extensions.Terminal.Commands
                     Terminal.WriteLine(string.Format(Translation.Messages.UnknownFlag, paramList[0]));
                     break;
             }
+        }
+        
+        public override string[] AutoComplete(CommandCall call, int paramIndex)
+        {
+            List<string> result = new List<string>();
+            switch (paramIndex)
+            {
+                case 0:
+                    if (call.Parameters[0].Length <= 1)
+                    {
+                        return new string[] { "-r", "-a", "-l", "-u" };
+                    }
+                    
+                    break;
+                case 1:
+                    switch (call.Parameters[0])
+                    {
+                        case "-l":
+                            foreach (ExtensionInfo info in extManager.AvailableExtensions)
+                            {
+                                if (info.Class.StartsWith(call.Parameters[1]))
+                                {
+                                    result.Add(info.Class);
+                                }
+                            }
+                            
+                            if (result.Count > 0)
+                            {
+                                return result.ToArray();
+                            }
+                            break;
+                        case "-u":
+                            foreach (ExtensionInfo info in extManager.Keys)
+                            {
+                                if (info.Class.StartsWith(call.Parameters[1]))
+                                {
+                                    result.Add(info.Class);
+                                }
+                            }
+                            
+                            if (result.Count > 0)
+                            {
+                                return result.ToArray();
+                            }
+                            break;
+                    }
+                    break;
+            }
+            return base.AutoComplete(call, paramIndex);
         }
 
         /// <summary>
@@ -209,8 +260,15 @@ namespace IrcShark.Extensions.Terminal.Commands
             }
             else
             {
-                // TODO resolve the ExtensionInfo from the given name in the args here
-                return;
+                if (extManager.IsLoaded(args[1]))
+                {
+                    info = extManager[args[1]];
+                }
+                else
+                {
+                    Terminal.WriteLine(Translation.Messages.ExtensionNotLoaded);
+                    return;
+                }
             }
             
             if (!extManager.IsLoaded(info))

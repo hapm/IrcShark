@@ -355,6 +355,7 @@ namespace IrcShark.Extensions.Terminal
                         // TODO get next command in history
                         if (currentHistoryCmd != null)
                         {
+                            CleanInputLine();
                             if (currentHistoryCmd == cmdHistory.Last)
                             {
                                 currentHistoryCmd = null;
@@ -366,7 +367,7 @@ namespace IrcShark.Extensions.Terminal
                                 line = new StringBuilder(currentHistoryCmd.Value);
                             }
                             
-                            CleanInputLine();
+                            //CleanInputLine();
                             Console.Write(inputPrefix);
                             Console.CursorLeft = inputPrefix.Length;
                             Console.Write(line.ToString());
@@ -388,6 +389,17 @@ namespace IrcShark.Extensions.Terminal
                            }
                            
                            break;
+                       case ConsoleKey.Delete:
+                            if (line.Length > 0 && Console.CursorLeft < inputPrefix.Length + line.Length) 
+                            {
+                                int iCursorLeft = Console.CursorLeft;
+                                CleanInputLine();
+                                line.Remove(iCursorLeft - inputPrefix.Length , 1);
+                                Console.Write(inputPrefix + line);
+                                Console.CursorLeft = iCursorLeft;
+                            }
+                           break;
+                                  
                     case ConsoleKey.Oem1:
                     case ConsoleKey.Oem2:
                     case ConsoleKey.Oem3:
@@ -564,6 +576,7 @@ namespace IrcShark.Extensions.Terminal
                 newLine = false;
             }
             
+            Console.CursorLeft = charCount;
             Console.Write(new string('\b', charCount));
             Console.Write(new string(' ', charCount));
             Console.Write(new string('\b', charCount));

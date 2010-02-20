@@ -138,12 +138,23 @@ namespace IrcShark
         {
             get { return settings; }
         }
-
+        
+        /// <summary>
+        /// This delegate is used by the IrcSharkApplication.StartupComplete event.
+        /// </summary>
+        public delegate void StartupCompleteHandler();
+        
+        /// <summary>
+        /// The StartupComplete event is fired when the system startup is complete and all extensions are running.
+        /// </summary>
+        public event StartupCompleteHandler StartupComplete;
+        
+        
         /// <summary>
         /// Starts IrcShark.
         /// </summary>
         public void Run()
-        {
+        {            
             int startTime = Environment.TickCount;
             running = true;
 
@@ -153,7 +164,12 @@ namespace IrcShark
 
             InitExtensionManager();
             extensions.LoadEnabledExtensions();
-
+            
+             if (StartupComplete != null)
+             {
+                StartupComplete();
+             }
+            
             int stopTime = Environment.TickCount;
             double finalStartTime = (stopTime - startTime) / 1000.0;
 
@@ -166,6 +182,7 @@ namespace IrcShark
             extensions.Dispose();
             log.Dispose();
         }
+
         
         /// <summary>
         /// Disposes the IrcSharkApplication instance.

@@ -567,11 +567,7 @@ namespace IrcShark.Extensions.Terminal
                 charCount += line.Length;
             }
             
-            if (!newLine)
-            {
-                charCount += 10;
-            }
-            else
+            if (newLine)
             {
                 newLine = false;
             }

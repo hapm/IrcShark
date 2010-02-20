@@ -110,6 +110,20 @@ namespace IrcShark.Extensions.Terminal
         private bool autoCompleteUpToDate;
         
         /// <summary>
+        /// Saves the index of the lastly shown autocomplete text in the autoComplete list.
+        /// </summary>
+        private int lastAutoCompleteText;
+        
+        private int autoCompleteStartIndex;
+        
+        private int lastAutoCompleteLength;
+        
+        /// <summary>
+        /// Saves all currently available autocompletition suggestions.
+        /// </summary>
+        private string[] autoComplete;
+        
+        /// <summary>
         /// Saves the prefix for the input row displayed in the console terminal.
         /// </summary>
         private string inputPrefix;
@@ -561,9 +575,82 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         private void AutoComplete()
         {
+            CommandCall call = new CommandCall(line.ToString().Substring(0, Console.CursorLeft - inputPrefix.Length));
+            
             if (!autoCompleteUpToDate)
-            {                
+            {
+                if (call.Parameters.Length == 0)
+                {
+                    lastAutoCompleteLength = call.CommandName.Length;
+                    autoCompleteStartIndex = 0;
+                }
+                else
+                {
+                    lastAutoCompleteLength = call.Parameters[call.Parameters.Length - 1].Length;
+                    autoCompleteStartIndex = Console.CursorLeft - inputPrefix.Length - lastAutoCompleteLength;
+                }
+                UpdateAutoComplete(call);
             }
+            
+            if (autoComplete == null)
+            {
+                return;
+            }
+            
+            lastAutoCompleteText++;
+            if (lastAutoCompleteText >= autoComplete.Length)
+            {
+                lastAutoCompleteText = 0;
+            }
+            
+            CleanInputLine();
+            line.Remove(autoCompleteStartIndex, lastAutoCompleteLength);
+            line.Insert(autoCompleteStartIndex, autoComplete[lastAutoCompleteText], 1);
+            lastAutoCompleteLength = autoComplete[lastAutoCompleteText].Length;
+            Console.Write(inputPrefix);
+            Console.Write(line.ToString());
+            Console.CursorLeft = inputPrefix.Length + autoCompleteStartIndex + autoComplete[lastAutoCompleteText].Length;
+        }
+        
+        /// <summary>
+        /// Updates the autocomplete list.
+        /// </summary>
+        /// <param name="call">The command call used to update the list.</param>
+        private void UpdateAutoComplete(CommandCall call)
+        {
+            string prefix;
+            autoComplete = null;
+            if (call.Parameters.Length == 0)
+            {
+                List<string> list = new List<string>();
+                prefix = call.CommandName;
+                foreach (TerminalCommand cmd in commands)
+                {
+                    if (cmd.CommandName.StartsWith(prefix))
+                    {
+                        list.Add(cmd.CommandName);
+                    }
+                }    
+                
+                if (list.Count > 0)
+                {
+                    autoComplete = list.ToArray();
+                }
+            }
+            else
+            {
+                foreach (TerminalCommand cmd in commands)
+                {
+                    if (cmd.CommandName.Equals(call.CommandName))
+                    {
+                        autoComplete = cmd.AutoComplete(call, call.Parameters.Length - 1);
+                        break;
+                    }
+                }
+            }
+            
+            lastAutoCompleteText = -1;
+            autoCompleteUpToDate = true;
         }
     }
 }

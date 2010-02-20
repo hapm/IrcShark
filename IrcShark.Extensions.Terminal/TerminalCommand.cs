@@ -86,6 +86,17 @@ namespace IrcShark.Extensions.Terminal
         {
             get { return extension; }
         }
+        
+        /// <summary>
+        /// Get autocomplete information for the given CommandCall.
+        /// </summary>
+        /// <param name="call">The commandline to create auto complete info for.</param>
+        /// <param name="paramIndex">The parameter to complete.</param>
+        /// <returns></returns>
+        public string[] AutoComplete(CommandCall call, int paramIndex)
+        {
+            return null;
+        }
 
         /// <summary>
         /// Executes the command.

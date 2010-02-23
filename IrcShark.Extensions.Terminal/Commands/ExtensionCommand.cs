@@ -84,7 +84,7 @@ namespace IrcShark.Extensions.Terminal.Commands
             switch (paramIndex)
             {
                 case 0:
-                    if (call.Parameters[0].Length <= 1)
+                    if (string.IsNullOrEmpty(call.Parameters[0]) || call.Parameters[0].Length <= 1)
                     {
                         return new string[] { "-r", "-a", "-l", "-u" };
                     }
@@ -96,10 +96,12 @@ namespace IrcShark.Extensions.Terminal.Commands
                         case "-l":
                             foreach (ExtensionInfo info in extManager.AvailableExtensions)
                             {
-                                if (info.Class.StartsWith(call.Parameters[1]))
+                                if (!string.IsNullOrEmpty(call.Parameters[1]) && info.Class.StartsWith(call.Parameters[1]))
                                 {
-                                    result.Add(info.Class);
+                                    continue;
                                 }
+                                
+                                result.Add(info.Class);
                             }
                             
                             if (result.Count > 0)
@@ -110,10 +112,12 @@ namespace IrcShark.Extensions.Terminal.Commands
                         case "-u":
                             foreach (ExtensionInfo info in extManager.Keys)
                             {
-                                if (info.Class.StartsWith(call.Parameters[1]))
+                                if (!string.IsNullOrEmpty(call.Parameters[1]) && info.Class.StartsWith(call.Parameters[1]))
                                 {
-                                    result.Add(info.Class);
+                                    continue;
                                 }
+                                
+                                result.Add(info.Class);
                             }
                             
                             if (result.Count > 0)

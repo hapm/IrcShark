@@ -584,8 +584,12 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         private void AutoComplete()
         {
-            CommandCall call = new CommandCall(line.ToString().Substring(0, Console.CursorLeft - inputPrefix.Length));
+            if (line.Length == 0)
+            {
+                return;
+            }
             
+            CommandCall call = new CommandCall(line.ToString().Substring(0, Console.CursorLeft - inputPrefix.Length));            
             if (!autoCompleteUpToDate)
             {
                 if (call.Parameters.Length == 0)
@@ -595,7 +599,14 @@ namespace IrcShark.Extensions.Terminal
                 }
                 else
                 {
-                    lastAutoCompleteLength = call.Parameters[call.Parameters.Length - 1].Length;
+                    if (string.IsNullOrEmpty(call.Parameters[call.Parameters.Length - 1]))
+                    {
+                        lastAutoCompleteLength = 0;
+                    }
+                    else
+                    {
+                        lastAutoCompleteLength = call.Parameters[call.Parameters.Length - 1].Length;
+                    }
                     autoCompleteStartIndex = Console.CursorLeft - inputPrefix.Length - lastAutoCompleteLength;
                 }
                 UpdateAutoComplete(call);

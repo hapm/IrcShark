@@ -65,13 +65,16 @@ namespace IrcShark.Extensions.Terminal
             for (int i = 0; i < parameters.Length; i++)
             {
                 Capture c = result.Groups[2].Captures[i];
-                if (c.Value[0] == '"')
+                if (c.Value.Length > 1)
                 {
-                    parameters[i] = escapeReplace.Replace(c.Value.Substring(1, c.Value.Length - 2), "$1");
-                }
-                else
-                {
-                    parameters[i] = escapeReplace.Replace(c.Value, "$1");
+                    if (c.Value[0] == '"')
+                    {
+                        parameters[i] = escapeReplace.Replace(c.Value.Substring(1, c.Value.Length - (c.Value[c.Value.Length-1] == '"' ? 2 : 1)), "$1");
+                    }
+                    else
+                    {
+                        parameters[i] = escapeReplace.Replace(c.Value, "$1");
+                    }
                 }
             }
         }

@@ -17,16 +17,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcShark.Extensions.Terminal
 {
     using System;
@@ -114,8 +104,14 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         private int lastAutoCompleteText;
         
+        /// <summary>
+        /// Saves the character index where the auto completition begins in text.
+        /// </summary>
         private int autoCompleteStartIndex;
         
+        /// <summary>
+        /// Length of the last auto completed text
+        /// </summary>
         private int lastAutoCompleteLength;
         
         /// <summary>

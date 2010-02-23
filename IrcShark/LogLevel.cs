@@ -3,7 +3,7 @@
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Contains the ChatManagerExtension class.</summary>
+// <summary>Contains the LogLevel enum.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

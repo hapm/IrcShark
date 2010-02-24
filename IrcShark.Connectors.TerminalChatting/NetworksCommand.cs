@@ -20,6 +20,7 @@
 namespace IrcShark.Connectors.TerminalChatting
 {
     using System;
+    using System.Collections.Generic;
     using IrcShark.Extensions.Terminal;
     using IrcShark.Extensions.Chatting;
     using IrcShark.Chatting;
@@ -65,6 +66,47 @@ namespace IrcShark.Connectors.TerminalChatting
                 case "--delete":
                     DeleteNetwork(paramList);
                     break;
+            }
+        }
+        
+        /// <summary>
+        /// Autocompletes networknames on deletion of networks.
+        /// </summary>
+        /// <param name="call">The current line</param>
+        /// <param name="paramIndex">The parameter where the cursor stand on.</param>
+        /// <returns></returns>
+        public override string[] AutoComplete(CommandCall call, int paramIndex)
+        {
+            switch (paramIndex)
+            {
+                case 1:
+                    switch (call.Parameters[0])
+                    {
+                        case "-d":
+                        case "--delete":
+                            List<string> completitions = new List<string>();
+                            foreach (INetwork n in chatting.Networks)
+                            {
+                                if (!string.IsNullOrEmpty(call.Parameters[1]) && n.Name.StartsWith(call.Parameters[1]))
+                                {
+                                    continue;
+                                }
+                                
+                                completitions.Add(n.Name);
+                            }
+                            
+                            if (completitions.Count > 0)
+                            {
+                                return completitions.ToArray();
+                            }
+                            else
+                            {
+                                return base.AutoComplete(call, paramIndex);
+                            }
+                    }
+                    break;
+                default:
+                    return base.AutoComplete(call, paramIndex);
             }
         }
         

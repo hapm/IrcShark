@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="NetworksCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerCommand.cs" />
     <Compile Include="SupportedProtocolsCommand.cs" />
     <Compile Include="TerminalChattingConnector.cs" />
     <Compile Include="Translation\Messages.de-DE.Designer.cs">

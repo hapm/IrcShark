@@ -66,7 +66,8 @@
     <Compile Include="Translation\Messages.Designer.cs">
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Translation\Messages.de-DE.resx" />
+    <EmbeddedResource Include="Translation\Messages.de-DE.resx">
+    </EmbeddedResource>
     <EmbeddedResource Include="Translation\Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>

@@ -43,7 +43,7 @@ namespace IrcShark.Connectors.TerminalChatting
         /// <param name="terminal">
         /// The reference to the TerminalExtension.
         /// </param>
-        public ServerCommand(ChatManagerExtension chatting, TerminalExtension terminal) : base(terminal)
+        public ServerCommand(ChatManagerExtension chatting, TerminalExtension terminal) : base("server", terminal)
         {
             this.chatting = chatting;
         }

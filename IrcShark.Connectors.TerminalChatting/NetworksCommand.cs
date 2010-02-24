@@ -99,15 +99,11 @@ namespace IrcShark.Connectors.TerminalChatting
                             {
                                 return completitions.ToArray();
                             }
-                            else
-                            {
-                                return base.AutoComplete(call, paramIndex);
-                            }
+                            break;
                     }
                     break;
-                default:
-                    return base.AutoComplete(call, paramIndex);
             }
+            return base.AutoComplete(call, paramIndex);
         }
         
         /// <summary>

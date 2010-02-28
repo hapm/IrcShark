@@ -90,7 +90,7 @@ namespace IrcShark.Chatting.Irc
         /// <returns>The new instance of the network configuration.</returns>
         public INetwork CreateNetwork(string name)
         {
-            return new IrcNetwork(name);
+            return new IrcNetwork(this, name);
         }
     }
 }

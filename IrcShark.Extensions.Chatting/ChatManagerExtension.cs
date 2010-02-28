@@ -1,4 +1,7 @@
-﻿// <copyright file="ChatManagerExtension.cs" company="IrcShark Team">
+﻿using System.IO;
+using System.Xml.Serialization;
+
+// <copyright file="ChatManagerExtension.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -49,6 +52,11 @@ namespace IrcShark.Extensions.Chatting
         private List<INetwork> configuredNetworks;
         
         /// <summary>
+        /// Saves a list of networks, that couldn't be loaded because of missing protocols.
+        /// </summary>
+        private List<NetworkSettings> unloadedNetworks;
+        
+        /// <summary>
         /// Saves a list of all open connections.
         /// </summary>
         private List<IConnection> openConnections;
@@ -62,6 +70,7 @@ namespace IrcShark.Extensions.Chatting
             registredProtocols = new List<ProtocolExtension>();
             openConnections = new List<IConnection>();
             configuredNetworks = new List<INetwork>();
+            unloadedNetworks = new List<NetworkSettings>();
         }
         
         /// <summary>
@@ -90,6 +99,24 @@ namespace IrcShark.Extensions.Chatting
         }
         
         /// <summary>
+        /// Gets the ProtocolExtension for the protocol with the given name.
+        /// </summary>
+        /// <param name="name">The name of the protocol.</param>
+        /// <returns>The ProtocolExtension instance or null if there is no extension for the given protocol.</returns>
+        public ProtocolExtension GetProtocol(string name)
+        {
+            foreach (ProtocolExtension ext in registredProtocols)
+            {
+                if (ext.Protocol.Name.ToLower().Equals(name.ToLower()))
+                {
+                    return ext;
+                }
+            }
+            
+            return null;
+        }
+        
+        /// <summary>
         /// Registeres a new chat protocol, that can be used by the chatting extension.
         /// </summary>
         /// <param name="prot">
@@ -103,6 +130,20 @@ namespace IrcShark.Extensions.Chatting
             }
             
             registredProtocols.Add(prot);
+            List<NetworkSettings> loaded = new List<NetworkSettings>();
+            foreach (NetworkSettings setting in unloadedNetworks)
+            {
+                if (setting.Protocol.Equals(prot.Protocol.Name))
+                {
+                    Networks.Add(prot.LoadNetwork(setting));
+                    loaded.Add(setting);
+                }
+            }
+            
+            foreach (NetworkSettings setting in loaded)
+            {
+                unloadedNetworks.Remove(setting);
+            }
         }
         
         /// <summary>
@@ -110,6 +151,7 @@ namespace IrcShark.Extensions.Chatting
         /// </summary>
         public override void Start()
         {
+            LoadSettings();
             running = true;
         }
         
@@ -119,6 +161,61 @@ namespace IrcShark.Extensions.Chatting
         public override void Stop()
         {
             running = false;
+            SaveSettings();
+        }
+        
+        /// <summary>
+        /// Saves all network settings.
+        /// </summary>
+        public void SaveSettings()
+        {
+            TextWriter writer = new StreamWriter(Path.Combine(Context.SettingPath, "networks.xml"));
+            List<NetworkSettings> settings = new List<NetworkSettings>();
+            foreach (INetwork network in Networks)
+            {
+                ProtocolExtension ext = GetProtocol(network.Protocol.Name);
+                if (ext == null)
+                {
+                    Context.Application.Log.Log(new LogMessage("Chatting", 1234, LogLevel.Error, "Couldn't save network '{0}', there was no protocol found to handle it."));
+                }
+                else
+                {
+                    settings.Add(ext.SaveNetwork(network));
+                }
+            }
+            
+            XmlSerializer serializer = new XmlSerializer(settings.GetType(), new XmlRootAttribute("networks"));
+            serializer.Serialize(writer, settings);
+        }
+        
+        /// <summary>
+        /// Loads all network settings.
+        /// </summary>
+        public void LoadSettings()
+        {
+            string file = Path.Combine(Context.SettingPath, "networks.xml");
+            if (!File.Exists(file))
+            {
+                return;
+            }
+            
+            TextReader reader = new StreamReader(Path.Combine(Context.SettingPath, "networks.xml"));
+            List<NetworkSettings> settings;
+            XmlSerializer serializer = new XmlSerializer(typeof(List<NetworkSettings>), new XmlRootAttribute("networks"));
+            settings = serializer.Deserialize(reader) as List<NetworkSettings>;
+            foreach (NetworkSettings setting in settings)
+            {
+                ProtocolExtension ext = GetProtocol(setting.Protocol);
+                
+                if (ext != null)
+                {
+                    Networks.Add(ext.LoadNetwork(setting));
+                }
+                else
+                {
+                    unloadedNetworks.Add(setting);
+                }
+            }
         }
     }
 }

@@ -29,15 +29,16 @@ namespace IrcShark.Chatting.IrcTest
     [TestFixture]
     public class IrcNetworkTest
     {
+        private static IrcProtocol protocol = IrcProtocol.GetInstance();
         /// <summary>
         /// Tests the constructor.
         /// </summary>
         [Test]
         public void Constructor()
         {
-            IrcNetwork network = new IrcNetwork("test");
+            IrcNetwork network = new IrcNetwork(protocol, "test");
             Assert.AreEqual("test", network.Name);
-            network = new IrcNetwork("foo");
+            network = new IrcNetwork(protocol, "foo");
             Assert.AreEqual("foo", network.Name);
         }
         
@@ -47,7 +48,7 @@ namespace IrcShark.Chatting.IrcTest
         [Test]
         public void AddServer() 
         {
-            IrcNetwork network = new IrcNetwork("bar");
+            IrcNetwork network = new IrcNetwork(protocol, "bar");
             IrcServerEndPoint server = network.AddServer("test", "localhost:6667");
             Assert.NotNull(server);
             Assert.AreEqual("localhost", server.Address);
@@ -55,7 +56,7 @@ namespace IrcShark.Chatting.IrcTest
             Assert.AreEqual(6667, server.Port);
             Assert.AreEqual(network["test"], server);
             Assert.AreEqual(1, network.ServerCount);
-            network = new IrcNetwork("bar");
+            network = new IrcNetwork(protocol, "bar");
             server = network.AddServer("foo", "www.google.de:6669");
             Assert.NotNull(server);
             Assert.AreEqual("www.google.de", server.Address);
@@ -80,11 +81,11 @@ namespace IrcShark.Chatting.IrcTest
         [Test]
         public void RemoveServer() 
         {
-            IrcNetwork network = new IrcNetwork("test");
+            IrcNetwork network = new IrcNetwork(protocol, "test");
             network.AddServer("test", "localhost:6667");
             network.RemoveServer("test");
             Assert.AreEqual(0, network.ServerCount);
-            network = new IrcNetwork("test");
+            network = new IrcNetwork(protocol, "test");
             network.AddServer("test1", "localhost:6667");
             network.AddServer("test2", "localhost:6667");
             Assert.IsTrue(network.RemoveServer("test2"));

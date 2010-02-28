@@ -287,6 +287,11 @@ namespace IrcShark
                 settings.LogSettings.Add(logSetting);
                 SaveSettings();
             }
+            
+            if (!Directory.Exists(settings.SettingDirectorys.Default))
+            {
+                Directory.CreateDirectory(settings.SettingDirectorys.Default);
+            }
         }
         
         /// <summary>

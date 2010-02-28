@@ -66,10 +66,16 @@
     <Compile Include="Translation\Messages.Designer.cs">
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Translation\PublicMessages.Designer.cs">
+      <DependentUpon>PublicMessages.resx</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Translation\Messages.de-DE.resx">
     </EmbeddedResource>
     <EmbeddedResource Include="Translation\Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Translation\PublicMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <Content Include="IrcShark.Extensions.Terminal.cd" />
   </ItemGroup>

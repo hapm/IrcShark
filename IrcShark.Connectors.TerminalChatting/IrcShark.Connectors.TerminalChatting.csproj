@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectCommand.cs" />
     <Compile Include="NetworksCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerCommand.cs" />

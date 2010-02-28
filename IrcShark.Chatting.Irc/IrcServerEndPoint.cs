@@ -26,7 +26,7 @@ namespace IrcShark.Chatting.Irc
     /// <summary>
     /// Represents an irc endpoint for an irc connection.
     /// </summary>
-    public class IrcServerEndPoint : System.Net.IPEndPoint, IServer
+    public class IrcServerEndPoint : IServer
     {
         /// <summary>
         /// Saves the name of the server.
@@ -37,6 +37,11 @@ namespace IrcShark.Chatting.Irc
         /// Saves the server host name as a string.
         /// </summary>
         private string address;
+        
+        /// <summary>
+        /// Saves the port for the connection.
+        /// </summary>
+        private int port;
         
         /// <summary>
         /// Saves if an identd is required or not.
@@ -54,12 +59,11 @@ namespace IrcShark.Chatting.Irc
         /// <param name="hostName">
         /// The dns of the irc server as a <see cref="System.String"/>.
         /// </param>
-        public IrcServerEndPoint(string hostName) : base(0, 6667)
+        public IrcServerEndPoint(string hostName)
         {
-            IPAddress[] addresses = Dns.GetHostEntry(hostName).AddressList;
-            Address = addresses[0].ToString();
             address = hostName;
             name = hostName;
+            port = 6667;
         }
         
         /// <summary>
@@ -71,11 +75,9 @@ namespace IrcShark.Chatting.Irc
         /// <param name="port">
         /// The port where the irc server is listening on.
         /// </param>
-        public IrcServerEndPoint(string hostName, int port) : base(0, 0)
+        public IrcServerEndPoint(string hostName, int port)
         {
-            IPAddress[] addresses = Dns.GetHostEntry(hostName).AddressList;
-            base.Address = addresses[0];
-            Port = port;
+            this.port = port;
             address = hostName;
             name = hostName;
         }
@@ -89,10 +91,8 @@ namespace IrcShark.Chatting.Irc
         /// <param name="address">
         /// The dns of the irc server as a <see cref="System.String"/>.
         /// </param>
-        public IrcServerEndPoint(string name, string address) : base(0, 6667)
+        public IrcServerEndPoint(string name, string address)
         {
-            IPAddress[] addresses = Dns.GetHostEntry(address).AddressList;
-            Address = addresses[0].ToString();
             this.address = address;
             this.name = name;
         }
@@ -109,11 +109,9 @@ namespace IrcShark.Chatting.Irc
         /// <param name="port">
         /// The port where the irc server is listening on.
         /// </param>
-        public IrcServerEndPoint(string name, string address, int port) : base(0, 0)
+        public IrcServerEndPoint(string name, string address, int port)
         {
-            IPAddress[] addresses = Dns.GetHostEntry(address).AddressList;
-            Address = addresses[0].ToString();
-            Port = port;
+            this.port = port;
             this.address = address;
             this.name = name;
         }
@@ -127,9 +125,10 @@ namespace IrcShark.Chatting.Irc
         /// <param name="port">
         /// The port where the irc server is listening on.
         /// </param>
-        public IrcServerEndPoint(IPAddress address, int port) : base(address, port)
+        public IrcServerEndPoint(IPAddress address, int port)
         {
             name = address.ToString();
+            this.port = port;
         }
         
         /// <summary>
@@ -144,9 +143,11 @@ namespace IrcShark.Chatting.Irc
         /// <param name="port">
         /// The port where the irc server is listening on.
         /// </param>
-        public IrcServerEndPoint(string name, IPAddress address, int port) : base(address, port)
+        public IrcServerEndPoint(string name, IPAddress address, int port)
         {
             this.name = name;
+            this.port = port;
+            this.address = address.ToString();
         }
 
         /// <summary>
@@ -155,39 +156,10 @@ namespace IrcShark.Chatting.Irc
         /// <value>
         /// The dns of the ircserver, if could be resolved, else null.
         /// </value>
-        public new string Address 
+        public string Address 
         {
-            get 
-            {
-                return address;
-            }
-            
-            set 
-            {
-                IPAddress[] addresses = Dns.GetHostEntry(value).AddressList;
-                base.Address = addresses[0];
-                address = value; 
-            }
-        }
-        
-        /// <summary>
-        /// Gets or sets the ip address of the server.
-        /// </summary>
-        /// <value>
-        /// The IPAddress instance for the server.
-        /// </value>
-        public IPAddress IPAddress 
-        {
-            get 
-            { 
-                return base.Address; 
-            }
-            
-            set 
-            { 
-                base.Address = value;
-                address = value.ToString();
-            }
+            get { return address; }
+            set { address = value; }
         }
         
         /// <summary>
@@ -222,6 +194,16 @@ namespace IrcShark.Chatting.Irc
         {
             get { return name; }
             set { name = value; }
+        }
+        
+        /// <summary>
+        /// Gets or sets the port where the server listens on.
+        /// </summary>
+        /// <value>The port, the server listens on.</value>
+        public int Port 
+        {
+            get { return port; }
+            set { port = value; }
         }
 
         /// <summary>
@@ -259,6 +241,16 @@ namespace IrcShark.Chatting.Irc
         public override int GetHashCode()
         {
             return base.GetHashCode() ^ name.GetHashCode();
+        }
+        
+        /// <summary>
+        /// Gets the ip for this IrcServerAddress.
+        /// </summary>
+        /// <returns>The IPAddress instance.</returns>
+        public IPAddress GetIPAddress()
+        {
+            IPAddress[] addresses = Dns.GetHostEntry(address).AddressList;
+            return addresses[0];            
         }
     }
 }

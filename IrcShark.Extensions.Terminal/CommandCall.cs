@@ -31,7 +31,7 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Regular expression for parsing a command line.
         /// </summary>
-        private static Regex cmdCallRegex = new Regex("([^ ]+)(?: +(\"(?:[^\\\\\"]|\\\\.)*(?:\"|$)|[^ ]*))*");
+        private static Regex cmdCallRegex = new Regex("^([^ ]+)(?: +(\"(?:[^\\\\\"]|\\\\.)*(?:\"|$)|[^ ]*))*$");
         
         /// <summary>
         /// Regular expression for parsing escaped characters.
@@ -65,6 +65,7 @@ namespace IrcShark.Extensions.Terminal
             for (int i = 0; i < parameters.Length; i++)
             {
                 Capture c = result.Groups[2].Captures[i];
+                parameters[i] = c.Value;
                 if (c.Value.Length > 1)
                 {
                     if (c.Value[0] == '"')

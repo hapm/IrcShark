@@ -33,17 +33,17 @@ namespace IrcShark.Connectors.TerminalChatting
     public class SupportedProtocolsCommand : TerminalCommand
     {
         /// <summary>
-        /// Saves the reference to the ChatManagerExtension.
+        /// Saves the reference to the TerminalChattingConnector instance.
         /// </summary>
-        private ChatManagerExtension chatting;
+        private TerminalChattingConnector con;
         
         /// <summary>
         /// Initializes a new instance of the SupportedProtocolsCommand class.
         /// </summary>
         /// <param name="terminal"></param>
-        public SupportedProtocolsCommand(ChatManagerExtension chatting, TerminalExtension terminal) : base("protocols", terminal)
+        public SupportedProtocolsCommand(TerminalChattingConnector connector) : base("protocols", connector.Terminal)
         {
-            this.chatting = chatting;
+            this.con = connector;
         }
         
         /// <summary>
@@ -59,7 +59,7 @@ namespace IrcShark.Connectors.TerminalChatting
             }
             StringBuilder line = null;
             Terminal.WriteLine(Translation.Messages.ListingInstalledProtocols);
-            foreach (ProtocolExtension protocol in chatting.Protocols)
+            foreach (ProtocolExtension protocol in con.Chatting.Protocols)
             {
                 if (line == null)
                 {

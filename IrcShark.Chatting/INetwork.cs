@@ -53,6 +53,22 @@ namespace IrcShark.Chatting
         }
         
         /// <summary>
+        /// Gets the number of servers for this network.
+        /// </summary>
+        /// <value>
+        /// The number of servers.
+        /// </value>
+        int ServerCount { get; }
+        
+        /// <summary>
+        /// Gets the protocol of this network.
+        /// </summary>
+        /// <value>
+        /// The IProtocol instance of the protocol for this network.
+        /// </value>
+        IProtocol Protocol { get; }
+        
+        /// <summary>
         /// Adds a new server configuration to the network configuration.
         /// </summary>
         /// <param name="name">The name of the server configuration.</param>
@@ -72,5 +88,11 @@ namespace IrcShark.Chatting
         /// </summary>
         /// <param name="index">The index of the server configuration to remove.</param>
         void RemoveServer(int index);
+        
+        /// <summary>
+        /// Creates a connection object for the described network.
+        /// </summary>
+        /// <returns>The connection as an instance.</returns>
+        IConnection CreateConnection();
     }
 }

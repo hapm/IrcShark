@@ -123,7 +123,7 @@ namespace IrcShark.Extensions.Chatting.Irc
                 throw new UnsupportedProtocolException();
             }
             
-            IrcNetwork result = new IrcNetwork(settings.Name);
+            IrcNetwork result = new IrcNetwork(protocol, settings.Name);
             foreach (ServerSettings server in settings.Servers) 
             {
                 IrcServerEndPoint ircsrv = result.AddServer(server.Name, server.Address);
@@ -143,7 +143,28 @@ namespace IrcShark.Extensions.Chatting.Irc
         /// <returns>The generated NetworkSettings instance.</returns>
         public override NetworkSettings SaveNetwork(IrcShark.Chatting.INetwork network)
         {
-            throw new NotImplementedException();
+            IrcNetwork net = network as IrcNetwork;
+            if (net == null)
+            {
+                throw new ArgumentException("The given network is not an irc network");
+            }
+            
+            NetworkSettings settings = new NetworkSettings();
+            settings.Protocol = net.Protocol.Name;
+            settings.Name = net.Name;
+            
+            foreach (IrcServerEndPoint server in net)
+            {
+                ServerSettings servSet = new ServerSettings();
+                servSet.Name = server.Name;
+                servSet.Address = string.Format("{0}:{1}", server.Address, server.Port);
+                if (!string.IsNullOrEmpty(server.Password))
+                {
+                    servSet.Parameters.Add("Password", server.Password);
+                }
+                settings.Servers.Add(servSet);
+            }
+            return settings;
         }
     }
 }

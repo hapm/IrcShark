@@ -61,11 +61,11 @@ namespace IrcShark.Chatting.IrcTest
             Assert.IsNotNull(point);
             Assert.IsInstanceOf(typeof(IPEndPoint), point);
             Assert.AreEqual(address1, point.Address);
-            Assert.AreEqual(ip1, point.IPAddress);
+            Assert.AreEqual(ip1, point.GetIPAddress());
             Assert.AreEqual(port1, point.Port);
             point = new IrcServerEndPoint(address2, port2);
             Assert.AreEqual(address2, point.Address);
-            Assert.AreEqual(ip2, point.IPAddress);
+            Assert.AreEqual(ip2, point.GetIPAddress());
             Assert.AreEqual(port2, point.Port);
             try 
             {
@@ -77,10 +77,10 @@ namespace IrcShark.Chatting.IrcTest
             }
             
             point = new IrcServerEndPoint(ip1, port1);
-            Assert.AreEqual(ip1, point.IPAddress);
+            Assert.AreEqual(ip1, point.GetIPAddress());
             Assert.AreEqual(port1, point.Port);
             point = new IrcServerEndPoint(ip2, port2);
-            Assert.AreEqual(ip2, point.IPAddress);
+            Assert.AreEqual(ip2, point.GetIPAddress());
             Assert.AreEqual(port2, point.Port);
         }
         
@@ -113,7 +113,7 @@ namespace IrcShark.Chatting.IrcTest
             Assert.AreEqual(address1, point.Address);
             point.Address = address2;
             Assert.AreEqual(address2, point.Address);
-            Assert.AreEqual(ip2, point.IPAddress);
+            Assert.AreEqual(ip2, point.GetIPAddress());
             try 
             {
                 point.Address = "foobar";

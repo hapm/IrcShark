@@ -34,6 +34,11 @@ namespace IrcShark.Chatting.Irc
         private string name;
         
         /// <summary>
+        /// Saves the protocol this network belongs to.
+        /// </summary>
+        private IrcProtocol protocol;
+        
+        /// <summary>
         /// Saves a list of servers for this network.
         /// </summary>
         private List<IrcServerEndPoint> servers;
@@ -41,12 +46,16 @@ namespace IrcShark.Chatting.Irc
         /// <summary>
         /// Initializes a new instance of the IrcNetwork class.
         /// </summary>
+        /// <param name="protocol">
+        /// The IrcProtocol instance.
+        /// </param>
         /// <param name="name">
         /// The network name.
         /// </param>
-        public IrcNetwork(string name)
+        public IrcNetwork(IrcProtocol protocol, string name)
         {
             this.name = name;
+            this.protocol = protocol;
             servers = new List<IrcServerEndPoint>();
         }
         
@@ -69,6 +78,28 @@ namespace IrcShark.Chatting.Irc
         public int ServerCount
         {
             get { return servers.Count; }
+        }
+        
+        /// <summary>
+        /// Gets the protocol of this network.
+        /// </summary>
+        /// <value>
+        /// The IrcProtocol instance for this network.
+        /// </value>
+        public IrcProtocol Protocol
+        {
+            get { return protocol; }
+        }
+        
+        /// <summary>
+        /// Gets the protocol of this network.
+        /// </summary>
+        /// <value>
+        /// The IProtocol instance of the protocol for this network.
+        /// </value>
+        IProtocol INetwork.Protocol
+        {
+            get { return protocol; }
         }
         
         /// <summary>
@@ -210,7 +241,44 @@ namespace IrcShark.Chatting.Irc
         /// <returns>The enumerator instance.</returns>
         public System.Collections.Generic.IEnumerator<IServer> GetEnumerator()
         {
-            return ((IEnumerable<IServer>)servers).GetEnumerator();
+            return new Enumerator(((IEnumerable<IrcServerEndPoint>)servers).GetEnumerator());
+        }
+        
+        
+        class Enumerator : System.Collections.Generic.IEnumerator<IServer>
+        {
+            IEnumerator<IrcServerEndPoint> realEnum;
+            
+            public Enumerator(IEnumerator<IrcServerEndPoint> realEnum)
+            {
+                this.realEnum = realEnum;
+            }
+                
+            public IServer Current
+            {
+                get { return realEnum.Current; }
+            }
+            
+            public void Dispose()
+            {
+                realEnum.Dispose();
+            }
+            
+            public bool MoveNext()
+            {
+                return realEnum.MoveNext();
+            }
+            
+            public void Reset()
+            {
+                realEnum.Reset();
+            }
+            
+            object System.Collections.IEnumerator.Current {
+                get {
+                    return realEnum.Current;
+                }
+            }
         }
         
         /// <summary>
@@ -220,6 +288,15 @@ namespace IrcShark.Chatting.Irc
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return ((System.Collections.IEnumerable)servers).GetEnumerator();
+        }
+        
+        /// <summary>
+        /// Creates a connection instance for this network.
+        /// </summary>
+        /// <returns>The IConnection instance.</returns>
+        public IConnection CreateConnection()
+        {
+            throw new NotImplementedException();
         }
     }
 }

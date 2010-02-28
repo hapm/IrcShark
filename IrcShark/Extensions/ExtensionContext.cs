@@ -1,4 +1,5 @@
-﻿// <copyright file="ExtensionContext.cs" company="IrcShark Team">
+﻿using System.IO;
+// <copyright file="ExtensionContext.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -41,12 +42,30 @@ namespace IrcShark.Extensions
         private IrcSharkApplication app;
         
         /// <summary>
+        /// Saves the context specific config path.
+        /// </summary>
+        private string settingPath;
+        
+        /// <summary>
         /// Initializes a new instance of the ExtensionContext class.
         /// </summary>
         internal ExtensionContext(IrcSharkApplication app, ExtensionInfo info)
         {
             this.app = app;
             this.info = info;
+            foreach (string path in app.SettingsDirectorys)
+            {
+                if (Directory.Exists(Path.Combine(path, info.Class)))
+                {
+                    this.settingPath = Path.Combine(path, info.Class);
+                }
+            }
+            
+            if (this.settingPath== null)
+            {
+                this.settingPath = Path.Combine(app.SettingsDirectorys.Default, info.Class);
+                Directory.CreateDirectory(this.settingPath);
+            }
         }
         
         /// <summary>
@@ -69,6 +88,14 @@ namespace IrcShark.Extensions
         public ExtensionInfo Info
         {
             get { return info; }
+        }
+        
+        /// <summary>
+        /// Gets the path where settings should be saved in this context.
+        /// </summary>
+        public string SettingPath
+        {
+            get { return settingPath; }
         }
     }
 }

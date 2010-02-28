@@ -58,8 +58,9 @@ namespace IrcShark.Connectors.TerminalChatting
             ExtensionInfo terminalInfo = Context.Application.Extensions["IrcShark.Extensions.Terminal.TerminalExtension"];
             chatting = Context.Application.Extensions[chattingInfo] as ChatManagerExtension;
             terminal = Context.Application.Extensions[terminalInfo] as TerminalExtension;
-            terminal.Commands.Add(new NetworksCommand(chatting, terminal));
-            terminal.Commands.Add(new SupportedProtocolsCommand(chatting, terminal));
+            terminal.Commands.Add(new NetworksCommand(this));
+            terminal.Commands.Add(new ServerCommand(this));
+            terminal.Commands.Add(new SupportedProtocolsCommand(this));
         }
         
         /// <summary>
@@ -67,6 +68,28 @@ namespace IrcShark.Connectors.TerminalChatting
         /// </summary>
         public override void Stop()
         {
+        }
+        
+        /// <summary>
+        /// Gets the ChatManagerExtension instnace this connector connects to.
+        /// </summary>
+        /// <value>
+        /// The instance of the extension.
+        /// </value>
+        internal ChatManagerExtension Chatting
+        {
+            get { return chatting; }
+        }
+        
+        /// <summary>
+        /// Gets the TerminalExtension instance this connector connects to.
+        /// </summary>
+        /// <value>
+        /// The instance of the extension.
+        /// </value>
+        internal TerminalExtension Terminal
+        {
+            get { return terminal; }
         }
     }
 }

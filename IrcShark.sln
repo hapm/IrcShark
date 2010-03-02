@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-# SharpDevelop 3.1.0.4977
+# SharpDevelop 3.2.0.5505
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark", "IrcShark\IrcShark.csproj", "{F6955540-7429-49FB-AE3D-A9AD916D2334}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcSharkStarter", "IrcSharkStarter\IrcSharkStarter.csproj", "{340C66BE-24B0-484E-8B7C-4B492219B59E}"
@@ -18,15 +18,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IrcShark.Extensions", "IrcS
 	ProjectSection(SolutionItems) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.TerminalTest", "IrcShark.Extensions.TerminalTest\IrcShark.Extensions.TerminalTest.csproj", "{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Terminal", "IrcShark.Extensions.Terminal\IrcShark.Extensions.Terminal.csproj", "{22028AFF-9B26-4978-9C35-C4998A82BB46}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Scripting", "IrcShark.Extensions.Scripting\IrcShark.Extensions.Scripting.csproj", "{02C99BBE-4D3F-4372-A5D9-8941117D15DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Chatting.Irc", "IrcShark.Extensions.Chatting.Irc\IrcShark.Extensions.Chatting.Irc.csproj", "{08BDDD77-FE18-4093-8E53-A65F756FBD96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Chatting", "IrcShark.Extensions.Chatting\IrcShark.Extensions.Chatting.csproj", "{298D1D46-2F53-44B9-97B1-1CB2655AE41F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Chatting.Irc", "IrcShark.Extensions.Chatting.Irc\IrcShark.Extensions.Chatting.Irc.csproj", "{08BDDD77-FE18-4093-8E53-A65F756FBD96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Scripting", "IrcShark.Extensions.Scripting\IrcShark.Extensions.Scripting.csproj", "{02C99BBE-4D3F-4372-A5D9-8941117D15DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Terminal", "IrcShark.Extensions.Terminal\IrcShark.Extensions.Terminal.csproj", "{22028AFF-9B26-4978-9C35-C4998A82BB46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.TerminalTest", "IrcShark.Extensions.TerminalTest\IrcShark.Extensions.TerminalTest.csproj", "{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IrcShark.Connectors", "IrcShark.Connectors", "{E439D789-52A4-4F8D-9C16-94CE2443962F}"
 	ProjectSection(SolutionItems) = postProject
@@ -216,11 +216,11 @@ Global
 		$3.inheritsSet = Mono
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{08BDDD77-FE18-4093-8E53-A65F756FBD96} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
-		{298D1D46-2F53-44B9-97B1-1CB2655AE41F} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
-		{02C99BBE-4D3F-4372-A5D9-8941117D15DC} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
-		{22028AFF-9B26-4978-9C35-C4998A82BB46} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
 		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
+		{22028AFF-9B26-4978-9C35-C4998A82BB46} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
+		{02C99BBE-4D3F-4372-A5D9-8941117D15DC} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
+		{298D1D46-2F53-44B9-97B1-1CB2655AE41F} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
+		{08BDDD77-FE18-4093-8E53-A65F756FBD96} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
 		{8479FA86-C26B-4C14-867F-A21A2AD5646D} = {E439D789-52A4-4F8D-9C16-94CE2443962F}
 	EndGlobalSection
 EndGlobal

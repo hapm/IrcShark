@@ -22,6 +22,7 @@ namespace IrcShark.Chatting.Irc
     using System;
     using System.Collections.Generic;
     using IrcShark.Chatting;
+    using IrcShark.Chatting.Irc.Extended;
 
     /// <summary>
     /// Represents a network definition for the irc protocol.
@@ -189,16 +190,16 @@ namespace IrcShark.Chatting.Irc
                 strPort = address.Substring(address.IndexOf(':') + 1);
                 if (int.TryParse(strPort, out port))
                 {
-                    newServer = new IrcServerEndPoint(name, addr, port);
+                    newServer = new IrcServerEndPoint(this, name, addr, port);
                 }
                 else
                 {
-                    newServer = new IrcServerEndPoint(name, addr, 6667);
+                    newServer = new IrcServerEndPoint(this, name, addr, 6667);
                 }
             }
             else 
             {
-                newServer = new IrcServerEndPoint(name, address, 6669);
+                newServer = new IrcServerEndPoint(this, name, address, 6669);
             }
             
             servers.Add(newServer);
@@ -296,7 +297,8 @@ namespace IrcShark.Chatting.Irc
         /// <returns>The IConnection instance.</returns>
         public IConnection CreateConnection()
         {
-            throw new NotImplementedException();
+            IrcConnection con = new IrcConnection(this[0]);
+            return con;
         }
     }
 }

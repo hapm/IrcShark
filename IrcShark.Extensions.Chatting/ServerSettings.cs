@@ -77,7 +77,6 @@ namespace IrcShark.Extensions.Chatting
         /// Gets or sets a collection of protocol dependent parameters for this server.
         /// </summary>
         /// <value>A ParameterCollection with all parameter names and values.</value>
-        [XmlElement("params")]
         public ParameterCollection Parameters
         {
             get { return parameters; }

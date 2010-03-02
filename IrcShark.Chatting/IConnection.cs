@@ -26,6 +26,8 @@ namespace IrcShark.Chatting
     /// </summary>
     public interface IConnection
     {
+        event StatusChangedEventHandler StatusChanged;
+        
         /// <summary>
         /// Gets information about the server, the client ist connected to.
         /// </summary>
@@ -33,6 +35,12 @@ namespace IrcShark.Chatting
         /// The server for the connection.
         /// </value>
         IServer Server { get; }
+        
+        /// <summary>
+        /// Gets the current status of the connection.
+        /// </summary>
+        /// <value>The connections current status.</value>
+        ConnectionStatus Status { get; }
         
         /// <summary>
         /// Gets a value indicating whether the connection is open or not.
@@ -60,5 +68,10 @@ namespace IrcShark.Chatting
         /// Closes the current connection.
         /// </summary>
         void Close();
+        
+        /// <summary>
+        /// Opens the connection with the current settings.
+        /// </summary>
+        void Open();
     }
 }

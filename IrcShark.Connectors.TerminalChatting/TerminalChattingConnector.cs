@@ -61,6 +61,7 @@ namespace IrcShark.Connectors.TerminalChatting
             terminal.Commands.Add(new NetworksCommand(this));
             terminal.Commands.Add(new ServerCommand(this));
             terminal.Commands.Add(new SupportedProtocolsCommand(this));
+            terminal.Commands.Add(new ConnectCommand(this));
         }
         
         /// <summary>

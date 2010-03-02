@@ -27,7 +27,7 @@ namespace IrcShark.Extensions.Chatting
     /// <summary>
     /// Saves all configurations for chatting network.
     /// </summary>
-    [XmlRoot("network")]
+    [XmlRoot("networks")]
     public class NetworkSettings
     {
         /// <summary>
@@ -85,7 +85,6 @@ namespace IrcShark.Extensions.Chatting
         /// Gets or sets a collection of protocol dependent parameters for this network.
         /// </summary>
         /// <value>A ParameterCollection with all parameter names and values.</value>
-        [XmlElement("params")]
         public ParameterCollection Parameters
         {
             get { return parameters; }
@@ -96,7 +95,6 @@ namespace IrcShark.Extensions.Chatting
         /// Gets or sets the list of servers belonging to this network.
         /// </summary>
         /// <value>A list of servers belonging to this network.</value>
-        [XmlElement("servers")]
         public List<ServerSettings> Servers
         {
             get { return servers; }

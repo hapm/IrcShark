@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatManagerExtension.cs" />
+    <Compile Include="ConnectionCollection.cs" />
+    <Compile Include="ConnectionEventArgs.cs" />
     <Compile Include="ISettingsConverter.cs" />
     <Compile Include="NetworkSettings.cs" />
     <Compile Include="ParameterCollection.cs" />

@@ -61,5 +61,6 @@
     <Compile Include="ITarget.cs" />
     <Compile Include="IUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatusChangedEventArgs.cs" />
   </ItemGroup>
 </Project>

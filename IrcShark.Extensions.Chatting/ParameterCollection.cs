@@ -240,6 +240,12 @@ namespace IrcShark.Extensions.Chatting
         {
             string name;
             string value;
+            if (reader.IsEmptyElement)
+            { 
+                reader.Read();
+                return;
+            }
+            
             while (reader.Read())
             {
                 switch (reader.NodeType)
@@ -258,7 +264,7 @@ namespace IrcShark.Extensions.Chatting
                         
                         break;
                     case XmlNodeType.EndElement:
-                        reader.Read();
+                        //reader.Read();
                         return;
                 }
             }

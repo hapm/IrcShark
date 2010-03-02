@@ -37,6 +37,11 @@ namespace IrcShark.Extensions.Chatting
     public class ChatManagerExtension : Extension
     {
         /// <summary>
+        /// The logchannel of this extension.
+        /// </summary>
+        private const string LogChannel = "Chatting";
+        
+        /// <summary>
         /// Saves if the extension is running or not.
         /// </summary>
         private bool running;
@@ -59,7 +64,7 @@ namespace IrcShark.Extensions.Chatting
         /// <summary>
         /// Saves a list of all open connections.
         /// </summary>
-        private List<IConnection> openConnections;
+        private ConnectionCollection openConnections;       
         
         /// <summary>
         /// Initializes a new instance of the ChatManagerExtension class.
@@ -68,9 +73,11 @@ namespace IrcShark.Extensions.Chatting
         public ChatManagerExtension(ExtensionContext context) : base(context)
         {
             registredProtocols = new List<ProtocolExtension>();
-            openConnections = new List<IConnection>();
+            openConnections = new ConnectionCollection();
             configuredNetworks = new List<INetwork>();
             unloadedNetworks = new List<NetworkSettings>();
+            openConnections.AddedConnection += new ConnectionEventHandler(openConnections_AddedConnection);
+            openConnections.RemovedConnection += new ConnectionEventHandler(openConnections_RemovedConnection);
         }
         
         /// <summary>
@@ -96,6 +103,15 @@ namespace IrcShark.Extensions.Chatting
                 registredProtocols.CopyTo(protocols);
                 return protocols;
             }
+        }
+        
+        /// <summary>
+        /// Gets the list of the currently open connections.
+        /// </summary>
+        /// <value>The list of connections.</value>
+        public ConnectionCollection Connections
+        {
+            get { return openConnections; }
         }
         
         /// <summary>
@@ -186,6 +202,7 @@ namespace IrcShark.Extensions.Chatting
             
             XmlSerializer serializer = new XmlSerializer(settings.GetType(), new XmlRootAttribute("networks"));
             serializer.Serialize(writer, settings);
+            writer.Close();
         }
         
         /// <summary>
@@ -215,6 +232,54 @@ namespace IrcShark.Extensions.Chatting
                 {
                     unloadedNetworks.Add(setting);
                 }
+            }
+            reader.Close();
+        }
+
+        /// <summary>
+        /// Handles the openConnections.ConnectionAdded event.
+        /// </summary>
+        /// <param name="sender">The ConnectionCollection that fired the event.</param>
+        /// <param name="args">The arguments for the event.</param>
+        private void openConnections_AddedConnection(object sender, ConnectionEventArgs args)
+        {
+            Context.Application.Log.Log(new LogMessage(LogChannel, 1, LogLevel.Information, "New connection for server '{0}' on network '{1}' added.", args.Connection.Server.Name, args.Connection.Server.Network.Name));
+            args.Connection.StatusChanged += new StatusChangedEventHandler(Connection_StatusChanged);
+        }
+
+        /// <summary>
+        /// Handles the openConnections.RemovedConnection event.
+        /// </summary>
+        /// <param name="sender">The ConnectionCollection that fired the event.</param>
+        /// <param name="args">The arguments for the event.</param>
+        private void openConnections_RemovedConnection(object sender, ConnectionEventArgs args)
+        {
+            Context.Application.Log.Log(new LogMessage(LogChannel, 1234, LogLevel.Information, "Connection for server '{0}' on network '{1}' was removed.", args.Connection.Server.Name, args.Connection.Server.Network.Name));
+            args.Connection.StatusChanged -= new StatusChangedEventHandler(Connection_StatusChanged);
+        }
+
+        /// <summary>
+        /// Handles the Connection.StatusChanged event.
+        /// </summary>
+        /// <param name="sender">The connection, what changed its status.</param>
+        /// <param name="args">The arguments of the event.</param>
+        private void Connection_StatusChanged(object sender, StatusChangedEventArgs args)
+        {
+            IConnection con = sender as IConnection;
+            if (con == null)
+            {
+                return;
+            }
+            
+            switch (args.NewStatus)
+            {
+                case ConnectionStatus.Online:
+                    Context.Application.Log.Log(new LogMessage(LogChannel, 2, LogLevel.Information, "Connection to server '{0}' on network '{1}' established", con.Server.Name, con.Server.Network.Name));
+                    break;
+                    
+                case ConnectionStatus.Offline:
+                    Context.Application.Log.Log(new LogMessage(LogChannel, 2, LogLevel.Information, "Connection to server '{0}' on network '{1}' closed", con.Server.Name, con.Server.Network.Name));
+                    break;                    
             }
         }
     }

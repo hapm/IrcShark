@@ -29,7 +29,7 @@ namespace IrcShark.Chatting.Irc
     /// <remarks>
     /// With an instance of IrcClient, you can connect to an irc server and receive many events
     /// defined by the standard irc protocol. The messages received are automatically parsed to
-    /// <see cref="IrcLine " /> objects to be easier accessible. After connection was established, 
+    /// <see cref="IrcLine " /> objects to be easier accessible. After connection was established,
     /// you should call <see cref="ReceiveLine" /> to get the lines from the server.
     /// </remarks>
     public class IrcClient : IDisposable
@@ -272,7 +272,7 @@ namespace IrcShark.Chatting.Irc
         /// The Error event is raised when there is an error with the irc connection.
         /// </summary>
         /// <remarks>
-        /// This event is raised if the connection aborts unnormal or 
+        /// This event is raised if the connection aborts unnormal or
         /// there was a malformed line received from the server.
         /// </remarks>
         public event ErrorEventHandler Error;
@@ -282,7 +282,7 @@ namespace IrcShark.Chatting.Irc
         /// Gets the standard used on this irc connection.
         /// </summary>
         /// <value>The used standard.</value>
-        public IrcStandardDefinition Standard 
+        public IrcStandardDefinition Standard
         {
             get { return usedStandard; }
         }
@@ -293,7 +293,7 @@ namespace IrcShark.Chatting.Irc
         /// <value>Its true, if the connection is up and running, false otherwise.</value>
         public bool Connected
         {
-            get 
+            get
             {
                 if (client == null)
                 {
@@ -310,11 +310,11 @@ namespace IrcShark.Chatting.Irc
         /// <value>Its true when there are lines to receive, false otherwise.</value>
         /// <remarks>
         /// If the value is true, <see cref="ReceiveLine" /> should be used to read all
-        /// until LinesAvailable get false. 
+        /// until LinesAvailable get false.
         /// </remarks>
         public bool LinesAvailable
         {
-            get 
+            get
             {
                 if (client == null)
                 {
@@ -341,12 +341,23 @@ namespace IrcShark.Chatting.Irc
         }
         
         /// <summary>
-        /// Gets the clients current nickname.
+        /// Gets or sets the clients current nickname.
         /// </summary>
         /// <value>The nickname as a string.</value>
         public string CurrentNickname
         {
             get { return currentNickname; }
+            set
+            {
+                if (Connected)
+                {
+                    SendLine(string.Format("NICK {0}", value));
+                }
+                else
+                {
+                    currentNickname = value;
+                }
+            }
         }
         
         /// <summary>
@@ -354,14 +365,14 @@ namespace IrcShark.Chatting.Irc
         /// </summary>
         /// <value>The username as a string.</value>
         /// <remarks>
-        /// The username can only be changed when the client is not connected, because 
+        /// The username can only be changed when the client is not connected, because
         /// it is set on login and can't be changed afterwards.
         /// </remarks>
         public string Username
         {
-            get 
-            { 
-                return username; 
+            get
+            {
+                return username;
             }
             
             set
@@ -421,16 +432,12 @@ namespace IrcShark.Chatting.Irc
                 test.AsyncWaitHandle.WaitOne();
                 if (Connected)
                 {
-                    ConnectEventArgs args = new ConnectEventArgs(this);
-                    if (OnConnect != null)
-                    {
-                        OnConnect(this, new ConnectEventArgs(this));
-                    }
+                    bool handled = OnOnConnect();
                     
                     inStream = new StreamReader(client.GetStream(), System.Text.Encoding.Default);
                     outStream = new StreamWriter(client.GetStream(), System.Text.Encoding.Default);
                     
-                    if (!args.Handled)
+                    if (!handled)
                     {
                         SendLine(string.Format("NICK {0}", CurrentNickname));
                         SendLine("USER " + Username + " \"\" \"" + ServerAddress.Address.ToString() + "\" :" + Username);
@@ -443,7 +450,7 @@ namespace IrcShark.Chatting.Irc
             }
             catch (Exception ex)
             {
-                Error(this, new ErrorEventArgs(this, "Couldn't connect to given address", ex));   
+                Error(this, new ErrorEventArgs(this, "Couldn't connect to given address", ex));
             }
         }
         
@@ -451,12 +458,12 @@ namespace IrcShark.Chatting.Irc
         /// Reads a new line from the server.
         /// </summary>
         /// <remarks>
-        /// This method blocks the calling thread until a new line was received from server. 
+        /// This method blocks the calling thread until a new line was received from server.
         /// Only use this method, if you want to bypass the automatically raised events and kine handling.
-        /// If you want to have this features use <see cref="IrcClient.ReceiveLine" /> instead. 
+        /// If you want to have this features use <see cref="IrcClient.ReceiveLine" /> instead.
         /// </remarks>
         /// <returns>The received line.</returns>
-        public IrcLine ReadLine() 
+        public IrcLine ReadLine()
         {
             string line;
             if (Connected)
@@ -492,11 +499,11 @@ namespace IrcShark.Chatting.Irc
         /// Reads the next line, raise all events and handle it if needed.
         /// </summary>
         /// <remarks>
-        /// This method does the same as <see cref="IrcClient.ReadLine" /> does but additionally 
+        /// This method does the same as <see cref="IrcClient.ReadLine" /> does but additionally
         /// raise all events of the line. If the line is a PING line, it is handled and automatically
         /// answered by an according PONG.
         /// </remarks>
-        public void ReceiveLine() 
+        public void ReceiveLine()
         {
             IrcLine line = ReadLine();
             if (line == null)
@@ -581,7 +588,7 @@ namespace IrcShark.Chatting.Irc
         /// Joins a given channel on the irc server.
         /// </summary>
         /// <remarks>
-        /// The given <paramref name="chanName"/> should follow the given <see cref="Standard"/> of the IrcClient. 
+        /// The given <paramref name="chanName"/> should follow the given <see cref="Standard"/> of the IrcClient.
         /// The IrcClient will wait for the acknowledge of the server.
         /// </remarks>
         /// <param name="chanName">The channel name the client should join.</param>
@@ -594,7 +601,7 @@ namespace IrcShark.Chatting.Irc
         /// Parts a given channel on the irc server.
         /// </summary>
         /// <remarks>
-        /// The <paramref name="chanName"/> should follow the given <see cref="Standard"/> of the IrcClient. 
+        /// The <paramref name="chanName"/> should follow the given <see cref="Standard"/> of the IrcClient.
         /// The IrcClient will wait for the acknowledge of the server.
         /// </remarks>
         /// <param name="chanName">The channel name the client should join.</param>
@@ -671,21 +678,11 @@ namespace IrcShark.Chatting.Irc
                         break;
 
                     case 3: // Parse Welcome-Message
-                        loggedIn = true;
-                        if (OnLogin != null) 
-                        {
-                            OnLogin(this, new LoginEventArgs(Network, CurrentNickname, this));
-                        }
-                        
+                        OnOnLogin();                        
                         break;
                         
                     case 376: // End of MOTD message
-                        loggedIn = true;
-                        if (OnLogin != null) 
-                        {
-                            OnLogin(this, new LoginEventArgs(Network, CurrentNickname, this));
-                        }
-                        
+                        OnOnLogin();                        
                         break;
                 }
             }
@@ -784,18 +781,50 @@ namespace IrcShark.Chatting.Irc
                         break;
 
                     case "KICK": // Parse Kick-Message
-                        KickReceivedEventArgs kickArgs = new KickReceivedEventArgs(e.Line);
-                        if (KickReceived != null)
-                        {
-                            KickReceived(this, kickArgs);
-                        }
-                        
+                        OnLineReceived(e.Line);
                         break;
 
                     default:
                         e.Handled = false;
                         break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Fires the OnLogin event.
+        /// </summary>
+        protected virtual void OnOnLogin()
+        {
+            loggedIn = true;
+            if (OnLogin != null) {
+                OnLogin(this, new LoginEventArgs(Network, CurrentNickname, this));
+            }
+        }
+
+        /// <summary>
+        /// Fires the OnConnect event.
+        /// </summary>
+        protected virtual bool OnOnConnect()
+        {
+            if (OnConnect != null) {
+                ConnectEventArgs args = new ConnectEventArgs(this);
+                OnConnect(this, args);
+                return args.Handled;
+            }
+            
+            return false;
+        }
+
+        /// <summary>
+        /// Fires the LineReceived event.
+        /// </summary>
+        /// <param name="line">The line that was received.</param>
+        protected virtual void OnLineReceived(IrcLine line)
+        {
+            KickReceivedEventArgs kickArgs = new KickReceivedEventArgs(line);
+            if (KickReceived != null) {
+                KickReceived(this, kickArgs);
             }
         }
     }

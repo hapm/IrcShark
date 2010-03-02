@@ -54,6 +54,11 @@ namespace IrcShark.Chatting.Irc
         private string password;
         
         /// <summary>
+        /// Saves the network, this IrcServerEndPoint belongs to, if any.
+        /// </summary>
+        private IrcNetwork network;
+        
+        /// <summary>
         /// Initializes a new instance of the IrcServerEndPoint class.
         /// </summary>
         /// <param name="hostName">
@@ -61,6 +66,21 @@ namespace IrcShark.Chatting.Irc
         /// </param>
         public IrcServerEndPoint(string hostName)
         {
+            address = hostName;
+            name = hostName;
+            port = 6667;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the IrcServerEndPoint class.
+        /// </summary>
+        /// <param name="network">The network, this IrcServerEndPoint belongs to.</param>
+        /// <param name="hostName">
+        /// The dns of the irc server as a <see cref="System.String"/>.
+        /// </param>
+        public IrcServerEndPoint(IrcNetwork network, string hostName)
+        {
+            this.network = network;
             address = hostName;
             name = hostName;
             port = 6667;
@@ -85,6 +105,24 @@ namespace IrcShark.Chatting.Irc
         /// <summary>
         /// Initializes a new instance of the IrcServerEndPoint class.
         /// </summary>
+        /// <param name="network">The network, this IrcServerEndPoint belongs to.</param>
+        /// <param name="hostName">
+        /// The dns of the irc server as a <see cref="System.String"/>.
+        /// </param>
+        /// <param name="port">
+        /// The port where the irc server is listening on.
+        /// </param>
+        public IrcServerEndPoint(IrcNetwork network, string hostName, int port)
+        {
+            this.port = port;
+            this.network = network;
+            address = hostName;
+            name = hostName;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the IrcServerEndPoint class.
+        /// </summary>
         /// <param name="name">
         /// The displayed name of the server.
         /// </param>
@@ -93,6 +131,23 @@ namespace IrcShark.Chatting.Irc
         /// </param>
         public IrcServerEndPoint(string name, string address)
         {
+            this.address = address;
+            this.name = name;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the IrcServerEndPoint class.
+        /// </summary>
+        /// <param name="network">The network, this IrcServerEndPoint belongs to.</param>
+        /// <param name="name">
+        /// The displayed name of the server.
+        /// </param>
+        /// <param name="address">
+        /// The dns of the irc server as a <see cref="System.String"/>.
+        /// </param>
+        public IrcServerEndPoint(IrcNetwork network, string name, string address)
+        {
+            this.network = network;
             this.address = address;
             this.name = name;
         }
@@ -111,6 +166,27 @@ namespace IrcShark.Chatting.Irc
         /// </param>
         public IrcServerEndPoint(string name, string address, int port)
         {
+            this.port = port;
+            this.address = address;
+            this.name = name;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the IrcServerEndPoint class.
+        /// </summary>
+        /// <param name="network">The network, this IrcServerEndPoint belongs to.</param>
+        /// <param name="name">
+        /// The displayed name of the server.
+        /// </param>
+        /// <param name="address">
+        /// The dns of the irc server as a <see cref="System.String"/>.
+        /// </param>
+        /// <param name="port">
+        /// The port where the irc server is listening on.
+        /// </param>
+        public IrcServerEndPoint(IrcNetwork network, string name, string address, int port)
+        {
+            this.network = network;
             this.port = port;
             this.address = address;
             this.name = name;
@@ -212,7 +288,7 @@ namespace IrcShark.Chatting.Irc
         /// <value>The network instance.</value>
         public INetwork Network 
         {
-            get { throw new NotImplementedException(); }
+            get { return network; }
         }
         
         /// <summary>

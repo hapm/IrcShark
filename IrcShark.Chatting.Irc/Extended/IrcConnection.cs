@@ -47,14 +47,18 @@ namespace IrcShark.Chatting.Irc.Extended
         /// Saves the server to connect to.
         /// </summary>
         private IrcServerEndPoint server;
+        
+        /// <summary>
+        /// The StatusChanged event is fired when the connection changes its status.
+        /// </summary>
+        public event StatusChangedEventHandler StatusChanged;
 
         /// <summary>
         /// Initializes a new instance of the IrcConnection class.
         /// </summary>
         public IrcConnection()
         {
-            channels = new ChannelManager(this);
-            connectionID = ++instanceCount;
+            Initialize();
         }
 
         /// <summary>
@@ -63,9 +67,30 @@ namespace IrcShark.Chatting.Irc.Extended
         /// <param name="server">The server configuration to use.</param>
         public IrcConnection(IrcServerEndPoint server)
         {
-            this.server = server;
-            channels = new ChannelManager(this);
-            connectionID = ++instanceCount;
+            ServerAddress = server;
+            Initialize();
+        }
+        
+        /// <summary>
+        /// Gets the current status of the connection.
+        /// </summary>
+        /// <value>the status.</value>
+        public ConnectionStatus Status
+        {
+            get 
+            { 
+                if (!Connected)
+                {
+                    return ConnectionStatus.Offline;
+                }
+                
+                if (!LoggedIn)
+                {
+                    return ConnectionStatus.Authing;
+                }
+                
+                return ConnectionStatus.Online;
+            }
         }
 
         /// <summary>
@@ -103,7 +128,7 @@ namespace IrcShark.Chatting.Irc.Extended
         /// </value>
         public bool IsConnected 
         {
-            get { throw new NotImplementedException(); }
+            get { return Connected; }
         }
         
         /// <summary>
@@ -136,8 +161,8 @@ namespace IrcShark.Chatting.Irc.Extended
         /// </value>
         public string Nickname 
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return CurrentNickname; }
+            set { CurrentNickname = value; }
         }
         
         /// <summary>
@@ -146,8 +171,8 @@ namespace IrcShark.Chatting.Irc.Extended
         /// <value>The username as a string.</value>
         public string UserName 
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return Username; }
+            set { Username = value; }
         }
             
         /// <summary>
@@ -159,6 +184,51 @@ namespace IrcShark.Chatting.Irc.Extended
             {
                 Dispose();
             }
+        }
+        
+        /// <summary>
+        /// Opens the connection.
+        /// </summary>
+        public void Open()
+        {
+            Connect();
+        }
+        
+        /// <summary>
+        /// Fires the OnConnect event.
+        /// </summary>
+        protected override bool OnOnConnect()
+        {
+            ConnectionStatus oldStatus = Status;
+            bool handled = base.OnOnConnect();
+            OnStatusChanged(oldStatus, Status);
+            return handled;
+        }
+        
+        /// <summary>
+        /// Fires the StatusChanged event.
+        /// </summary>
+        /// <param name="oldStatus">The status before the change.</param>
+        /// <param name="newStatus">The new status.</param>
+        protected virtual void OnStatusChanged(ConnectionStatus oldStatus, ConnectionStatus newStatus)
+        {
+            if (StatusChanged != null)
+            {
+                StatusChangedEventArgs args = new StatusChangedEventArgs(oldStatus, newStatus);
+                StatusChanged(this, args);
+            }
+        }
+        
+        /// <summary>
+        /// Does some standard initialization stuff.
+        /// </summary>
+        /// <remarks>
+        /// Initializes the private members like the connection id and ChannelManager.
+        /// </remarks>
+        private void Initialize()
+        {
+            channels = new ChannelManager(this);
+            connectionID = ++instanceCount;
         }
     }
 }

@@ -71,6 +71,10 @@ namespace IrcShark.Connectors.TerminalChatting
                     AddServer(paramList);
                     break;
                     
+                case "-r":
+                    RemoveServer(paramList);
+                    break;
+                    
                 default:
                     Terminal.WriteLine(PublicMessages.UnknownFlag, paramList[0]);
                     break;
@@ -114,6 +118,46 @@ namespace IrcShark.Connectors.TerminalChatting
                 }
             }
             return network;
+        }
+        
+        /// <summary>
+        /// Gets the server instance for the given identication string.
+        /// </summary>
+        /// <param name="network">The network to search in.</param>
+        /// <param name="ident">The identication string can be the network name or a network number.</param>
+        /// <returns>The network instance or null if the network doesn't exist.</returns>
+        private IServer GetServer(INetwork network, string ident)
+        {
+            IServer server = null;
+            int serverNr;
+            if (int.TryParse(ident, out serverNr))
+            {
+                if (serverNr < 1 || serverNr > network.ServerCount)
+                {
+                    Terminal.WriteLine(string.Format("There is no server with the number {0}.", ident));   
+                }
+                else
+                {
+                    server = network[serverNr-1];
+                }
+            }
+            else
+            {
+                foreach (IServer srv in network)
+                {
+                    if (srv.Name.Equals(ident))
+                    {
+                        server = srv;
+                        break;
+                    }
+                }
+                
+                if (server == null)
+                {
+                    Terminal.WriteLine(string.Format("There is no server with the name '{0}' in the network '{1}'.", ident, network.Name));
+                }
+            }
+            return server;            
         }
         
         /// <summary>
@@ -189,6 +233,42 @@ namespace IrcShark.Connectors.TerminalChatting
                 return;
             }
             Terminal.WriteLine("Server '{0}' was successfully added to network '{1}'.", paramList[2], network.Name);
+        }
+        
+        /// <summary>
+        /// Removes a server form the server list of the network.
+        /// </summary>
+        /// <param name="paramList">The parameters for this command.</param>
+        private void RemoveServer(string[] paramList)
+        {
+            INetwork network;
+            IServer server;
+            if (paramList.Length < 2)
+            {
+                Terminal.WriteLine("Please specify a networkname or network number you want to add the server to.");
+                return;
+            }
+            
+            network = GetNetwork(paramList[1]);
+            if (network == null)
+            {
+                return;
+            }
+            
+            if (paramList.Length < 3)
+            {
+                Terminal.WriteLine("Please specify a servername or server number you want to remove.");
+                return;
+            }
+            
+            server = GetServer(network, paramList[2]);
+            if (server == null)
+            {
+                return;
+            }
+            
+            network.RemoveServer(server.Name);
+            Terminal.WriteLine("Server '{0}' was successfully removed from network '{1}'", server.Name, network.Name);
         }
     }
 }

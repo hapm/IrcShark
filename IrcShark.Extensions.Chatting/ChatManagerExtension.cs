@@ -177,6 +177,13 @@ namespace IrcShark.Extensions.Chatting
         public override void Stop()
         {
             running = false;
+            foreach (IConnection con in openConnections)
+            {
+                con.Close();
+            }
+            
+            Connections.Clear();
+            
             SaveSettings();
         }
         

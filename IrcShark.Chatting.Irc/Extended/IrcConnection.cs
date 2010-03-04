@@ -20,6 +20,7 @@
 namespace IrcShark.Chatting.Irc.Extended
 {
     using System;
+    using System.Threading;
     using IrcShark.Chatting;
 
     /// <summary>
@@ -44,9 +45,9 @@ namespace IrcShark.Chatting.Irc.Extended
         private int connectionID;
         
         /// <summary>
-        /// Saves the server to connect to.
+        /// Reads lines from the client.
         /// </summary>
-        private IrcServerEndPoint server;
+        private Thread reader;
         
         /// <summary>
         /// The StatusChanged event is fired when the connection changes its status.
@@ -137,20 +138,9 @@ namespace IrcShark.Chatting.Irc.Extended
         /// <value>
         /// The server for the connection.
         /// </value>
-        IServer IConnection.Server 
+        public IServer Server 
         {
-            get { return Server; }
-        }
-        
-        /// <summary>
-        /// Gets information about the irc server, the client ist connected to.
-        /// </summary>
-        /// <value>
-        /// The server for the connection.
-        /// </value>
-        public IrcServerEndPoint Server 
-        {
-            get { return server; }
+            get { return ServerAddress; }
         }
         
         /// <summary>
@@ -183,6 +173,7 @@ namespace IrcShark.Chatting.Irc.Extended
             if (IsConnected)
             {
                 Dispose();
+                reader.Join();
             }
         }
         
@@ -202,7 +193,19 @@ namespace IrcShark.Chatting.Irc.Extended
             ConnectionStatus oldStatus = Status;
             bool handled = base.OnOnConnect();
             OnStatusChanged(oldStatus, Status);
+            reader = new Thread(ReadLines);
+            reader.Start();
             return handled;
+        }
+        
+        /// <summary>
+        /// Fires the OnLogin event.
+        /// </summary>
+        protected override void OnOnLogin()
+        {
+            ConnectionStatus oldStatus = Status;
+            base.OnOnLogin();
+            OnStatusChanged(oldStatus, Status);
         }
         
         /// <summary>
@@ -229,6 +232,21 @@ namespace IrcShark.Chatting.Irc.Extended
         {
             channels = new ChannelManager(this);
             connectionID = ++instanceCount;
+        }
+        
+        /// <summary>
+        /// Reads and handles lines.
+        /// </summary>
+        private void ReadLines()
+        {
+            while (Connected)
+            {
+                while (LinesAvailable && Connected)
+                {
+                    this.ReceiveLine();
+                }
+                Thread.Sleep(100);
+            }
         }
     }
 }

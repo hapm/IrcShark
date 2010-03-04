@@ -87,6 +87,7 @@ namespace IrcShark.Extensions.Chatting
         public void Add(IConnection item)
         {
             connections.Add(item);
+            OnAddedConnection(item);
         }
         
         /// <summary>
@@ -124,7 +125,13 @@ namespace IrcShark.Extensions.Chatting
         /// <returns>Its true if the connection was successfully removed, false otherwise.</returns>
         public bool Remove(IConnection item)
         {
-            return connections.Remove(item);
+            bool result = connections.Remove(item);
+            if (result)
+            {
+                OnRemovedConnection(item);
+            }
+            
+            return result;
         }
         
         /// <summary>

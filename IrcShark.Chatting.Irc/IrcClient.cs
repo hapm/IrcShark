@@ -484,11 +484,17 @@ namespace IrcShark.Chatting.Irc
                 }
                 catch (InvalidLineFormatException ex)
                 {
-                    Error(this, new ErrorEventArgs(this, ex.Message, ex));
+                    if (Error != null)
+                    {
+                        Error(this, new ErrorEventArgs(this, ex.Message, ex));
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Error(this, new ErrorEventArgs(this, "Couldn't receive line", ex));
+                    if (Error != null)
+                    {
+                        Error(this, new ErrorEventArgs(this, "Couldn't receive line", ex));
+                    }
                 }
             }
             
@@ -654,6 +660,7 @@ namespace IrcShark.Chatting.Irc
         {
             inStream.Dispose();
             outStream.Dispose();
+            client.Close();
         }
 
         /// <summary>
@@ -682,7 +689,7 @@ namespace IrcShark.Chatting.Irc
                         break;
                         
                     case 376: // End of MOTD message
-                        OnOnLogin();                        
+                        //OnOnLogin();                        
                         break;
                 }
             }

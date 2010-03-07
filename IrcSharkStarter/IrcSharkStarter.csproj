@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Starter.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Content Include="ProfilingSessions\Session20100307_164037.sdps" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

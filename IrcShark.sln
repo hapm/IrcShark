@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IrcShark.Extensions", "IrcS
 	ProjectSection(SolutionItems) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Scripting.MslTest", "IrcShark.Extensions.Scripting.MslTest\IrcShark.Extensions.Scripting.MslTest.csproj", "{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Chatting.Irc", "IrcShark.Extensions.Chatting.Irc\IrcShark.Extensions.Chatting.Irc.csproj", "{08BDDD77-FE18-4093-8E53-A65F756FBD96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Chatting", "IrcShark.Extensions.Chatting\IrcShark.Extensions.Chatting.csproj", "{298D1D46-2F53-44B9-97B1-1CB2655AE41F}"
@@ -28,9 +30,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Termina
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.TerminalTest", "IrcShark.Extensions.TerminalTest\IrcShark.Extensions.TerminalTest.csproj", "{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Extensions.Scripting.Msl", "IrcShark.Extensions.Scripting.Msl\IrcShark.Extensions.Scripting.Msl.csproj", "{2967E4AA-E47A-4265-BC87-555DC8F57AEB}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IrcShark.Connectors", "IrcShark.Connectors", "{E439D789-52A4-4F8D-9C16-94CE2443962F}"
 	ProjectSection(SolutionItems) = postProject
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Connectors.TerminalIrc", "IrcShark.Connectors.TerminalIrc\IrcShark.Connectors.TerminalIrc.csproj", "{AC272414-0F0B-47AA-9F28-3E4957BF71BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrcShark.Connectors.TerminalChatting", "IrcShark.Connectors.TerminalChatting\IrcShark.Connectors.TerminalChatting.csproj", "{8479FA86-C26B-4C14-867F-A21A2AD5646D}"
 EndProject
@@ -198,6 +204,42 @@ Global
 		{8479FA86-C26B-4C14-867F-A21A2AD5646D}.Release|Any CPU.ActiveCfg = Release|x86
 		{8479FA86-C26B-4C14-867F-A21A2AD5646D}.Release|Mixed Platforms.Build.0 = Release|x86
 		{8479FA86-C26B-4C14-867F-A21A2AD5646D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Debug|Any CPU.Build.0 = Debug|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Default|Any CPU.Build.0 = Debug|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Default|Any CPU.ActiveCfg = Debug|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Default|Mixed Platforms.Build.0 = Debug|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Default|Mixed Platforms.ActiveCfg = Debug|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Release|Any CPU.Build.0 = Release|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Release|Any CPU.ActiveCfg = Release|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Debug|Any CPU.Build.0 = Debug|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Default|Any CPU.Build.0 = Debug|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Default|Any CPU.ActiveCfg = Debug|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Default|Mixed Platforms.Build.0 = Debug|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Default|Mixed Platforms.ActiveCfg = Debug|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Release|Any CPU.Build.0 = Release|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Release|Any CPU.ActiveCfg = Release|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Debug|Any CPU.Build.0 = Debug|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Default|Any CPU.Build.0 = Debug|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Default|Any CPU.ActiveCfg = Debug|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Default|Mixed Platforms.Build.0 = Debug|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Default|Mixed Platforms.ActiveCfg = Debug|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Release|Any CPU.Build.0 = Release|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Release|Any CPU.ActiveCfg = Release|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6}.Release|Mixed Platforms.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,11 +258,14 @@ Global
 		$3.inheritsSet = Mono
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{2967E4AA-E47A-4265-BC87-555DC8F57AEB} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
 		{4BFE7203-9711-443E-AC7C-AA7B1A5C66E1} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
 		{22028AFF-9B26-4978-9C35-C4998A82BB46} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
 		{02C99BBE-4D3F-4372-A5D9-8941117D15DC} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
 		{298D1D46-2F53-44B9-97B1-1CB2655AE41F} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
 		{08BDDD77-FE18-4093-8E53-A65F756FBD96} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
+		{1646ED2E-CE17-44E6-A17B-EB70EE370FF6} = {9C4752AE-4357-4FC5-842C-2F44B4B15992}
 		{8479FA86-C26B-4C14-867F-A21A2AD5646D} = {E439D789-52A4-4F8D-9C16-94CE2443962F}
+		{AC272414-0F0B-47AA-9F28-3E4957BF71BC} = {E439D789-52A4-4F8D-9C16-94CE2443962F}
 	EndGlobalSection
 EndGlobal

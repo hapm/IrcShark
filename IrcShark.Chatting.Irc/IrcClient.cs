@@ -445,12 +445,12 @@ namespace IrcShark.Chatting.Irc
                 }
                 else
                 {
-                    Error(this, new ErrorEventArgs(this, "Couldn't connect to given address"));
+                    OnError("Couldn't connect to given address");
                 }
             }
             catch (Exception ex)
             {
-                Error(this, new ErrorEventArgs(this, "Couldn't connect to given address", ex));
+                OnError("Couldn't connect to given address", ex);
             }
         }
         
@@ -484,17 +484,11 @@ namespace IrcShark.Chatting.Irc
                 }
                 catch (InvalidLineFormatException ex)
                 {
-                    if (Error != null)
-                    {
-                        Error(this, new ErrorEventArgs(this, ex.Message, ex));
-                    }
+                    OnError(ex.Message, ex);
                 }
                 catch (Exception ex)
                 {
-                    if (Error != null)
-                    {
-                        Error(this, new ErrorEventArgs(this, "Couldn't receive line", ex));
-                    }
+                    OnError("Couldn't receive line", ex);
                 }
             }
             
@@ -545,7 +539,7 @@ namespace IrcShark.Chatting.Irc
                 }
                 catch (Exception ex)
                 {
-                    Error(this, new ErrorEventArgs(this, "Couldn't send line", ex));
+                    OnError("Couldn't send line", ex);
                 }
             }
         }
@@ -559,14 +553,7 @@ namespace IrcShark.Chatting.Irc
         {
             if (Connected)
             {
-                try
-                {
-                    SendLine(String.Format("PRIVMSG {0} :{1}", receiver, message));
-                }
-                catch (Exception ex)
-                {
-                    Error(this, new ErrorEventArgs(this, "Couldn't send message", ex.InnerException));
-                }
+                SendLine(String.Format("PRIVMSG {0} :{1}", receiver, message));
             }
         }
         
@@ -579,14 +566,7 @@ namespace IrcShark.Chatting.Irc
         {
             if (Connected)
             {
-                try
-                {
-                    SendLine(string.Format("NOTICE {0} :{1}", receiver, message));
-                }
-                catch (Exception ex)
-                {
-                    Error(this, new ErrorEventArgs(this, "Couldn't send notice", ex.InnerException));
-                }
+                SendLine(string.Format("NOTICE {0} :{1}", receiver, message));
             }
         }
 
@@ -624,14 +604,7 @@ namespace IrcShark.Chatting.Irc
         {
             if (Connected)
             {
-                try
-                {
-                    SendLine(String.Format("QUIT :{0}", quitMsg));
-                }
-                catch (Exception ex)
-                {
-                    Error(this, new ErrorEventArgs(this, "Couldn't send quit message.", ex.InnerException));
-                }
+                SendLine(String.Format("QUIT :{0}", quitMsg));
             }
         }
         
@@ -642,14 +615,7 @@ namespace IrcShark.Chatting.Irc
         {
             if (Connected)
             {
-                try
-                {
-                    SendLine("QUIT");
-                }
-                catch (Exception ex)
-                {
-                    Error(this, new ErrorEventArgs(this, "Couldn't send quit.", ex.InnerException));
-                }
+                SendLine("QUIT");
             }
         }
         
@@ -661,6 +627,33 @@ namespace IrcShark.Chatting.Irc
             inStream.Dispose();
             outStream.Dispose();
             client.Close();
+        }
+        
+        /// <summary>
+        /// Fires the Error event.
+        /// </summary>
+        /// <param name="msg">The message for the error.</param>
+        /// <param name="ex">The exception that occured.</param>
+        protected virtual void OnError(string msg, Exception ex)
+        {
+            if (Error != null)
+            {
+                ErrorEventArgs args = new ErrorEventArgs(this, msg, ex);
+                Error(this, args);
+            }
+        }
+        
+        /// <summary>
+        /// Fires the Error event.
+        /// </summary>
+        /// <param name="msg">The message for the error.</param>
+        protected virtual void OnError(string msg)
+        {
+            if (Error != null)
+            {
+                ErrorEventArgs args = new ErrorEventArgs(this, msg);
+                Error(this, args);
+            }
         }
 
         /// <summary>

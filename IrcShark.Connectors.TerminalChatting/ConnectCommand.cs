@@ -66,6 +66,10 @@ namespace IrcShark.Connectors.TerminalChatting
                 case "-o":
                     OpenConnection(paramList);
                     break;
+                    
+                case "-c":
+                    CloseConnection(paramList);
+                    break;
             }
         }
         
@@ -119,6 +123,38 @@ namespace IrcShark.Connectors.TerminalChatting
             connection.UserName = "Test";
             con.Chatting.Connections.Add(connection);
             connection.Open();
+        }
+        
+        /// <summary>
+        /// Closes a given conenction.
+        /// </summary>
+        /// <param name="paramList">The parameters for the command.</param>
+        private void CloseConnection(string[] paramList)
+        {
+            int connectNr;
+            IConnection connection;
+            if (paramList.Length < 2 || paramList[1] == null)
+            {
+                con.Terminal.WriteLine("Please specify a connection number to close");
+                return;
+            }            
+            
+            if (!int.TryParse(paramList[1], out connectNr))
+            {
+                con.Terminal.WriteLine("The given connection number '{0}' is not numeric", paramList[1]);
+                return;
+            }
+            
+            if (connectNr < 1 || connectNr > con.Chatting.Connections.Count)
+            {
+                con.Terminal.WriteLine("The given number '{0}' is no valid connection number", connectNr);
+                return;
+            }
+            
+            connection = con.Chatting.Connections[connectNr-1];
+            connection.Close();
+            con.Chatting.Connections.Remove(connection);
+            con.Terminal.WriteLine("Connection {0} to server '{1}' closed", connectNr, connection.Server.Network.Name);
         }
         
         /// <summary>

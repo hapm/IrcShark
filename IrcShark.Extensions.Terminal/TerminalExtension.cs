@@ -397,7 +397,6 @@ namespace IrcShark.Extensions.Terminal
                            break;
                                   
                     case ConsoleKey.Oem1:
-                    case ConsoleKey.Oem2:
                     case ConsoleKey.Oem3:
                     case ConsoleKey.Oem4:
                     case ConsoleKey.Oem5:

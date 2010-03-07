@@ -20,6 +20,7 @@
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <RunSourceAnalysis>False</RunSourceAnalysis>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -128,4 +129,7 @@
     <None Include="extension.xml" />
     <None Include="extensions.xsd" />
   </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>"$(FrameworkSDKDir)bin\sgen" IrcShark.Core.dll /t:IrcShark.Settings /f</PostBuildEvent>
+  </PropertyGroup>
 </Project>

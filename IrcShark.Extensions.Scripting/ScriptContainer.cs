@@ -1,9 +1,9 @@
-﻿// <copyright file="ScriptingExtension.cs" company="IrcShark Team">
+﻿// <copyright file="ScriptContainer.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Contains the ScriptingExtension class.</summary>
+// <summary>Contains the ScriptContainer class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,35 +20,37 @@
 namespace IrcShark.Extensions.Scripting
 {
     using System;
-    using System.Collections.Generic;
-    using System.Runtime.InteropServices;
-    using IrcShark.Extensions;
-    
+    using System.CodeDom;
 
     /// <summary>
-    /// Description of MyClass.
+    /// A ScriptContainer contains a script of a given language.
     /// </summary>
-    [GuidAttribute("a004129f-4013-4b15-ba2e-ba0c063b5530")]
-    public class ScriptingExtension : Extension
+    public class ScriptContainer
     {
-        private List<ScriptLanguageExtension> languages;
+        /// <summary>
+        /// Contains the AppDomain, the script is running in.
+        /// </summary>
+        private AppDomain scriptDomain;
         
-        public ScriptingExtension(ExtensionContext context) : base(context)
+        private CodeCompileUnit scriptDom;
+        
+        public ScriptContainer()
         {
-            languages = new List<ScriptLanguageExtension>();
+            
         }
         
-        public void RegisterLanguage(ScriptLanguageExtension ext)
-        {
-            languages.Add(ext);
-        }
-        
-        public override void Start()
+        public void Compile()
         {
         }
         
-        public override void Stop()
+        public void Execute()
         {
+            
+        }
+        
+        public void Unload()
+        {
+            
         }
     }
 }

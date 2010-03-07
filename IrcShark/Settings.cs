@@ -30,6 +30,7 @@ namespace IrcShark
     /// <summary>
     /// This class loads and saves the IrcShark configuration from and to a given xml file.
     /// </summary>
+    [XmlSerializerAssembly("IrcShark.Core.XmlSerializers")]
     [XmlRoot(Namespace = "http://www.ircshark.net/2009/settings", ElementName = "ircshark")]
     public class Settings : IXmlSerializable
     {

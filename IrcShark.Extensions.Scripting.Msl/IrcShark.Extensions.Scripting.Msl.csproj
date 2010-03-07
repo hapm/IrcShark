@@ -1,0 +1,78 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{2967E4AA-E47A-4265-BC87-555DC8F57AEB}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>IrcShark.Extensions.Scripting.Msl</RootNamespace>
+    <AssemblyName>IrcShark.Extensions.Scripting.Msl</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Call.cs" />
+    <Compile Include="Identifier\LeftIdentifier.cs" />
+    <Compile Include="Identifier\MslIdentifier.cs" />
+    <Compile Include="MslIdentifierCollection.cs" />
+    <Compile Include="MslScriptingExtension.cs" />
+    <Compile Include="Parser.cs">
+      <DependentUpon>MslParser.atg</DependentUpon>
+    </Compile>
+    <Compile Include="Parser.Helper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scanner.cs">
+      <DependentUpon>MslParser.atg</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptContext.cs" />
+    <None Include="MslParser.atg">
+      <Generator>CocoParserGenerator</Generator>
+    </None>
+    <None Include="Parser.frame">
+      <DependentUpon>MslParser.atg</DependentUpon>
+    </None>
+    <None Include="Scanner.frame">
+      <DependentUpon>MslParser.atg</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IrcShark.Extensions.Scripting\IrcShark.Extensions.Scripting.csproj">
+      <Project>{02C99BBE-4D3F-4372-A5D9-8941117D15DC}</Project>
+      <Name>IrcShark.Extensions.Scripting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IrcShark\IrcShark.csproj">
+      <Project>{F6955540-7429-49FB-AE3D-A9AD916D2334}</Project>
+      <Name>IrcShark</Name>
+    </ProjectReference>
+    <Folder Include="Identifier" />
+  </ItemGroup>
+</Project>

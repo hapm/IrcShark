@@ -1,0 +1,152 @@
+﻿using System.Text;
+using System.Collections.Generic;
+
+COMPILER MslParser
+
+
+/* Coco/R compiler generation file. See Help > Coco/R Help for more information. */
+
+    // Put C# methods/variables here - they will be copied to the generated Parser.cs
+  
+/*--------------------------------------------------------------------------*/
+CHARACTERS
+    letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
+    digit = "0123456789".
+    cr  = '\r'.
+    lf  = '\n'.
+    tab = '\t'.
+    space = ' '.
+    identifierprefix = '$'.
+    varprefix ='%'.
+    special = "(){}[],:=!$/\"%".
+    inwordspecial = "():,".
+    inwordnonspecial = special - inwordspecial.
+	other = ANY - letter - digit - cr - lf - space - tab - special.
+  
+
+TOKENS
+    number = digit {digit}.
+    word = ( letter | other ) { digit | letter | inwordnonspecial }.
+    idcall = identifierprefix { letter | digit | other | tab | inwordnonspecial }.
+    varname = varprefix { letter | digit | other | inwordnonspecial }.
+    sp = space { space }.
+    EOL = [cr] lf.
+
+COMMENTS FROM "/*" TO "*/" NESTED
+COMMENTS FROM ";" TO lf
+
+PRODUCTIONS
+/*------------------------------------------------------------------------*/
+MslParser (. CodeMemberMethod alias; 
+           .)
+=   {   AliasDecl<out alias>    (. script.Members.Add(alias); .)
+    | sp
+    | EOL
+    }
+    EOF
+.
+
+AliasDecl<out CodeMemberMethod method> (. method = SetupAlias();
+                                          List<CodeStatement> stmts = new List<CodeStatement>();
+                                          string name;
+                                        .)
+=	"alias" sp
+    [   "-l" sp                         (. method.Attributes = MemberAttributes.Private | MemberAttributes.Final; .)
+    ] 
+    AliasName<out name>                 (. method.Name = name; .)
+    sp 
+    (   CommandBlock<method.Statements> 
+    |   CommandLine<method.Statements> )
+. 
+
+AliasName<out string name> (. StringBuilder result = new StringBuilder(); .)
+=	(	number             (. result.Append(t.val); .)
+	|	word               (. result.Append(t.val); .)
+	)
+	{	number             (. result.Append(t.val); .)
+	|	word               (. result.Append(t.val); .)
+	}                      (. name = result.ToString(); .)
+.
+
+Command<CodeStatementCollection stmts>   (. CodeConditionStatement ifStmt; .)
+=   ExpressionLine<stmts>
+|   IfClause<out ifStmt>                 (. stmts.Add(ifStmt); .)
+.
+
+IfClause<out CodeConditionStatement ifStmt> (. ifStmt = SetupIfStatement(); .)
+=   "if" sp "(" ")"
+    CommandBlock<ifStmt.TrueStatements>
+    [ sp ]
+.
+
+CommandLine<CodeStatementCollection result>
+=   Command<result>
+    { "|" sp Command<result>
+    }
+    [ sp ]
+.
+
+CommandBlock<CodeStatementCollection result> 
+=   "{" [ sp [ CommandLine<result>
+    ] ] { EOL [ sp ] [ 
+        CommandLine<result>
+    ] } "}" [ sp ] [ Command<result> ]
+.
+
+Expression<CodeStatementCollection result>
+=   StaticExpression<result>
+|   IdentifierCall<result>
+|   varname                                (. string temp = "v_" + t.val.Substring(1);
+                                              result.Add(AppendBuffer(new CodeVariableReferenceExpression(temp))); 
+                                            .)
+.
+
+StaticExpression<CodeStatementCollection result> (. StringBuilder data = new StringBuilder(); .)
+=   (   word                                     (. data.Append(t.val); .)
+    |   number                                   (. data.Append(t.val); .)
+    |   "."                                      (. data.Append(t.val); .)
+    )
+    {   word                                     (. data.Append(t.val); .)
+    |   sp                                       (. data.Append(t.val); .)
+    |   number                                   (. data.Append(t.val); .)
+    |   "."                                      (. data.Append(t.val); .)
+    }                                            (. result.Add(AppendBuffer(new CodePrimitiveExpression(data.ToString()))); .)
+.
+
+IdentifierCall<CodeStatementCollection result>  (. string idname;
+                                                   string prop = null;
+                                                   int paramCount = 0;
+                                                 .)
+=   idcall                                      (. idname = t.val; .)
+    [ "(" [                                     (. result.Add(GetBuffer()); .)
+        ExpressionParameter<result>             (. result.Add(ReleaseBuffer());
+                                                   result.Add(PushText());
+                                                   paramCount++;
+                                                 .)
+        { "," [ sp ] [                          (. result.Add(GetBuffer()); .)
+            ExpressionParameter<result>         (. result.Add(ReleaseBuffer());
+                                                   result.Add(PushText());
+                                                   paramCount++;
+                                                 .)
+        ] } ] ")" [ "." word                    (. prop = t.val; .)
+    ] ]                                         (. CallExecutor(result, idname, paramCount, prop); .)
+.
+
+ExpressionParameter<CodeStatementCollection result> 
+=   Expression<result>
+    {   Expression<result>
+    |   sp                                 (. result.Add(AppendBuffer(new CodePrimitiveExpression(t.val))); .)
+    } 
+.
+
+ExpressionLine<CodeStatementCollection result> (. result.Add(GetBuffer()); .)
+=   Expression<result>
+    {   sp                                     (. result.Add(AppendBuffer(new CodePrimitiveExpression(t.val))); .)
+    |   Expression<result>
+    }                                          (. result.Add(ReleaseBuffer());
+                                                  result.Add(CallExecutor());
+                                                .)
+.
+
+END MslParser.
+

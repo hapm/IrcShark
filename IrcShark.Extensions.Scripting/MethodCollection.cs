@@ -1,4 +1,4 @@
-﻿// <copyright file="ScriptLanguageExtension.cs" company="IrcShark Team">
+﻿// <copyright file="MethodCollection.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -20,20 +20,15 @@
 namespace IrcShark.Extensions.Scripting
 {
     using System;
-    using IrcShark.Extensions;
-    
+    using System.Collections.Generic;
+
     /// <summary>
-    /// Description of ScriptLanguageExtension.
+    /// Description of MethodCollection.
     /// </summary>
-    public abstract class ScriptLanguageExtension : Extension
+    public class MethodCollection : TalkingCollection<string, Delegate>
     {
-        public ScriptLanguageExtension(ExtensionContext context) : base(context)
+        public MethodCollection()
         {
-        }
-        
-        public abstract IScriptEngine Engine 
-        { 
-            get; 
         }
     }
 }

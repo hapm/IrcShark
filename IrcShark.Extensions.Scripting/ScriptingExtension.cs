@@ -33,14 +33,48 @@ namespace IrcShark.Extensions.Scripting
     {
         private List<ScriptLanguageExtension> languages;
         
+        private MethodCollection publishedMethods;
+        
+        private ObjectCollection publishedObjects;
+        
         public ScriptingExtension(ExtensionContext context) : base(context)
         {
             languages = new List<ScriptLanguageExtension>();
+            publishedMethods = new MethodCollection();
+            publishedObjects = new ObjectCollection();
+            PublishedMethods.Added += new TalkingCollectionEventHandler<string, Delegate>(HandleNewMethod);
+            PublishedMethods.Removed += new TalkingCollectionEventHandler<string, Delegate>(HandleRemovedMethod);
+        }
+        
+        public MethodCollection PublishedMethods
+        {
+            get { return publishedMethods; }
+        }
+        
+        public ObjectCollection PublishedObjects
+        {
+            get { return publishedObjects; }
         }
         
         public void RegisterLanguage(ScriptLanguageExtension ext)
         {
             languages.Add(ext);
+            LanguageDefinition lang = ext.Engine.Language;
+            if (lang.IsObjectOriented)
+            {
+                foreach (KeyValuePair<string, object> pair in publishedObjects)
+                {
+                    ext.Engine.PublishedObjects.Add(pair.Key, pair.Value);
+                }
+            }
+            
+            if (lang.IsProcedural)
+            {
+                foreach (KeyValuePair<string, Delegate> pair in publishedMethods)
+                {
+                    ext.Engine.PublishedMethods.Add(pair.Key, pair.Value);
+                }
+            }
         }
         
         public override void Start()
@@ -49,6 +83,28 @@ namespace IrcShark.Extensions.Scripting
         
         public override void Stop()
         {
+        }
+        
+        private void HandleNewMethod(object sender, TalkingCollectionEventArgs<string, Delegate> args)
+        {
+            foreach (ScriptLanguageExtension ext in languages)
+            {
+                if (ext.Engine.Language.IsProcedural)
+                {
+                    ext.Engine.PublishedMethods.Add(args.ChangedKey, publishedMethods[args.ChangedKey]);
+                }
+            }
+        }
+        
+        private void HandleRemoveMethod(object sender, TalkingCollectionEventArgs<string, Delegate> args)
+        {
+            foreach (ScriptLanguageExtension ext in languages)
+            {
+                if (ext.Engine.Language.IsProcedural)
+                {
+                    ext.Engine.PublishedMethods.Remove(args.ChangedKey);
+                }
+            }            
         }
     }
 }

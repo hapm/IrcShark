@@ -1,4 +1,4 @@
-﻿// <copyright file="ScriptLanguageExtension.cs" company="IrcShark Team">
+﻿// <copyright file="ScriptContainerTest.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -17,23 +17,28 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcShark.Extensions.Scripting
+namespace IrcShark.Extensions.ScriptingTest
 {
     using System;
-    using IrcShark.Extensions;
-    
-    /// <summary>
-    /// Description of ScriptLanguageExtension.
-    /// </summary>
-    public abstract class ScriptLanguageExtension : Extension
+    using System.CodeDom;
+    using System.IO;
+    using IrcShark.Extensions.Scripting;
+    using IrcShark.Extensions.Scripting.Msl;
+    using NUnit.Framework;
+
+    [TestFixture]
+    public class ScriptContainerTest
     {
-        public ScriptLanguageExtension(ExtensionContext context) : base(context)
+        [Test]
+        public void Compile()
         {
-        }
-        
-        public abstract IScriptEngine Engine 
-        { 
-            get; 
+            string testScript = "alias test {\n  echo -a Hallo $left($me, 1) $+ .\n }\nalias -l coolHu { echo -a private! }";
+            TextReader reader = new StringReader(testScript);
+            Parser p = new Parser();
+            CodeCompileUnit result = p.Parse(reader);
+            ScriptContainer container = new ScriptContainer("Extensions\\");
+            container.ScriptDom = result;
+            //container.Compile();
         }
     }
 }

@@ -50,10 +50,18 @@ namespace IrcShark.Extensions.Scripting.Msl
         
         private int bufferCount = 0;
         
+        public string ScriptName
+        {
+            get { return scriptName; }
+            set { scriptName = value; }
+        }
+        
         public void SetupScript()
         {
-            //TODO make this member setable from outside
-            scriptName = "Test";
+            if (scriptName == null)
+            {
+                scriptName = "Unnamed";
+            }
             dom = new CodeCompileUnit();
             nm = new CodeNamespace("IrcShark.Extensions.Scripting.Msl.Scripts");
             nm.Imports.Add(new CodeNamespaceImport("System.Text"));
@@ -66,8 +74,15 @@ namespace IrcShark.Extensions.Scripting.Msl
         public void SetupScriptClass()
         {
             script = new CodeTypeDeclaration(scriptName);
-            script.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             script.IsClass = true;
+            script.Attributes = MemberAttributes.Public | MemberAttributes.Final;
+            script.BaseTypes.Add(new CodeTypeReference(typeof(MslScript)));
+            CodeConstructor scriptConstructor = new CodeConstructor();
+            scriptConstructor.Attributes = MemberAttributes.Public;
+            scriptConstructor.ReturnType = new CodeTypeReference(scriptName);
+            scriptConstructor.Parameters.Add(new CodeParameterDeclarationExpression("IScriptEngine", "engine"));
+            scriptConstructor.BaseConstructorArgs.Add(new CodeVariableReferenceExpression("engine"));
+            script.Members.Add(scriptConstructor);
             nm.Types.Add(script);
         }
         
@@ -81,10 +96,8 @@ namespace IrcShark.Extensions.Scripting.Msl
         {
             ClearBuffers();
             CodeMemberMethod method = new CodeMemberMethod();
-            CodeParameterDeclarationExpression context = new CodeParameterDeclarationExpression(typeof(ScriptContext), "context");
             CodeParameterDeclarationExpression param = new CodeParameterDeclarationExpression(typeof(string[]), "parameter");
-            method.Attributes = MemberAttributes.Public & MemberAttributes.Final;
-            method.Parameters.Add(context);
+            method.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             method.Parameters.Add(param);
             CodeVariableDeclarationStatement varStmt = new CodeVariableDeclarationStatement(typeof(string), "buffer");
             CodeVariableDeclarationStatement stackStmt = new CodeVariableDeclarationStatement(typeof(Stack<string>), "textStack", new CodeObjectCreateExpression(typeof(Stack<string>)));
@@ -160,13 +173,19 @@ namespace IrcShark.Extensions.Scripting.Msl
             bufferCount = 0;
         }
         
+        public CodeStatement CallAlias()
+        {
+            CodeExpressionStatement callAlias = new CodeExpressionStatement(new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "CallAlias", new CodeVariableReferenceExpression("buffer")));
+            return callAlias;            
+        }
+        
         public CodeStatement CallExecutor()
         {
-            CodeExpressionStatement callExecutor = new CodeExpressionStatement(new CodeMethodInvokeExpression(new CodeVariableReferenceExpression("context"), "Executor", new CodeVariableReferenceExpression("buffer")));
+            CodeExpressionStatement callExecutor = new CodeExpressionStatement(new CodeMethodInvokeExpression(new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), "Engine"), "Executor", new CodeVariableReferenceExpression("buffer")));
             return callExecutor;
         }
         
-        public void CallExecutor(CodeStatementCollection stmts, string methodName, int paramCount, string property)
+        public void CallIdentifier(CodeStatementCollection stmts, string methodName, int paramCount, string property)
         {
             CodeMethodInvokeExpression executor;
             if (paramCount > 0)
@@ -181,11 +200,11 @@ namespace IrcShark.Extensions.Scripting.Msl
                 loop.Statements.Add(new CodeAssignStatement(new CodeIndexerExpression(paramArray, pIndex), new CodeMethodInvokeExpression(textStack, "Pop")));
                 stmts.Add(new CodeAssignStatement(paramArray, new CodeArrayCreateExpression(typeof(string), paramCount)));
                 stmts.Add(loop);
-                executor = new CodeMethodInvokeExpression(new CodeVariableReferenceExpression("context"), "Executor", new CodePrimitiveExpression(methodName), new CodePrimitiveExpression(property), paramArray);
+                executor = new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "CallIdentifier", new CodePrimitiveExpression(methodName), paramArray, new CodePrimitiveExpression(property));
             }
             else
             {
-                executor = new CodeMethodInvokeExpression(new CodeVariableReferenceExpression("context"), "Executor", new CodePrimitiveExpression(methodName), new CodePrimitiveExpression(property), new CodePrimitiveExpression(null));
+                executor = new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "CallIdentifier", new CodePrimitiveExpression(methodName), new CodePrimitiveExpression(null), new CodePrimitiveExpression(property));
             }
             stmts.Add(AppendBuffer(executor));
         }

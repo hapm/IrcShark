@@ -34,9 +34,11 @@ namespace IrcShark.Extensions.Scripting.Msl
         
         private MslIdentifierCollection defaultIdentifier;
         
+        private MslScriptEngine engine;
+        
         public MslScriptingExtension(ExtensionContext context) : base(context)
         {
-            defaultIdentifier = new MslIdentifierCollection();
+            engine = new MslScriptEngine();
         }
         
         public MslIdentifierCollection DefaultIdentifier
@@ -44,20 +46,16 @@ namespace IrcShark.Extensions.Scripting.Msl
             get { return defaultIdentifier; }
         }
         
-        public override string LanguageName 
+        public override IScriptEngine Engine 
         {
-            get { return "MSL"; }
-        }
-        
-        public void Execute(Call c)
-        {
-            
+            get { return engine; }
         }
         
         public override void Start()
         {
             ExtensionInfo info = Context.Application.Extensions["IrcShark.Extensions.Scripting.ScriptingExtension"];
             scripting = Context.Application.Extensions[info] as ScriptingExtension;
+            scripting.RegisterLanguage(this);
         }
         
         public override void Stop()

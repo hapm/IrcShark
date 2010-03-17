@@ -1,4 +1,4 @@
-﻿// <copyright file="ScriptLanguageExtension.cs" company="IrcShark Team">
+﻿// <copyright file="CompilationException.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -20,20 +20,29 @@
 namespace IrcShark.Extensions.Scripting
 {
     using System;
-    using IrcShark.Extensions;
-    
+    using System.CodeDom.Compiler;
+    using System.Runtime.Serialization;
+
     /// <summary>
-    /// Description of ScriptLanguageExtension.
+    /// Description of CompilationException.
     /// </summary>
-    public abstract class ScriptLanguageExtension : Extension
+    [Serializable]
+    public class CompilationException : ScriptingException
     {
-        public ScriptLanguageExtension(ExtensionContext context) : base(context)
+        private CompilerErrorCollection errors;
+        
+        public CompilationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
         
-        public abstract IScriptEngine Engine 
-        { 
-            get; 
+        public CompilationException(CompilerErrorCollection errors) : base("Errors occured on compilation")
+        {
+            this.errors = errors;
+        }
+        
+        public CompilerErrorCollection Errors
+        {
+            get { return errors; }
         }
     }
 }

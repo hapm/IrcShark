@@ -43,14 +43,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MslScriptEngineTest.cs" />
     <Compile Include="ParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="ProfilingSessions\Session20100307_172629.sdps" />
+    <Content Include="ProfilingSessions\Session20100316_021828.sdps" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IrcShark.Extensions.Scripting.Msl\IrcShark.Extensions.Scripting.Msl.csproj">
       <Project>{2967E4AA-E47A-4265-BC87-555DC8F57AEB}</Project>
       <Name>IrcShark.Extensions.Scripting.Msl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IrcShark.Extensions.Scripting\IrcShark.Extensions.Scripting.csproj">
+      <Project>{02C99BBE-4D3F-4372-A5D9-8941117D15DC}</Project>
+      <Name>IrcShark.Extensions.Scripting</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

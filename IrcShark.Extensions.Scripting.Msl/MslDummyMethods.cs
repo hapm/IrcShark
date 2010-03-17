@@ -1,4 +1,4 @@
-﻿// <copyright file="ScriptLanguageExtension.cs" company="IrcShark Team">
+﻿// <copyright file="MslDummyMethods.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -17,23 +17,21 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcShark.Extensions.Scripting
+using System;
+
+namespace IrcShark.Extensions.Scripting.Msl
 {
-    using System;
-    using IrcShark.Extensions;
+    public delegate string SimpleStringIdentifier();
+    public delegate string MultiParamIdentifierDelegate(string[] parameters);
     
     /// <summary>
-    /// Description of ScriptLanguageExtension.
+    /// Description of MslDummyMethods.
     /// </summary>
-    public abstract class ScriptLanguageExtension : Extension
+    public static class MslDummyMethods
     {
-        public ScriptLanguageExtension(ExtensionContext context) : base(context)
+        public static string Me()
         {
-        }
-        
-        public abstract IScriptEngine Engine 
-        { 
-            get; 
+            return "Unnamed";
         }
     }
 }

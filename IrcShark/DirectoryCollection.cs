@@ -20,6 +20,7 @@
 namespace IrcShark
 {
     using System;
+    using System.Text;
     using System.Collections;
     using System.Collections.Generic;
     using System.Xml;
@@ -86,6 +87,29 @@ namespace IrcShark
         public int Count
         {
             get { return directorys.Count; }
+        }
+        
+        /// <summary>
+        /// Gets all directorys in this collection seperated by a semicolon.
+        /// </summary>
+        /// <value>
+        /// The list of directorys.
+        /// </value>
+        public string SeperatedDirectorys
+        {
+            get 
+            {
+                StringBuilder dirs = new StringBuilder();
+                foreach (string dir in directorys)
+                {
+                    if (dirs.Length > 0)
+                    {
+                        dirs.Append(";");
+                    }
+                    dirs.Append(dir);
+                }
+                return dirs.ToString();
+            }
         }
         
         /// <summary>

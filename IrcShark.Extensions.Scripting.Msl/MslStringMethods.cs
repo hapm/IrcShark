@@ -1,4 +1,4 @@
-﻿// <copyright file="ScriptLanguageExtension.cs" company="IrcShark Team">
+﻿// <copyright file="MslStringMethods.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -17,23 +17,45 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcShark.Extensions.Scripting
+using System;
+
+namespace IrcShark.Extensions.Scripting.Msl
 {
-    using System;
-    using IrcShark.Extensions;
-    
     /// <summary>
-    /// Description of ScriptLanguageExtension.
+    /// Description of MslStringMethods.
     /// </summary>
-    public abstract class ScriptLanguageExtension : Extension
+    public static class MslStringMethods
     {
-        public ScriptLanguageExtension(ExtensionContext context) : base(context)
+        public delegate string LeftDelegate(string text, int left);
+        
+        public static string Left(string text, int left)
         {
+            if (left == 0)
+            {
+                return "";
+            }
+            
+            if (left > text.Length)
+            {
+                return text;
+            }
+            
+            if (left < 0)
+            {
+                left = text.Length - left;
+            }
+            
+            if (left < 0)
+            {
+                return "";
+            }
+            
+            return text.Substring(0, left);
         }
         
-        public abstract IScriptEngine Engine 
-        { 
-            get; 
+        public static string Concat(string[] texts)
+        {
+            return string.Concat(texts);
         }
     }
 }

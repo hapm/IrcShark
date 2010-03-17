@@ -27,6 +27,7 @@ CHARACTERS
 TOKENS
     number = digit {digit}.
     word = ( letter | other ) { digit | letter | inwordnonspecial }.
+    strconcat = identifierprefix '+' CONTEXT (space).
     idcall = identifierprefix { letter | digit | other | tab | inwordnonspecial }.
     varname = varprefix { letter | digit | other | inwordnonspecial }.
     sp = space { space }.
@@ -53,7 +54,7 @@ AliasDecl<out CodeMemberMethod method> (. method = SetupAlias();
 =	"alias" sp
     [   "-l" sp                         (. method.Attributes = MemberAttributes.Private | MemberAttributes.Final; .)
     ] 
-    AliasName<out name>                 (. method.Name = name; .)
+    AliasName<out name>                 (. method.Name = "Alias" + name; .)
     sp 
     (   CommandBlock<method.Statements> 
     |   CommandLine<method.Statements> )
@@ -129,22 +130,29 @@ IdentifierCall<CodeStatementCollection result>  (. string idname;
                                                    paramCount++;
                                                  .)
         ] } ] ")" [ "." word                    (. prop = t.val; .)
-    ] ]                                         (. CallExecutor(result, idname, paramCount, prop); .)
+    ] ]                                         (. CallIdentifier(result, idname, paramCount, prop); .)
 .
 
-ExpressionParameter<CodeStatementCollection result> 
+ExpressionParameter<CodeStatementCollection result> (. string currentSpace; .)
 =   Expression<result>
     {   Expression<result>
-    |   sp                                 (. result.Add(AppendBuffer(new CodePrimitiveExpression(t.val))); .)
+    |   sp                                          (. currentSpace = t.val; .) 
+        (   strconcat sp
+        |                                           (. result.Add(AppendBuffer(new CodePrimitiveExpression(currentSpace))); .)
+        )
     } 
 .
 
-ExpressionLine<CodeStatementCollection result> (. result.Add(GetBuffer()); .)
+ExpressionLine<CodeStatementCollection result> (. result.Add(GetBuffer());
+                                                  string currentSpace; .)
 =   Expression<result>
-    {   sp                                     (. result.Add(AppendBuffer(new CodePrimitiveExpression(t.val))); .)
+    {   sp                                     (. currentSpace = t.val; .)
+        (   strconcat sp
+        |                                      (. result.Add(AppendBuffer(new CodePrimitiveExpression(currentSpace))); .)
+        )
     |   Expression<result>
     }                                          (. result.Add(ReleaseBuffer());
-                                                  result.Add(CallExecutor());
+                                                  result.Add(CallAlias());
                                                 .)
 .
 

@@ -1,4 +1,4 @@
-﻿// <copyright file="ScriptLanguageExtension.cs" company="IrcShark Team">
+﻿// <copyright file="TalkingCollectionEventArgs.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -17,23 +17,25 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System;
+
 namespace IrcShark.Extensions.Scripting
 {
-    using System;
-    using IrcShark.Extensions;
-    
     /// <summary>
-    /// Description of ScriptLanguageExtension.
+    /// Description of TalkingCollectionEventArgs.
     /// </summary>
-    public abstract class ScriptLanguageExtension : Extension
+    public class TalkingCollectionEventArgs<TKey, TValue> : EventArgs
     {
-        public ScriptLanguageExtension(ExtensionContext context) : base(context)
+        private TKey changedKey;
+        
+        public TalkingCollectionEventArgs(TKey changedKey)
         {
+            this.changedKey = changedKey;
         }
         
-        public abstract IScriptEngine Engine 
-        { 
-            get; 
+        public TKey ChangedKey
+        {
+            get { return changedKey; }
         }
     }
 }

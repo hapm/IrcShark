@@ -1,9 +1,9 @@
-﻿// <copyright file="ScriptLanguageExtension.cs" company="IrcShark Team">
+﻿// <copyright file="ObjectCollection.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Place a summary here.</summary>
+// <summary>Contains the ObjectCollection class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,20 +20,15 @@
 namespace IrcShark.Extensions.Scripting
 {
     using System;
-    using IrcShark.Extensions;
-    
+    using System.Collections.Generic;
+
     /// <summary>
-    /// Description of ScriptLanguageExtension.
+    /// Description of ObjectCollection.
     /// </summary>
-    public abstract class ScriptLanguageExtension : Extension
+    public class ObjectCollection : TalkingCollection<string, object>
     {
-        public ScriptLanguageExtension(ExtensionContext context) : base(context)
+        public ObjectCollection()
         {
-        }
-        
-        public abstract IScriptEngine Engine 
-        { 
-            get; 
         }
     }
 }

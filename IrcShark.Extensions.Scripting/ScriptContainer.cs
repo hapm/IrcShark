@@ -21,6 +21,9 @@ namespace IrcShark.Extensions.Scripting
 {
     using System;
     using System.CodeDom;
+    using System.CodeDom.Compiler;
+    using System.Reflection;
+    using Microsoft.CSharp;
 
     /// <summary>
     /// A ScriptContainer contains a script of a given language.
@@ -32,15 +35,38 @@ namespace IrcShark.Extensions.Scripting
         /// </summary>
         private AppDomain scriptDomain;
         
-        private CodeCompileUnit scriptDom;
+        private ScriptCompilerHelper helper;
         
-        public ScriptContainer()
+        private string MainType
         {
-            
+            get { return helper.MainType; }
         }
         
-        public void Compile()
+        public CodeCompileUnit ScriptDom
         {
+            get { return helper.ScriptDom; }
+            set { helper.ScriptDom = value; }
+        }
+        
+        public Script Instance
+        {
+            get { return helper.Instance; }
+        }
+        
+        public ScriptContainer(string binPathes)
+        {
+            AppDomainSetup setup = new AppDomainSetup();
+            setup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+            setup.PrivateBinPath = binPathes;
+            scriptDomain = AppDomain.CreateDomain("script", null, setup);
+            Type helperType = typeof(ScriptCompilerHelper);
+            helper = scriptDomain.CreateInstanceAndUnwrap(helperType.Assembly.FullName, helperType.FullName) as ScriptCompilerHelper;
+        }
+        
+        public void Compile(string mainType, IScriptEngine engine)
+        {
+            helper.MainType = mainType;
+            helper.Compile(engine);
         }
         
         public void Execute()
@@ -50,7 +76,9 @@ namespace IrcShark.Extensions.Scripting
         
         public void Unload()
         {
-            
+            helper.Unload();
+            AppDomain.Unload(scriptDomain);
+            scriptDomain = null;
         }
     }
 }

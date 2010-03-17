@@ -30,9 +30,9 @@ namespace IrcShark.Extensions.Scripting
     {
         private Dictionary<TKey, TValue> dict;
         
-        public event TalkingCollection<TKey, TValue> Added;
+        public event TalkingCollectionEventHandler<TKey, TValue> Added;
         
-        public event TalkingCollection<TKey, TValue> Removed;
+        public event TalkingCollectionEventHandler<TKey, TValue> Removed;
         
         public TalkingCollection()
         {
@@ -86,8 +86,9 @@ namespace IrcShark.Extensions.Scripting
         
         public bool Remove(TKey key)
         {
-            return dict.Remove(key);
+            bool result = dict.Remove(key);
             OnRemoved(key);
+            return result;
         }
         
         public bool TryGetValue(TKey key, out TValue value)
@@ -143,10 +144,11 @@ namespace IrcShark.Extensions.Scripting
             (dict as ICollection<KeyValuePair<TKey, TValue>>).CopyTo(array, arrayIndex);
         }
         
-        bool ICollection<KeyValuePair<TKey, TValueTValue>>.Remove(KeyValuePair<TKey, TValue> item)
+        bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
         {
-            return (dict as ICollection<KeyValuePair<TKey, TValue>>).Remove(item);
+            bool result = (dict as ICollection<KeyValuePair<TKey, TValue>>).Remove(item);
             OnRemoved(item.Key);
+            return result;
         }
         
         IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()

@@ -43,7 +43,7 @@ namespace IrcShark.Extensions.Scripting
             publishedMethods = new MethodCollection();
             publishedObjects = new ObjectCollection();
             PublishedMethods.Added += new TalkingCollectionEventHandler<string, Delegate>(HandleNewMethod);
-            PublishedMethods.Removed += new TalkingCollectionEventHandler<string, Delegate>(HandleRemovedMethod);
+            PublishedMethods.Removed += new TalkingCollectionEventHandler<string, Delegate>(HandleRemoveMethod);
         }
         
         public MethodCollection PublishedMethods

@@ -32,18 +32,11 @@ namespace IrcShark.Extensions.Scripting.Msl
     {
         private ScriptingExtension scripting;
         
-        private MslIdentifierCollection defaultIdentifier;
-        
         private MslScriptEngine engine;
         
         public MslScriptingExtension(ExtensionContext context) : base(context)
         {
             engine = new MslScriptEngine();
-        }
-        
-        public MslIdentifierCollection DefaultIdentifier
-        {
-            get { return defaultIdentifier; }
         }
         
         public override IScriptEngine Engine 

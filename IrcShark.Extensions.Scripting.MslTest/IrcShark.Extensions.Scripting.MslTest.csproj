@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MslScriptEngineTest.cs" />
+    <Compile Include="MslStringMethodsTest.cs" />
     <Compile Include="ParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="ProfilingSessions\Session20100307_172629.sdps" />

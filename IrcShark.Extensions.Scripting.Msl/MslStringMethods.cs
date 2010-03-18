@@ -83,7 +83,21 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// </remarks>
         public static string Asc(string character)
         {
-            return string.Empty;
+            if (string.IsNullOrEmpty(character)) {
+                return string.Empty;
+            } else {
+                return ((int)character[0]).ToString();
+            }
+        }
+        
+        /// <summary>
+        /// Gets the string for the given ASCII code.
+        /// </summary>
+        /// <param name="asciiCode">The ASCII code to convert.</param>
+        /// <returns>The character for the given ASCII code as a string.</returns>
+        public static string Chr(int asciiCode)
+        {
+            return ((char)asciiCode).ToString();
         }
     }
 }

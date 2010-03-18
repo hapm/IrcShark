@@ -68,8 +68,8 @@ namespace IrcShark.Extensions.Scripting.MslTest
         [Test]
         public void Asc()
         {
-            Assert.AreEqual(MslStringMethods.Asc("foo", ((int)'f').ToString());
-            Assert.AreEqual(MslStringMethods.Asc("bar", ((int)'b').ToString());
+            Assert.AreEqual(MslStringMethods.Asc("foo"), ((int)'f').ToString());
+            Assert.AreEqual(MslStringMethods.Asc("bar"), ((int)'b').ToString());
             Assert.AreEqual(MslStringMethods.Asc("a"), ((int)'a').ToString());
             Assert.AreEqual(MslStringMethods.Asc("9"), ((int)'9').ToString());
         }

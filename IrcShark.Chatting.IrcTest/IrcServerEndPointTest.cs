@@ -59,7 +59,7 @@ namespace IrcShark.Chatting.IrcTest
         {
             IrcServerEndPoint point = new IrcServerEndPoint(address1, port1);
             Assert.IsNotNull(point);
-            Assert.IsInstanceOf(typeof(IPEndPoint), point);
+            Assert.IsInstanceOf(typeof(IrcServerEndPoint), point);
             Assert.AreEqual(address1, point.Address);
             Assert.AreEqual(ip1, point.GetIPAddress());
             Assert.AreEqual(port1, point.Port);
@@ -67,18 +67,7 @@ namespace IrcShark.Chatting.IrcTest
             Assert.AreEqual(address2, point.Address);
             Assert.AreEqual(ip2, point.GetIPAddress());
             Assert.AreEqual(port2, point.Port);
-            try 
-            {
-                point = new IrcServerEndPoint("foobar", port1);
-                Assert.Fail("why the hell you can use a nonexisting hostname?");
-            }
-            catch (Exception)
-            {
-            }
             
-            point = new IrcServerEndPoint(ip1, port1);
-            Assert.AreEqual(ip1, point.GetIPAddress());
-            Assert.AreEqual(port1, point.Port);
             point = new IrcServerEndPoint(ip2, port2);
             Assert.AreEqual(ip2, point.GetIPAddress());
             Assert.AreEqual(port2, point.Port);
@@ -114,14 +103,6 @@ namespace IrcShark.Chatting.IrcTest
             point.Address = address2;
             Assert.AreEqual(address2, point.Address);
             Assert.AreEqual(ip2, point.GetIPAddress());
-            try 
-            {
-                point.Address = "foobar";
-                Assert.Fail("why the hell you can use a nonexisting hostname?");
-            }
-            catch (Exception)
-            {
-            }
         }
     }
 }

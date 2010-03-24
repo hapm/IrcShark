@@ -14,14 +14,16 @@ namespace IrcShark.Extensions.Scripting.Msl {
 
 public partial class Parser : ICodeParser {
 	public const int _EOF = 0;
-	public const int _number = 1;
-	public const int _word = 2;
-	public const int _strconcat = 3;
-	public const int _idcall = 4;
-	public const int _varname = 5;
-	public const int _sp = 6;
-	public const int _EOL = 7;
-	public const int maxT = 18;
+	public const int _multiop = 1;
+	public const int _singleop = 2;
+	public const int _number = 3;
+	public const int _word = 4;
+	public const int _strconcat = 5;
+	public const int _idcall = 6;
+	public const int _varname = 7;
+	public const int _sp = 8;
+	public const int _EOL = 9;
+	public const int maxT = 20;
 
     const bool T = true;
     const bool x = false;
@@ -95,11 +97,11 @@ public partial class Parser : ICodeParser {
 	void MslParser() {
 		CodeMemberMethod alias; 
 		
-		while (la.kind == 6 || la.kind == 7 || la.kind == 8) {
-			if (la.kind == 8) {
+		while (la.kind == 8 || la.kind == 9 || la.kind == 10) {
+			if (la.kind == 10) {
 				AliasDecl(out alias);
 				script.Members.Add(alias); 
-			} else if (la.kind == 6) {
+			} else if (la.kind == 8) {
 				Get();
 			} else {
 				Get();
@@ -113,34 +115,34 @@ public partial class Parser : ICodeParser {
 		List<CodeStatement> stmts = new List<CodeStatement>();
 		string name;
 		
+		Expect(10);
 		Expect(8);
-		Expect(6);
-		if (la.kind == 9) {
+		if (la.kind == 11) {
 			Get();
-			Expect(6);
+			Expect(8);
 			method.Attributes = MemberAttributes.Private | MemberAttributes.Final; 
 		}
 		AliasName(out name);
 		method.Name = "Alias" + name; 
-		Expect(6);
-		if (la.kind == 14) {
+		Expect(8);
+		if (la.kind == 16) {
 			CommandBlock(method.Statements);
 		} else if (StartOf(1)) {
 			CommandLine(method.Statements);
-		} else SynErr(19);
+		} else SynErr(21);
 	}
 
 	void AliasName(out string name) {
 		StringBuilder result = new StringBuilder(); 
-		if (la.kind == 1) {
+		if (la.kind == 3) {
 			Get();
 			result.Append(t.val); 
-		} else if (la.kind == 2) {
+		} else if (la.kind == 4) {
 			Get();
 			result.Append(t.val); 
-		} else SynErr(20);
-		while (la.kind == 1 || la.kind == 2) {
-			if (la.kind == 1) {
+		} else SynErr(22);
+		while (la.kind == 3 || la.kind == 4) {
+			if (la.kind == 3) {
 				Get();
 				result.Append(t.val); 
 			} else {
@@ -152,24 +154,24 @@ public partial class Parser : ICodeParser {
 	}
 
 	void CommandBlock(CodeStatementCollection result) {
-		Expect(14);
-		if (la.kind == 6) {
+		Expect(16);
+		if (la.kind == 8) {
 			Get();
 			if (StartOf(1)) {
 				CommandLine(result);
 			}
 		}
-		while (la.kind == 7) {
+		while (la.kind == 9) {
 			Get();
-			if (la.kind == 6) {
+			if (la.kind == 8) {
 				Get();
 			}
 			if (StartOf(1)) {
 				CommandLine(result);
 			}
 		}
-		Expect(15);
-		if (la.kind == 6) {
+		Expect(17);
+		if (la.kind == 8) {
 			Get();
 		}
 		if (StartOf(1)) {
@@ -179,94 +181,166 @@ public partial class Parser : ICodeParser {
 
 	void CommandLine(CodeStatementCollection result) {
 		Command(result);
-		while (la.kind == 13) {
+		while (la.kind == 15) {
 			Get();
-			Expect(6);
+			Expect(8);
 			Command(result);
 		}
-		if (la.kind == 6) {
+		if (la.kind == 8) {
 			Get();
 		}
 	}
 
 	void Command(CodeStatementCollection stmts) {
-		CodeConditionStatement ifStmt; 
+		CodeStatement temp = null; 
 		if (StartOf(2)) {
-			ExpressionLine(stmts);
-		} else if (la.kind == 10) {
-			IfClause(out ifStmt);
-			stmts.Add(ifStmt); 
-		} else SynErr(21);
+			ExpressionLine(out temp);
+		} else if (la.kind == 12) {
+			IfClause(out temp);
+		} else SynErr(23);
+		stmts.Add(temp); 
 	}
 
-	void ExpressionLine(CodeStatementCollection result) {
-		result.Add(GetBuffer());
-		string currentSpace; 
-		Expression(result);
+	void ExpressionLine(out CodeStatement result) {
+		string currentSpace;
+		CodeExpression line;
+		CodeExpression temp; 
+		Expression(out line);
 		while (StartOf(3)) {
-			if (la.kind == 6) {
+			if (StartOf(2)) {
+				Expression(out temp);
+				line = new CodeBinaryOperatorExpression(line, CodeBinaryOperatorType.Add, temp); 
+			} else {
 				Get();
 				currentSpace = t.val; 
-				if (la.kind == 3) {
+				if (la.kind == 5) {
 					Get();
-					Expect(6);
+					Expect(8);
 				} else if (StartOf(4)) {
-					result.Add(AppendBuffer(new CodePrimitiveExpression(currentSpace))); 
-				} else SynErr(22);
-			} else {
-				Expression(result);
+					line = new CodeBinaryOperatorExpression(line, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); 
+				} else SynErr(24);
 			}
 		}
-		result.Add(ReleaseBuffer());
-		result.Add(CallAlias());
-		
+		result = CallAlias(line); 
 	}
 
-	void IfClause(out CodeConditionStatement ifStmt) {
-		ifStmt = SetupIfStatement(); 
-		Expect(10);
-		Expect(6);
-		Expect(11);
+	void IfClause(out CodeStatement result) {
+		CodeConditionStatement ifStmt = SetupIfStatement(); 
+		CodeExpression boolExp;
+		
 		Expect(12);
-		CommandBlock(ifStmt.TrueStatements);
-		if (la.kind == 6) {
+		Expect(8);
+		Expect(13);
+		BooleanExpression(out boolExp);
+		Expect(14);
+		ifStmt.Condition = boolExp; 
+		Expect(8);
+		if (la.kind == 16) {
+			CommandBlock(ifStmt.TrueStatements);
+		} else if (StartOf(1)) {
+			CommandLine(ifStmt.TrueStatements);
+		} else SynErr(25);
+		if (la.kind == 8) {
 			Get();
+		}
+		result = ifStmt; 
+	}
+
+	void BooleanExpression(out CodeExpression boolExp) {
+		string op = null;
+		CodeExpression leftExpression = null;
+		CodeExpression rightExpression = null;
+		boolExp = null;
+		
+		if (la.kind == 13) {
+			Get();
+			if (la.kind == 8) {
+				Get();
+			}
+			BooleanExpression(out boolExp);
+			if (la.kind == 8) {
+				Get();
+			}
+			Expect(14);
+		} else if (StartOf(2)) {
+			BooleanExpressionParameter(out leftExpression);
+			boolExp = BooleanEvaluation(leftExpression); 
+			if (la.kind == 1 || la.kind == 2) {
+				if (la.kind == 1 || la.kind == 8 || la.kind == 14) {
+					while (la.kind == 1) {
+						Get();
+						op = t.val; 
+						BooleanExpressionParameter(out rightExpression);
+						boolExp = BooleanEvaluation(leftExpression, t.val, rightExpression); 
+						leftExpression = boolExp;
+						
+					}
+				} else {
+					Get();
+					boolExp = BooleanEvaluation(leftExpression, t.val); 
+				}
+			}
+		} else SynErr(26);
+	}
+
+	void BooleanExpressionParameter(out CodeExpression result) {
+		string currentSpace;
+		CodeExpression temp; 
+		Expression(out result);
+		while (StartOf(5)) {
+			if (StartOf(2)) {
+				Expression(out temp);
+				result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, temp); 
+			} else if (la.kind == 19) {
+				Get();
+				result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(t.val)); 
+			} else {
+				Get();
+				currentSpace = t.val; 
+				if (la.kind == 5) {
+					Get();
+					Expect(8);
+				} else if (StartOf(6)) {
+					result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); 
+				} else SynErr(27);
+			}
 		}
 	}
 
-	void Expression(CodeStatementCollection result) {
-		if (la.kind == 1 || la.kind == 2 || la.kind == 16) {
-			StaticExpression(result);
-		} else if (la.kind == 4) {
-			IdentifierCall(result);
-		} else if (la.kind == 5) {
+	void Expression(out CodeExpression result) {
+		result = null; 
+		if (la.kind == 3 || la.kind == 4 || la.kind == 18) {
+			StaticExpression(out result);
+		} else if (la.kind == 6) {
+			IdentifierCall(out result);
+		} else if (la.kind == 7) {
 			Get();
 			string temp = "v_" + t.val.Substring(1);
-			result.Add(AppendBuffer(new CodeVariableReferenceExpression(temp))); 
+			result = new CodeVariableReferenceExpression(temp); 
 			
-		} else SynErr(23);
+		} else SynErr(28);
 	}
 
-	void StaticExpression(CodeStatementCollection result) {
+	void StaticExpression(out CodeExpression result) {
 		StringBuilder data = new StringBuilder(); 
-		if (la.kind == 2) {
+		if (la.kind == 4) {
 			Get();
 			data.Append(t.val); 
-		} else if (la.kind == 1) {
+		} else if (la.kind == 3) {
 			Get();
 			data.Append(t.val); 
-		} else if (la.kind == 16) {
+		} else if (la.kind == 18) {
 			Get();
 			data.Append(t.val); 
-		} else SynErr(24);
-		while (StartOf(5)) {
-			if (la.kind == 2) {
+		} else SynErr(29);
+		while (StartOf(7)) {
+			if (la.kind == 4) {
 				Get();
 				data.Append(t.val); 
-			} else if (la.kind == 6) {
+			} else if (la.kind == 8) {
 				Get();
 				data.Append(t.val); 
-			} else if (la.kind == 1) {
+			} else if (la.kind == 3) {
 				Get();
 				data.Append(t.val); 
 			} else {
@@ -274,65 +348,60 @@ public partial class Parser : ICodeParser {
 				data.Append(t.val); 
 			}
 		}
-		result.Add(AppendBuffer(new CodePrimitiveExpression(data.ToString()))); 
+		result = new CodePrimitiveExpression(data.ToString()); 
 	}
 
-	void IdentifierCall(CodeStatementCollection result) {
+	void IdentifierCall(out CodeExpression result) {
 		string idname;
 		string prop = null;
-		int paramCount = 0;
+		List<CodeExpression> parameters = new List<CodeExpression>();
+		CodeExpression temp;
 		
-		Expect(4);
+		Expect(6);
 		idname = t.val; 
-		if (la.kind == 11) {
+		if (la.kind == 13) {
 			Get();
 			if (StartOf(2)) {
-				result.Add(GetBuffer()); 
-				ExpressionParameter(result);
-				result.Add(ReleaseBuffer());
-				result.Add(PushText());
-				paramCount++;
-				
-				while (la.kind == 17) {
+				ExpressionParameter(out temp);
+				parameters.Add(temp); 
+				while (la.kind == 19) {
 					Get();
-					if (la.kind == 6) {
+					if (la.kind == 8) {
 						Get();
 					}
 					if (StartOf(2)) {
-						result.Add(GetBuffer()); 
-						ExpressionParameter(result);
-						result.Add(ReleaseBuffer());
-						result.Add(PushText());
-						paramCount++;
-						
+						ExpressionParameter(out temp);
+						parameters.Add(temp); 
 					}
 				}
 			}
-			Expect(12);
-			if (la.kind == 16) {
+			Expect(14);
+			if (la.kind == 18) {
 				Get();
-				Expect(2);
+				Expect(4);
 				prop = t.val; 
 			}
 		}
-		CallIdentifier(result, idname, paramCount, prop); 
+		result = CallIdentifier(idname, parameters.ToArray(), prop); 
 	}
 
-	void ExpressionParameter(CodeStatementCollection result) {
-		string currentSpace; 
-		Expression(result);
+	void ExpressionParameter(out CodeExpression result) {
+		string currentSpace;
+		CodeExpression temp; 
+		Expression(out result);
 		while (StartOf(3)) {
 			if (StartOf(2)) {
-				Expression(result);
+				Expression(out temp);
+				result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, temp); 
 			} else {
 				Get();
 				currentSpace = t.val; 
-				if (la.kind == 3) {
+				if (la.kind == 5) {
 					Get();
-					Expect(6);
-				} else if (StartOf(6)) {
-					result.Add(AppendBuffer(new CodePrimitiveExpression(currentSpace))); 
-				} else SynErr(25);
+					Expect(8);
+				} else if (StartOf(8)) {
+					result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); 
+				} else SynErr(30);
 			}
 		}
 	}
@@ -352,13 +421,15 @@ public partial class Parser : ICodeParser {
     }
     
     static readonly bool[,] set = {
-		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,T,x, T,T,x,x, x,x,T,x, x,x,x,x, T,x,x,x},
-		{x,T,T,x, T,T,x,x, x,x,x,x, x,x,x,x, T,x,x,x},
-		{x,T,T,x, T,T,T,x, x,x,x,x, x,x,x,x, T,x,x,x},
-		{T,T,T,x, T,T,T,T, T,x,x,x, x,T,x,T, T,x,x,x},
-		{x,T,T,x, x,x,T,x, x,x,x,x, x,x,x,x, T,x,x,x},
-		{x,T,T,x, T,T,T,x, x,x,x,x, T,x,x,x, T,T,x,x}
+		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
+		{x,x,x,T, T,x,T,T, x,x,x,x, T,x,x,x, x,x,T,x, x,x},
+		{x,x,x,T, T,x,T,T, x,x,x,x, x,x,x,x, x,x,T,x, x,x},
+		{x,x,x,T, T,x,T,T, T,x,x,x, x,x,x,x, x,x,T,x, x,x},
+		{T,x,x,T, T,x,T,T, T,T,T,x, x,x,x,T, x,T,T,x, x,x},
+		{x,x,x,T, T,x,T,T, T,x,x,x, x,x,x,x, x,x,T,T, x,x},
+		{x,T,T,T, T,x,T,T, T,x,x,x, x,x,T,x, x,x,T,T, x,x},
+		{x,x,x,T, T,x,x,x, T,x,x,x, x,x,x,x, x,x,T,x, x,x},
+		{x,x,x,T, T,x,T,T, T,x,x,x, x,x,T,x, x,x,T,T, x,x}
 
     };
 } // end Parser
@@ -373,31 +444,36 @@ public class Errors {
         string s;
         switch (n) {
 			case 0: s = "EOF expected"; break;
-			case 1: s = "number expected"; break;
-			case 2: s = "word expected"; break;
-			case 3: s = "strconcat expected"; break;
-			case 4: s = "idcall expected"; break;
-			case 5: s = "varname expected"; break;
-			case 6: s = "sp expected"; break;
-			case 7: s = "EOL expected"; break;
-			case 8: s = "\"alias\" expected"; break;
-			case 9: s = "\"-l\" expected"; break;
-			case 10: s = "\"if\" expected"; break;
-			case 11: s = "\"(\" expected"; break;
-			case 12: s = "\")\" expected"; break;
-			case 13: s = "\"|\" expected"; break;
-			case 14: s = "\"{\" expected"; break;
-			case 15: s = "\"}\" expected"; break;
-			case 16: s = "\".\" expected"; break;
-			case 17: s = "\",\" expected"; break;
-			case 18: s = "??? expected"; break;
-			case 19: s = "invalid AliasDecl"; break;
-			case 20: s = "invalid AliasName"; break;
-			case 21: s = "invalid Command"; break;
-			case 22: s = "invalid ExpressionLine"; break;
-			case 23: s = "invalid Expression"; break;
-			case 24: s = "invalid StaticExpression"; break;
-			case 25: s = "invalid ExpressionParameter"; break;
+			case 1: s = "multiop expected"; break;
+			case 2: s = "singleop expected"; break;
+			case 3: s = "number expected"; break;
+			case 4: s = "word expected"; break;
+			case 5: s = "strconcat expected"; break;
+			case 6: s = "idcall expected"; break;
+			case 7: s = "varname expected"; break;
+			case 8: s = "sp expected"; break;
+			case 9: s = "EOL expected"; break;
+			case 10: s = "\"alias\" expected"; break;
+			case 11: s = "\"-l\" expected"; break;
+			case 12: s = "\"if\" expected"; break;
+			case 13: s = "\"(\" expected"; break;
+			case 14: s = "\")\" expected"; break;
+			case 15: s = "\"|\" expected"; break;
+			case 16: s = "\"{\" expected"; break;
+			case 17: s = "\"}\" expected"; break;
+			case 18: s = "\".\" expected"; break;
+			case 19: s = "\",\" expected"; break;
+			case 20: s = "??? expected"; break;
+			case 21: s = "invalid AliasDecl"; break;
+			case 22: s = "invalid AliasName"; break;
+			case 23: s = "invalid Command"; break;
+			case 24: s = "invalid ExpressionLine"; break;
+			case 25: s = "invalid IfClause"; break;
+			case 26: s = "invalid BooleanExpression"; break;
+			case 27: s = "invalid BooleanExpressionParameter"; break;
+			case 28: s = "invalid Expression"; break;
+			case 29: s = "invalid StaticExpression"; break;
+			case 30: s = "invalid ExpressionParameter"; break;
 
             default: s = "error " + n; break;
         }

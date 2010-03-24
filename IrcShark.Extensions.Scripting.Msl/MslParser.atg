@@ -25,6 +25,10 @@ CHARACTERS
   
 
 TOKENS
+    multiop = ( "===" | "==" | "!=" |">" | "<" | "//" | "\\\\" | "&" 
+             | "isin" | "isincs" | "iswm" | "iswmcs"
+             ) CONTEXT (space).
+    singleop = ( "isnum" | "isletter" | "isalnum" | "isalpha" | "islower" | "isupper" ) CONTEXT (space).
     number = digit {digit}.
     word = ( letter | other ) { digit | letter | inwordnonspecial }.
     strconcat = identifierprefix '+' CONTEXT (space).
@@ -69,15 +73,21 @@ AliasName<out string name> (. StringBuilder result = new StringBuilder(); .)
 	}                      (. name = result.ToString(); .)
 .
 
-Command<CodeStatementCollection stmts>   (. CodeConditionStatement ifStmt; .)
-=   ExpressionLine<stmts>
-|   IfClause<out ifStmt>                 (. stmts.Add(ifStmt); .)
+Command<CodeStatementCollection stmts>   (. CodeStatement temp = null; .)
+=   (   ExpressionLine<out temp>
+    |   IfClause<out temp>
+    )                                    (. stmts.Add(temp); .)
 .
 
-IfClause<out CodeConditionStatement ifStmt> (. ifStmt = SetupIfStatement(); .)
-=   "if" sp "(" ")"
-    CommandBlock<ifStmt.TrueStatements>
-    [ sp ]
+IfClause<out CodeStatement result>                 (. CodeConditionStatement ifStmt = SetupIfStatement(); 
+                                                      CodeExpression boolExp;
+                                                    .)
+=   "if" sp "(" BooleanExpression<out boolExp> ")" (. ifStmt.Condition = boolExp; .)
+    sp
+    (   CommandBlock<ifStmt.TrueStatements>
+    |   CommandLine<ifStmt.TrueStatements>
+    )
+    [ sp ]                                         (. result = ifStmt; .)
 .
 
 CommandLine<CodeStatementCollection result>
@@ -94,15 +104,31 @@ CommandBlock<CodeStatementCollection result>
     ] } "}" [ sp ] [ Command<result> ]
 .
 
-Expression<CodeStatementCollection result>
-=   StaticExpression<result>
-|   IdentifierCall<result>
+BooleanExpression<out CodeExpression boolExp> (. string op = null;
+                                                 CodeExpression leftExpression = null;
+                                                 CodeExpression rightExpression = null;
+                                                 boolExp = null;
+                                               .)
+=   "(" [sp] BooleanExpression<out boolExp> [sp] ")"
+|   BooleanExpressionParameter<out leftExpression>          (. boolExp = BooleanEvaluation(leftExpression); .)
+    [   {   multiop                                         (. op = t.val; .)
+            BooleanExpressionParameter<out rightExpression> (. boolExp = BooleanEvaluation(leftExpression, t.val, rightExpression); 
+                                                               leftExpression = boolExp;
+                                                             .)
+        }
+    |   singleop                                            (. boolExp = BooleanEvaluation(leftExpression, t.val); .)
+    ]
+.
+
+Expression<out CodeExpression result>      (. result = null; .)
+=   StaticExpression<out result>
+|   IdentifierCall<out result>
 |   varname                                (. string temp = "v_" + t.val.Substring(1);
-                                              result.Add(AppendBuffer(new CodeVariableReferenceExpression(temp))); 
+                                              result = new CodeVariableReferenceExpression(temp); 
                                             .)
 .
 
-StaticExpression<CodeStatementCollection result> (. StringBuilder data = new StringBuilder(); .)
+StaticExpression<out CodeExpression result> (. StringBuilder data = new StringBuilder(); .)
 =   (   word                                     (. data.Append(t.val); .)
     |   number                                   (. data.Append(t.val); .)
     |   "."                                      (. data.Append(t.val); .)
@@ -111,49 +137,56 @@ StaticExpression<CodeStatementCollection result> (. StringBuilder data = new Str
     |   sp                                       (. data.Append(t.val); .)
     |   number                                   (. data.Append(t.val); .)
     |   "."                                      (. data.Append(t.val); .)
-    }                                            (. result.Add(AppendBuffer(new CodePrimitiveExpression(data.ToString()))); .)
+    }                                            (. result = new CodePrimitiveExpression(data.ToString()); .)
 .
 
-IdentifierCall<CodeStatementCollection result>  (. string idname;
+IdentifierCall<out CodeExpression result>       (. string idname;
                                                    string prop = null;
-                                                   int paramCount = 0;
+                                                   List<CodeExpression> parameters = new List<CodeExpression>();
+                                                   CodeExpression temp;
                                                  .)
 =   idcall                                      (. idname = t.val; .)
-    [ "(" [                                     (. result.Add(GetBuffer()); .)
-        ExpressionParameter<result>             (. result.Add(ReleaseBuffer());
-                                                   result.Add(PushText());
-                                                   paramCount++;
-                                                 .)
-        { "," [ sp ] [                          (. result.Add(GetBuffer()); .)
-            ExpressionParameter<result>         (. result.Add(ReleaseBuffer());
-                                                   result.Add(PushText());
-                                                   paramCount++;
-                                                 .)
+    [ "(" [
+        ExpressionParameter<out temp>           (. parameters.Add(temp); .)
+        { "," [ sp ] [
+            ExpressionParameter<out temp>       (. parameters.Add(temp); .)
         ] } ] ")" [ "." word                    (. prop = t.val; .)
-    ] ]                                         (. CallIdentifier(result, idname, paramCount, prop); .)
+    ] ]                                         (. result = CallIdentifier(idname, parameters.ToArray(), prop); .)
 .
 
-ExpressionParameter<CodeStatementCollection result> (. string currentSpace; .)
-=   Expression<result>
-    {   Expression<result>
-    |   sp                                          (. currentSpace = t.val; .) 
+ExpressionParameter<out CodeExpression result> (. string currentSpace;
+                                                  CodeExpression temp; .)
+=   Expression<out result>
+    {   Expression<out temp>                   (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, temp); .)
+    |   sp                                     (. currentSpace = t.val; .) 
         (   strconcat sp
-        |                                           (. result.Add(AppendBuffer(new CodePrimitiveExpression(currentSpace))); .)
-        )
+        |                                      (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); .)
+        )                 
     } 
 .
 
-ExpressionLine<CodeStatementCollection result> (. result.Add(GetBuffer());
-                                                  string currentSpace; .)
-=   Expression<result>
-    {   sp                                     (. currentSpace = t.val; .)
+BooleanExpressionParameter<out CodeExpression result>   (. string currentSpace;
+                                                           CodeExpression temp; .)
+=   Expression<out result>
+    {   Expression<out temp>                            (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, temp); .)
+    |   ","                                             (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(t.val)); .)
+    |   sp                                              (. currentSpace = t.val; .) 
         (   strconcat sp
-        |                                      (. result.Add(AppendBuffer(new CodePrimitiveExpression(currentSpace))); .)
+        |                                               (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); .)
+        )                 
+    } 
+.
+
+ExpressionLine<out CodeStatement result>       (. string currentSpace;
+                                                  CodeExpression line;
+                                                  CodeExpression temp; .)
+=   Expression<out line>
+    {   Expression<out temp>                   (. line = new CodeBinaryOperatorExpression(line, CodeBinaryOperatorType.Add, temp); .)
+    |   sp                                     (. currentSpace = t.val; .)
+        (   strconcat sp
+        |                                      (. line = new CodeBinaryOperatorExpression(line, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); .)
         )
-    |   Expression<result>
-    }                                          (. result.Add(ReleaseBuffer());
-                                                  result.Add(CallAlias());
-                                                .)
+    }                                          (. result = CallAlias(line); .)
 .
 
 END MslParser.

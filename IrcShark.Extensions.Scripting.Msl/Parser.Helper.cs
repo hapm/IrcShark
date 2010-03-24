@@ -148,11 +148,11 @@ namespace IrcShark.Extensions.Scripting.Msl
             return setValue;
         }
         
-        public CodeStatement AppendBuffer(CodeExpression expr)
+        public CodeExpression AppendBuffer(CodeExpression expr)
         {
             string bufferName = "buffer" + usedBufferCount;
             CodeMethodInvokeExpression append = new CodeMethodInvokeExpression(new CodeVariableReferenceExpression(bufferName), "Append", expr);
-            return new CodeExpressionStatement(append);
+            return append;
         }
         
         public CodeStatement PushText()
@@ -173,9 +173,27 @@ namespace IrcShark.Extensions.Scripting.Msl
             bufferCount = 0;
         }
         
-        public CodeStatement CallAlias()
+        public CodeExpression BooleanEvaluation(CodeExpression expr)
         {
-            CodeExpressionStatement callAlias = new CodeExpressionStatement(new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "CallAlias", new CodeVariableReferenceExpression("buffer")));
+            CodeMethodInvokeExpression result =  new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "Check", expr);
+            return result;
+        }
+        
+        public CodeExpression BooleanEvaluation(CodeExpression expr, string op)
+        {
+            CodeMethodInvokeExpression result =  new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "Check", expr, new CodePrimitiveExpression(op));
+            return result;
+        }
+        
+        public CodeExpression BooleanEvaluation(CodeExpression expr1, string op, CodeExpression expr2)
+        {
+            CodeMethodInvokeExpression result =  new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "Check", expr1, new CodePrimitiveExpression(op), expr2);
+            return result;
+        }
+        
+        public CodeStatement CallAlias(CodeExpression parameters)
+        {
+            CodeExpressionStatement callAlias = new CodeExpressionStatement(new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "CallAlias", parameters));
             return callAlias;            
         }
         
@@ -185,28 +203,19 @@ namespace IrcShark.Extensions.Scripting.Msl
             return callExecutor;
         }
         
-        public void CallIdentifier(CodeStatementCollection stmts, string methodName, int paramCount, string property)
+        public CodeExpression CallIdentifier(string methodName, CodeExpression[] parameters, string property)
         {
             CodeMethodInvokeExpression executor;
-            if (paramCount > 0)
+            if (parameters.Length > 0)
             {
-                CodeIterationStatement loop = new CodeIterationStatement();
-                CodeVariableReferenceExpression pIndex = new CodeVariableReferenceExpression("pIndex");
-                CodeVariableReferenceExpression textStack = new CodeVariableReferenceExpression("textStack");
-                CodeVariableReferenceExpression paramArray = new CodeVariableReferenceExpression("paramArray");
-                loop.InitStatement = new CodeVariableDeclarationStatement(typeof(int), "pIndex", new CodePrimitiveExpression(paramCount-1));
-                loop.IncrementStatement = new CodeAssignStatement(pIndex, new CodeBinaryOperatorExpression(pIndex, CodeBinaryOperatorType.Subtract, new CodePrimitiveExpression(1)));
-                loop.TestExpression = new CodeBinaryOperatorExpression(pIndex, CodeBinaryOperatorType.GreaterThanOrEqual, new CodePrimitiveExpression(0));
-                loop.Statements.Add(new CodeAssignStatement(new CodeIndexerExpression(paramArray, pIndex), new CodeMethodInvokeExpression(textStack, "Pop")));
-                stmts.Add(new CodeAssignStatement(paramArray, new CodeArrayCreateExpression(typeof(string), paramCount)));
-                stmts.Add(loop);
+                CodeArrayCreateExpression paramArray = new CodeArrayCreateExpression(typeof(string), parameters);
                 executor = new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "CallIdentifier", new CodePrimitiveExpression(methodName), paramArray, new CodePrimitiveExpression(property));
             }
             else
             {
                 executor = new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "CallIdentifier", new CodePrimitiveExpression(methodName), new CodePrimitiveExpression(null), new CodePrimitiveExpression(property));
             }
-            stmts.Add(AppendBuffer(executor));
+            return executor;
         }
     }
 }

@@ -53,6 +53,8 @@ namespace IrcShark.Extensions.Scripting.Msl
             publishedMethods.Add("+", new MultiParamIdentifierDelegate(MslStringMethods.Concat));
             publishedMethods.Add("left", new MslStringMethods.LeftDelegate(MslStringMethods.Left));
             publishedMethods.Add("me", new SimpleStringIdentifier(MslDummyMethods.Me));
+            publishedMethods.Add("true", new SimpleStringIdentifier(MslDummyMethods.True));
+            publishedMethods.Add("false", new SimpleStringIdentifier(MslDummyMethods.False));
         }
         
         /// <summary>

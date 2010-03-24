@@ -33,5 +33,15 @@ namespace IrcShark.Extensions.Scripting.Msl
         {
             return "Unnamed";
         }
+        
+        public static string True()
+        {
+            return "$true";
+        }
+        
+        public static string False()
+        {
+            return "$false";
+        }
     }
 }

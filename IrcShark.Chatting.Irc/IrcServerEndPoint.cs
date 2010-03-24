@@ -204,6 +204,7 @@ namespace IrcShark.Chatting.Irc
         public IrcServerEndPoint(IPAddress address, int port)
         {
             name = address.ToString();
+            this.address = address.ToString();
             this.port = port;
         }
         

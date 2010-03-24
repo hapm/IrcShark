@@ -171,5 +171,125 @@ namespace IrcShark.Extensions.Scripting.Msl
             
             return realParameters;
         }
+        
+        /// <summary>
+        /// Checks if the given string represents true or false.
+        /// </summary>
+        /// <param name="s">The string to check.</param>
+        /// <returns>Its true if the string represents true, false otherwise.</returns>
+        public bool Check(string s)
+        {
+            if (s == null)
+            {
+                return false;
+            }
+            
+            s = s.Trim(' ');
+            double d;
+            if (double.TryParse(s, out d))
+            {
+                return d != 0;                   
+            }
+            
+            switch (s)
+            {
+                case "":
+                case "$false":
+                    return false;
+                    
+                default:
+                    return true;
+            }
+        }
+        
+        /// <summary>
+        /// Checks if the given string matches the given operation.
+        /// </summary>
+        /// <param name="s">The string to check.</param>
+        /// <param name="op">The operator to evaluate the string with.</param>
+        /// <returns>Its true if the operator is true for the given string, false otherwise.</returns>
+        public bool Check(string s, string op)
+        {
+            return false;
+        }
+        
+        /// <summary>
+        /// Compares two strings with the given operator.
+        /// </summary>
+        /// <param name="s1">The first string to check.</param>
+        /// <param name="op">The operator to compare the strings with.</param>
+        /// <returns>Its true if the operator is true for the two given strings, false otherwise.</returns>
+        public bool Check(string s1, string op, string s2)
+        {
+            double d1 = 0;
+            double d2 = 0;
+            bool numeric = double.TryParse(s1, out d1) && double.TryParse(s2, out d2);
+            switch (op)
+            {
+                case "&&":
+                    return Check(s1) && Check(s2);
+                    
+                case "||":
+                    return Check(s1) || Check(s2);
+                    
+                case "==":
+                    if (numeric)
+                    {
+                        return d1 == d2;
+                    }
+                    
+                    return s1.Equals(s2, StringComparison.CurrentCultureIgnoreCase);
+                    
+                case "===":
+                    if (numeric)
+                    {
+                        return d1 == d2;
+                    }
+                    
+                    return s1.Equals(s2);
+                    
+                case "!=":
+                    if (numeric)
+                    {
+                        return d1 != d2;
+                    }
+                    
+                    return s1.Equals(s2, StringComparison.CurrentCultureIgnoreCase);
+                    
+                case ">":
+                    if (numeric)
+                    {
+                        return d1 > d2;
+                    }
+                    
+                    for (int i = 0; i < s1.Length && i < s2.Length; i++)
+                    {
+                        if (s1[i] != s2[i])
+                        {
+                            return s1[i] > s2[i];
+                        }
+                    }
+                    
+                    return s1.Length > s2.Length;
+                    
+                case "<":
+                    if (numeric)
+                    {
+                        return d1 < d2;
+                    }
+                    
+                    for (int i = 0; i < s1.Length && i < s2.Length; i++)
+                    {
+                        if (s1[i] != s2[i])
+                        {
+                            return s1[i] < s2[i];
+                        }
+                    }
+                    
+                    return s1.Length < s2.Length;
+            }
+            
+            return false;
+        }
     }
 }

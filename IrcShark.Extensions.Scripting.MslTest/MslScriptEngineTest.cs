@@ -43,5 +43,18 @@ namespace IrcShark.Extensions.Scripting.MslTest
             provider.GenerateCodeFromCompileUnit(script.ScriptDom, new StringWriter(sourceCode), options);
             script.Instance.Execute("Aliastest", new object[] { null });
         }
+        
+        [Test]
+        public void CompileIf()
+        {
+            string testScript = "alias test {\n  if ($true) echo -a test\n}";
+            StringBuilder sourceCode = new StringBuilder();
+            MslScriptEngine engine = new MslScriptEngine();
+            CodeGeneratorOptions options = new CodeGeneratorOptions();
+            ScriptContainer script = engine.Compile("test", testScript, "Extensions\\");
+            CSharpCodeProvider provider = new CSharpCodeProvider();
+            provider.GenerateCodeFromCompileUnit(script.ScriptDom, new StringWriter(sourceCode), options);
+            script.Instance.Execute("Aliastest", new object[] { null });
+        }            
     }
 }

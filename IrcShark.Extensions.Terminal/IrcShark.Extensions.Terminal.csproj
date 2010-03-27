@@ -58,6 +58,8 @@
     <Compile Include="Commands\ExtensionCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\LogCommand.cs" />
+    <Compile Include="Commands\VersionCommand.cs" />
+    <Compile Include="ConsoleTable.cs" />
     <Compile Include="ConsoleTerminal.cs" />
     <Compile Include="ITerminal.cs" />
     <Compile Include="TerminalCommand.cs" />

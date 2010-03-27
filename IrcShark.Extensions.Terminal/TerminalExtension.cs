@@ -531,6 +531,7 @@ namespace IrcShark.Extensions.Terminal
             commands.Add(new ExtensionCommand(this));
             commands.Add(new LogCommand(this));
             commands.Add(new HelpCommand(this));
+            commands.Add(new VersionCommand(this));
         }
         
         /// <summary>

@@ -3,7 +3,7 @@
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Contains the ExitCommand class.</summary>
+// <summary>Contains the VersionCommand class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,26 +21,25 @@ namespace IrcShark.Extensions.Terminal.Commands
 {
     using System;
     using System.Reflection;
-    using System.Text;
 
     using IrcShark.Extensions.Terminal;
 
     /// <summary>
-    /// The VersionCommandshow IrcShark version informations.
+    /// The VersionCommand show IrcShark version informations.
     /// </summary>
     public class VersionCommand : TerminalCommand
     {
         /// <summary>
-        /// Initializes a new instance of the ExitCommand class.
+        /// Initializes a new instance of the VersionCommand class.
         /// </summary>
-        /// <param name="extension">The reference to the VersionCommand.</param>
+        /// <param name="extension">The reference to the TerminalExtension.</param>
         public VersionCommand(TerminalExtension extension)
             : base("version", extension)
         {
         }
         
         /// <summary>
-        /// Executing this command will show all loaded .Net assebmlies and there version.
+        /// Executing this command will show all loaded .net assebmlys and there version.
         /// </summary>
         /// <param name="paramList">
         /// A list of parameters the user typed.

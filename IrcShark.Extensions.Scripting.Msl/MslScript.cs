@@ -20,6 +20,7 @@
 namespace IrcShark.Extensions.Scripting.Msl
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
     using IrcShark.Extensions.Scripting;
@@ -136,6 +137,16 @@ namespace IrcShark.Extensions.Scripting.Msl
             }
             
             return result.ToString();;
+        }
+        
+        private string GetGlobalVariableValue(string varname)
+        {
+            return MslEngine.GetGlobalVariableValue(varname);
+        }
+        
+        private void SetGlobalVariableValue(string varname, string varvalue)
+        {
+            MslEngine.SetGlobalVariableValue(varname, varvalue);
         }
         
         private object[] CreateRealParameters(MethodInfo method, string[] parameters)

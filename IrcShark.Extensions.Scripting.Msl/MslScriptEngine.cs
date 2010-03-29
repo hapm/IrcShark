@@ -127,6 +127,56 @@ namespace IrcShark.Extensions.Scripting.Msl
             return propertyStack;            
         }
         
+        public string GetGlobalVariableValue(string varname)
+        {
+            Dictionary<string, string> globalVars;
+            if (!ScriptContext.CurrentContext.Globals.ContainsKey("msl.globalVariables"))
+            {
+                ScriptContext.CurrentContext.Globals.Add("msl.globalVariables", new Dictionary<string, string>());
+            }
+            
+            globalVars = ScriptContext.CurrentContext.Globals["msl.globalVariables"] as Dictionary<string, string>;
+            if (globalVars == null)
+            {
+                //TODO: echo error for bad type of global variables collection
+                return "";
+            }
+            
+            if (globalVars.ContainsKey(varname))
+            {
+                return globalVars[varname];
+            }
+            else
+            {
+                return "";
+            }
+        }
+        
+        public void SetGlobalVariableValue(string varname, string varvalue)
+        {
+            Dictionary<string, string> globalVars;
+            if (!ScriptContext.CurrentContext.Globals.ContainsKey("msl.globalVariables"))
+            {
+                ScriptContext.CurrentContext.Globals.Add("msl.globalVariables", new Dictionary<string, string>());
+            }
+            
+            globalVars = ScriptContext.CurrentContext.Globals["msl.globalVariables"] as Dictionary<string, string>;
+            if (globalVars == null)
+            {
+                //TODO: echo error for bad type of global variables collection
+                return;
+            }
+            
+            if (globalVars.ContainsKey(varname))
+            {
+                globalVars[varname] = varvalue;
+            }
+            else
+            {
+                globalVars.Add(varname, varvalue);
+            }
+        }
+        
         public string GetCurrentProperty()
         {
             return GetActivePropertyStack().Peek();

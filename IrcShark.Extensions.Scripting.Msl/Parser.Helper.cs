@@ -92,6 +92,12 @@ namespace IrcShark.Extensions.Scripting.Msl
             return ifStmt;
         }
         
+        public CodeIterationStatement SetupWhileStatement()
+        {
+            CodeIterationStatement whileStmt = new CodeIterationStatement();
+            return whileStmt;
+        }
+        
         public CodeMemberMethod SetupAlias()
         {
             ClearBuffers();
@@ -216,6 +222,125 @@ namespace IrcShark.Extensions.Scripting.Msl
                 executor = new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "CallIdentifier", new CodePrimitiveExpression(methodName), new CodePrimitiveExpression(null), new CodePrimitiveExpression(property));
             }
             return executor;
+        }
+        
+        public CodeStatement DeclareLocalVariable(string varname, CodeExpression varValue, ParserState state)
+        {
+            varname = "v_" + varname;
+            //if the varname is already defined, only use an assignment, else a declaration
+            if (state.localVarNames.Contains(varname))
+            {
+                if (varValue == null)
+                {
+                    return null;
+                }
+                CodeAssignStatement assign = new CodeAssignStatement(new CodeVariableReferenceExpression(varname), varValue);
+                return assign;
+            }
+            else
+            {
+                CodeVariableDeclarationStatement declare;
+                if (varValue != null)
+                {
+                    declare = new CodeVariableDeclarationStatement(typeof(string), varname, varValue);
+                }
+                else
+                {
+                    declare = new CodeVariableDeclarationStatement(typeof(string), varname, new CodePrimitiveExpression(""));
+                }
+                return declare;
+            }
+        }
+        
+        public CodeExpression GetVariableValue(string varname, ParserState state)
+        {
+            if (state.localVarNames.Contains("v_" + varname))
+            {
+                return new CodeVariableReferenceExpression("v_" + varname);
+            }
+            else
+            {
+                return new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "GetGlobalVariableValue", new CodePrimitiveExpression(varname));
+            }
+        }
+        
+        public CodeStatement SetVariableValue(string varname, CodeExpression varvalue, ParserState state)
+        {
+            if (state.localVarNames.Contains("v_" + varname))
+            {
+                return new CodeAssignStatement(new CodeVariableReferenceExpression("v_" + varname), varvalue);
+            }
+            else
+            {
+                return new CodeExpressionStatement(new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "SetGlobalVariableValue", new CodePrimitiveExpression(varname), varvalue));
+            }            
+        }
+        
+        public bool IsElseIf()
+        {
+            Token t = la;
+            if (t.kind == _EOL)
+            {
+                t = scanner.Peek();
+            }
+            
+            if (t.kind == _sp)
+            {
+                t = scanner.Peek();
+            }
+            
+            return t.kind == _elseif;
+        }
+        
+        public bool IsElse()
+        {
+            Token t = la;
+            if (t.kind == _EOL)
+            {
+                t = scanner.Peek();
+            }
+            
+            if (t.kind == _sp)
+            {
+                t = scanner.Peek();
+            }
+            
+            return t.kind == _else;
+        }
+        
+        public bool IsAssignment()
+        {
+            Token t = la;
+            if (t.kind != _varname)
+            {
+                return false;
+            }
+            
+            t = scanner.Peek();
+            if (t.kind != _sp)
+            {
+                return false;
+            }
+            
+            t = scanner.Peek();
+            if (t.kind != _assign)
+            {
+                return false;
+            }
+            
+            t = scanner.Peek();
+            if (t.kind != _sp)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        
+        public bool IsLocal(string varname, ParserState state)
+        {
+            varname = "v_" + varname;
+            return state.localVarNames.Contains(varname);
         }
     }
 }

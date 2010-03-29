@@ -25,6 +25,7 @@ CHARACTERS
   
 
 TOKENS
+    assign = "=" CONTEXT (space).
     multiop = ( "===" | "==" | "!=" |">" | "<" | "//" | "\\\\" | "&" 
              | "isin" | "isincs" | "iswm" | "iswmcs"
              ) CONTEXT (space).
@@ -35,6 +36,8 @@ TOKENS
     idcall = identifierprefix { letter | digit | other | tab | inwordnonspecial }.
     varname = varprefix { letter | digit | other | inwordnonspecial }.
     sp = space { space }.
+    else = "else".
+    elseif = "elseif".
     EOL = [cr] lf.
 
 COMMENTS FROM "/*" TO "*/" NESTED
@@ -42,17 +45,18 @@ COMMENTS FROM ";" TO lf
 
 PRODUCTIONS
 /*------------------------------------------------------------------------*/
-MslParser (. CodeMemberMethod alias; 
-           .)
+MslParser                       (. CodeMemberMethod alias; .)
 =   {   AliasDecl<out alias>    (. script.Members.Add(alias); .)
-    | sp
-    | EOL
+    |   sp
+    |   EOL
     }
     EOF
 .
 
 AliasDecl<out CodeMemberMethod method> (. method = SetupAlias();
+                                          ParserState state = new ParserState();
                                           List<CodeStatement> stmts = new List<CodeStatement>();
+                                          List<string> localVariables = new List<string>();
                                           string name;
                                         .)
 =	"alias" sp
@@ -60,8 +64,8 @@ AliasDecl<out CodeMemberMethod method> (. method = SetupAlias();
     ] 
     AliasName<out name>                 (. method.Name = "Alias" + name; .)
     sp 
-    (   CommandBlock<method.Statements> 
-    |   CommandLine<method.Statements> )
+    (   CommandBlock<method.Statements, state> 
+    |   CommandLine<method.Statements, state> )
 . 
 
 AliasName<out string name> (. StringBuilder result = new StringBuilder(); .)
@@ -73,46 +77,122 @@ AliasName<out string name> (. StringBuilder result = new StringBuilder(); .)
 	}                      (. name = result.ToString(); .)
 .
 
-Command<CodeStatementCollection stmts>   (. CodeStatement temp = null; .)
-=   (   ExpressionLine<out temp>
-    |   IfClause<out temp>
-    )                                    (. stmts.Add(temp); .)
+Command<CodeStatementCollection stmts, ParserState state>   (. CodeStatement temp = null; .)
+=   (   IF(IsAssignment()) VarAssignment<out temp, state>
+    |   ExpressionLine<out temp, state>
+    |   IfClause<out temp, state>
+    |   WhileClause<out temp, state>
+    |   LocalVarDecl<stmts, state>
+    )                                                       (. if (temp != null) 
+                                                               {
+                                                                   stmts.Add(temp);
+                                                               }
+                                                             .)
 .
 
-IfClause<out CodeStatement result>                 (. CodeConditionStatement ifStmt = SetupIfStatement(); 
-                                                      CodeExpression boolExp;
-                                                    .)
-=   "if" sp "(" BooleanExpression<out boolExp> ")" (. ifStmt.Condition = boolExp; .)
+LocalVarDecl<CodeStatementCollection stmts, ParserState state> (. string varname; 
+                                                                  CodeExpression expr = null;
+                                                                  CodeExpression tmp = null;
+                                                                  string currentSpace1 = "";
+                                                                  string currentSpace2 = "";
+                                                                .)
+=   "var" sp 
+    {
+        varname                                                (. varname = t.val; .)
+        sp
+        [   [ "=" sp ] ExpressionParameter<out tmp, state>     (. expr = tmp; .)
+        ]
+        (   sp                                                 (. currentSpace1 = t.val; .)
+        |                                                      (. currentSpace1 = ""; .)
+        )
+        {   ","
+            (   sp                                             (. currentSpace1 = t.val; .)
+            |                                                  (. currentSpace1 = ""; .)
+            )
+            (   IF(la.kind != _varname)
+                ExpressionParameter<out tmp, state>            (. expr = new CodeBinaryOperatorExpression(expr, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace1 + "," + currentSpace2));
+                                                                  expr = new CodeBinaryOperatorExpression(expr, CodeBinaryOperatorType.Add, tmp);
+                                                                .)
+            |                                                  (. stmts.Add(DeclareLocalVariable(varname, expr, state)); .)
+            )
+        }
+    }
+.
+
+WhileClause<out CodeStatement result, ParserState state>                 (. CodeIterationStatement whileStmt = SetupWhileStatement(); 
+                                                         CodeExpression boolExp;
+                                                         result = whileStmt;
+                                                       .)
+=   "while" sp "(" BooleanExpression<out boolExp, state> ")" (. whileStmt.TestExpression = boolExp; .)
     sp
-    (   CommandBlock<ifStmt.TrueStatements>
-    |   CommandLine<ifStmt.TrueStatements>
+    (   CommandBlock<whileStmt.Statements, state>
+    |   CommandLine<whileStmt.Statements, state>
     )
-    [ sp ]                                         (. result = ifStmt; .)
+    [ sp ]
 .
 
-CommandLine<CodeStatementCollection result>
-=   Command<result>
-    { "|" sp Command<result>
+IfClause<out CodeStatement result, ParserState state> (. CodeConditionStatement ifStmt = SetupIfStatement();
+                                                         CodeConditionStatement elseifStmt;
+                                                         CodeExpression boolExp;
+                                                         result = ifStmt;
+                                                       .)
+=   "if" sp "(" BooleanExpression<out boolExp, state> ")"    (. ifStmt.Condition = boolExp; .)
+    sp
+    (   CommandBlock<ifStmt.TrueStatements, state>
+    |   CommandLine<ifStmt.TrueStatements, state>
+    )
+    [ sp ]
+    (   IF(IsElseIf()) EOL [sp] ElseIfClause<out elseifStmt, state> (. ifStmt.FalseStatements.Add(elseifStmt); .)
+    |   IF(IsElse()) EOL [sp] ElseClause<ifStmt.FalseStatements, state>
+    )
+.
+
+ElseIfClause<out CodeConditionStatement result, ParserState state> (. CodeConditionStatement ifStmt = SetupIfStatement();
+                                                            CodeConditionStatement elseifStmt;
+                                                            CodeExpression boolExp;
+                                                            result = ifStmt;
+                                                          .)
+=   elseif sp "(" BooleanExpression<out boolExp, state> ")"   (. ifStmt.Condition = boolExp; .)
+    sp
+    (   CommandBlock<ifStmt.TrueStatements, state>
+    |   CommandLine<ifStmt.TrueStatements, state>
+    )
+    [ sp ]
+    (   IF(IsElseIf()) EOL [sp] ElseIfClause<out elseifStmt, state> (. ifStmt.FalseStatements.Add(elseifStmt); .)
+    |   IF(IsElse()) EOL [sp] ElseClause<ifStmt.FalseStatements, state>
+    )
+.
+
+ElseClause<CodeStatementCollection result, ParserState state>
+=   else sp
+    (   CommandBlock<result, state>
+    |   CommandLine<result, state>
+    )
+.
+
+CommandLine<CodeStatementCollection result, ParserState state>
+=   Command<result, state>
+    { "|" sp Command<result, state>
     }
     [ sp ]
 .
 
-CommandBlock<CodeStatementCollection result> 
-=   "{" [ sp [ CommandLine<result>
+CommandBlock<CodeStatementCollection result, ParserState state> 
+=   "{" [ sp [ CommandLine<result, state>
     ] ] { EOL [ sp ] [ 
-        CommandLine<result>
-    ] } "}" [ sp ] [ Command<result> ]
+        CommandLine<result, state>
+    ] } "}" [ sp ] [ Command<result, state> ]
 .
 
-BooleanExpression<out CodeExpression boolExp> (. string op = null;
+BooleanExpression<out CodeExpression boolExp, ParserState state> (. string op = null;
                                                  CodeExpression leftExpression = null;
                                                  CodeExpression rightExpression = null;
                                                  boolExp = null;
                                                .)
-=   "(" [sp] BooleanExpression<out boolExp> [sp] ")"
-|   BooleanExpressionParameter<out leftExpression>          (. boolExp = BooleanEvaluation(leftExpression); .)
+=   "(" [sp] BooleanExpression<out boolExp, state> [sp] ")"
+|   BooleanExpressionParameter<out leftExpression, state>   (. boolExp = BooleanEvaluation(leftExpression); .)
     [   {   multiop                                         (. op = t.val; .)
-            BooleanExpressionParameter<out rightExpression> (. boolExp = BooleanEvaluation(leftExpression, t.val, rightExpression); 
+            BooleanExpressionParameter<out rightExpression, state> (. boolExp = BooleanEvaluation(leftExpression, t.val, rightExpression); 
                                                                leftExpression = boolExp;
                                                              .)
         }
@@ -120,68 +200,89 @@ BooleanExpression<out CodeExpression boolExp> (. string op = null;
     ]
 .
 
-Expression<out CodeExpression result>      (. result = null; .)
+Expression<out CodeExpression result, ParserState state>      (. result = null; .)
 =   StaticExpression<out result>
-|   IdentifierCall<out result>
-|   varname                                (. string temp = "v_" + t.val.Substring(1);
-                                              result = new CodeVariableReferenceExpression(temp); 
-                                            .)
+|   IdentifierCall<out result, state>
+|   VarReference<out result, state>
+.
+
+VarReference<out CodeExpression result, ParserState state>   (. result = null; 
+                                                                string varname;
+                                                              .)
+=   varname                                                  (. varname = t.val; 
+                                                                result = GetVariableValue(varname, state); 
+                                                              .)
 .
 
 StaticExpression<out CodeExpression result> (. StringBuilder data = new StringBuilder(); .)
-=   (   word                                     (. data.Append(t.val); .)
-    |   number                                   (. data.Append(t.val); .)
-    |   "."                                      (. data.Append(t.val); .)
+=   (   word                                (. data.Append(t.val); .)
+    |   number                              (. data.Append(t.val); .)
+    |   "."                                 (. data.Append(t.val); .)
     )
-    {   word                                     (. data.Append(t.val); .)
-    |   sp                                       (. data.Append(t.val); .)
-    |   number                                   (. data.Append(t.val); .)
-    |   "."                                      (. data.Append(t.val); .)
-    }                                            (. result = new CodePrimitiveExpression(data.ToString()); .)
+    {   word                                (. data.Append(t.val); .)
+    |   sp                                  (. data.Append(t.val); .)
+    |   number                              (. data.Append(t.val); .)
+    |   "."                                 (. data.Append(t.val); .)
+    }                                       (. result = new CodePrimitiveExpression(data.ToString()); .)
 .
 
-IdentifierCall<out CodeExpression result>       (. string idname;
-                                                   string prop = null;
-                                                   List<CodeExpression> parameters = new List<CodeExpression>();
-                                                   CodeExpression temp;
-                                                 .)
-=   idcall                                      (. idname = t.val; .)
+IdentifierCall<out CodeExpression result, ParserState state> (. string idname;
+                                                    string prop = null;
+                                                    List<CodeExpression> parameters = new List<CodeExpression>();
+                                                    CodeExpression temp;
+                                                  .)
+=   idcall                                       (. idname = t.val; .)
     [ "(" [
-        ExpressionParameter<out temp>           (. parameters.Add(temp); .)
+        ExpressionParameter<out temp, state>     (. parameters.Add(temp); .)
         { "," [ sp ] [
-            ExpressionParameter<out temp>       (. parameters.Add(temp); .)
-        ] } ] ")" [ "." word                    (. prop = t.val; .)
-    ] ]                                         (. result = CallIdentifier(idname, parameters.ToArray(), prop); .)
+            ExpressionParameter<out temp, state> (. parameters.Add(temp); .)
+        ] } ] ")" [ "." word                     (. prop = t.val; .)
+    ] ]                                          (. result = CallIdentifier(idname, parameters.ToArray(), prop); .)
 .
 
-ExpressionParameter<out CodeExpression result> (. string currentSpace;
-                                                  CodeExpression temp; .)
-=   Expression<out result>
-    {   Expression<out temp>                   (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, temp); .)
+VarAssignment<out CodeStatement result, ParserState state> (. CodeExpression varValue = null; 
+                                                              CodeExpression temp = null;
+                                                              string currentSpace;
+                                                            .)
+=   varname                                                (. string varname = t.val; .)
+    sp "=" sp Expression<out varValue, state>
+    {   Expression<out temp, state>                        (. varValue = new CodeBinaryOperatorExpression(varValue, CodeBinaryOperatorType.Add, temp); .)
+    |   ","                                                (. varValue = new CodeBinaryOperatorExpression(varValue, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(t.val)); .)
+    |   sp                                                 (. currentSpace = t.val; .) 
+        (   strconcat sp
+        |                                                  (. varValue = new CodeBinaryOperatorExpression(varValue, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); .)
+        )                 
+    }                                                      (. result = SetVariableValue(varname, varValue, state); .)
+.
+
+ExpressionParameter<out CodeExpression result, ParserState state> (. string currentSpace;
+                                                                     CodeExpression temp; .)
+=   Expression<out result, state>
+    {   Expression<out temp, state>            (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, temp); .)
     |   sp                                     (. currentSpace = t.val; .) 
         (   strconcat sp
         |                                      (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); .)
-        )                 
+        )
     } 
 .
 
-BooleanExpressionParameter<out CodeExpression result>   (. string currentSpace;
-                                                           CodeExpression temp; .)
-=   Expression<out result>
-    {   Expression<out temp>                            (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, temp); .)
+BooleanExpressionParameter<out CodeExpression result, ParserState state>   (. string currentSpace;
+                                                                              CodeExpression temp; .)
+=   Expression<out result, state>
+    {   Expression<out temp, state>                     (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, temp); .)
     |   ","                                             (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(t.val)); .)
     |   sp                                              (. currentSpace = t.val; .) 
         (   strconcat sp
         |                                               (. result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); .)
-        )                 
+        )
     } 
 .
 
-ExpressionLine<out CodeStatement result>       (. string currentSpace;
-                                                  CodeExpression line;
-                                                  CodeExpression temp; .)
-=   Expression<out line>
-    {   Expression<out temp>                   (. line = new CodeBinaryOperatorExpression(line, CodeBinaryOperatorType.Add, temp); .)
+ExpressionLine<out CodeStatement result, ParserState state> (. string currentSpace;
+                                                               CodeExpression line;
+                                                               CodeExpression temp; .)
+=   Expression<out line, state>
+    {   Expression<out temp, state>            (. line = new CodeBinaryOperatorExpression(line, CodeBinaryOperatorType.Add, temp); .)
     |   sp                                     (. currentSpace = t.val; .)
         (   strconcat sp
         |                                      (. line = new CodeBinaryOperatorExpression(line, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); .)

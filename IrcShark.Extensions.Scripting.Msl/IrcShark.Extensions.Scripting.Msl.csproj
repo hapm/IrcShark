@@ -55,6 +55,7 @@
     <Compile Include="Parser.Helper.cs">
       <DependentUpon>MslParser.atg</DependentUpon>
     </Compile>
+    <Compile Include="ParserState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanner.cs">
       <DependentUpon>MslParser.atg</DependentUpon>

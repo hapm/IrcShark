@@ -52,6 +52,87 @@ namespace IrcShark.Extensions.Scripting.MslTest
         }
         
         /// <summary>
+        /// Tests the Right method.
+        /// </summary>
+        [Test]
+        public void Right()
+        {
+            string s1 = "hallo";
+            string s2 = "foobar";
+            Assert.AreEqual("o", MslStringMethods.Right(s1, 1));
+            Assert.AreEqual("llo", MslStringMethods.Right(s1, 3));
+            Assert.AreEqual("lo", MslStringMethods.Right(s1, -3));
+            Assert.AreEqual("hallo", MslStringMethods.Right(s1, 6));
+            Assert.IsEmpty(MslStringMethods.Right(s1, -6));
+            Assert.AreEqual("o", MslStringMethods.Right(s1, -4));
+            Assert.AreEqual("ar", MslStringMethods.Right(s2, 2));
+            Assert.AreEqual("bar", MslStringMethods.Right(s2, 3));
+            Assert.AreEqual("bar", MslStringMethods.Right(s2, -3));
+            Assert.AreEqual("foobar", MslStringMethods.Right(s2, 6));
+            Assert.IsEmpty(MslStringMethods.Right(s2, -8));
+            Assert.AreEqual("ar", MslStringMethods.Right(s2, -4));
+        }
+        
+        /// <summary>
+        /// Tests the IsUpper method.
+        /// </summary>
+        [Test]
+        public void IsUpper()
+        {
+            Assert.IsFalse(MslStringMethods.IsUpper("ABc"));
+            Assert.IsFalse(MslStringMethods.IsUpper("abc"));
+            Assert.IsTrue(MslStringMethods.IsUpper("AB#"));
+            Assert.IsTrue(MslStringMethods.IsUpper("CDE"));
+        }
+        
+        /// <summary>
+        /// Tests the IsLower method.
+        /// </summary>
+        [Test]
+        public void IsLower()
+        {
+            Assert.IsFalse(MslStringMethods.IsLower("ABc"));
+            Assert.IsFalse(MslStringMethods.IsLower("AB#"));
+            Assert.IsTrue(MslStringMethods.IsLower("cd'"));
+            Assert.IsTrue(MslStringMethods.IsLower("cde"));
+        }
+        
+        /// <summary>
+        /// Tests the Lower method.
+        /// </summary>
+        [Test]
+        public void Lower()
+        {
+            Assert.AreEqual("test", MslStringMethods.Lower("Test"));
+            Assert.AreEqual("blah", MslStringMethods.Lower("blah"));
+            Assert.AreEqual("foobar", MslStringMethods.Lower("FooBar"));
+        }
+        
+        /// <summary>
+        /// Tests the Upper method.
+        /// </summary>
+        [Test]
+        public void Upper()
+        {
+            Assert.AreEqual("TEST", MslStringMethods.Upper("Test"));
+            Assert.AreEqual("BLAH", MslStringMethods.Upper("blah"));
+            Assert.AreEqual("FOOBAR", MslStringMethods.Upper("FooBar"));
+        }
+        
+        /// <summary>
+        /// Tests the Len method.
+        /// </summary>
+        [Test]
+        public void Len()
+        {
+            Assert.AreEqual(5, MslStringMethods.Len("teste"));
+            Assert.AreEqual(4, MslStringMethods.Len("blah"));
+            Assert.AreEqual(9, MslStringMethods.Len("tumtumtum"));
+            Assert.AreNotEqual(1, MslStringMethods.Len("foo"));
+            Assert.AreNotEqual(4, MslStringMethods.Len("foobar"));
+        }
+        
+        /// <summary>
         /// Tests the Chr method.
         /// </summary>
         [Test]

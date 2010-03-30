@@ -32,11 +32,11 @@ namespace IrcShark.Extensions.Scripting.Msl
         public delegate string LeftDelegate(string text, int left);
         
         /// <summary>
-        /// Gets the beginning of a string
+        /// Gets the beginning of a string.
         /// </summary>
         /// <param name="text">The text to get the first characters from.</param>
         /// <param name="left">The number of characters retrieved starting from the left.</param>
-        /// <returns>A string containing the given numer of characters, starting from the left of the given text.</returns>
+        /// <returns>A string containing the given number of characters, starting from the left of the given text.</returns>
         public static string Left(string text, int left)
         {
             if (left == 0)
@@ -60,6 +60,67 @@ namespace IrcShark.Extensions.Scripting.Msl
             }
             
             return text.Substring(0, left);
+        }
+        
+        /// <summary>
+        /// Gets the end of a string.
+        /// </summary>
+        /// <param name="text">The text to get the last characters from.</param>
+        /// <param name="left">The number of characters retrieved starting from the right.</param>
+        /// <returns>A string containing the given number of characters, starting from the right of the given text.</returns>
+        public static string Right(string text, int left)
+        {
+            return null;
+        }
+        
+        /// <summary>
+        /// Checks if the given string only contains uppercase characters.
+        /// </summary>
+        /// <param name="text">The string to text.</param>
+        /// <returns>Its true if the text only contains uppercase characters, else false.</returns>
+        public static bool IsUpper(string text)
+        {
+            return false;
+        }
+        
+        /// <summary>
+        /// Checks if the given string only contains lowercase characters.
+        /// </summary>
+        /// <param name="text">The string to text.</param>
+        /// <returns>Its true if the text only contains lowercase characters, else false.</returns>
+        public static bool IsLower(string text)
+        {
+            return false;
+        }
+        
+        /// <summary>
+        /// Determines the length of the given string.
+        /// </summary>
+        /// <param name="text">The text to get the length from.</param>
+        /// <returns></returns>
+        public static int Len(string text)
+        {
+            return text.Length;
+        }
+        
+        /// <summary>
+        /// Gets the given string but replacing all upper characters with there lower part.
+        /// </summary>
+        /// <param name="text">The text to convert to lower case.</param>
+        /// <returns>The given text with lowercase characters only.</returns>
+        public static string Lower(string text)
+        {
+            return text;
+        }
+        
+        /// <summary>
+        /// Gets the given string but replacing all lower characters with there upper part.
+        /// </summary>
+        /// <param name="text">The text to convert to upper case.</param>
+        /// <returns>The given text with uppercase characters only.</returns>
+        public static string Upper(string text)
+        {
+            return text;
         }
         
         /// <summary>

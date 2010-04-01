@@ -70,7 +70,27 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// <returns>A string containing the given number of characters, starting from the right of the given text.</returns>
         public static string Right(string text, int left)
         {
-            return null;
+            if (left == 0)
+            {
+                return "";
+            }
+            
+            if (left > text.Length)
+            {
+                return text;
+            }
+            
+            if (left < 0)
+            {
+                left = text.Length + left;
+            }
+            
+            if (left < 0)
+            {
+                return "";
+            }
+            
+            return text.Substring(text.Length - left, left);
         }
         
         /// <summary>
@@ -160,9 +180,12 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// </remarks>
         public static string Asc(string character)
         {
-            if (string.IsNullOrEmpty(character)) {
+            if (string.IsNullOrEmpty(character)) 
+            {
                 return string.Empty;
-            } else {
+            }
+            else 
+            {
                 return ((int)character[0]).ToString();
             }
         }

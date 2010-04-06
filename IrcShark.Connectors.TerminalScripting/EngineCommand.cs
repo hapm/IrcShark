@@ -40,13 +40,17 @@ namespace IrcShark.Connectors.TerminalScripting
             if (paramList.Length == 0)
             {
                 Terminal.WriteLine("Please pecify a flag.");
+                return;
             }
             
             switch (paramList[0])
             {
                 case "-l":
-                    Terminal.WriteLine("Listing all running engines:");
-                    //foreach (ScriptLanguageExtension lang in scripting.BelongsTo
+                    Terminal.WriteLine("Listing all supported scripting languages:");
+                    foreach (ScriptLanguageExtension lang in scripting.GetRegisteredLanguages())
+                    {
+                        Terminal.WriteLine(string.Format("{0}", lang.Engine.Language.LanguageName));
+                    }
                     break;
             }
         }

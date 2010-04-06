@@ -35,6 +35,8 @@ namespace IrcShark.Extensions.Scripting
         /// </summary>
         private AppDomain scriptDomain;
         
+        private string scriptName;
+        
         private ScriptCompilerHelper helper;
         
         private string MainType
@@ -53,7 +55,7 @@ namespace IrcShark.Extensions.Scripting
             get { return helper.Instance; }
         }
         
-        public ScriptContainer(string binPathes)
+        public ScriptContainer(string binPathes, string name)
         {
             AppDomainSetup setup = new AppDomainSetup();
             setup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;

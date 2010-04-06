@@ -67,7 +67,7 @@ namespace IrcShark.Extensions.Scripting
         /// </summary>
         /// <param name="file">The file containing the script to compile.</param>
         /// <returns>The Script instance to interact with the compiled script.</returns>
-        ScriptContainer Compile(FileInfo file);
+        ScriptContainer Compile(FileInfo file, string binPathes);
         
         /// <summary>
         /// Compiles the given script and returns the associated Script object.

@@ -207,9 +207,16 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// </summary>
         /// <param name="file">The file to compile.</param>
         /// <returns>The compiled script.</returns 
-        public ScriptContainer Compile(System.IO.FileInfo file)
+        public ScriptContainer Compile(System.IO.FileInfo file, string binPathes)
         {
-            return null;
+            ScriptContainer result = new ScriptContainer(binPathes, file.Name);
+            Parser mslParser = new Parser();
+            StreamReader reader = new StreamReader(file.OpenRead(), System.Text.Encoding.Default, false);
+            CodeCompileUnit unit = mslParser.Parse(reader);
+            reader.Close();
+            result.ScriptDom = unit;
+            result.Compile(file.Name, this);
+            return result;
         }
         
         /// <summary>
@@ -219,7 +226,7 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// <returns></returns>
         public ScriptContainer Compile(string name, string source, string binPathes)
         {
-            ScriptContainer result = new ScriptContainer(binPathes);
+            ScriptContainer result = new ScriptContainer(binPathes, name);
             Parser mslParser = new Parser();
             mslParser.ScriptName = name;
             StringReader reader = new StringReader(source);

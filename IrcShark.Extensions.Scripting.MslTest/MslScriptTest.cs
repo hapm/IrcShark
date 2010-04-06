@@ -64,7 +64,7 @@ namespace IrcShark.Extensions.Scripting.MslTest
             }
             else
             {
-                Assert.IsTrue(mslScript.Check(v1, op, v2));
+                Assert.IsFalse(mslScript.Check(v1, op, v2));
             }
         }
     }

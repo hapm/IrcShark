@@ -56,6 +56,11 @@ namespace IrcShark.Extensions.Scripting
             get { return publishedObjects; }
         }
         
+        public ScriptLanguageExtension[] GetRegisteredLanguages()
+        {
+            return languages.ToArray();
+        }            
+        
         public void RegisterLanguage(ScriptLanguageExtension ext)
         {
             languages.Add(ext);

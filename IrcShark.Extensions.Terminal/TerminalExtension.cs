@@ -546,7 +546,14 @@ namespace IrcShark.Extensions.Terminal
                 command = ReadCommand();
                 if (command != null)
                 {
-                    ExecuteCommand(command);
+                    try
+                    {
+                        ExecuteCommand(command);
+                    }
+                    catch (Exception ex)
+                    {
+                        Context.Application.Log.Error("Terminal", 0, "The command {0} throwed an exception: {1}", command.CommandName, ex.ToString());
+                    }
                 }
             }
         }

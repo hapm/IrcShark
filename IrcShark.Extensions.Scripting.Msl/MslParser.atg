@@ -144,6 +144,7 @@ IfClause<out CodeStatement result, ParserState state> (. CodeConditionStatement 
     [ sp ]
     (   IF(IsElseIf()) EOL [sp] ElseIfClause<out elseifStmt, state> (. ifStmt.FalseStatements.Add(elseifStmt); .)
     |   IF(IsElse()) EOL [sp] ElseClause<ifStmt.FalseStatements, state>
+    |
     )
 .
 
@@ -160,6 +161,7 @@ ElseIfClause<out CodeConditionStatement result, ParserState state> (. CodeCondit
     [ sp ]
     (   IF(IsElseIf()) EOL [sp] ElseIfClause<out elseifStmt, state> (. ifStmt.FalseStatements.Add(elseifStmt); .)
     |   IF(IsElse()) EOL [sp] ElseClause<ifStmt.FalseStatements, state>
+    |
     )
 .
 

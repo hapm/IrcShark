@@ -116,6 +116,98 @@ namespace IrcShark
         }
         
         /// <summary>
+        /// Logs a debug message to the given channel.
+        /// </summary>
+        /// <param name="channel">The channel to log to.</param>
+        /// <param name="id">The id of the message to log.</param>
+        /// <param name="message">The text message to log.</param>
+        public void Debug(string channel, int id, string message)
+        {
+            Log(new LogMessage(channel, id, LogLevel.Debug, message));
+        }
+        
+        /// <summary>
+        /// Logs a parameterized debug message to the given channel.
+        /// </summary>
+        /// <param name="channel">The channel to log to.</param>
+        /// <param name="id">The id of the message to log.</param>
+        /// <param name="message">The parameterized text message to log.</param>
+        /// <param name="args">The format parameters for the parameterized message.</param>
+        public void Debug(string channel, int id, string message, params string[] args)
+        {
+            Log(new LogMessage(channel, id, LogLevel.Debug, message, args));
+        }
+        
+        /// <summary>
+        /// Logs an info message to the given channel.
+        /// </summary>
+        /// <param name="channel">The channel to log to.</param>
+        /// <param name="id">The id of the message to log.</param>
+        /// <param name="message">The text message to log.</param>
+        public void Info(string channel, int id, string message)
+        {
+            Log(new LogMessage(channel, id, message));
+        }
+        
+        /// <summary>
+        /// Logs a parameterized info message to the given channel.
+        /// </summary>
+        /// <param name="channel">The channel to log to.</param>
+        /// <param name="id">The id of the message to log.</param>
+        /// <param name="message">The parameterized text message to log.</param>
+        /// <param name="args">The format parameters for the parameterized message.</param>
+        public void Info(string channel, int id, string message, params string[] args)
+        {
+            Log(new LogMessage(channel, id, LogLevel.Information, message, args));
+        }
+        
+        /// <summary>
+        /// Logs a warning message to the given channel.
+        /// </summary>
+        /// <param name="channel">The channel to log to.</param>
+        /// <param name="id">The id of the message to log.</param>
+        /// <param name="message">The text message to log.</param>
+        public void Warning(string channel, int id, string message)
+        {
+            Log(new LogMessage(channel, id, LogLevel.Warning, message));
+        }
+        
+        /// <summary>
+        /// Logs a parameterized warning message to the given channel.
+        /// </summary>
+        /// <param name="channel">The channel to log to.</param>
+        /// <param name="id">The id of the message to log.</param>
+        /// <param name="message">The parameterized text message to log.</param>
+        /// <param name="args">The format parameters for the parameterized message.</param>
+        public void Warning(string channel, int id, string message, params string[] args)
+        {
+            Log(new LogMessage(channel, id, LogLevel.Warning, message, args));
+        }
+        
+        /// <summary>
+        /// Logs an error message to the given channel.
+        /// </summary>
+        /// <param name="channel">The channel to log to.</param>
+        /// <param name="id">The id of the message to log.</param>
+        /// <param name="message">The text message to log.</param>
+        public void Error(string channel, int id, string message)
+        {
+            Log(new LogMessage(channel, id, LogLevel.Error, message));
+        }
+        
+        /// <summary>
+        /// Logs a parameterized error message to the given channel.
+        /// </summary>
+        /// <param name="channel">The channel to log to.</param>
+        /// <param name="id">The id of the message to log.</param>
+        /// <param name="message">The parameterized text message to log.</param>
+        /// <param name="args">The format parameters for the parameterized message.</param>
+        public void Error(string channel, int id, string message, params string[] args)
+        {
+            Log(new LogMessage(channel, id, LogLevel.Error, message, args));
+        }
+        
+        /// <summary>
         /// Disposes the Logger instance.
         /// </summary>
         public void Dispose()

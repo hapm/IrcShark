@@ -304,6 +304,7 @@ public partial class Parser : ICodeParser {
 				Get();
 			}
 			ElseClause(ifStmt.FalseStatements, state);
+		} else if (StartOf(7)) {
 		} else SynErr(33);
 	}
 
@@ -342,7 +343,7 @@ public partial class Parser : ICodeParser {
 			Get();
 			varname = t.val; 
 			Expect(9);
-			if (StartOf(7)) {
+			if (StartOf(8)) {
 				if (la.kind == 16) {
 					Get();
 					Expect(9);
@@ -353,7 +354,7 @@ public partial class Parser : ICodeParser {
 			if (la.kind == 9) {
 				Get();
 				currentSpace1 = t.val; 
-			} else if (StartOf(8)) {
+			} else if (StartOf(9)) {
 				currentSpace1 = ""; 
 			} else SynErr(35);
 			while (la.kind == 17) {
@@ -369,7 +370,7 @@ public partial class Parser : ICodeParser {
 					expr = new CodeBinaryOperatorExpression(expr, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace1 + "," + currentSpace2));
 					expr = new CodeBinaryOperatorExpression(expr, CodeBinaryOperatorType.Add, tmp);
 					
-				} else if (StartOf(8)) {
+				} else if (StartOf(9)) {
 					stmts.Add(DeclareLocalVariable(varname, expr, state)); 
 				} else SynErr(37);
 			}
@@ -390,7 +391,7 @@ public partial class Parser : ICodeParser {
 				if (la.kind == 6) {
 					Get();
 					Expect(9);
-				} else if (StartOf(9)) {
+				} else if (StartOf(10)) {
 					result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); 
 				} else SynErr(38);
 			}
@@ -468,6 +469,7 @@ public partial class Parser : ICodeParser {
 				Get();
 			}
 			ElseClause(ifStmt.FalseStatements, state);
+		} else if (StartOf(7)) {
 		} else SynErr(41);
 	}
 
@@ -498,7 +500,7 @@ public partial class Parser : ICodeParser {
 				if (la.kind == 6) {
 					Get();
 					Expect(9);
-				} else if (StartOf(10)) {
+				} else if (StartOf(11)) {
 					result = new CodeBinaryOperatorExpression(result, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace)); 
 				} else SynErr(43);
 			}
@@ -528,7 +530,7 @@ public partial class Parser : ICodeParser {
 			Get();
 			data.Append(t.val); 
 		} else SynErr(45);
-		while (StartOf(11)) {
+		while (StartOf(12)) {
 			if (la.kind == 5) {
 				Get();
 				data.Append(t.val); 
@@ -612,6 +614,7 @@ public partial class Parser : ICodeParser {
 		{T,x,x,x, T,T,x,T, T,T,x,x, T,T,x,x, x,T,x,x, x,x,T,x, T,T,x,x},
 		{x,x,x,x, T,T,x,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,x,x},
 		{T,x,x,x, T,T,x,T, T,T,x,x, T,T,x,x, x,x,x,x, x,x,T,x, T,T,x,x},
+		{T,x,x,x, x,x,x,x, x,T,x,x, T,T,x,x, x,x,x,x, x,x,T,x, T,x,x,x},
 		{x,x,x,x, T,T,x,T, T,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,T,x,x},
 		{T,x,x,x, x,x,x,x, T,T,x,x, T,T,x,x, x,T,x,x, x,x,T,x, T,x,x,x},
 		{T,x,x,x, T,T,x,T, T,T,x,x, T,T,x,x, x,T,x,x, T,x,T,x, T,T,x,x},

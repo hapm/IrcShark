@@ -51,6 +51,7 @@ namespace IrcShark.Connectors.TerminalScripting
             scripting = Context.Application.Extensions[scriptingInfo] as ScriptingExtension;
             terminal = Context.Application.Extensions[terminalInfo] as TerminalExtension;
             scripting.PublishedMethods.Add("echo", new EchoDelegate(Echo));
+            terminal.Commands.Add(new EngineCommand(terminal, scripting));
         }
         
         public override void Stop()

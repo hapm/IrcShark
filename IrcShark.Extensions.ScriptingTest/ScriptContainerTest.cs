@@ -36,7 +36,7 @@ namespace IrcShark.Extensions.ScriptingTest
             TextReader reader = new StringReader(testScript);
             Parser p = new Parser();
             CodeCompileUnit result = p.Parse(reader);
-            ScriptContainer container = new ScriptContainer("Extensions\\");
+            ScriptContainer container = new ScriptContainer("Extensions\\", "test");
             container.ScriptDom = result;
             //container.Compile();
         }

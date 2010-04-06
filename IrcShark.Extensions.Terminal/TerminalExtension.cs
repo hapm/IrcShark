@@ -269,6 +269,13 @@ namespace IrcShark.Extensions.Terminal
                 {
                     case ConsoleKey.Enter:                        
                         // Search and execute the entered command
+                        if (string.IsNullOrEmpty(line.ToString()))
+                        {
+                            Console.WriteLine();
+                            Console.Write(inputPrefix);
+                            break;
+                        }
+                            
                         try
                         {
                             CommandCall call = new CommandCall(line.ToString());

@@ -119,7 +119,7 @@ namespace IrcShark.Connectors.TerminalChatting
             }
             
             IConnection connection = network.CreateConnection();
-            connection.Nickname = "IS|Test";
+            connection.Nickname = "IrcSharkTestBuild";
             connection.UserName = "Test";
             con.Chatting.Connections.Add(connection);
             connection.Open();

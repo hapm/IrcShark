@@ -3,7 +3,6 @@ StyleCopViolations.xml
 bin/
 obj/
 Output/
-ProfilingSessions/
 PartCover/
 *.user
 *.bak

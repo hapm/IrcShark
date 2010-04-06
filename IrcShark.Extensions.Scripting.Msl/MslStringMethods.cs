@@ -100,11 +100,11 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// <returns>Its true if the text only contains uppercase characters, else false.</returns>
         public static bool IsUpper(string text)
         {
-            for (int i = 0; i < text.Length; i++)
+            foreach(char c in text)
             {
-                if (char.IsLower(text[i]))
+                if (char.IsLower(c)) 
                 {
-                    return false;
+                    return false;    
                 }
             }
             
@@ -118,11 +118,11 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// <returns>Its true if the text only contains lowercase characters, else false.</returns>
         public static bool IsLower(string text)
         {
-            for (int i = 0; i < text.Length; i++)
+            foreach(char c in text)
             {
-                if (char.IsUpper(text[i]))
+                if (char.IsUpper(c))
                 {
-                    return false;
+                    return false;    
                 }
             }
             

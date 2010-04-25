@@ -17,11 +17,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
 namespace IrcShark.Extensions.Scripting.Msl
 {
+    using System;
+
     public delegate string SimpleStringIdentifier();
+    
     public delegate string MultiParamIdentifierDelegate(string[] parameters);
     
     /// <summary>

@@ -17,6 +17,7 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace IrcShark.Extensions.Terminal.Commands
 {
     using System;
@@ -47,14 +48,14 @@ namespace IrcShark.Extensions.Terminal.Commands
         public override void Execute(params string[] paramList)
         {
             ConsoleTable table = new ConsoleTable();
-            table.SetHeaders(new string[] {"Assembly Name", "Version"});
-			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies()) 
-			{
-				AssemblyName name = asm.GetName();
-				table.AppendRow(new string[] {name.Name, name.Version.ToString()});
+            table.SetHeaders(new string[] { "Assembly Name", "Version" });
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies()) 
+            {
+                AssemblyName name = asm.GetName();
+                table.AppendRow(new string[] { name.Name, name.Version.ToString() });
             }
-			
-			Terminal.WriteLine(table.ToString());
+            
+            Terminal.WriteLine(table.ToString());
         }
     }
 }

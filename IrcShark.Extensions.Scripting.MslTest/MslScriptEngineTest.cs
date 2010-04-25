@@ -23,9 +23,9 @@ namespace IrcShark.Extensions.Scripting.MslTest
     using System.CodeDom.Compiler;
     using System.IO;
     using System.Text;
-    using Microsoft.CSharp;
     using IrcShark.Extensions.Scripting;
     using IrcShark.Extensions.Scripting.Msl;
+    using Microsoft.CSharp;
     using NUnit.Framework;
     
     [TestFixture]

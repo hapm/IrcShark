@@ -17,6 +17,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace IrcShark.Extensions.Scripting.Msl
 {
     using System;
@@ -46,16 +47,18 @@ namespace IrcShark.Extensions.Scripting.Msl
             {
                 return;
             }
+            
             string aliasName = data[0];
             string[] parameters = null;
             if (data.Length > 1)
             {
-                parameters = new string[data.Length-1];
+                parameters = new string[data.Length - 1];
                 for (int i = 0; i < parameters.Length; i++)
                 {
-                    parameters[i] = data[i+1];
+                    parameters[i] = data[i + 1];
                 }
             }
+            
             CallAlias(aliasName, parameters);
         }
         
@@ -76,6 +79,7 @@ namespace IrcShark.Extensions.Scripting.Msl
             {
                 name = name.Substring(1);
             }
+            
             if (Engine.PublishedMethods.ContainsKey(name))
             {
                 object[] realParameters;
@@ -103,10 +107,10 @@ namespace IrcShark.Extensions.Scripting.Msl
             name = name.Substring(1);
             string internalAliasName = "Alias" + name;
             MethodInfo method = GetType().GetMethod(internalAliasName);
-            object result = "";
+            object result = string.Empty;
             if (property == null)
             {
-                property = "";
+                property = string.Empty;
             }
             
             if (Engine.PublishedMethods.ContainsKey(name))
@@ -133,54 +137,10 @@ namespace IrcShark.Extensions.Scripting.Msl
             
             if (result == null)
             {
-                return "";
+                return string.Empty;
             }
             
-            return result.ToString();;
-        }
-        
-        private string GetGlobalVariableValue(string varname)
-        {
-            return MslEngine.GetGlobalVariableValue(varname);
-        }
-        
-        private void SetGlobalVariableValue(string varname, string varvalue)
-        {
-            MslEngine.SetGlobalVariableValue(varname, varvalue);
-        }
-        
-        private object[] CreateRealParameters(MethodInfo method, string[] parameters)
-        {
-            ParameterInfo[] paramInfos = method.GetParameters();
-            object[] realParameters = null;
-            if (paramInfos.Length > 0)
-            {
-                if (paramInfos.Length == 1 && paramInfos[0].GetType().IsAssignableFrom(parameters.GetType()))
-                {
-                    return new object[] { parameters };
-                }
-                
-                realParameters = new object[paramInfos.Length];
-                if (parameters.Length > paramInfos.Length)
-                {
-                    throw new ScriptingException(string.Format("To much parameters for {0}", method.Name));
-                }
-                
-                try
-                {
-                    CultureInfo culture = CultureInfo.InvariantCulture;
-                    for (int i = 0; i < parameters.Length; i++)
-                    {
-                        realParameters[i] = (parameters[i] as IConvertible).ToType(paramInfos[i].ParameterType, culture);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new ScriptingException("Bad formating", ex);
-                }
-            }
-            
-            return realParameters;
+            return result.ToString();
         }
         
         /// <summary>
@@ -301,6 +261,50 @@ namespace IrcShark.Extensions.Scripting.Msl
             }
             
             return false;
+        }
+        
+        private string GetGlobalVariableValue(string varname)
+        {
+            return MslEngine.GetGlobalVariableValue(varname);
+        }
+        
+        private void SetGlobalVariableValue(string varname, string varvalue)
+        {
+            MslEngine.SetGlobalVariableValue(varname, varvalue);
+        }
+        
+        private object[] CreateRealParameters(MethodInfo method, string[] parameters)
+        {
+            ParameterInfo[] paramInfos = method.GetParameters();
+            object[] realParameters = null;
+            if (paramInfos.Length > 0)
+            {
+                if (paramInfos.Length == 1 && paramInfos[0].GetType().IsAssignableFrom(parameters.GetType()))
+                {
+                    return new object[] { parameters };
+                }
+                
+                realParameters = new object[paramInfos.Length];
+                if (parameters.Length > paramInfos.Length)
+                {
+                    throw new ScriptingException(string.Format("To much parameters for {0}", method.Name));
+                }
+                
+                try
+                {
+                    CultureInfo culture = CultureInfo.InvariantCulture;
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        realParameters[i] = (parameters[i] as IConvertible).ToType(paramInfos[i].ParameterType, culture);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ScriptingException("Bad formating", ex);
+                }
+            }
+            
+            return realParameters;
         }
     }
 }

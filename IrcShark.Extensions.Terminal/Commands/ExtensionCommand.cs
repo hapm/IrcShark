@@ -108,6 +108,7 @@ namespace IrcShark.Extensions.Terminal.Commands
                             {
                                 return result.ToArray();
                             }
+                            
                             break;
                         case "-u":
                             foreach (ExtensionInfo info in extManager.Keys)
@@ -124,10 +125,13 @@ namespace IrcShark.Extensions.Terminal.Commands
                             {
                                 return result.ToArray();
                             }
+                            
                             break;
                     }
+                    
                     break;
             }
+            
             return base.AutoComplete(call, paramIndex);
         }
 

@@ -23,6 +23,7 @@ namespace IrcShark.Extensions.Scripting
     using System.Collections.Generic;
 
     public delegate void TalkingCollectionEventHandler<TKey, TValue>(object sender, TalkingCollectionEventArgs<TKey, TValue> args);
+    
     /// <summary>
     /// Description of TalkingCollection.
     /// </summary>
@@ -39,36 +40,48 @@ namespace IrcShark.Extensions.Scripting
             dict = new Dictionary<TKey, TValue>();
         }
         
-        public TValue this[TKey key] {
-            get {
+        public TValue this[TKey key]
+        {
+            get
+            {
                 return dict[key];
             }
-            set {
+            
+            set
+            {
                 dict[key] = value;
                 OnAdded(key);
             }
         }
         
-        public ICollection<TKey> Keys {
-            get {
+        public ICollection<TKey> Keys
+        {
+            get
+            {
                 return dict.Keys;
             }
         }
         
-        public ICollection<TValue> Values {
-            get {
+        public ICollection<TValue> Values
+        {
+            get
+            {
                 return dict.Values;
             }
         }
         
-        public int Count {
-            get {
+        public int Count
+        {
+            get
+            {
                 return dict.Count;
             }
         }
         
-        public bool IsReadOnly {
-            get {
+        public bool IsReadOnly
+        {
+            get
+            {
                 return false;
             }
         }
@@ -121,8 +134,7 @@ namespace IrcShark.Extensions.Scripting
                 Removed(this, new TalkingCollectionEventArgs<TKey, TValue>(key));
             }
         }
-            
-        
+             
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return dict.GetEnumerator();

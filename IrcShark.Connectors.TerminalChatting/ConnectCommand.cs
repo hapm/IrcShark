@@ -151,7 +151,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 return;
             }
             
-            connection = con.Chatting.Connections[connectNr-1];
+            connection = con.Chatting.Connections[connectNr - 1];
             connection.Close();
             con.Chatting.Connections.Remove(connection);
             con.Terminal.WriteLine("Connection {0} to server '{1}' closed", connectNr, connection.Server.Network.Name);
@@ -174,7 +174,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 }
                 else
                 {
-                    network = con.Chatting.Networks[networkNr-1];
+                    network = con.Chatting.Networks[networkNr - 1];
                 }
             }
             else
@@ -193,6 +193,7 @@ namespace IrcShark.Connectors.TerminalChatting
                     Terminal.WriteLine(string.Format("There is no network with the name '{0}'.", ident));
                 }
             }
+            
             return network;
         }
     }

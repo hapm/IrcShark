@@ -17,6 +17,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace IrcShark.Extensions.Scripting.Msl
 {
     using System;
@@ -41,7 +42,7 @@ namespace IrcShark.Extensions.Scripting.Msl
         {
             if (left == 0)
             {
-                return "";
+                return string.Empty;
             }
             
             if (left > text.Length)
@@ -56,7 +57,7 @@ namespace IrcShark.Extensions.Scripting.Msl
             
             if (left < 0)
             {
-                return "";
+                return string.Empty;
             }
             
             return text.Substring(0, left);
@@ -72,7 +73,7 @@ namespace IrcShark.Extensions.Scripting.Msl
         {
             if (left == 0)
             {
-                return "";
+                return string.Empty;
             }
             
             if (left > text.Length)
@@ -87,7 +88,7 @@ namespace IrcShark.Extensions.Scripting.Msl
             
             if (left < 0)
             {
-                return "";
+                return string.Empty;
             }
             
             return text.Substring(text.Length - left, left);
@@ -100,7 +101,7 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// <returns>Its true if the text only contains uppercase characters, else false.</returns>
         public static bool IsUpper(string text)
         {
-            foreach(char c in text)
+            foreach (char c in text)
             {
                 if (char.IsLower(c)) 
                 {
@@ -118,7 +119,7 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// <returns>Its true if the text only contains lowercase characters, else false.</returns>
         public static bool IsLower(string text)
         {
-            foreach(char c in text)
+            foreach (char c in text)
             {
                 if (char.IsUpper(c))
                 {

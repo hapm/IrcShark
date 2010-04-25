@@ -20,9 +20,9 @@
 namespace IrcShark.Extensions.Scripting.MslTest
 {
     using System;
-    using NUnit.Framework;
     using IrcShark.Extensions.Scripting;
     using IrcShark.Extensions.Scripting.Msl;
+    using NUnit.Framework;
 
     [TestFixture]
     public class MslScriptTest
@@ -35,7 +35,7 @@ namespace IrcShark.Extensions.Scripting.MslTest
             ScriptContainer script = engine.Compile("test", testScript, "Extensions\\");
             MslScript mslScript = script.Instance as MslScript;
             Assert.IsFalse(mslScript.Check(null));
-            Assert.IsFalse(mslScript.Check(""));
+            Assert.IsFalse(mslScript.Check(string.Empty));
             Assert.IsFalse(mslScript.Check(" "));
             Assert.IsFalse(mslScript.Check("0"));
             Assert.IsFalse(mslScript.Check("0.0"));
@@ -49,10 +49,10 @@ namespace IrcShark.Extensions.Scripting.MslTest
         
         [Test, Sequential]
         public void Check3(
-            [Values(  "b",   "5",    "foo", "10", "foobar")] string v1,
-            [Values( "==",  "==",     "==", "==",     "==")] string op,
-            [Values(   "",   "4", "foobar", "10", "foobar")] string v2,
-            [Values(false, false,    false, true,     true)] bool result )
+            [Values("b", "5", "foo", "10", "foobar")] string v1,
+            [Values("==", "==", "==", "==", "==")] string op,
+            [Values("", "4", "foobar", "10", "foobar")] string v2,
+            [Values(false, false, false, true, true)] bool result)
         {
             string testScript = "alias test {\n  if ($true) echo -a test\n}";
             MslScriptEngine engine = new MslScriptEngine();

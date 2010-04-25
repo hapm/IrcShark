@@ -17,10 +17,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
 namespace IrcShark.Extensions.Scripting
 {
+    using System;
+    
     /// <summary>
     /// Description of TalkingCollectionEventArgs.
     /// </summary>
@@ -35,7 +36,10 @@ namespace IrcShark.Extensions.Scripting
         
         public TKey ChangedKey
         {
-            get { return changedKey; }
+            get
+            {
+                return changedKey;
+            }
         }
     }
 }

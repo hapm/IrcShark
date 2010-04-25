@@ -75,7 +75,7 @@ namespace IrcShark.Chatting.Irc.Extended
         /// <summary>
         /// Gets the current status of the connection.
         /// </summary>
-        /// <value>the status.</value>
+        /// <value>The status.</value>
         public ConnectionStatus Status
         {
             get 
@@ -245,6 +245,7 @@ namespace IrcShark.Chatting.Irc.Extended
                 {
                     this.ReceiveLine();
                 }
+                
                 Thread.Sleep(100);
             }
         }

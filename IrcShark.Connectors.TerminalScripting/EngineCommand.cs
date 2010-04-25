@@ -20,8 +20,8 @@
 namespace IrcShark.Connectors.TerminalScripting
 {
     using System;
-    using IrcShark.Extensions.Terminal;
     using IrcShark.Extensions.Scripting;
+    using IrcShark.Extensions.Terminal;
 
     /// <summary>
     /// Description of EngineCommand.
@@ -51,6 +51,7 @@ namespace IrcShark.Connectors.TerminalScripting
                     {
                         Terminal.WriteLine(string.Format("{0}", lang.Engine.Language.LanguageName));
                     }
+                    
                     break;
             }
         }

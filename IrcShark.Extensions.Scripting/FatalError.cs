@@ -17,15 +17,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
 namespace IrcShark.Extensions.Scripting
 {
+    using System;
+    
     /// <summary>
     /// Description of FatalError.
     /// </summary>
-    public class FatalError: Exception
+    public class FatalError : Exception
     {
-        public FatalError(string m): base(m) {}
+        public FatalError(string m) : base(m)
+        {
+        }
     }
 }

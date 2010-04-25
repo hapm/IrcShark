@@ -264,7 +264,7 @@ namespace IrcShark.Extensions.Chatting
                         
                         break;
                     case XmlNodeType.EndElement:
-                        //reader.Read();
+                        // reader.Read();
                         return;
                 }
             }

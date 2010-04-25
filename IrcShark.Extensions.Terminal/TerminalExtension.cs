@@ -20,8 +20,8 @@
 namespace IrcShark.Extensions.Terminal
 {
     using System;
-    using System.Runtime.InteropServices;
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
     using System.Text;
     using System.Threading;
 
@@ -110,7 +110,7 @@ namespace IrcShark.Extensions.Terminal
         private int autoCompleteStartIndex;
         
         /// <summary>
-        /// Length of the last auto completed text
+        /// Length of the last auto completed text.
         /// </summary>
         private int lastAutoCompleteLength;
         
@@ -185,7 +185,7 @@ namespace IrcShark.Extensions.Terminal
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
             Context.Application.Log.LoggedMessage += TerminalLogger;
             Console.ResetColor();
-            Console.Title = ("IrcShark Terminal");
+            Console.Title = "IrcShark Terminal";
             foregroundColor = Console.ForegroundColor;
             WriteLine("*******************************************************************************");
             WriteLine("*                   IrcShark started successfully, have fun!                  *");
@@ -370,7 +370,7 @@ namespace IrcShark.Extensions.Terminal
                                 line = new StringBuilder(currentHistoryCmd.Value);
                             }
                             
-                            //CleanInputLine();
+                            // CleanInputLine();
                             Console.Write(inputPrefix);
                             Console.CursorLeft = inputPrefix.Length;
                             Console.Write(line.ToString());
@@ -397,10 +397,11 @@ namespace IrcShark.Extensions.Terminal
                             {
                                 int iCursorLeft = Console.CursorLeft;
                                 CleanInputLine();
-                                line.Remove(iCursorLeft - inputPrefix.Length , 1);
+                                line.Remove(iCursorLeft - inputPrefix.Length, 1);
                                 Console.Write(inputPrefix + line);
                                 Console.CursorLeft = iCursorLeft;
                             }
+                            
                            break;
                                   
                     case ConsoleKey.Oem1:
@@ -617,8 +618,10 @@ namespace IrcShark.Extensions.Terminal
                     {
                         lastAutoCompleteLength = call.Parameters[call.Parameters.Length - 1].Length;
                     }
+                    
                     autoCompleteStartIndex = Console.CursorLeft - inputPrefix.Length - lastAutoCompleteLength;
                 }
+                
                 UpdateAutoComplete(call);
             }
             

@@ -62,6 +62,7 @@ namespace IrcShark.Extensions.Scripting.Msl
             {
                 scriptName = "Unnamed";
             }
+            
             dom = new CodeCompileUnit();
             nm = new CodeNamespace("IrcShark.Extensions.Scripting.Msl.Scripts");
             nm.Imports.Add(new CodeNamespaceImport("System.Text"));
@@ -120,7 +121,8 @@ namespace IrcShark.Extensions.Scripting.Msl
             CodeMethodReferenceExpression executor = new CodeMethodReferenceExpression();
             executor.MethodName = "Executor";
             invoke.Method = executor;
-            //executor.
+            
+            // executor.
             return invoke;
         }
         
@@ -181,19 +183,19 @@ namespace IrcShark.Extensions.Scripting.Msl
         
         public CodeExpression BooleanEvaluation(CodeExpression expr)
         {
-            CodeMethodInvokeExpression result =  new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "Check", expr);
+            CodeMethodInvokeExpression result = new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "Check", expr);
             return result;
         }
         
         public CodeExpression BooleanEvaluation(CodeExpression expr, string op)
         {
-            CodeMethodInvokeExpression result =  new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "Check", expr, new CodePrimitiveExpression(op));
+            CodeMethodInvokeExpression result = new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "Check", expr, new CodePrimitiveExpression(op));
             return result;
         }
         
         public CodeExpression BooleanEvaluation(CodeExpression expr1, string op, CodeExpression expr2)
         {
-            CodeMethodInvokeExpression result =  new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "Check", expr1, new CodePrimitiveExpression(op), expr2);
+            CodeMethodInvokeExpression result = new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "Check", expr1, new CodePrimitiveExpression(op), expr2);
             return result;
         }
         
@@ -221,19 +223,22 @@ namespace IrcShark.Extensions.Scripting.Msl
             {
                 executor = new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "CallIdentifier", new CodePrimitiveExpression(methodName), new CodePrimitiveExpression(null), new CodePrimitiveExpression(property));
             }
+            
             return executor;
         }
         
         public CodeStatement DeclareLocalVariable(string varname, CodeExpression varValue, ParserState state)
         {
             varname = "v_" + varname;
-            //if the varname is already defined, only use an assignment, else a declaration
+            
+            // if the varname is already defined, only use an assignment, else a declaration
             if (state.localVarNames.Contains(varname))
             {
                 if (varValue == null)
                 {
                     return null;
                 }
+                
                 CodeAssignStatement assign = new CodeAssignStatement(new CodeVariableReferenceExpression(varname), varValue);
                 return assign;
             }
@@ -246,8 +251,9 @@ namespace IrcShark.Extensions.Scripting.Msl
                 }
                 else
                 {
-                    declare = new CodeVariableDeclarationStatement(typeof(string), varname, new CodePrimitiveExpression(""));
+                    declare = new CodeVariableDeclarationStatement(typeof(string), varname, new CodePrimitiveExpression(string.Empty));
                 }
+                
                 return declare;
             }
         }

@@ -30,6 +30,7 @@ namespace IrcShark.Chatting.IrcTest
     public class IrcNetworkTest
     {
         private static IrcProtocol protocol = IrcProtocol.GetInstance();
+        
         /// <summary>
         /// Tests the constructor.
         /// </summary>

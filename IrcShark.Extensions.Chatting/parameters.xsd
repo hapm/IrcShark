@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="extensions" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ircshark.net/2010/parameters">
-	<xs:complexType name="parameters">
-		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="param" type="xs:string">
-				<xs:complexType>
-					<xs:attribute name="name" type="xs:string" />
-				</xs:complexType>
-			</xs:element>
-		</xs:choice>
-	</xs:complexType>
-	<xs:element name="params" type="parameters">
-	</xs:element>
+    <xs:complexType name="parameters">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="param" type="xs:string">
+                <xs:complexType>
+                    <xs:attribute name="name" type="xs:string" />
+                </xs:complexType>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+    <xs:element name="params" type="parameters">
+    </xs:element>
 </xs:schema>

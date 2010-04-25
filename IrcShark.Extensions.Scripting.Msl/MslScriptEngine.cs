@@ -84,6 +84,7 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// </summary>
         /// <value>
         /// This will be always true as msl supports evaluation.
+        /// </value>
         public bool SupportsEvaluation 
         {
             get { return true; }
@@ -101,30 +102,15 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// <summary>
         /// Gets nothing as msl doesn't support object oriented programming.
         /// </summary>
-        /// <value>None.</value>
+        /// <value>
+        /// None value.
+        /// </value>
         /// <exception cref="NotSupportedException">
         /// Object oriented programming isn't supported by msl yet.
         /// </exception>
         public ObjectCollection PublishedObjects 
         {
             get { throw new NotSupportedException(); }
-        }
-        
-        private Stack<string> GetActivePropertyStack()
-        {
-            Stack<string> propertyStack = null;
-            if (ScriptContext.CurrentContext.Globals.ContainsKey("msl.propertys"))
-            {
-                propertyStack = ScriptContext.CurrentContext.Globals["msl.propertys"] as Stack<string>;
-            }
-            
-            if (propertyStack == null)
-            {
-                propertyStack = new Stack<string>();
-                ScriptContext.CurrentContext.Globals.Add("msl.propertys", propertyStack);
-            }
-            
-            return propertyStack;            
         }
         
         public string GetGlobalVariableValue(string varname)
@@ -138,8 +124,8 @@ namespace IrcShark.Extensions.Scripting.Msl
             globalVars = ScriptContext.CurrentContext.Globals["msl.globalVariables"] as Dictionary<string, string>;
             if (globalVars == null)
             {
-                //TODO: echo error for bad type of global variables collection
-                return "";
+                // TODO: echo error for bad type of global variables collection
+                return string.Empty;
             }
             
             if (globalVars.ContainsKey(varname))
@@ -148,7 +134,7 @@ namespace IrcShark.Extensions.Scripting.Msl
             }
             else
             {
-                return "";
+                return string.Empty;
             }
         }
         
@@ -163,7 +149,7 @@ namespace IrcShark.Extensions.Scripting.Msl
             globalVars = ScriptContext.CurrentContext.Globals["msl.globalVariables"] as Dictionary<string, string>;
             if (globalVars == null)
             {
-                //TODO: echo error for bad type of global variables collection
+                // TODO: echo error for bad type of global variables collection
                 return;
             }
             
@@ -206,7 +192,7 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// Compiles the given msl script file to a Script instance.
         /// </summary>
         /// <param name="file">The file to compile.</param>
-        /// <returns>The compiled script.</returns 
+        /// <returns>The compiled script.</returns>
         public ScriptContainer Compile(System.IO.FileInfo file, string binPathes)
         {
             ScriptContainer result = new ScriptContainer(binPathes, file.Name);
@@ -235,6 +221,23 @@ namespace IrcShark.Extensions.Scripting.Msl
             result.ScriptDom = unit;
             result.Compile(name, this);
             return result;
+        }
+        
+        private Stack<string> GetActivePropertyStack()
+        {
+            Stack<string> propertyStack = null;
+            if (ScriptContext.CurrentContext.Globals.ContainsKey("msl.propertys"))
+            {
+                propertyStack = ScriptContext.CurrentContext.Globals["msl.propertys"] as Stack<string>;
+            }
+            
+            if (propertyStack == null)
+            {
+                propertyStack = new Stack<string>();
+                ScriptContext.CurrentContext.Globals.Add("msl.propertys", propertyStack);
+            }
+            
+            return propertyStack;            
         }
     }
 }

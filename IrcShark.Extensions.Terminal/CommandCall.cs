@@ -70,7 +70,7 @@ namespace IrcShark.Extensions.Terminal
                 {
                     if (c.Value[0] == '"')
                     {
-                        parameters[i] = escapeReplace.Replace(c.Value.Substring(1, c.Value.Length - (c.Value[c.Value.Length-1] == '"' ? 2 : 1)), "$1");
+                        parameters[i] = escapeReplace.Replace(c.Value.Substring(1, c.Value.Length - (c.Value[c.Value.Length - 1] == '"' ? 2 : 1)), "$1");
                     }
                     else
                     {

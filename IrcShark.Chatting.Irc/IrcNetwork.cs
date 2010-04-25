@@ -244,8 +244,7 @@ namespace IrcShark.Chatting.Irc
         {
             return new Enumerator(((IEnumerable<IrcServerEndPoint>)servers).GetEnumerator());
         }
-        
-        
+                
         class Enumerator : System.Collections.Generic.IEnumerator<IServer>
         {
             IEnumerator<IrcServerEndPoint> realEnum;
@@ -275,10 +274,9 @@ namespace IrcShark.Chatting.Irc
                 realEnum.Reset();
             }
             
-            object System.Collections.IEnumerator.Current {
-                get {
-                    return realEnum.Current;
-                }
+            object System.Collections.IEnumerator.Current
+            {
+                get { return realEnum.Current; }
             }
         }
         

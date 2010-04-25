@@ -56,6 +56,12 @@ namespace IrcShark.Extensions.Scripting
             get { return script; }
         }
         
+        public CodeCompileUnit ScriptDom
+        {
+            get { return scriptDom; }
+            set { scriptDom = value; }
+        }
+                
         public void Compile(IScriptEngine engine)
         {
             CompilerParameters comParams = new CompilerParameters();
@@ -70,18 +76,13 @@ namespace IrcShark.Extensions.Scripting
             {
                 throw new CompilationException(results.Errors);
             }
+            
             scriptAssembly = results.CompiledAssembly;
             Type scriptType = scriptAssembly.GetType("IrcShark.Extensions.Scripting.Msl.Scripts." + mainType);
             if (scriptType != null)
             {
-                script = scriptType.GetConstructor(new Type[] { typeof(IScriptEngine) } ).Invoke(new object[] { engine }) as Script;
+                script = scriptType.GetConstructor(new Type[] { typeof(IScriptEngine) }).Invoke(new object[] { engine }) as Script;
             }
-        }
-        
-        public CodeCompileUnit ScriptDom
-        {
-            get { return scriptDom; }
-            set { scriptDom = value; }
         }
         
         public void Execute(string name, string[] parameters)

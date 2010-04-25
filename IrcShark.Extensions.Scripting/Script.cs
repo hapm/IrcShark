@@ -31,12 +31,12 @@ namespace IrcShark.Extensions.Scripting
         /// <summary>
         /// Saves the engine, this script was compiled with.
         /// </summary>
-        IScriptEngine engine;
+        private IScriptEngine engine;
         
         /// <summary>
         /// Initializes a new instance of the Script class.
         /// </summary>
-        /// <param name="engine">the engine, this script was compiled with.</param>
+        /// <param name="engine">The engine, this script was compiled with.</param>
         public Script(IScriptEngine engine)
         {
             this.engine = engine;
@@ -59,8 +59,7 @@ namespace IrcShark.Extensions.Scripting
         {
             get { return this.GetType().Assembly; }
         }
-        
-        
+                
         /// <summary>
         /// Executes a method that is defined in the script.
         /// </summary>

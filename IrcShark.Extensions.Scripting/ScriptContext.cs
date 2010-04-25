@@ -148,6 +148,7 @@ namespace IrcShark.Extensions.Scripting
                     currentContext = null;
                 }
             }
+            
             disposed = true;
         }
     }

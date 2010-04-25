@@ -138,8 +138,7 @@ namespace IrcShark
         /// The StartupComplete event is fired when the system startup is complete and all extensions are running.
         /// </summary>
         public event StartupCompleteHandler StartupComplete;
-        
-        
+                
         /// <summary>
         /// Starts IrcShark.
         /// </summary>
@@ -172,7 +171,6 @@ namespace IrcShark
             extensions.Dispose();
             log.Dispose();
         }
-
         
         /// <summary>
         /// Disposes the IrcSharkApplication instance.

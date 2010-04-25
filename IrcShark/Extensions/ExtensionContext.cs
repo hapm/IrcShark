@@ -1,5 +1,4 @@
-﻿using System.IO;
-// <copyright file="ExtensionContext.cs" company="IrcShark Team">
+﻿// <copyright file="ExtensionContext.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -21,7 +20,8 @@
 namespace IrcShark.Extensions
 {
     using System;
-
+    using System.IO;
+    
     /// <summary>
     /// The ExtensionContext class saves informations about the context, the Extension is running in.
     /// </summary>
@@ -61,7 +61,7 @@ namespace IrcShark.Extensions
                 }
             }
             
-            if (this.settingPath== null)
+            if (this.settingPath == null)
             {
                 this.settingPath = Path.Combine(app.SettingsDirectorys.Default, info.Class);
                 Directory.CreateDirectory(this.settingPath);

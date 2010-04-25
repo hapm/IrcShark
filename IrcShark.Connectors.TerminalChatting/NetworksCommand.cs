@@ -21,9 +21,9 @@ namespace IrcShark.Connectors.TerminalChatting
 {
     using System;
     using System.Collections.Generic;
-    using IrcShark.Extensions.Terminal;
-    using IrcShark.Extensions.Chatting;
     using IrcShark.Chatting;
+    using IrcShark.Extensions.Chatting;
+    using IrcShark.Extensions.Terminal;
 
     /// <summary>
     /// Description of NetworksCommand.
@@ -55,6 +55,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 ListNetworks();
                 return;
             }
+            
             switch (paramList[0])
             {
                 case "-a":
@@ -72,7 +73,7 @@ namespace IrcShark.Connectors.TerminalChatting
         /// <summary>
         /// Autocompletes networknames on deletion of networks.
         /// </summary>
-        /// <param name="call">The current line</param>
+        /// <param name="call">The current line.</param>
         /// <param name="paramIndex">The parameter where the cursor stand on.</param>
         /// <returns></returns>
         public override string[] AutoComplete(CommandCall call, int paramIndex)
@@ -99,10 +100,13 @@ namespace IrcShark.Connectors.TerminalChatting
                             {
                                 return completitions.ToArray();
                             }
+                            
                             break;
                     }
+                    
                     break;
             }
+            
             return base.AutoComplete(call, paramIndex);
         }
         
@@ -144,6 +148,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 Terminal.WriteLine("Please specify a protocol to use.");
                 return;
             }
+            
             protocolName = paramList[1].ToUpper();
             
             if (paramList.Length != 3)
@@ -151,6 +156,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 Terminal.WriteLine("Please specify a network name.");
                 return;
             }
+            
             networkName = paramList[2];
             
             foreach (ProtocolExtension pro in con.Chatting.Protocols)
@@ -187,6 +193,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 Terminal.WriteLine("Please specify a network numbor or name.");
                 return;
             }
+            
             networkName = paramList[1];
             
             if (int.TryParse(networkName, out networkNr)) 
@@ -196,6 +203,7 @@ namespace IrcShark.Connectors.TerminalChatting
                     Terminal.WriteLine("There is no network with the number {0}, type network to get a list of configured networks.", networkNr);
                     return;
                 }
+                
                 toDelete = con.Chatting.Networks[networkNr - 1];
             }
             else
@@ -208,12 +216,14 @@ namespace IrcShark.Connectors.TerminalChatting
                         break;
                     }
                 }
+                
                 if (toDelete == null)
                 {
                     Terminal.WriteLine("There is no network with the name {0}, type network to get a list of configured networks.", networkName);
                     return;                    
                 }
             }
+            
             con.Chatting.Networks.Remove(toDelete);
             Terminal.WriteLine("The network {0} was successfully deleted.", toDelete.Name);
         }

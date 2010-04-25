@@ -20,13 +20,13 @@
 namespace IrcShark.Extensions.Scripting.MslTest
 {
     using System;
-    using System.CodeDom.Compiler;
     using System.CodeDom;
+    using System.CodeDom.Compiler;
     using System.IO;
     using System.Text;
     using IrcShark.Extensions.Scripting.Msl;
-    using NUnit.Framework;
     using Microsoft.CSharp;
+    using NUnit.Framework;
     
     [TestFixture]
     public class MslParserTest

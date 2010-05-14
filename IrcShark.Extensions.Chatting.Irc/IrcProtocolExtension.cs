@@ -31,6 +31,8 @@ namespace IrcShark.Extensions.Chatting.Irc
     /// protocol connections.
     /// </summary>
     [System.Runtime.InteropServices.Guid("1c0d853e-3e84-4451-a384-40a663669a9e")]
+    [DependsOn(new string[] { "85a0b0ad-6015-41e5-80aa-ccb6c0cad044" }, 
+               ClassNames = new string[] { "IrcShark.Extensions.Chatting.ChatManagerExtension" } )]
     public class IrcProtocolExtension : ProtocolExtension
     {
         /// <summary>

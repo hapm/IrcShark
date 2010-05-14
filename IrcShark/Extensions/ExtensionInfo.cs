@@ -62,7 +62,7 @@ namespace IrcShark.Extensions
         /// <summary>
         /// Saves a list of all dependency extensions.
         /// </summary>
-        private string[] dependencies;
+        private Dependency[] dependencies;
         
         /// <summary>
         /// Saves the assembly guid.
@@ -103,15 +103,37 @@ namespace IrcShark.Extensions
             classType = extType.FullName;
             assemblyGuid = extType.GUID;
             version = asm.GetName().Version;
+            List<Dependency> dependencies = new List<Dependency>();
             
-            /*foreach(Attribute atrb in extType.GetCustomAttributes(false))
+            if (asm.ReflectionOnly)
             {
-                ExtensionDependencyAttribute depAttr = atrb as ExtensionDependencyAttribute;
-                if (depAttr != null) 
+                foreach (CustomAttributeData data in CustomAttributeData.GetCustomAttributes(extType))
                 {
-                
+                    if (data.Constructor.ReflectedType.ToString().Equals("IrcShark.Extensions.DependsOnAttribute"))
+                    {
+                        ICollection<CustomAttributeTypedArgument> guidsArg = (ICollection<CustomAttributeTypedArgument>)data.ConstructorArguments[0].Value;
+                        //string[] guids = (string[])guidsArg.Value;
+                        foreach (CustomAttributeTypedArgument guid in guidsArg)
+                        {
+                            dependencies.Add(new Dependency(new Guid(guid.Value.ToString())));
+                        }
+                        
+                        this.dependencies = dependencies.ToArray();
+                        break;
+                    }
                 }
-            }*/
+            }
+            else 
+            {
+                foreach(Attribute atrb in extType.GetCustomAttributes(false))
+                {
+                    ExtensionDependencyAttribute depAttr = atrb as ExtensionDependencyAttribute;
+                    if (depAttr != null) 
+                    {
+                    
+                    }
+                }
+            }
             trusted = true;
         }
         
@@ -182,13 +204,13 @@ namespace IrcShark.Extensions
         /// Gets a list of all dependencies of this extension.
         /// </summary>
         /// <value>An array of all dependencies.</value>
-        public string[] Dependencies 
+        public Dependency[] Dependencies 
         {
             get 
             { 
                 if (dependencies != null)
                 {
-                    return (string[])dependencies.Clone();
+                    return (Dependency[])dependencies.Clone();
                 }
                 
                 return null;
@@ -367,7 +389,15 @@ namespace IrcShark.Extensions
                     this.author = author;
                     this.version = version;
                     this.classType = classType;
-                    this.dependencies = dependencies;
+                    if (dependencies != null)
+                    {
+                        this.dependencies = new Dependency[dependencies.Length];
+                        for (int i = 0; i < dependencies.Length; i++) 
+                        {
+                            this.dependencies[i] = new Dependency(new Guid(dependencies[i]));
+                        }
+                    }
+                    
                     return;
                 default:
                     reader.Read();
@@ -411,10 +441,10 @@ namespace IrcShark.Extensions
             {
                 if (dependencies.Length > 0) 
                 {
-                    writer.WriteStartAttribute("dependencies");
-                    foreach (string dep in dependencies) 
+                    writer.WriteStartElement("dependencies");
+                    foreach (Dependency dep in dependencies) 
                     {
-                        writer.WriteElementString("dependency", dep);
+                        writer.WriteElementString("dependency", dep.Guid.ToString());
                     }
                     
                     writer.WriteEndElement();

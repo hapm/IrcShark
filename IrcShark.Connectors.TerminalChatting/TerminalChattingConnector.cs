@@ -27,6 +27,8 @@ namespace IrcShark.Connectors.TerminalChatting
     /// <summary>
     /// The TerminalChattingConnector connects the TerminalExtension and the ChatManagerExtension.
     /// </summary>
+    [DependsOn(new string[] { "85a0b0ad-6015-41e5-80aa-ccb6c0cad044",              "50562fac-c166-4c0f-8ef4-6d8456add5d9" },
+               ClassNames = new string[] { "IrcShark.Extensions.Chatting.ChatManagerExtension", "IrcShark.Extensions.Terminal.TerminalExtension" })]
     [System.Runtime.InteropServices.Guid("c319eb31-313b-4770-824f-18d0110e3a37")]
     public class TerminalChattingConnector : Extension
     {

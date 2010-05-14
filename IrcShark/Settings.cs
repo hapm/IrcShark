@@ -60,6 +60,11 @@ namespace IrcShark
         private LogHandlerSettingCollection logSettings;
         
         /// <summary>
+        /// Saves a value indicating whether missing dependencies should be loaded automatically.
+        /// </summary>
+        private bool autoloadDependencies;
+        
+        /// <summary>
         /// Initializes a new instance of the Settings class.
         /// </summary>
         public Settings()

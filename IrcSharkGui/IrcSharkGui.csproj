@@ -7,6 +7,8 @@
     <RootNamespace>IrcSharkGui</RootNamespace>
     <AssemblyName>IrcSharkGui</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\markus\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <StartupObject>IrcSharkGui.Starter</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -31,5 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Starter.cs" />
   </ItemGroup>
 </Project>

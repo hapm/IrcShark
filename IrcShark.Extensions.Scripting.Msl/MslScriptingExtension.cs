@@ -27,6 +27,8 @@ namespace IrcShark.Extensions.Scripting.Msl
     /// <summary>
     /// Description of MslScriptingExtension.
     /// </summary>
+    [DependsOn(new string[] { "a004129f-4013-4b15-ba2e-ba0c063b5530" },
+               ClassNames = new string[] { "IrcShark.Extensions.Scripting.ScriptingExtension" })]
     [Guid("fc67bb8e-076e-4144-a436-3d44848d1258")]
     public class MslScriptingExtension : ScriptLanguageExtension
     {

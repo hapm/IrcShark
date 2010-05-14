@@ -264,24 +264,33 @@ namespace IrcShark
         /// <param name="ext">The ExtensionInfo for the extension to load.</param>
         public void Load(ExtensionInfo ext)
         {
-            if (IsLoaded(ext))
+            Queue<ExtensionInfo> loadQueue = BuildLoadingQueue(new ExtensionInfo[] { ext });
+            if (loadQueue.Count == 0)
             {
-                if (IsMarkedForUnload(ext))
-                {
-                    application.Settings.LoadedExtensions.Add(ext);
-                    extensions[ext].Start();
-                    OnStatusChanged(ext, ExtensionStates.Loaded);
-                }
-                
                 return;
             }
             
-            if (HiddenLoad(ext))
+            foreach (ExtensionInfo info in loadQueue)
             {
-                Application.Log.Log(new LogMessage(Logger.CoreChannel, 1009, LogLevel.Information, string.Format(Translation.Messages.Info1009_ExtensionLoaded, ext.Class)));
-                application.Settings.LoadedExtensions.Add(ext);
-                extensions[ext].Start();
-                OnStatusChanged(ext, ExtensionStates.Loaded);
+                if (IsLoaded(info))
+                {
+                    if (IsMarkedForUnload(info))
+                    {
+                        application.Settings.LoadedExtensions.Add(info);
+                        extensions[info].Start();
+                        OnStatusChanged(info, ExtensionStates.Loaded);
+                    }
+                    
+                    return;
+                }
+                
+                if (HiddenLoad(info))
+                {
+                    Application.Log.Log(new LogMessage(Logger.CoreChannel, 1009, LogLevel.Information, string.Format(Translation.Messages.Info1009_ExtensionLoaded, ext.Class)));
+                    application.Settings.LoadedExtensions.Add(info);
+                    extensions[info].Start();
+                    OnStatusChanged(info, ExtensionStates.Loaded);
+                }
             }
         }
 
@@ -324,7 +333,8 @@ namespace IrcShark
             unloaded = new List<ExtensionInfo>();
             unavailable = new List<ExtensionInfo>();
             unloaded.AddRange(AvailableExtensions);
-            foreach (ExtensionInfo info in application.Settings.LoadedExtensions)
+            Queue<ExtensionInfo> loadingOrder = BuildLoadingQueue(application.Settings.LoadedExtensions.ToArray());
+            foreach (ExtensionInfo info in loadingOrder)
             {
                 application.Log.Log(new LogMessage(Logger.CoreChannel, 1007, String.Format(Messages.Info1007_TryToLoad, info.Class, info.SourceFile, info.AssemblyGuid)));
                 foreach (ExtensionInfo realInfo in unloaded)
@@ -415,6 +425,85 @@ namespace IrcShark
             {
                 StatusChanged(this, new StatusChangedEventArgs(ext, newState));
             }
+        }
+        
+        /// <summary>
+        /// Builds a queue containing all loadable extensions in correct loading order.
+        /// </summary>
+        /// <param name="extensions">The list of extensions to load.</param>
+        /// <remarks>
+        /// If AutoloadDependencies is true, the queue will contain available not loaded extensions, too.
+        /// </remarks>
+        /// <returns>
+        /// The queue containing all loadable extensions in correct loading order.
+        /// </returns>
+        private Queue<ExtensionInfo> BuildLoadingQueue(ExtensionInfo[] extensions)
+        {
+            bool doneSomething = true;
+            bool missingDependency;
+            Queue<ExtensionInfo> loadingQueue = new Queue<ExtensionInfo>();
+            List<ExtensionInfo> extList = new List<ExtensionInfo>(extensions);
+            Dictionary<string, ExtensionInfo> queued = new Dictionary<string, ExtensionInfo>();
+            Dependency[] dependencies;
+            foreach (ExtensionInfo info in this.extensions.Keys)
+            {
+                if (!IsMarkedForUnload(info))
+                {
+                    queued.Add(info.AssemblyGuid.ToString(), info);
+                    // we remove already loaded extensions from the todo list.
+                    extList.Remove(info);
+                }
+            }
+            
+            while (extList.Count > 0 && doneSomething)
+            {
+                doneSomething = false;
+                foreach (ExtensionInfo info in extList)
+                {
+                    missingDependency = false;
+                    if (info.Dependencies != null && info.Dependencies.Length > 0)
+                    {
+                        foreach (Dependency dep in info.Dependencies)
+                        {
+                            if (!queued.ContainsKey(dep.Guid.ToString()))
+                            {
+                                missingDependency = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (missingDependency)
+                    {
+                        continue;
+                    }
+                    
+                    loadingQueue.Enqueue(info);
+                    queued.Add(info.AssemblyGuid.ToString(), info);
+                    extList.Remove(info);
+                    doneSomething = true;
+                    break;
+                }
+            }
+            
+            if (extList.Count > 0)
+            {
+                foreach (ExtensionInfo info in extList)
+                {
+                    dependencies = info.Dependencies;
+                    StringBuilder builder = new StringBuilder(dependencies[0].Guid.ToString());
+                    for (int i = 1; i < dependencies.Length; i++)
+                    {
+                        builder.Append(", ");
+                        builder.Append(dependencies[i].Guid);
+                    }
+                    
+                    //TODO give a correct error number and add i18n
+                    Application.Log.Error(Logger.CoreChannel, 100, "Couldn't load {0} because of missing dependencies: {1}", info.Class, builder.ToString());
+                }
+            }
+            
+            return loadingQueue;
         }
         
         /// <summary>

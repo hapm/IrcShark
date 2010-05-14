@@ -28,6 +28,8 @@ namespace IrcShark.Connectors.TerminalIrc
     /// <summary>
     /// Description of TerminalChattingIrcConnector.
     /// </summary>
+    [DependsOn(new string[] { "50562fac-c166-4c0f-8ef4-6d8456add5d9",           "85a0b0ad-6015-41e5-80aa-ccb6c0cad044"}, 
+               ClassNames = new string[] { "IrcShark.Extensions.Terminal.TerminalExtension", "IrcShark.Extensions.Chatting.ChatManagerExtension" })]
     [GuidAttribute("18c85c99-28f7-49c6-9f1a-f6ab4274d0fe")]
     public class TerminalChattingIrcConnector : Extension
     { 

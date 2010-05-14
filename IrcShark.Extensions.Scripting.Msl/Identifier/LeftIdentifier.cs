@@ -17,10 +17,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
 namespace IrcShark.Extensions.Scripting.Msl.Identifier
 {
+    using System;
+    
     /// <summary>
     /// Description of LeftIdentifier.
     /// </summary>
@@ -34,7 +35,7 @@ namespace IrcShark.Extensions.Scripting.Msl.Identifier
         {
             if (c.Parameters == null)
             {
-                return "";
+                return string.Empty;
             }
             
             if (c.Parameters.Length > 2)
@@ -52,7 +53,7 @@ namespace IrcShark.Extensions.Scripting.Msl.Identifier
             int.TryParse(c.Parameters[1], out left);
             if (left == 0)
             {
-                return "";
+                return string.Empty;
             }
             
             if (left > text.Length)
@@ -67,7 +68,7 @@ namespace IrcShark.Extensions.Scripting.Msl.Identifier
             
             if (left < 0)
             {
-                return "";
+                return string.Empty;
             }
             
             return text.Substring(0, left);

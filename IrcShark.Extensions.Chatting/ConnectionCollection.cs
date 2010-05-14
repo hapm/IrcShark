@@ -34,6 +34,14 @@ namespace IrcShark.Extensions.Chatting
         private List<IConnection> connections;
         
         /// <summary>
+        /// Initializes a new instance of the ConnectionCollection class.
+        /// </summary>
+        public ConnectionCollection()
+        {
+            connections = new List<IConnection>();
+        }
+                        
+        /// <summary>
         /// This event is fired when a new connection was added.
         /// </summary>
         public event ConnectionEventHandler AddedConnection;
@@ -42,23 +50,6 @@ namespace IrcShark.Extensions.Chatting
         /// This event is fired when a connection was removed.
         /// </summary>
         public event ConnectionEventHandler RemovedConnection;
-        
-        /// <summary>
-        /// Initializes a new instance of the ConnectionCollection class.
-        /// </summary>
-        public ConnectionCollection()
-        {
-            connections = new List<IConnection>();
-        }
-        
-        /// <summary>
-        /// Gets the connection at the given index.
-        /// </summary>
-        /// <value>The connection instance.</value>
-        public IConnection this[int index]
-        {
-            get { return connections[index]; }
-        }
         
         /// <summary>
         /// Gets the number of connections in this collection.
@@ -78,6 +69,15 @@ namespace IrcShark.Extensions.Chatting
         public bool IsReadOnly 
         {
             get { return false; }
+        }
+        
+        /// <summary>
+        /// Gets the connection at the given index.
+        /// </summary>
+        /// <value>The connection instance.</value>
+        public IConnection this[int index]
+        {
+            get { return connections[index]; }
         }
         
         /// <summary>

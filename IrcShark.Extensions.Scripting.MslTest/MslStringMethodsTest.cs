@@ -20,9 +20,9 @@
 namespace IrcShark.Extensions.Scripting.MslTest
 {
     using System;
-    using NUnit.Framework;
     using IrcShark.Extensions.Scripting.Msl;
-
+    using NUnit.Framework;
+    
     /// <summary>
     /// Test for MslStringMethods class.
     /// </summary>

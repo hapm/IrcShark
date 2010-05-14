@@ -39,9 +39,14 @@ namespace IrcShark.Extensions.Scripting
         
         private ScriptCompilerHelper helper;
         
-        private string MainType
+        public ScriptContainer(string binPathes, string name)
         {
-            get { return helper.MainType; }
+            AppDomainSetup setup = new AppDomainSetup();
+            setup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+            setup.PrivateBinPath = binPathes;
+            scriptDomain = AppDomain.CreateDomain("script", null, setup);
+            Type helperType = typeof(ScriptCompilerHelper);
+            helper = scriptDomain.CreateInstanceAndUnwrap(helperType.Assembly.FullName, helperType.FullName) as ScriptCompilerHelper;
         }
         
         public CodeCompileUnit ScriptDom
@@ -55,14 +60,9 @@ namespace IrcShark.Extensions.Scripting
             get { return helper.Instance; }
         }
         
-        public ScriptContainer(string binPathes, string name)
+        private string MainType
         {
-            AppDomainSetup setup = new AppDomainSetup();
-            setup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
-            setup.PrivateBinPath = binPathes;
-            scriptDomain = AppDomain.CreateDomain("script", null, setup);
-            Type helperType = typeof(ScriptCompilerHelper);
-            helper = scriptDomain.CreateInstanceAndUnwrap(helperType.Assembly.FullName, helperType.FullName) as ScriptCompilerHelper;
+            get { return helper.MainType; }
         }
         
         public void Compile(string mainType, IScriptEngine engine)
@@ -72,8 +72,7 @@ namespace IrcShark.Extensions.Scripting
         }
         
         public void Execute()
-        {
-            
+        {  
         }
         
         public void Unload()

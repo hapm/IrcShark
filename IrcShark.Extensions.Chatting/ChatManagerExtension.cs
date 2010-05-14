@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Xml.Serialization;
-
-// <copyright file="ChatManagerExtension.cs" company="IrcShark Team">
+﻿// <copyright file="ChatManagerExtension.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -24,7 +21,9 @@ namespace IrcShark.Extensions.Chatting
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Runtime.InteropServices;
+    using System.Xml.Serialization;
     
     using IrcShark.Chatting;
     using IrcShark.Extensions;
@@ -240,6 +239,7 @@ namespace IrcShark.Extensions.Chatting
                     unloadedNetworks.Add(setting);
                 }
             }
+            
             reader.Close();
         }
 

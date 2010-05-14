@@ -102,7 +102,7 @@ namespace IrcShark.Chatting
         /// <summary>
         /// Gets the old status of the object.
         /// </summary>
-        /// <value>the old status or ConnectionStatus.Unknown if there was no status specified.</value>
+        /// <value>The old status or ConnectionStatus.Unknown if there was no status specified.</value>
         public ConnectionStatus OldStatus
         {
             get { return oldStatus; }

@@ -33,9 +33,10 @@ namespace IrcShark.Connectors.TerminalScripting
     [Guid("bccdf064-5d63-4907-866e-14449e7b3949")]
     public class TerminalScriptingConnector : Extension
     {
-        private delegate void EchoDelegate(string[] line);
         private ScriptingExtension scripting;
         private TerminalExtension terminal;
+        
+        private delegate void EchoDelegate(string[] line);
         
         public TerminalScriptingConnector(ExtensionContext context) : base(context)
         {

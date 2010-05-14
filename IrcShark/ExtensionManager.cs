@@ -255,6 +255,7 @@ namespace IrcShark
                     return true;
                 }
             }
+            
             return false;
         }
 

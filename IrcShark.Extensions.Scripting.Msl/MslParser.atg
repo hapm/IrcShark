@@ -21,7 +21,7 @@ CHARACTERS
     special = "(){}[],:=!$/\"%".
     inwordspecial = "():,".
     inwordnonspecial = special - inwordspecial.
-	other = ANY - letter - digit - cr - lf - space - tab - special.
+    other = ANY - letter - digit - cr - lf - space - tab - special.
   
 
 TOKENS
@@ -59,7 +59,7 @@ AliasDecl<out CodeMemberMethod method> (. method = SetupAlias();
                                           List<string> localVariables = new List<string>();
                                           string name;
                                         .)
-=	"alias" sp
+=    "alias" sp
     [   "-l" sp                         (. method.Attributes = MemberAttributes.Private | MemberAttributes.Final; .)
     ] 
     AliasName<out name>                 (. method.Name = "Alias" + name; .)
@@ -69,12 +69,12 @@ AliasDecl<out CodeMemberMethod method> (. method = SetupAlias();
 . 
 
 AliasName<out string name> (. StringBuilder result = new StringBuilder(); .)
-=	(	number             (. result.Append(t.val); .)
-	|	word               (. result.Append(t.val); .)
-	)
-	{	number             (. result.Append(t.val); .)
-	|	word               (. result.Append(t.val); .)
-	}                      (. name = result.ToString(); .)
+=    (    number             (. result.Append(t.val); .)
+    |    word               (. result.Append(t.val); .)
+    )
+    {    number             (. result.Append(t.val); .)
+    |    word               (. result.Append(t.val); .)
+    }                      (. name = result.ToString(); .)
 .
 
 Command<CodeStatementCollection stmts, ParserState state>   (. CodeStatement temp = null; .)

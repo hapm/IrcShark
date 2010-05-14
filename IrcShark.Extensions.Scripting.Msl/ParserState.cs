@@ -21,23 +21,37 @@ namespace IrcShark.Extensions.Scripting.Msl
 {
     using System;
     using System.Collections.Generic;
+    
     /// <summary>
     /// Description of ParserState.
     /// </summary>
     public class ParserState : IEquatable<ParserState>
     {
+        public static bool operator ==(ParserState left, ParserState right)
+        {
+            return left.Equals(right);
+        }
+        
+        public static bool operator !=(ParserState left, ParserState right)
+        {
+            return !left.Equals(right);
+        }
+        
         public List<string> localVarNames = new List<string>();
         
         #region Equals and GetHashCode implementation
         // The code in this region is useful if you want to use this structure in collections.
         // If you don't need it, you can just remove the region and the ": IEquatable<ParserState>" declaration.
-        
         public override bool Equals(object obj)
         {
             if (obj is ParserState)
+            {
                 return Equals((ParserState)obj); // use Equals method below
+            }
             else
+            {
                 return false;
+            }
         }
         
         public bool Equals(ParserState other)
@@ -50,16 +64,6 @@ namespace IrcShark.Extensions.Scripting.Msl
         {
             // combine the hash codes of all members here (e.g. with XOR operator ^)
             return localVarNames.GetHashCode();
-        }
-        
-        public static bool operator ==(ParserState left, ParserState right)
-        {
-            return left.Equals(right);
-        }
-        
-        public static bool operator !=(ParserState left, ParserState right)
-        {
-            return !left.Equals(right);
         }
         #endregion
     }

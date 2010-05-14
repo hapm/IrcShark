@@ -24,7 +24,6 @@ namespace IrcShark.Extensions.Scripting
     using System.Runtime.InteropServices;
     using IrcShark.Extensions;
     
-
     /// <summary>
     /// Description of MyClass.
     /// </summary>

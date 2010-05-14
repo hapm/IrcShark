@@ -68,7 +68,7 @@ namespace IrcShark.Connectors.TerminalIrc
                 return;
             }
             
-            connection = con.Chatting.Connections[connectNr-1] as IrcConnection;
+            connection = con.Chatting.Connections[connectNr - 1] as IrcConnection;
             if (connection == null)
             {
                 con.Terminal.WriteLine("The given connection is no irc connection");

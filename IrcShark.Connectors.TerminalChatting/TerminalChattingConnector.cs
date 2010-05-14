@@ -43,12 +43,11 @@ namespace IrcShark.Connectors.TerminalChatting
         private TerminalExtension terminal;
         
         /// <summary>
-        /// Initializes a new instance of the TerminalChattingExtension.
+        /// Initializes a new instance of the TerminalChattingExtension class.
         /// </summary>
         /// <param name="context">The context the connector runs in.</param>
         public TerminalChattingConnector(ExtensionContext context) : base(context)
         {
-            
         }
         
         /// <summary>

@@ -20,9 +20,9 @@
 namespace IrcShark
 {
     using System;
-    using System.Text;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Text;
     using System.Xml;
     using System.Xml.Schema;
     using System.Xml.Serialization;
@@ -106,8 +106,10 @@ namespace IrcShark
                     {
                         dirs.Append(";");
                     }
+                    
                     dirs.Append(dir);
                 }
+                
                 return dirs.ToString();
             }
         }

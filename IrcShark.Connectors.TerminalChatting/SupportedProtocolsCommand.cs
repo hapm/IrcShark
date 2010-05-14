@@ -21,8 +21,8 @@ namespace IrcShark.Connectors.TerminalChatting
 {
     using System;
     using System.Text;
-    using IrcShark.Extensions.Terminal;
     using IrcShark.Extensions.Chatting;
+    using IrcShark.Extensions.Terminal;
 
     /// <summary>
     /// Allows to display all currently installed chat protocols in the terminal.
@@ -57,6 +57,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 Terminal.WriteLine(Translation.Messages.ListingInstalledProtocolsHelp);
                 return;
             }
+            
             StringBuilder line = null;
             Terminal.WriteLine(Translation.Messages.ListingInstalledProtocols);
             foreach (ProtocolExtension protocol in con.Chatting.Protocols)

@@ -98,7 +98,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 }
                 else
                 {
-                    network = con.Chatting.Networks[networkNr-1];
+                    network = con.Chatting.Networks[networkNr - 1];
                 }
             }
             else
@@ -117,6 +117,7 @@ namespace IrcShark.Connectors.TerminalChatting
                     Terminal.WriteLine(string.Format("There is no network with the name '{0}'.", ident));
                 }
             }
+            
             return network;
         }
         
@@ -138,7 +139,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 }
                 else
                 {
-                    server = network[serverNr-1];
+                    server = network[serverNr - 1];
                 }
             }
             else
@@ -157,11 +158,12 @@ namespace IrcShark.Connectors.TerminalChatting
                     Terminal.WriteLine(string.Format("There is no server with the name '{0}' in the network '{1}'.", ident, network.Name));
                 }
             }
+            
             return server;            
         }
         
         /// <summary>
-        /// Shows a list of servers for a given network
+        /// Shows a list of servers for a given network.
         /// </summary>
         /// <param name="paramList">The list of parameters for this command.</param>
         private void ListServers(string[] paramList)
@@ -188,7 +190,7 @@ namespace IrcShark.Connectors.TerminalChatting
             for (int i = 0; i < network.ServerCount; i++)
             {
                 IServer server = network[i];
-                Terminal.WriteLine("{0}. {1} ({2})", i+1, server.Name, server.Address);
+                Terminal.WriteLine("{0}. {1} ({2})", i + 1, server.Name, server.Address);
             }
         }
         
@@ -232,6 +234,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 Terminal.WriteLine("Couldn't add the server: {0}", ex.Message);
                 return;
             }
+            
             Terminal.WriteLine("Server '{0}' was successfully added to network '{1}'.", paramList[2], network.Name);
         }
         

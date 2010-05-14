@@ -346,7 +346,11 @@ namespace IrcShark.Chatting.Irc
         /// <value>The nickname as a string.</value>
         public string CurrentNickname
         {
-            get { return currentNickname; }
+            get
+            {
+                return currentNickname;
+            }
+            
             set
             {
                 if (Connected)
@@ -682,7 +686,7 @@ namespace IrcShark.Chatting.Irc
                         break;
                         
                     case 376: // End of MOTD message
-                        //OnOnLogin();                        
+                        // OnOnLogin();                        
                         break;
                 }
             }
@@ -797,7 +801,8 @@ namespace IrcShark.Chatting.Irc
         protected virtual void OnOnLogin()
         {
             loggedIn = true;
-            if (OnLogin != null) {
+            if (OnLogin != null)
+            {
                 OnLogin(this, new LoginEventArgs(Network, CurrentNickname, this));
             }
         }
@@ -807,7 +812,8 @@ namespace IrcShark.Chatting.Irc
         /// </summary>
         protected virtual bool OnOnConnect()
         {
-            if (OnConnect != null) {
+            if (OnConnect != null)
+            {
                 ConnectEventArgs args = new ConnectEventArgs(this);
                 OnConnect(this, args);
                 return args.Handled;
@@ -823,7 +829,8 @@ namespace IrcShark.Chatting.Irc
         protected virtual void OnLineReceived(IrcLine line)
         {
             KickReceivedEventArgs kickArgs = new KickReceivedEventArgs(line);
-            if (KickReceived != null) {
+            if (KickReceived != null)
+            {
                 KickReceived(this, kickArgs);
             }
         }

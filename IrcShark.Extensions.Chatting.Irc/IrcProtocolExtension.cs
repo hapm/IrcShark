@@ -1,4 +1,4 @@
-﻿// <copyright file="${FILENAME}" company="IrcShark Team">
+﻿// <copyright file="IrcProtocolExtension.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -17,6 +17,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace IrcShark.Extensions.Chatting.Irc
 {
     using System;
@@ -36,14 +37,14 @@ namespace IrcShark.Extensions.Chatting.Irc
     public class IrcProtocolExtension : ProtocolExtension
     {
         /// <summary>
-        /// Saves the regular expression to parse an irc address.
-        /// </summary>
-        private static Regex ircAddressRegex = new Regex(@"^(?:irc://)?([^:/]+)(?::([\d]+))?/?");
-        
-        /// <summary>
         /// Saves the log channel identifier of the IrcProtocolExtension.
         /// </summary>
         private const string LogChannel = "IRC";
+        
+        /// <summary>
+        /// Saves the regular expression to parse an irc address.
+        /// </summary>
+        private static Regex ircAddressRegex = new Regex(@"^(?:irc://)?([^:/]+)(?::([\d]+))?/?");
         
         /// <summary>
         /// Saves the IrcProtocol instance.
@@ -74,7 +75,7 @@ namespace IrcShark.Extensions.Chatting.Irc
         }
         
         /// <summary>
-        /// Starts the IrcProtocolExtension
+        /// Starts the IrcProtocolExtension.
         /// </summary>
         /// <remarks>
         /// The extension registers the irc protocol with the ChatManagerExtension.
@@ -98,6 +99,7 @@ namespace IrcShark.Extensions.Chatting.Irc
                 Context.Application.Log.Log(new LogMessage("IRC", 1234, LogLevel.Error, "ChatManagerExtension has the wrong version!"));
                 return;
             }
+            
             extension.RegisterProtocol(this);
         }
 
@@ -106,7 +108,6 @@ namespace IrcShark.Extensions.Chatting.Irc
         /// </summary>
         public override void Stop()
         {
-            
         }
         
         /// <summary>
@@ -164,8 +165,10 @@ namespace IrcShark.Extensions.Chatting.Irc
                 {
                     servSet.Parameters.Add("Password", server.Password);
                 }
+                
                 settings.Servers.Add(servSet);
             }
+            
             return settings;
         }
     }

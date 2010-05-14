@@ -17,26 +17,26 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
 namespace IrcShark.Extensions.Scripting
 {
+    using System;
+    
     /// <summary>
     /// The Buffer class describes a buffer to get characters from.
     /// </summary>
     public abstract class Buffer
     {
-        
         public const int EOF = char.MaxValue + 1;
-    
-        protected abstract void Close();
+        
+        public abstract int Pos { get; set; }
     
         public abstract int Read();
     
         public abstract int Peek();
     
         public abstract string GetString(int beg, int end);
-    
-        public abstract int Pos { get; set; }
+        
+        protected abstract void Close();
     }
 }

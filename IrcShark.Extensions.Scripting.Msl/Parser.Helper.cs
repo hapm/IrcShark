@@ -46,16 +46,19 @@ namespace IrcShark.Extensions.Scripting.Msl
         /// </summary>
         private string scriptName;
         
-        private int usedBufferCount = 0;
-        
-        private int bufferCount = 0;
-        
+        /// <summary>
+        /// Gets or sets the name of the script.
+        /// </summary>
+        /// <value>The name of the script.</value>
         public string ScriptName
         {
             get { return scriptName; }
             set { scriptName = value; }
         }
         
+        /// <summary>
+        /// Creates the outer structure of the script compilation file.
+        /// </summary>
         public void SetupScript()
         {
             if (scriptName == null)
@@ -72,6 +75,9 @@ namespace IrcShark.Extensions.Scripting.Msl
             SetupScriptClass();
         }
         
+        /// <summary>
+        /// Creates the script class.
+        /// </summary>
         public void SetupScriptClass()
         {
             script = new CodeTypeDeclaration(scriptName);
@@ -87,12 +93,20 @@ namespace IrcShark.Extensions.Scripting.Msl
             nm.Types.Add(script);
         }
         
+        /// <summary>
+        /// Creates an if statement.
+        /// </summary>
+        /// <returns>The created if statement.</returns>
         public CodeConditionStatement SetupIfStatement()
         {
             CodeConditionStatement ifStmt = new CodeConditionStatement();
             return ifStmt;
         }
         
+        /// <summary>
+        /// Creates a while statement.
+        /// </summary>
+        /// <returns>The created while statement.</returns>
         public CodeIterationStatement SetupWhileStatement()
         {
             CodeIterationStatement whileStmt = new CodeIterationStatement();
@@ -101,7 +115,6 @@ namespace IrcShark.Extensions.Scripting.Msl
         
         public CodeMemberMethod SetupAlias()
         {
-            ClearBuffers();
             CodeMemberMethod method = new CodeMemberMethod();
             CodeParameterDeclarationExpression param = new CodeParameterDeclarationExpression(typeof(string[]), "parameter");
             method.Attributes = MemberAttributes.Public | MemberAttributes.Final;
@@ -126,43 +139,6 @@ namespace IrcShark.Extensions.Scripting.Msl
             return invoke;
         }
         
-        public CodeStatement GetBuffer()
-        {
-            CodeObjectCreateExpression newStringBuilder = new CodeObjectCreateExpression(typeof(StringBuilder));
-            usedBufferCount++;
-            string bufferName = "buffer" + usedBufferCount;
-            if (usedBufferCount <= bufferCount)
-            {
-                CodeVariableReferenceExpression buffer = new CodeVariableReferenceExpression(bufferName);
-                CodeAssignStatement clearBuffer = new CodeAssignStatement(buffer, newStringBuilder);
-                return clearBuffer;
-            }
-            else
-            {
-                bufferCount++;
-                CodeVariableDeclarationStatement newBuffer = new CodeVariableDeclarationStatement(typeof(StringBuilder), bufferName, newStringBuilder);
-                return newBuffer;
-            }
-        }
-        
-        public CodeStatement ReleaseBuffer()
-        {
-            string bufferName = "buffer" + usedBufferCount;
-            CodeMethodInvokeExpression bufferToString = new CodeMethodInvokeExpression(
-                new CodeMethodReferenceExpression(
-                    new CodeVariableReferenceExpression(bufferName), "ToString"));
-            CodeAssignStatement setValue = new CodeAssignStatement(new CodeVariableReferenceExpression("buffer"), bufferToString);
-            usedBufferCount--;
-            return setValue;
-        }
-        
-        public CodeExpression AppendBuffer(CodeExpression expr)
-        {
-            string bufferName = "buffer" + usedBufferCount;
-            CodeMethodInvokeExpression append = new CodeMethodInvokeExpression(new CodeVariableReferenceExpression(bufferName), "Append", expr);
-            return append;
-        }
-        
         public CodeStatement PushText()
         {
             CodeMethodInvokeExpression push = new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodeVariableReferenceExpression("textStack"), "Push"), new CodeVariableReferenceExpression("buffer"));
@@ -173,12 +149,6 @@ namespace IrcShark.Extensions.Scripting.Msl
         {
             CodeAssignStatement pop = new CodeAssignStatement(new CodeVariableReferenceExpression("buffer"), new CodeMethodReferenceExpression(new CodeVariableReferenceExpression("textStack"), "Pop"));
             return pop;
-        }
-        
-        public void ClearBuffers()
-        {
-            usedBufferCount = 0;
-            bufferCount = 0;
         }
         
         public CodeExpression BooleanEvaluation(CodeExpression expr)
@@ -256,6 +226,13 @@ namespace IrcShark.Extensions.Scripting.Msl
                 
                 return declare;
             }
+        }
+        
+        public CodeStatement SetGlobalVariable(string varname, CodeExpression varValue, ParserState state)
+        {
+            CodeExpressionStatement setVar;
+            setVar = new CodeExpressionStatement(new CodeMethodInvokeExpression(new CodeThisReferenceExpression(), "SetGlobalVariableValue", new CodePrimitiveExpression(varname), varValue));
+            return setVar;
         }
         
         public CodeExpression GetVariableValue(string varname, ParserState state)

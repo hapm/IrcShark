@@ -69,7 +69,7 @@ AliasDecl<out CodeMemberMethod method> (. method = SetupAlias();
 . 
 
 AliasName<out string name> (. StringBuilder result = new StringBuilder(); .)
-=    (    number             (. result.Append(t.val); .)
+=   (    number             (. result.Append(t.val); .)
     |    word               (. result.Append(t.val); .)
     )
     {    number             (. result.Append(t.val); .)
@@ -106,8 +106,8 @@ LocalVarDecl<CodeStatementCollection stmts, ParserState state> (. string varname
         |                                                      (. currentSpace1 = ""; .)
         )
         {   ","
-            (   sp                                             (. currentSpace1 = t.val; .)
-            |                                                  (. currentSpace1 = ""; .)
+            (   sp                                             (. currentSpace2 = t.val; .)
+            |                                                  (. currentSpace2 = ""; .)
             )
             (   IF(la.kind != _varname)
                 ExpressionParameter<out tmp, state>            (. expr = new CodeBinaryOperatorExpression(expr, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace1 + "," + currentSpace2));
@@ -118,6 +118,36 @@ LocalVarDecl<CodeStatementCollection stmts, ParserState state> (. string varname
         }
     }
 .
+
+GlobalVarDecl<CodeStatementCollection stmts, ParserState state> (. string varname; 
+                                                                   CodeExpression expr = null;
+                                                                   CodeExpression tmp = null;
+                                                                   string currentSpace1 = "";
+                                                                   string currentSpace2 = "";
+                                                                 .)
+=   "set" sp 
+    {
+        varname                                                (. varname = t.val; .)
+        sp
+        [   [ "=" sp ] ExpressionParameter<out tmp, state>     (. expr = tmp; .)
+        ]
+        (   sp                                                 (. currentSpace1 = t.val; .)
+        |                                                      (. currentSpace1 = ""; .)
+        )
+        {   ","
+            (   sp                                             (. currentSpace1 = t.val; .)
+            |                                                  (. currentSpace1 = ""; .)
+            )
+            (   IF(la.kind != _varname)
+                ExpressionParameter<out tmp, state>            (. expr = new CodeBinaryOperatorExpression(expr, CodeBinaryOperatorType.Add, new CodePrimitiveExpression(currentSpace1 + "," + currentSpace2));
+                                                                  expr = new CodeBinaryOperatorExpression(expr, CodeBinaryOperatorType.Add, tmp);
+                                                                .)
+            |                                                  (. stmts.Add(SetGlobalVariable(varname, expr, state)); .)
+            )
+        }
+    }
+.
+                                                                    
 
 WhileClause<out CodeStatement result, ParserState state>                 (. CodeIterationStatement whileStmt = SetupWhileStatement(); 
                                                          CodeExpression boolExp;

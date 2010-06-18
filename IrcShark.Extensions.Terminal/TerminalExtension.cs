@@ -179,6 +179,9 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         public override void Start()
         {
+            // Set  encoding to the system ANSII codepage for special characters
+            Console.InputEncoding = Encoding.Default;
+            
             AddDefaultCommands();
             
             // disable the default console logger and replace it with the TerminalLogger
@@ -262,8 +265,8 @@ namespace IrcShark.Extensions.Terminal
                 {
                     continue;
                 }
-                
                 ConsoleKeyInfo key = Console.ReadKey(true);
+                
                 autoCompleteUpToDate = autoCompleteUpToDate && key.Key == ConsoleKey.Tab;
                 switch (key.Key)
                 {
@@ -404,16 +407,6 @@ namespace IrcShark.Extensions.Terminal
                             
                            break;
                                   
-                    case ConsoleKey.Oem1:
-                    case ConsoleKey.Oem3:
-                    case ConsoleKey.Oem4:
-                    case ConsoleKey.Oem5:
-                    case ConsoleKey.Oem6:
-                    case ConsoleKey.Oem7:
-                    case ConsoleKey.Oem8:
-                        line.Append((char)key.Key);
-                        Console.Write((char)key.Key);
-                        break;
                     default:
                         line.Append(key.KeyChar);
                         Console.Write(key.KeyChar);

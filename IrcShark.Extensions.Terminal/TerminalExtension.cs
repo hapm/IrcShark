@@ -34,11 +34,17 @@ namespace IrcShark.Extensions.Terminal
     /// </summary>
     [GuidAttribute("50562fac-c166-4c0f-8ef4-6d8456add5d9")]
     public class TerminalExtension : IrcShark.Extensions.Extension
-    {
+    {        
+        
         /// <summary>
         /// Persistent LineEditor instance for our hisory and autocomplet function
         /// </summary>
         private LineEditor CommandLineEditor = new LineEditor(null);
+        
+        /// <summary>
+        /// Saves a list of all commands added to the terminal.
+        /// </summary>
+        public List<string> AutoCompleteList = new List<string>();
         
         /// <summary>
         /// The log channel for the TerminalExtension.
@@ -139,7 +145,7 @@ namespace IrcShark.Extensions.Terminal
             commands = new List<TerminalCommand>();
             cmdHistory = new LinkedList<string>();
             newLine = false;
-            inputPrefix = "--> ";
+            inputPrefix = "shell> ";
         }
         
         /// <summary>
@@ -169,7 +175,7 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="call">The CommandCall to execute.</param>
         public void ExecuteCommand(CommandCall call)
         {
-            foreach (TerminalCommand cmd in commands)
+            foreach (TerminalCommand cmd in Commands)
             {
                 if (cmd.CommandName == call.CommandName)
                 {
@@ -186,13 +192,15 @@ namespace IrcShark.Extensions.Terminal
         {
             // Set  encoding to the system ANSI codepage for special characters
             Console.InputEncoding = Encoding.Default;
-            //CommandHistoy = new LineEditor(null)
-            
             AddDefaultCommands();
             
             // disable the default console logger and replace it with the TerminalLogger
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
             Context.Application.Log.LoggedMessage += TerminalLogger;
+            
+            // Register the AutoCompleteEvent
+            CommandLineEditor.AutoCompleteEvent += new LineEditor.AutoCompleteHandler(AutoCompleteCommand);
+            
             Console.ResetColor();
             Console.Title = "IrcShark Terminal";
             foregroundColor = Console.ForegroundColor;
@@ -201,11 +209,55 @@ namespace IrcShark.Extensions.Terminal
             WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
             WriteLine("*******************************************************************************");
             WriteLine();
-                        
+                      
+            
+            //CommandLineEditor.TabAtStartCompletes = true;
+            
             // unregister the default console logger as of incompatibility;
             readerThread = new Thread(new ThreadStart(this.Run));
             running = true;
             readerThread.Start();
+        }
+
+
+        public LineEditor.Completion AutoCompleteCommand(string text, int position)
+        {
+            FillAutoCompletList();
+            string token = null;
+
+            for (int i = position - 1; i >= 0; i--)
+            {
+                if (Char.IsWhiteSpace(text[i]))
+                {
+                    token = text.Substring(i + 1, position - i - 1);
+                    break;
+                }
+                else if (i == 0)
+                {
+                    token = text.Substring(0, position);
+                }  
+            }
+
+            List<string> results = new List<string>();
+
+            if (token == null)
+            {
+                token = string.Empty;
+                results.AddRange(AutoCompleteList);
+            }
+            else
+            {
+                for (int i = 0; i < AutoCompleteList.Count; i++)
+                {
+                    if (AutoCompleteList[i].StartsWith(token))
+                    {
+                        string result = AutoCompleteList[i];
+                        results.Add(result.Substring(token.Length, result.Length - token.Length));
+                    }
+                }
+            }
+            
+            return new LineEditor.Completion(token, results.ToArray());
         }
 
         /// <summary>
@@ -266,6 +318,7 @@ namespace IrcShark.Extensions.Terminal
             while (running) 
             {
                 Thread.Sleep(10);
+                
                 string command = CommandLineEditor.Edit (inputPrefix, "");
                 
                 if (string.IsNullOrEmpty(command))
@@ -286,6 +339,7 @@ namespace IrcShark.Extensions.Terminal
             
             return null;
         }
+
         
         /// <summary>
         /// Writes text to the terminal.
@@ -403,6 +457,15 @@ namespace IrcShark.Extensions.Terminal
             commands.Add(new LogCommand(this));
             commands.Add(new HelpCommand(this));
             commands.Add(new VersionCommand(this));
+        }
+        
+        private void FillAutoCompletList()
+        {
+            AutoCompleteList.Clear();
+            foreach (TerminalCommand cmd in Commands)
+            {
+                AutoCompleteList.Add(cmd.CommandName);
+            }
         }
         
         /// <summary>

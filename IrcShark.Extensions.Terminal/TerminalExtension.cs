@@ -36,6 +36,11 @@ namespace IrcShark.Extensions.Terminal
     public class TerminalExtension : IrcShark.Extensions.Extension
     {
         /// <summary>
+        /// Persistent LineEditor instance for our hisory and autocomplet function
+        /// </summary>
+        private LineEditor CommandLineEditor = new LineEditor(null);
+        
+        /// <summary>
         /// The log channel for the TerminalExtension.
         /// </summary>
         public const string LogChannel = "terminal";
@@ -134,7 +139,7 @@ namespace IrcShark.Extensions.Terminal
             commands = new List<TerminalCommand>();
             cmdHistory = new LinkedList<string>();
             newLine = false;
-            inputPrefix = "-> ";
+            inputPrefix = "--> ";
         }
         
         /// <summary>
@@ -179,8 +184,9 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         public override void Start()
         {
-            // Set  encoding to the system ANSII codepage for special characters
+            // Set  encoding to the system ANSI codepage for special characters
             Console.InputEncoding = Encoding.Default;
+            //CommandHistoy = new LineEditor(null)
             
             AddDefaultCommands();
             
@@ -257,160 +263,24 @@ namespace IrcShark.Extensions.Terminal
         /// <returns>The command line that was read form the terminal.</returns>
         public CommandCall ReadCommand() 
         {
-            line = new StringBuilder();
             while (running) 
             {
                 Thread.Sleep(10);
-                if (!Console.KeyAvailable)
-                {
-                    continue;
-                }
-                ConsoleKeyInfo key = Console.ReadKey(true);
+                string command = CommandLineEditor.Edit (inputPrefix, "");
                 
-                autoCompleteUpToDate = autoCompleteUpToDate && key.Key == ConsoleKey.Tab;
-                switch (key.Key)
+                if (string.IsNullOrEmpty(command))
                 {
-                    case ConsoleKey.Enter:                        
-                        // Search and execute the entered command
-                        if (string.IsNullOrEmpty(line.ToString()))
-                        {
-                            Console.WriteLine();
-                            Console.Write(inputPrefix);
-                            break;
-                        }
-                            
-                        try
-                        {
-                            CommandCall call = new CommandCall(line.ToString());
-                            Console.WriteLine();
-                            Console.Write(inputPrefix);
-                            cmdHistory.AddLast(line.ToString());
-                            currentHistoryCmd = null;
-                            line = null;
-                            return call;
-                        }
-                        catch (Exception ex)
-                        {
-                            Context.Application.Log.Log(new LogMessage(LogChannel, 1337, LogLevel.Error, "Couldn't execute command: {0}", ex.ToString()));
-                        }
-                        
-                        break;
-                    case ConsoleKey.End:
-                        // Move the cursor to the end of the entered command
-                        if (line.Length > 0) 
-                        {
-                            Console.CursorLeft = line.Length + inputPrefix.Length;
-                        }
-                        
-                        break;
-                    case ConsoleKey.Home:                        
-                        // Move the cursor to the begining of the entered command
-                        Console.CursorLeft = inputPrefix.Length;
-                        break;
-                    case ConsoleKey.LeftArrow:                        
-                        // Move the cursor leftwards, but we have to be sure that the cursor is not going out of the console
-                        if (Console.CursorLeft > inputPrefix.Length)
-                        {
-                            Console.CursorLeft--;
-                        }
-                        
-                        break;
-                    case ConsoleKey.RightArrow:                        
-                        // Move the cursor rightwards, but we have to be sure that the cursor is not going out of the console
-                        if (Console.CursorLeft < Console.WindowWidth - 1 && Console.CursorLeft < line.Length + inputPrefix.Length)
-                        {
-                            Console.CursorLeft++;
-                        }
-                        
-                        break;
-                    case ConsoleKey.UpArrow:
-                        if (currentHistoryCmd == null) 
-                        {
-                            if (cmdHistory.Last == null)
-                            {
-                                break;
-                            }
+                    break;
+                }
 
-                            currentHistoryCmd = cmdHistory.Last;
-                            if (!string.IsNullOrEmpty(line.ToString()))
-                            {
-                                cmdHistory.AddLast(line.ToString());
-                            }
-                        } 
-                        else
-                        {
-                            if (currentHistoryCmd == cmdHistory.First)
-                            {
-                                break;
-                            }
-                            
-                            currentHistoryCmd = currentHistoryCmd.Previous;
-                        }
-                        
-                        if (currentHistoryCmd != null)
-                        {
-                            line = new StringBuilder(currentHistoryCmd.Value);
-                            CleanInputLine();
-                            Console.Write(inputPrefix);
-                            Console.CursorLeft = inputPrefix.Length;
-                            Console.Write(line.ToString());
-                        }
-                        
-                        break;
-                    case ConsoleKey.DownArrow:                        
-                        // TODO get next command in history
-                        if (currentHistoryCmd != null)
-                        {
-                            CleanInputLine();
-                            if (currentHistoryCmd == cmdHistory.Last)
-                            {
-                                currentHistoryCmd = null;
-                                line = new StringBuilder(string.Empty);
-                            }
-                            else
-                            {
-                                currentHistoryCmd = currentHistoryCmd.Next;
-                                line = new StringBuilder(currentHistoryCmd.Value);
-                            }
-                            
-                            // CleanInputLine();
-                            Console.Write(inputPrefix);
-                            Console.CursorLeft = inputPrefix.Length;
-                            Console.Write(line.ToString());
-                        }
-                        
-                        break;
-                    case ConsoleKey.Tab:
-                        AutoComplete();
-                        
-                        // TODO autocomplete command here
-                        break;
-                    case ConsoleKey.Backspace:
-                           // Make it for the user impossible to press backspace if the command line is blank
-                           if (line.Length > 0) 
-                           {
-                               CleanInputLine();
-                               line.Remove(line.Length - 1, 1);
-                               Console.Write(inputPrefix + line);
-                           }
-                           
-                           break;
-                       case ConsoleKey.Delete:
-                            if (line.Length > 0 && Console.CursorLeft < inputPrefix.Length + line.Length) 
-                            {
-                                int iCursorLeft = Console.CursorLeft;
-                                CleanInputLine();
-                                line.Remove(iCursorLeft - inputPrefix.Length, 1);
-                                Console.Write(inputPrefix + line);
-                                Console.CursorLeft = iCursorLeft;
-                            }
-                            
-                           break;
-                                  
-                    default:
-                        line.Append(key.KeyChar);
-                        Console.Write(key.KeyChar);
-                        break;
+			    try
+                {
+                    CommandCall call = new CommandCall(command);
+                    return call;
+                }
+                catch (Exception ex)
+                {
+                    Context.Application.Log.Log(new LogMessage(LogChannel, 1337, LogLevel.Error, "Couldn't execute command: {0}", ex.ToString()));
                 }
             }
             

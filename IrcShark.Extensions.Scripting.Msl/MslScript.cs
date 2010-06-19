@@ -263,16 +263,39 @@ namespace IrcShark.Extensions.Scripting.Msl
             return false;
         }
         
+        /// <summary>
+        /// Gets the value of a global variable.
+        /// </summary>
+        /// <param name="varname">The name of the global variable.</param>
+        /// <returns>The value of the global variable or null if there is no value set.</returns>
         private string GetGlobalVariableValue(string varname)
         {
             return MslEngine.GetGlobalVariableValue(varname);
         }
         
+        /// <summary>
+        /// Sets the value of a global variable.
+        /// </summary>
+        /// <param name="varname">The name of the global variable.</param>
+        /// <param name="varvalue">The new value to set.</param>
         private void SetGlobalVariableValue(string varname, string varvalue)
         {
             MslEngine.SetGlobalVariableValue(varname, varvalue);
         }
         
+        /// <summary>
+        /// Converts the string parameters to a list of objects matching the parameter types of a given method.
+        /// </summary>
+        /// <param name="method">The method, to get the parameter types from.</param>
+        /// <param name="parameters">The parameters as strings.</param>
+        /// <returns>A list of objects matching the parameter types of the given method.</returns>
+        /// <remarks>
+        /// This method uses the IConvertible interface to try to convert the strings in the proper types.
+        /// </remarks>
+        /// <exception cref="ScriptingException">
+        /// If a method have a parameter that doesn't implement IConvertible, this method will fail with a
+        /// ScriptingException.
+        /// </exception>
         private object[] CreateRealParameters(MethodInfo method, string[] parameters)
         {
             ParameterInfo[] paramInfos = method.GetParameters();

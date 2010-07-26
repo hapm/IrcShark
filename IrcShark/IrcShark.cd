@@ -65,11 +65,13 @@
     </Compartments>
   </Interface>
   <Class Name="IrcShark.IrcSharkApplication" Collapsed="False">
-    <Position X="0.5" Y="23.5" Width="2.627023" />
+    <Position X="0.5" Y="23.5" Width="2.6" />
     <Compartments>
       <Compartment Name="Properties" Collapsed="False" />
       <Compartment Name="Methods" Collapsed="False" />
       <Compartment Name="Fields" Collapsed="False" />
+      <Compartment Name="Events" Collapsed="False" />
+      <Compartment Name="Nested Types" Collapsed="False" />
     </Compartments>
   </Class>
   <Delegate Name="IrcShark.StatusChangedEventHandler" Collapsed="False">

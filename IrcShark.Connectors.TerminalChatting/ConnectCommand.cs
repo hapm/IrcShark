@@ -30,7 +30,7 @@ namespace IrcShark.Connectors.TerminalChatting
     public class ConnectCommand : TerminalCommand
     {
         /// <summary>
-        /// Saves the reference to rhe TerminalChattingConntector.
+        /// Saves the reference to the TerminalChattingConntector.
         /// </summary>
         private TerminalChattingConnector con;
         

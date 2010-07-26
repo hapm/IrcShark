@@ -34,7 +34,18 @@ namespace IrcShark.Extensions.Terminal
     /// </summary>
     [GuidAttribute("50562fac-c166-4c0f-8ef4-6d8456add5d9")]
     public class TerminalExtension : IrcShark.Extensions.Extension
-    {
+    {        
+        
+        /// <summary>
+        /// Persistent LineEditor instance for our hisory and autocomplet function
+        /// </summary>
+        private LineEditor CommandLineEditor = new LineEditor(null);
+        
+        /// <summary>
+        /// Saves a list of all commands added to the terminal.
+        /// </summary>
+        public List<string> AutoCompleteList = new List<string>();
+        
         /// <summary>
         /// The log channel for the TerminalExtension.
         /// </summary>
@@ -134,7 +145,7 @@ namespace IrcShark.Extensions.Terminal
             commands = new List<TerminalCommand>();
             cmdHistory = new LinkedList<string>();
             newLine = false;
-            inputPrefix = "-> ";
+            inputPrefix = "shell> ";
         }
         
         /// <summary>
@@ -164,7 +175,7 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="call">The CommandCall to execute.</param>
         public void ExecuteCommand(CommandCall call)
         {
-            foreach (TerminalCommand cmd in commands)
+            foreach (TerminalCommand cmd in Commands)
             {
                 if (cmd.CommandName == call.CommandName)
                 {
@@ -179,11 +190,17 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         public override void Start()
         {
+            // Set  encoding to the system ANSI codepage for special characters
+            Console.InputEncoding = Encoding.Default;
             AddDefaultCommands();
             
             // disable the default console logger and replace it with the TerminalLogger
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
             Context.Application.Log.LoggedMessage += TerminalLogger;
+            
+            // Register the AutoCompleteEvent
+            CommandLineEditor.AutoCompleteEvent += new LineEditor.AutoCompleteHandler(AutoCompleteCommand);
+            
             Console.ResetColor();
             Console.Title = "IrcShark Terminal";
             foregroundColor = Console.ForegroundColor;
@@ -192,11 +209,55 @@ namespace IrcShark.Extensions.Terminal
             WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
             WriteLine("*******************************************************************************");
             WriteLine();
-                        
+                      
+            
+            //CommandLineEditor.TabAtStartCompletes = true;
+            
             // unregister the default console logger as of incompatibility;
             readerThread = new Thread(new ThreadStart(this.Run));
             running = true;
             readerThread.Start();
+        }
+
+
+        public LineEditor.Completion AutoCompleteCommand(string text, int position)
+        {
+            FillAutoCompletList();
+            string token = null;
+
+            for (int i = position - 1; i >= 0; i--)
+            {
+                if (Char.IsWhiteSpace(text[i]))
+                {
+                    token = text.Substring(i + 1, position - i - 1);
+                    break;
+                }
+                else if (i == 0)
+                {
+                    token = text.Substring(0, position);
+                }  
+            }
+
+            List<string> results = new List<string>();
+
+            if (token == null)
+            {
+                token = string.Empty;
+                results.AddRange(AutoCompleteList);
+            }
+            else
+            {
+                for (int i = 0; i < AutoCompleteList.Count; i++)
+                {
+                    if (AutoCompleteList[i].StartsWith(token))
+                    {
+                        string result = AutoCompleteList[i];
+                        results.Add(result.Substring(token.Length, result.Length - token.Length));
+                    }
+                }
+            }
+            
+            return new LineEditor.Completion(token, results.ToArray());
         }
 
         /// <summary>
@@ -254,175 +315,31 @@ namespace IrcShark.Extensions.Terminal
         /// <returns>The command line that was read form the terminal.</returns>
         public CommandCall ReadCommand() 
         {
-            line = new StringBuilder();
             while (running) 
             {
                 Thread.Sleep(10);
-                if (!Console.KeyAvailable)
-                {
-                    continue;
-                }
                 
-                ConsoleKeyInfo key = Console.ReadKey(true);
-                autoCompleteUpToDate = autoCompleteUpToDate && key.Key == ConsoleKey.Tab;
-                switch (key.Key)
+                string command = CommandLineEditor.Edit (inputPrefix, "");
+                
+                if (string.IsNullOrEmpty(command))
                 {
-                    case ConsoleKey.Enter:                        
-                        // Search and execute the entered command
-                        if (string.IsNullOrEmpty(line.ToString()))
-                        {
-                            Console.WriteLine();
-                            Console.Write(inputPrefix);
-                            break;
-                        }
-                            
-                        try
-                        {
-                            CommandCall call = new CommandCall(line.ToString());
-                            Console.WriteLine();
-                            Console.Write(inputPrefix);
-                            cmdHistory.AddLast(line.ToString());
-                            currentHistoryCmd = null;
-                            line = null;
-                            return call;
-                        }
-                        catch (Exception ex)
-                        {
-                            Context.Application.Log.Log(new LogMessage(LogChannel, 1337, LogLevel.Error, "Couldn't execute command: {0}", ex.ToString()));
-                        }
-                        
-                        break;
-                    case ConsoleKey.End:
-                        // Move the cursor to the end of the entered command
-                        if (line.Length > 0) 
-                        {
-                            Console.CursorLeft = line.Length + inputPrefix.Length;
-                        }
-                        
-                        break;
-                    case ConsoleKey.Home:                        
-                        // Move the cursor to the begining of the entered command
-                        Console.CursorLeft = inputPrefix.Length;
-                        break;
-                    case ConsoleKey.LeftArrow:                        
-                        // Move the cursor leftwards, but we have to be sure that the cursor is not going out of the console
-                        if (Console.CursorLeft > inputPrefix.Length)
-                        {
-                            Console.CursorLeft--;
-                        }
-                        
-                        break;
-                    case ConsoleKey.RightArrow:                        
-                        // Move the cursor rightwards, but we have to be sure that the cursor is not going out of the console
-                        if (Console.CursorLeft < Console.WindowWidth - 1 && Console.CursorLeft < line.Length + inputPrefix.Length)
-                        {
-                            Console.CursorLeft++;
-                        }
-                        
-                        break;
-                    case ConsoleKey.UpArrow:
-                        if (currentHistoryCmd == null) 
-                        {
-                            if (cmdHistory.Last == null)
-                            {
-                                break;
-                            }
+                    break;
+                }
 
-                            currentHistoryCmd = cmdHistory.Last;
-                            if (!string.IsNullOrEmpty(line.ToString()))
-                            {
-                                cmdHistory.AddLast(line.ToString());
-                            }
-                        } 
-                        else
-                        {
-                            if (currentHistoryCmd == cmdHistory.First)
-                            {
-                                break;
-                            }
-                            
-                            currentHistoryCmd = currentHistoryCmd.Previous;
-                        }
-                        
-                        if (currentHistoryCmd != null)
-                        {
-                            line = new StringBuilder(currentHistoryCmd.Value);
-                            CleanInputLine();
-                            Console.Write(inputPrefix);
-                            Console.CursorLeft = inputPrefix.Length;
-                            Console.Write(line.ToString());
-                        }
-                        
-                        break;
-                    case ConsoleKey.DownArrow:                        
-                        // TODO get next command in history
-                        if (currentHistoryCmd != null)
-                        {
-                            CleanInputLine();
-                            if (currentHistoryCmd == cmdHistory.Last)
-                            {
-                                currentHistoryCmd = null;
-                                line = new StringBuilder(string.Empty);
-                            }
-                            else
-                            {
-                                currentHistoryCmd = currentHistoryCmd.Next;
-                                line = new StringBuilder(currentHistoryCmd.Value);
-                            }
-                            
-                            // CleanInputLine();
-                            Console.Write(inputPrefix);
-                            Console.CursorLeft = inputPrefix.Length;
-                            Console.Write(line.ToString());
-                        }
-                        
-                        break;
-                    case ConsoleKey.Tab:
-                        AutoComplete();
-                        
-                        // TODO autocomplete command here
-                        break;
-                    case ConsoleKey.Backspace:
-                           // Make it for the user impossible to press backspace if the command line is blank
-                           if (line.Length > 0) 
-                           {
-                               CleanInputLine();
-                               line.Remove(line.Length - 1, 1);
-                               Console.Write(inputPrefix + line);
-                           }
-                           
-                           break;
-                       case ConsoleKey.Delete:
-                            if (line.Length > 0 && Console.CursorLeft < inputPrefix.Length + line.Length) 
-                            {
-                                int iCursorLeft = Console.CursorLeft;
-                                CleanInputLine();
-                                line.Remove(iCursorLeft - inputPrefix.Length, 1);
-                                Console.Write(inputPrefix + line);
-                                Console.CursorLeft = iCursorLeft;
-                            }
-                            
-                           break;
-                                  
-                    case ConsoleKey.Oem1:
-                    case ConsoleKey.Oem3:
-                    case ConsoleKey.Oem4:
-                    case ConsoleKey.Oem5:
-                    case ConsoleKey.Oem6:
-                    case ConsoleKey.Oem7:
-                    case ConsoleKey.Oem8:
-                        line.Append((char)key.Key);
-                        Console.Write((char)key.Key);
-                        break;
-                    default:
-                        line.Append(key.KeyChar);
-                        Console.Write(key.KeyChar);
-                        break;
+			    try
+                {
+                    CommandCall call = new CommandCall(command);
+                    return call;
+                }
+                catch (Exception ex)
+                {
+                    Context.Application.Log.Log(new LogMessage(LogChannel, 1337, LogLevel.Error, "Couldn't execute command: {0}", ex.ToString()));
                 }
             }
             
             return null;
         }
+
         
         /// <summary>
         /// Writes text to the terminal.
@@ -540,6 +457,15 @@ namespace IrcShark.Extensions.Terminal
             commands.Add(new LogCommand(this));
             commands.Add(new HelpCommand(this));
             commands.Add(new VersionCommand(this));
+        }
+        
+        private void FillAutoCompletList()
+        {
+            AutoCompleteList.Clear();
+            foreach (TerminalCommand cmd in Commands)
+            {
+                AutoCompleteList.Add(cmd.CommandName);
+            }
         }
         
         /// <summary>

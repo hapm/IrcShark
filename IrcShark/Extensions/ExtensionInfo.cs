@@ -355,7 +355,7 @@ namespace IrcShark.Extensions
                         bool done = false;
                         while (!done && reader.Read()) 
                         {
-                            Console.WriteLine(reader.NodeType.ToString() + ": " + reader.Name);
+                            //Console.WriteLine(reader.NodeType.ToString() + ": " + reader.Name);
                             switch (reader.NodeType) 
                             {
                             case XmlNodeType.Element:
@@ -368,6 +368,7 @@ namespace IrcShark.Extensions
                             case XmlNodeType.EndElement:
                                 if (reader.Name == "dependencies") 
                                 {
+                                    reader.Read();
                                     done = true;
                                 }
                                 
@@ -384,6 +385,10 @@ namespace IrcShark.Extensions
                     
                     break;
                 case XmlNodeType.EndElement:
+                    if (reader.Name != "extension") {
+                        reader.Read();
+                        break;
+                    }
                     reader.Read();
                     this.name = name;
                     this.author = author;

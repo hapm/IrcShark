@@ -20,6 +20,11 @@
 namespace IrcShark.Extensions.Terminal
 {
     using System;
+    
+    /// <summary>
+    /// The AutoCompleteHandler delegate is used by the AutoComplete property.
+    /// </summary>
+	public delegate Completion AutoCompleteHandler (string text, int pos);
 
     /// <summary>
     /// Represents a terminal where information can be presented to and 
@@ -36,6 +41,11 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         /// <value>A ConsoleColor value indicating the current foreground color.</value>
         ConsoleColor ForegroundColor { get; set; }
+        
+        /// <summary>
+        /// This handler should be called, when autocompletition is wanted.
+        /// </summary>
+        AutoCompleteHandler AutoCompleteEvent { get; set; }
         
         /// <summary>
         /// Writes a complete line and appends a linebreak at the end.

@@ -37,9 +37,9 @@ namespace IrcShark.Extensions.Terminal
     {        
         
         /// <summary>
-        /// Persistent LineEditor instance for our hisory and autocomplet function
+        /// Persistent GetLine instance for our hisory and autocomplet function
         /// </summary>
-        private LineEditor CommandLineEditor = new LineEditor(null);
+        private ITerminal currentTerminal;
         
         /// <summary>
         /// Saves a list of all commands added to the terminal.
@@ -198,8 +198,10 @@ namespace IrcShark.Extensions.Terminal
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
             Context.Application.Log.LoggedMessage += TerminalLogger;
             
+            currentTerminal = new ConsoleTerminal();
+            
             // Register the AutoCompleteEvent
-            CommandLineEditor.AutoCompleteEvent += new LineEditor.AutoCompleteHandler(AutoCompleteCommand);
+            currentTerminal.AutoCompleteEvent += new AutoCompleteHandler(AutoCompleteCommand);
             
             Console.ResetColor();
             Console.Title = "IrcShark Terminal";
@@ -220,7 +222,7 @@ namespace IrcShark.Extensions.Terminal
         }
 
 
-        public LineEditor.Completion AutoCompleteCommand(string text, int position)
+        public Completion AutoCompleteCommand(string text, int position)
         {
             FillAutoCompletList();
             string token = null;
@@ -257,7 +259,7 @@ namespace IrcShark.Extensions.Terminal
                 }
             }
             
-            return new LineEditor.Completion(token, results.ToArray());
+            return new Completion(token, results.ToArray());
         }
 
         /// <summary>
@@ -318,18 +320,13 @@ namespace IrcShark.Extensions.Terminal
             while (running) 
             {
                 Thread.Sleep(10);
-                
-                string command = CommandLineEditor.Edit (inputPrefix, "");
-                
-                if (string.IsNullOrEmpty(command))
-                {
-                    break;
-                }
-
+                CommandCall call;
 			    try
                 {
-                    CommandCall call = new CommandCall(command);
-                    return call;
+                	call = currentTerminal.ReadCommand();
+                	if (call != null) {
+                    	return call;
+                	}
                 }
                 catch (Exception ex)
                 {
@@ -403,7 +400,7 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="line">The line to write.</param>
         public void WriteLine(string line)
         {
-            Write(line);
+            currentTerminal.WriteLine(line);
             newLine = true;
             lastLineLength = 0;
         }
@@ -413,8 +410,7 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         public void ResetColor()
         {
-            Console.ResetColor();
-            foregroundColor = Console.ForegroundColor;
+            currentTerminal.ResetColor();
         }
         
         /// <summary>
@@ -424,7 +420,7 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="arg">The objects to use when formating the line.</param>
         public void WriteLine(string format, params object[] arg)
         {
-            WriteLine(string.Format(format, arg));
+            currentTerminal.WriteLine(format, arg);
         }
         
         /// <summary>
@@ -432,7 +428,7 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         public void WriteLine()
         {
-            WriteLine(string.Empty);
+            currentTerminal.WriteLine();
         }
         
         /// <summary>
@@ -490,30 +486,6 @@ namespace IrcShark.Extensions.Terminal
                     }
                 }
             }
-        }
-        
-        /// <summary>
-        /// Cleans the current input line to draw something else instead.
-        /// </summary>
-        private void CleanInputLine()
-        {
-            Console.ResetColor();
-            int charCount = inputPrefix.Length;
-            if (line != null)
-            {
-                charCount += line.Length;
-            }
-            
-            if (newLine)
-            {
-                newLine = false;
-            }
-            
-            Console.CursorLeft = charCount;
-            Console.Write(new string('\b', charCount));
-            Console.Write(new string(' ', charCount));
-            Console.Write(new string('\b', charCount));
-            Console.ForegroundColor = foregroundColor;
         }
         
         /// <summary>

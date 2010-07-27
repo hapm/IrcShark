@@ -53,19 +53,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GetLine.cs" />
     <Compile Include="CommandCall.cs" />
     <Compile Include="Commands\ExitCommand.cs" />
     <Compile Include="Commands\ExtensionCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\LogCommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />
+    <Compile Include="Completion.cs" />
     <Compile Include="ConsoleTable.cs" />
     <Compile Include="ConsoleTerminal.cs" />
+    <Compile Include="History.cs" />
+    <Compile Include="LineEditor.cs" />
     <Compile Include="ITerminal.cs" />
     <Compile Include="TerminalCommand.cs" />
     <Compile Include="TerminalExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TerminalSettings.cs" />
     <Compile Include="Translation\Messages.Designer.cs">
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>

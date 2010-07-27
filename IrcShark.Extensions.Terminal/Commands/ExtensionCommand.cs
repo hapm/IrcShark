@@ -96,16 +96,17 @@ namespace IrcShark.Extensions.Terminal.Commands
                         case "-l":
                             foreach (ExtensionInfo info in extManager.AvailableExtensions)
                             {
-                                if (!string.IsNullOrEmpty(call.Parameters[1]) && info.Class.StartsWith(call.Parameters[1]))
+                                if (string.IsNullOrEmpty(call.Parameters[1]) || info.Class.StartsWith(call.Parameters[1]))
                                 {
-                                    continue;
+                                    result.Add(info.Class + "\n");
                                 }
-                                
-                                result.Add(info.Class);
                             }
                             
                             if (result.Count > 0)
                             {
+                                string lastComplete = result[result.Count-1];
+                                lastComplete = lastComplete.Remove(lastComplete.Length-1);
+                                result[result.Count-1] = lastComplete;
                                 return result.ToArray();
                             }
                             
@@ -113,12 +114,10 @@ namespace IrcShark.Extensions.Terminal.Commands
                         case "-u":
                             foreach (ExtensionInfo info in extManager.Keys)
                             {
-                                if (!string.IsNullOrEmpty(call.Parameters[1]) && info.Class.StartsWith(call.Parameters[1]))
+                                if (string.IsNullOrEmpty(call.Parameters[1]) || info.Class.StartsWith(call.Parameters[1]))
                                 {
-                                    continue;
+                                    result.Add(info.Class + "\n");
                                 }
-                                
-                                result.Add(info.Class);
                             }
                             
                             if (result.Count > 0)

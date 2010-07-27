@@ -1,159 +1,106 @@
-﻿// <copyright file="ConsoleTerminal.cs" company="IrcShark Team">
-// Copyright (C) 2009 IrcShark Team
-// </copyright>
-// <author>$Author$</author>
-// <date>$LastChangedDate$</date>
-// <summary>Contains the ConsoleTerminal class.</summary>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+﻿//
+// GetLine.cs: A command line editor
 //
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// Authors:
+//   Miguel de Icaza (miguel@novell.com)
 //
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
-namespace IrcShark.Extensions.Terminal
-{
-    using System;
-    using System.Text;
-    using System.Threading;
+// Copyright 2008 Novell, Inc.
+//
+// Dual-licensed under the terms of the MIT X11 license or the
+// Apache License 2.0
+//
+// USE -define:DEMO to build this as a standalone file and test it
+//
+// TODO:
+//    Enter an error (a = 1);  Notice how the prompt is in the wrong line
+//		This is caused by Stderr not being tracked by System.Console.
+//    Completion support
+//    Why is Thread.Interrupt not working?   Currently I resort to Abort which is too much.
+//
+// Limitations in System.Console:
+//    Console needs SIGWINCH support of some sort
+//    Console needs a way of updating its position after things have been written
+//    behind its back (P/Invoke puts for example).
+//    System.Console needs to get the DELETE character, and report accordingly.
+//
+#if NET_2_0 || NET_1_1
+#define IN_MCS_BUILD
+#endif
 
-    /// <summary>
-    /// This class allows the TerminalExtension to use the local Console as
-    /// as a terminal for a user.
-    /// </summary>
-    public class ConsoleTerminal : ITerminal
-    {
-		/// <summary>
-		/// 
-		/// </summary>
-		private AutoCompleteHandler autoCompleteEvent;
+// Only compile this code in the 2.0 profile, but not in the Moonlight one
+#if (IN_MCS_BUILD && NET_2_0 && !SMCS_SOURCE) || !IN_MCS_BUILD
+using System;
+using System.Text;
+using System.IO;
+using System.Threading;
+using System.Reflection;
+
+
+namespace IrcShark.Extensions.Terminal {
+
+    public class LineEditor {
 		
-		/// <summary>
-		/// Used for internal key handlings.
-		/// </summary>
-		private delegate void KeyHandler ();
+		public delegate Completion AutoCompleteHandler (string text, int pos);
 		
-		/// <summary>
-		/// The text being edited.
-		/// </summary>
-		private StringBuilder text;
-
-		/// <summary>
-		/// The text as it is rendered (replaces (char)1 with ^A on display for example).
-		/// </summary>
-		private StringBuilder rendered_text;
-
-		/// <summary>
-		/// The prompt specified, and the prompt shown to the user.
-		/// </summary>
-		private string prompt;
-		private string shown_prompt;
+		//static StreamWriter log;
 		
-		/// <summary>
-		/// The current cursor position in text.
-		/// </summary>
-		/// <remarks>
-		/// For an index into rendered_text, use TextToRenderPos.
-		/// </remarks>
-		private int cursor;
+		// The text being edited.
+		StringBuilder text;
 
-		/// <summary>
-		/// The row where we started displaying data.
-		/// </summary>
-		private int home_row;
+		// The text as it is rendered (replaces (char)1 with ^A on display for example).
+		StringBuilder rendered_text;
 
-		/// <summary>
-		/// The maximum length that has been displayed on the screen.
-		/// </summary>
-		private int max_rendered;
-
-		/// <summary>
-		/// If we are done editing, this breaks the interactive loop.
-		/// </summary>
-		private bool done = false;
-
-		/// <summary>
-		/// The thread where the editing started taking place.
-		/// </summary>
-		private Thread edit_thread;
-
-		/// <summary>
-		/// Our object that tracks history.
-		/// </summary>
-		private History history;
-
-		/// <summary>
-		/// The contents of the kill buffer (cut/paste in Emacs parlance).
-		/// </summary>
-		private string kill_buffer = "";
-
-		/// <summary>
-		/// The string being searched for.
-		/// </summary>
-		private string search;
-		private string last_search;
-
-		/// <summary>
-		/// Whether we are searching (-1= reverse; 0 = no; 1 = forward).
-		/// </summary>
-		private int searching;
-
-		/// <summary>
-		/// The position where we found the match.
-		/// </summary>
-		private int match_at;
+		// The prompt specified, and the prompt shown to the user.
+		string prompt;
+		string shown_prompt;
 		
-		/// <summary>
-		/// Used to implement the Kill semantics (multiple Alt-Ds accumulate).
-		/// </summary>
-		private KeyHandler last_handler;
+		// The current cursor position, indexes into "text", for an index
+		// into rendered_text, use TextToRenderPos
+		int cursor;
+
+		// The row where we started displaying data.
+		int home_row;
+
+		// The maximum length that has been displayed on the screen
+		int max_rendered;
+
+		// If we are done editing, this breaks the interactive loop
+		bool done = false;
+
+		// The thread where the Editing started taking place
+		Thread edit_thread;
+
+		// Our object that tracks history
+		History history;
+
+		// The contents of the kill buffer (cut/paste in Emacs parlance)
+		string kill_buffer = "";
+
+		// The string being searched for
+		string search;
+		string last_search;
+
+		// whether we are searching (-1= reverse; 0 = no; 1 = forward)
+		int searching;
+
+		// The position where we found the match.
+		int match_at;
 		
-		/// <summary>
-		/// Saves all registred console key handlers.
-		/// </summary>
-		private static Handler[] handlers;
+		// Used to implement the Kill semantics (multiple Alt-Ds accumulate)
+		KeyHandler last_handler;
 		
-        /// <summary>
-        /// Saves the currently selected foreground color.
-        /// </summary>
-        private ConsoleColor foregroundColor;
+		delegate void KeyHandler ();
 		
-		/// <summary>
-		/// The Handler struct is used to save a special key and its handlermethod.
-		/// </summary>
-		private struct Handler {
-		    /// <summary>
-		    /// Saves the key, that is watched.
-		    /// </summary>
+		struct Handler {
 			public ConsoleKeyInfo CKI;
-			
-			/// <summary>
-			/// Saves the handler that is called when the key is pressed.
-			/// </summary>
 			public KeyHandler KeyHandler;
 
-			/// <summary>
-			/// Initializes a new instance of the Handler struct.
-			/// </summary>
-			/// <param name="key">The key to look for.</param>
-			/// <param name="h">The handler to call.</param>
 			public Handler (ConsoleKey key, KeyHandler h)
 			{
 				CKI = new ConsoleKeyInfo ((char) 0, key, false, false, false);
 				KeyHandler = h;
 			}
 
-			/// <summary>
-			/// Initializes a new instance of the Handler struct.
-			/// </summary>
-			/// <param name="c">The character of the key to look for.</param>
-			/// <param name="h">The handler to call.</param>
 			public Handler (char c, KeyHandler h)
 			{
 				KeyHandler = h;
@@ -161,61 +108,44 @@ namespace IrcShark.Extensions.Terminal
 				CKI = new ConsoleKeyInfo (c, ConsoleKey.Zoom, false, false, false);
 			}
 
-			/// <summary>
-			/// Initializes a new instance of the Handler struct.
-			/// </summary>
-			/// <param name="cki">The key combination to look for.</param>
-			/// <param name="h">The handler to call.</param>
 			public Handler (ConsoleKeyInfo cki, KeyHandler h)
 			{
 				CKI = cki;
 				KeyHandler = h;
 			}
 			
-			/// <summary>
-			/// Creates a Handler, that reacts on a key pressed in combination with the control key.
-			/// </summary>
-			/// <param name="c">The character of the key to look for.</param>
-			/// <param name="h">The handler to call.</param>
-			/// <returns>The produced Handler instance.</returns>
 			public static Handler Control (char c, KeyHandler h)
 			{
 				return new Handler ((char) (c - 'A' + 1), h);
 			}
 
-			/// <summary>
-			/// Creates a Handler, that reacts on a key pressed in combination with the alt key.
-			/// </summary>
-			/// <param name="c">The character of the key to look for.</param>
-			/// <param name="key">The key to look for.</param>
-			/// <param name="h">The handler to call.</param>
-			/// <returns>The produced Handler instance.</returns>
 			public static Handler Alt (char c, ConsoleKey k, KeyHandler h)
 			{
 				ConsoleKeyInfo cki = new ConsoleKeyInfo ((char) c, k, false, true, false);
 				return new Handler (cki, h);
 			}
 		}
-		
+
 		/// <summary>
-		/// This is true if the edit line is active.
+		///   Invoked when the user requests auto-completion using the tab character
 		/// </summary>
-		private bool isEditing;
+		/// <remarks>
+		///    The result is null for no values found, an array with a single
+		///    string, in that case the string should be the text to be inserted
+		///    for example if the word at pos is "T", the result for a completion
+		///    of "ToString" should be "oString", not "ToString".
+		///
+		///    When there are multiple results, the result should be the full
+		///    text
+		/// </remarks>
+		public AutoCompleteHandler AutoCompleteEvent;
 		
-        /// <summary>
-        /// Initializes a new instance of the ConsoleTerminal class.
-        /// </summary>
-		public ConsoleTerminal() : this(10) {}
-        
-        /// <summary>
-        /// Initializes a new instance of the ConsoleTerminal class.
-        /// </summary>
-        /// <param name="histsize">The size of the command history.</param>
-        public ConsoleTerminal(int histsize)
-        {
-            Console.Title = "IrcShark Terminal";
-            ResetColor();
-            
+		static Handler [] handlers;
+
+		public LineEditor (string name) : this (name, 10) { }
+		
+		public LineEditor (string name, int histsize)
+		{
 			handlers = new Handler [] {
 				new Handler (ConsoleKey.Home,       CmdHome),
 				new Handler (ConsoleKey.End,        CmdEnd),
@@ -254,180 +184,19 @@ namespace IrcShark.Extensions.Terminal
 				Handler.Control ('Q', delegate { HandleChar (Console.ReadKey (true).KeyChar); })
 			};
 
-			rendered_text = new StringBuilder();
-			text = new StringBuilder();
+			rendered_text = new StringBuilder ();
+			text = new StringBuilder ();
 
-			history = new History(histsize);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the tab ky completes without having typed anything.
-        /// </summary>
-        /// <value>
-        /// If true, the autocomplete handler is called whenever tab is pressed,
-        /// and false if it is only called when there is some text to complete.
-        /// </value>
-		public bool TabAtStartCompletes { get; set; }
-        
-		/// <summary>
-		/// Gets or sets the current foreground color to use when drawing text on the console.
-		/// </summary>
-		/// <value>The selected ConsoleColor.</value>
-        public ConsoleColor ForegroundColor {
-            get {
-                return foregroundColor;
-            }
-            set {
-                foregroundColor = value;
-            }
-        }
-		
-        /// <summary>
-		/// Gets or sets a handler that is invoked when the user requests 
-		/// auto-completion using the tab character.
-		/// </summary>
-		/// <remarks>
-		/// The result is null for no values found, an array with a single
-		/// string, in that case the string should be the text to be inserted
-		/// for example if the word at pos is "T", the result for a completion
-		/// of "ToString" should be "oString", not "ToString".
-		///
-		/// When there are multiple results, the result should be the full text.
-		/// </remarks>
-        public AutoCompleteHandler AutoCompleteEvent {
-            get {
-                return autoCompleteEvent;
-            }
-            set {
-                autoCompleteEvent = value;
-            }
-        }
-		
-        /// <summary>
-        /// Gets a value indicating whether the terminal is currently reading
-        /// a command.
-        /// </summary>
-		public bool IsReading
-		{
-		    get { return isEditing; }
+			history = new History (histsize);
+			
+			//if (File.Exists ("log"))File.Delete ("log");
+			//log = File.CreateText ("log"); 
 		}
-        
-        /// <summary>
-        /// Resets the foreground and background color of the terminal.
-        /// </summary>
-        public void ResetColor()
-        {
-            Console.ResetColor();
-            foregroundColor = Console.ForegroundColor;
-        }
-		
-        /// <summary>
-        /// Writes a complete line and appends a linebreak at the end.
-        /// </summary>
-        /// <param name="line">The line to write.</param>
-        public void WriteLine(string line) 
-        {
-        	if (!isEditing)
-        	{
-        		Console.WriteLine(line);
-        	}
-        } 
-        
-        /// <summary>
-        /// Writes a complete formated line and appends a linebreak at the end.
-        /// </summary>
-        /// <param name="format">The format to write.</param>
-        /// <param name="arg">The objects to use when formating the line.</param>
-        public void WriteLine(string format, params object[] arg) 
-        {
-        	WriteLine(string.Format(format, arg));
-        }
-        
-        /// <summary>
-        /// Writes a linebreak to the terminal.
-        /// </summary>
-        public void WriteLine() 
-        {
-        	WriteLine(string.Empty);
-        }
-        
-        /// <summary>
-        /// Reads a command from the terminal.
-        /// </summary>
-        /// <returns>
-        /// The CommandCall instance for the command or null, if the user din't type a command.
-        /// </returns>
-        public CommandCall ReadCommand() 
-        {
-        	string command = Edit("shell>", "");
-            if (!string.IsNullOrEmpty(command))
-            {
-                CommandCall call = new CommandCall(command);
-                return call;
-            }
-            return null;
-        }
-        
-        /// <summary>
-        /// Stops to read a command from the terminal if it is reading at the moment.
-        /// </summary>
-        public void StopReading() 
-        {
-			// Interrupt the editor
-			edit_thread.Abort();
-			edit_thread.Join();
-        }
-        
-        /// <summary>
-        /// Starts the console editing.
-        /// </summary>
-        /// <param name="prompt">The prompt in front of the edit space.</param>
-        /// <param name="initial">The text, that should be shown at the beginning.</param>
-        /// <returns>The text, that was typed.</returns>
-		public string Edit (string prompt, string initial)
+
+		void CmdDebug ()
 		{
-			isEditing = true;
-			edit_thread = Thread.CurrentThread;
-			searching = 0;
-			Console.CancelKeyPress += InterruptEdit;
-			
-			done = false;
-			history.CursorToEnd ();
-			max_rendered = 0;
-			
-			Prompt = prompt;
-			shown_prompt = prompt;
-			InitText (initial);
-			history.Append (initial);
-
-			do {
-				try {
-					EditLoop ();
-				} catch (ThreadAbortException){
-					searching = 0;
-					Thread.ResetAbort ();
-					Console.WriteLine ();
-					SetPrompt (prompt);
-					SetText ("");
-				}
-			} while (!done);
 			Console.WriteLine ();
-			
-			Console.CancelKeyPress -= InterruptEdit;
-
-			if (text == null)
-			{
-				isEditing = false;
-				return null;
-			}
-
-			string result = text.ToString ();
-			if (result != "")
-				history.Accept (result);
-			else
-				history.RemoveLast ();
-			isEditing = false;
-			return result;
+			Render ();
 		}
 
 		void Render ()
@@ -457,6 +226,7 @@ namespace IrcShark.Extensions.Terminal
 				home_row = 0;
 		}
 		
+
 		void RenderFrom (int pos)
 		{
 			int rpos = TextToRenderPos (pos);
@@ -570,13 +340,9 @@ namespace IrcShark.Extensions.Terminal
 			}
 		}
 
-		#region "Commands"
-		void CmdDebug ()
-		{
-			Console.WriteLine ();
-			Render ();
-		}
-		
+		//
+		// Commands
+		//
 		void CmdDone ()
 		{
 			done = true;
@@ -586,7 +352,7 @@ namespace IrcShark.Extensions.Terminal
 		{
 			bool complete = false;
 
-			if (autoCompleteEvent != null){
+			if (AutoCompleteEvent != null){
 				if (TabAtStartCompletes)
 					complete = true;
 				else {
@@ -599,7 +365,7 @@ namespace IrcShark.Extensions.Terminal
 				}
 
 				if (complete){
-					Completion completion = autoCompleteEvent(text.ToString (), cursor);
+					Completion completion = AutoCompleteEvent (text.ToString (), cursor);
 					string [] completions = completion.Result;
 					if (completions == null)
 						return;
@@ -966,7 +732,6 @@ namespace IrcShark.Extensions.Terminal
 			Render ();
 			ForceCursor (cursor);
 		}
-		#endregion
 
 		void InterruptEdit (object sender, ConsoleCancelEventArgs a)
 		{
@@ -1055,5 +820,51 @@ namespace IrcShark.Extensions.Terminal
 			ForceCursor (cursor);
 		}
 		
-    }
+		public string Edit (string prompt, string initial)
+		{
+			edit_thread = Thread.CurrentThread;
+			searching = 0;
+			Console.CancelKeyPress += InterruptEdit;
+			
+			done = false;
+			history.CursorToEnd ();
+			max_rendered = 0;
+			
+			Prompt = prompt;
+			shown_prompt = prompt;
+			InitText (initial);
+			history.Append (initial);
+
+			do {
+				try {
+					EditLoop ();
+				} catch (ThreadAbortException){
+					searching = 0;
+					Thread.ResetAbort ();
+					Console.WriteLine ();
+					SetPrompt (prompt);
+					SetText ("");
+				}
+			} while (!done);
+			Console.WriteLine ();
+			
+			Console.CancelKeyPress -= InterruptEdit;
+
+			if (text == null){
+				history.Close ();
+				return null;
+			}
+
+			string result = text.ToString ();
+			if (result != "")
+				history.Accept (result);
+			else
+				history.RemoveLast ();
+
+			return result;
+		}
+
+		public bool TabAtStartCompletes { get; set; }
+	}
 }
+#endif

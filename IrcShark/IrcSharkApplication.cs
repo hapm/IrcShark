@@ -57,6 +57,11 @@ namespace IrcShark
         private Settings settings;
         
         /// <summary>
+        /// This event handle is used to execute one iteration in the main loop.
+        /// </summary>
+        private EventWaitHandle mainLoopActivator;
+        
+        /// <summary>
         /// Saves if the log file was initialised or not.
         /// </summary>
         /// <remarks>
@@ -82,6 +87,7 @@ namespace IrcShark
         [IrcSharkAdministrationPermission(SecurityAction.Demand, Unrestricted = true)]
         public IrcSharkApplication()
         {
+            mainLoopActivator = new AutoResetEvent(false);
         }
         
         /// <summary>
@@ -165,7 +171,7 @@ namespace IrcShark
             log.Log(new LogMessage(Logger.CoreChannel, 1005, LogLevel.Information, Messages.Info1005_StartedSeconds, finalStartTime));
             while (running)
             {
-                Thread.Sleep(100);
+                mainLoopActivator.WaitOne();
             }
             
             extensions.Dispose();
@@ -229,6 +235,7 @@ namespace IrcShark
             {
                 running = false;
                 SaveSettings();
+                mainLoopActivator.Set();
                 log.Log(new LogMessage(Logger.CoreChannel, 1006, Messages.Info1006_ShuttingDown));
             }
         }

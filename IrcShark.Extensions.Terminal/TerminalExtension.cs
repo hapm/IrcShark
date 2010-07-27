@@ -57,11 +57,6 @@ namespace IrcShark.Extensions.Terminal
         private List<TerminalCommand> commands;
         
         /// <summary>
-        /// Saves the line buffer of the current input line.
-        /// </summary>
-        private StringBuilder line;
-        
-        /// <summary>
         /// Saves the state of the extension.
         /// </summary>
         private bool running;
@@ -77,62 +72,10 @@ namespace IrcShark.Extensions.Terminal
         private LinkedList<string> cmdHistory;
         
         /// <summary>
-        /// A reference to the currently selected command in the history.
-        /// </summary>
-        private LinkedListNode<string> currentHistoryCmd;
-        
-        /// <summary>
-        /// Saves a value indicating whether the last written console line has 
-        /// a linebreak at the end or not.
-        /// </summary>
-        /// <remarks>
-        /// This value is needed in <see cref="CleanInputLine" /> to know if
-        /// the linebreak should be cleared or not.
-        /// </remarks>
-        private bool newLine;
-        
-        /// <summary>
-        /// Saves the length of the lastly written line.
-        /// </summary>
-        /// <remarks>
-        /// This value is needed for the Write method to be able to determine where
-        /// new written text should start.
-        /// </remarks>
-        private int lastLineLength;
-        
-        /// <summary>
         /// Saves the currently selected foreground color.
         /// </summary>
         private ConsoleColor foregroundColor;
         
-        /// <summary>
-        /// Saves if the autoCompleteList is up to date or need to be updated.
-        /// </summary>
-        private bool autoCompleteUpToDate;
-        
-        /// <summary>
-        /// Saves the index of the lastly shown autocomplete text in the autoComplete list.
-        /// </summary>
-        private int lastAutoCompleteText;
-        
-        /// <summary>
-        /// Saves the character index where the auto completition begins in text.
-        /// </summary>
-        private int autoCompleteStartIndex;
-        
-        /// <summary>
-        /// Length of the last auto completed text.
-        /// </summary>
-        private int lastAutoCompleteLength;
-        
-        /// <summary>
-        /// Saves all currently available autocompletition suggestions.
-        /// </summary>
-        private string[] autoComplete;
-        
-        /// <summary>
-        /// Saves the prefix for the input row displayed in the console terminal.
-        /// </summary>
         private string inputPrefix;
 
         /// <summary>
@@ -144,7 +87,6 @@ namespace IrcShark.Extensions.Terminal
         {
             commands = new List<TerminalCommand>();
             cmdHistory = new LinkedList<string>();
-            newLine = false;
             inputPrefix = "shell> ";
         }
         
@@ -201,65 +143,40 @@ namespace IrcShark.Extensions.Terminal
             currentTerminal = new ConsoleTerminal();
             
             // Register the AutoCompleteEvent
-            currentTerminal.AutoCompleteEvent += new AutoCompleteHandler(AutoCompleteCommand);
-            
-            Console.ResetColor();
-            Console.Title = "IrcShark Terminal";
-            foregroundColor = Console.ForegroundColor;
-            WriteLine("*******************************************************************************");
-            WriteLine("*                   IrcShark started successfully, have fun!                  *");
-            WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
-            WriteLine("*******************************************************************************");
-            WriteLine();
-                      
-            
-            //CommandLineEditor.TabAtStartCompletes = true;
+            currentTerminal.AutoCompleteEvent += new AutoCompleteHandler(AutoComplete);
+                      	
+            drawStartupLogo();    
             
             // unregister the default console logger as of incompatibility;
             readerThread = new Thread(new ThreadStart(this.Run));
             running = true;
             readerThread.Start();
         }
-
-
-        public Completion AutoCompleteCommand(string text, int position)
+		
+        private void drawStartupLogo()
         {
-            FillAutoCompletList();
-            string token = null;
-
-            for (int i = position - 1; i >= 0; i--)
+            string info = string.Format("Version {0}.{1} Build {2}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build);
+            string[] logo = new string[]
             {
-                if (Char.IsWhiteSpace(text[i]))
-                {
-                    token = text.Substring(i + 1, position - i - 1);
-                    break;
-                }
-                else if (i == 0)
-                {
-                    token = text.Substring(0, position);
-                }  
-            }
-
-            List<string> results = new List<string>();
-
-            if (token == null)
+                @" _____           _____ _                _    ",
+                @"|_   _|         / ____| |              | |   ",
+                @"  | |  _ __ ___| (___ | |__   __ _ _ __| | __",
+                @"  | | | '__/ __|\___ \| '_ \ / _` | '__| |/ /",
+                @" _| |_| | | (__ ____) | | | | (_| | |  |   < ",
+                @"|_____|_|  \___|_____/|_| |_|\__,_|_|  |_|\_\",
+                @"...the new feeling of irc!                   ",
+            };
+            
+            foreach (string line in logo)
             {
-                token = string.Empty;
-                results.AddRange(AutoCompleteList);
-            }
-            else
-            {
-                for (int i = 0; i < AutoCompleteList.Count; i++)
-                {
-                    if (AutoCompleteList[i].StartsWith(token))
-                    {
-                        string result = AutoCompleteList[i];
-                        results.Add(result.Substring(token.Length, result.Length - token.Length));
-                    }
-                }
+                Console.SetCursorPosition(Console.WindowWidth / 2 - line.Length / 2, Console.CursorTop);
+                Console.WriteLine(line);
             }
             
-            return new Completion(token, results.ToArray());
+            Console.WriteLine();
+            Console.SetCursorPosition(Console.WindowWidth / 2 - info.Length / 2, Console.CursorTop);
+            Console.WriteLine(info);
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -344,13 +261,14 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="text">The text to write.</param>
         public void Write(string text) 
         {
-            int col = Console.CursorLeft;
+            Console.Write(text);
+            /*int col = Console.CursorLeft;
             if (col < inputPrefix.Length)
             {
                 col = inputPrefix.Length;
             }
             
-            CleanInputLine();
+            //CleanInputLine();
             if (lastLineLength > 0)
             {
                 if (text.Contains("\n"))
@@ -391,7 +309,7 @@ namespace IrcShark.Extensions.Terminal
                 Console.Write(this.line.ToString());
             }
             
-            Console.CursorLeft = col;
+            Console.CursorLeft = col;*/
         }
         
         /// <summary>
@@ -401,8 +319,6 @@ namespace IrcShark.Extensions.Terminal
         public void WriteLine(string line)
         {
             currentTerminal.WriteLine(line);
-            newLine = true;
-            lastLineLength = 0;
         }
         
         /// <summary>
@@ -437,8 +353,9 @@ namespace IrcShark.Extensions.Terminal
         public override void Stop()
         {
             running = false;
+            currentTerminal.StopReading();
             readerThread.Join();
-            CleanInputLine();
+            //CleanInputLine();
             Context.Application.Log.LoggedMessage += Context.Application.DefaultConsoleLogger;
             Context.Application.Log.LoggedMessage -= TerminalLogger;
         }
@@ -453,15 +370,6 @@ namespace IrcShark.Extensions.Terminal
             commands.Add(new LogCommand(this));
             commands.Add(new HelpCommand(this));
             commands.Add(new VersionCommand(this));
-        }
-        
-        private void FillAutoCompletList()
-        {
-            AutoCompleteList.Clear();
-            foreach (TerminalCommand cmd in Commands)
-            {
-                AutoCompleteList.Add(cmd.CommandName);
-            }
         }
         
         /// <summary>
@@ -491,66 +399,16 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Autocompletes the word, the cursor is currently on.
         /// </summary>
-        private void AutoComplete()
+        private Completion AutoComplete(string text, int cursor)
         {
-            if (line.Length == 0)
+            if (text.Length == 0)
             {
-                return;
+                return new Completion(text, null);
             }
             
-            CommandCall call = new CommandCall(line.ToString().Substring(0, Console.CursorLeft - inputPrefix.Length));            
-            if (!autoCompleteUpToDate)
-            {
-                if (call.Parameters.Length == 0)
-                {
-                    lastAutoCompleteLength = call.CommandName.Length;
-                    autoCompleteStartIndex = 0;
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(call.Parameters[call.Parameters.Length - 1]))
-                    {
-                        lastAutoCompleteLength = 0;
-                    }
-                    else
-                    {
-                        lastAutoCompleteLength = call.Parameters[call.Parameters.Length - 1].Length;
-                    }
-                    
-                    autoCompleteStartIndex = Console.CursorLeft - inputPrefix.Length - lastAutoCompleteLength;
-                }
-                
-                UpdateAutoComplete(call);
-            }
-            
-            if (autoComplete == null)
-            {
-                return;
-            }
-            
-            lastAutoCompleteText++;
-            if (lastAutoCompleteText >= autoComplete.Length)
-            {
-                lastAutoCompleteText = 0;
-            }
-            
-            CleanInputLine();
-            line.Remove(autoCompleteStartIndex, lastAutoCompleteLength);
-            line.Insert(autoCompleteStartIndex, autoComplete[lastAutoCompleteText], 1);
-            lastAutoCompleteLength = autoComplete[lastAutoCompleteText].Length;
-            Console.Write(inputPrefix);
-            Console.Write(line.ToString());
-            Console.CursorLeft = inputPrefix.Length + autoCompleteStartIndex + autoComplete[lastAutoCompleteText].Length;
-        }
-        
-        /// <summary>
-        /// Updates the autocomplete list.
-        /// </summary>
-        /// <param name="call">The command call used to update the list.</param>
-        private void UpdateAutoComplete(CommandCall call)
-        {
-            string prefix;
-            autoComplete = null;
+            CommandCall call = new CommandCall(text.Substring(0, cursor));
+            string[] result = null;
+            string prefix = "";
             if (call.Parameters.Length == 0)
             {
                 List<string> list = new List<string>();
@@ -561,11 +419,11 @@ namespace IrcShark.Extensions.Terminal
                     {
                         list.Add(cmd.CommandName);
                     }
-                }    
+                }
                 
                 if (list.Count > 0)
                 {
-                    autoComplete = list.ToArray();
+                    result = list.ToArray();
                 }
             }
             else
@@ -574,14 +432,22 @@ namespace IrcShark.Extensions.Terminal
                 {
                     if (cmd.CommandName.Equals(call.CommandName))
                     {
-                        autoComplete = cmd.AutoComplete(call, call.Parameters.Length - 1);
+                        result = cmd.AutoComplete(call, call.Parameters.Length - 1);
+                        prefix = call.Parameters[call.Parameters.Length - 1];
                         break;
                     }
                 }
             }
             
-            lastAutoCompleteText = -1;
-            autoCompleteUpToDate = true;
+            if (result != null) 
+            {
+                for (int i = 0; i < result.Length; i++) 
+                {
+                    result[i] = result[i].Substring(prefix.Length);
+                }
+            }
+            
+            return new Completion(prefix, result);
         }
     }
 }

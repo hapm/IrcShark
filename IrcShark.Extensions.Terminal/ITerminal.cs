@@ -48,6 +48,12 @@ namespace IrcShark.Extensions.Terminal
         AutoCompleteHandler AutoCompleteEvent { get; set; }
         
         /// <summary>
+        /// Gets a value indicating whether the terminal is currently reading
+        /// a command.
+        /// </summary>
+        bool IsReading { get; }
+        
+        /// <summary>
         /// Writes a complete line and appends a linebreak at the end.
         /// </summary>
         /// <param name="line">The line to write.</param>
@@ -77,5 +83,10 @@ namespace IrcShark.Extensions.Terminal
         /// The CommandCall instance for the command or null, if the user din't type a command.
         /// </returns>
         CommandCall ReadCommand();
+        
+        /// <summary>
+        /// Stops to read a command from the terminal if it is reading at the moment.
+        /// </summary>
+        void StopReading();
     }
 }

@@ -204,21 +204,41 @@ namespace IrcShark.Extensions.Terminal
             Console.ResetColor();
             Console.Title = "IrcShark Terminal";
             foregroundColor = Console.ForegroundColor;
-            WriteLine("*******************************************************************************");
-            WriteLine("*                   IrcShark started successfully, have fun!                  *");
-            WriteLine("*      Use the \"help\" command to get a list of all available commands         *");
-            WriteLine("*******************************************************************************");
-            WriteLine();
-                      
-            
-            //CommandLineEditor.TabAtStartCompletes = true;
+          	
+            drawStartupLogo();    
             
             // unregister the default console logger as of incompatibility;
             readerThread = new Thread(new ThreadStart(this.Run));
             running = true;
             readerThread.Start();
         }
-
+		
+        private void drawStartupLogo()
+        {
+            string info = string.Format("Version {0}.{1} Build {2}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build);
+            string[] logo = new string[]
+            {
+                @" _____           _____ _                _    ",
+                @"|_   _|         / ____| |              | |   ",
+                @"  | |  _ __ ___| (___ | |__   __ _ _ __| | __",
+                @"  | | | '__/ __|\___ \| '_ \ / _` | '__| |/ /",
+                @" _| |_| | | (__ ____) | | | | (_| | |  |   < ",
+                @"|_____|_|  \___|_____/|_| |_|\__,_|_|  |_|\_\",
+                @"...the new feeling of irc!                   ",
+            };
+            
+            foreach (string line in logo)
+            {
+                Console.SetCursorPosition(Console.WindowWidth / 2 - line.Length / 2, Console.CursorTop);
+                Console.WriteLine(line);
+            }
+            
+            Console.WriteLine();
+            Console.SetCursorPosition(Console.WindowWidth / 2 - info.Length / 2, Console.CursorTop);
+            Console.WriteLine(info);
+            Console.WriteLine();
+            
+        }
 
         public LineEditor.Completion AutoCompleteCommand(string text, int position)
         {

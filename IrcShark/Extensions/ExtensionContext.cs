@@ -29,7 +29,7 @@ namespace IrcShark.Extensions
     /// The context of an extension holds all information an extension needs to run. It gives access 
     /// to all needed informations as propertys.
     /// </remarks>
-    public class ExtensionContext : MarshalByRefObject
+    public class ExtensionContext : MarshalByRefObject, IContext
     {
         /// <summary>
         /// Saves the instance of the ExtensionInfo for the Extension, this ExtensionContext was created for.
@@ -96,6 +96,30 @@ namespace IrcShark.Extensions
         public string SettingPath
         {
             get { return settingPath; }
+        }
+        
+        /// <summary>
+        /// Gets the Logger instance for this context.
+        /// </summary>
+        /// <value>
+        /// The Logger instance to log to.
+        /// </value>
+        public Logger Log {
+            get {
+                return Application.Log;
+            }
+        }
+        
+        /// <summary>
+        /// Gets the IrcShark settings.
+        /// </summary>
+        /// <value>
+        /// The Settings instance holding all IrcShark settings.
+        /// </value>
+        public Settings Settings {
+            get {
+                return Application.Settings;
+            }
         }
     }
 }

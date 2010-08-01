@@ -80,6 +80,13 @@ namespace IrcShark.Connectors.TerminalChatting
         {
             switch (paramIndex)
             {
+                case 0:
+                    if (string.IsNullOrEmpty(call.Parameters[0]) || call.Parameters[0] == "-")
+                    {
+                        return new string[] { "-d", "-a" };
+                    }
+                    
+                    break;
                 case 1:
                     switch (call.Parameters[0])
                     {

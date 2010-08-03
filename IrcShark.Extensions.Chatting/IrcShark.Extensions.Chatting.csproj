@@ -40,6 +40,10 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
+    <Reference Include="Mono.Addins">
+      <HintPath>..\Mono.Addins.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -47,6 +51,7 @@
     <Compile Include="ChatManagerExtension.cs" />
     <Compile Include="ConnectionCollection.cs" />
     <Compile Include="ConnectionEventArgs.cs" />
+    <Compile Include="IProtocolExtension.cs" />
     <Compile Include="ISettingsConverter.cs" />
     <Compile Include="NetworkSettings.cs" />
     <Compile Include="ParameterCollection.cs" />
@@ -66,10 +71,12 @@
     <ProjectReference Include="..\IrcShark.Chatting\IrcShark.Chatting.csproj">
       <Project>{A978817C-24BA-42FE-A8CD-80B03EF3FDE5}</Project>
       <Name>IrcShark.Chatting</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\IrcShark\IrcShark.csproj">
       <Project>{F6955540-7429-49FB-AE3D-A9AD916D2334}</Project>
       <Name>IrcShark</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -21,28 +21,17 @@ namespace IrcShark.Extensions.Chatting
 {
 	using System;
 	using IrcShark.Chatting;
-
-	/// <summary>
-	/// Defines all methods an propertys a ProtocolExtension should implement.
-	/// </summary>
-	public abstract class ProtocolExtension : Extension, IProtocolExtension
-	{
-		/// <summary>
-		/// Initializes a new instance of the ProtocolExtension class.
-		/// </summary>
-		/// <param name="context">The context of the extension.</param>
-		public ProtocolExtension(ExtensionContext context) : base(context)
-		{
-		}
-
+	
+	[Mono.Addins.TypeExtensionPoint]
+	public interface IProtocolExtension {
 		/// <summary>
 		/// Gets the protocol, represented by this extension.
 		/// </summary>
 		/// <value>
 		/// The instance for the supported protocol.
 		/// </value>
-		public abstract IProtocol Protocol { get; }
-
+		IProtocol Protocol { get; }
+	
 		/// <summary>
 		/// Loads a network of the supported protocol from the given NetworkSettings.
 		/// </summary>
@@ -51,8 +40,8 @@ namespace IrcShark.Extensions.Chatting
 		/// <exception cref="UnsupportedProtocolExteption">
 		/// An UnsupportedProtocolExteption is thrown, if the given settings object is for
 		/// another protocol.
-		/// </exception>
-		public abstract INetwork LoadNetwork(NetworkSettings settings);
+		/// </exception>{
+		INetwork LoadNetwork(NetworkSettings settings);
 
 		/// <summary>
 		/// Saves the given network to a new NetworkSettings instance.
@@ -63,6 +52,6 @@ namespace IrcShark.Extensions.Chatting
 		/// An UnsupportedProtocolExteption is thrown, if the given network object is for
 		/// another protocol.
 		/// </exception>
-		public abstract NetworkSettings SaveNetwork(INetwork network);
+		NetworkSettings SaveNetwork(INetwork network);
 	}
 }

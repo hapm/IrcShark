@@ -19,6 +19,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Mono.Addins;
 
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
@@ -30,6 +31,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCopyright("IrcShark Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: AddinRoot("IrcShark", "0.1")]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,

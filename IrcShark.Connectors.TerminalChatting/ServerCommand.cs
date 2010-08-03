@@ -28,6 +28,7 @@ namespace IrcShark.Connectors.TerminalChatting
     /// <summary>
     /// The ServerCommand allows to configure the servers in the ChatManagerExtension by using the TerminalExtension.
     /// </summary>
+    [TerminalCommand("server")]
     public class ServerCommand : TerminalCommand
     {
         /// <summary>
@@ -36,18 +37,14 @@ namespace IrcShark.Connectors.TerminalChatting
         private TerminalChattingConnector con;
         
         /// <summary>
-        /// Initializes a new instance of the ServerCommand class.
+        /// Initializes the ServerCommand.
         /// </summary>
-        /// <param name="chatting">
-        /// The reference to the ChatManagerExtension.
-        /// </param>
-        /// <param name="terminal">
-        /// The reference to the TerminalExtension.
-        /// </param>
-        public ServerCommand(TerminalChattingConnector connector) : base("server", connector.Terminal)
+        /// <param name="terminal">The terminal to create the command for.</param>
+        public override void Init(TerminalExtension terminal)
         {
-            this.con = connector;
-        }
+            base.Init(terminal);
+            this.con = Terminal.Context.Application.Extensions.GetExtension("TerminalChattingConnector") as TerminalChattingConnector;
+        } 
         
         /// <summary>
         /// Executes the command with the given parameters.

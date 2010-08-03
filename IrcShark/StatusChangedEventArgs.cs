@@ -32,7 +32,7 @@ namespace IrcShark
         /// <summary>
         /// Holds the <see cref="ExtensionInfo" /> of this StatusChangeEventArgs.
         /// </summary>
-        private ExtensionInfo extension;
+        private string addinId;
         
         /// <summary>
         /// Holds the new <see cref="ExtensionStates" /> of this StatusChangeEventArgs.
@@ -42,27 +42,27 @@ namespace IrcShark
         /// <summary>
         /// Initializes a new instance of the StatusChangedEventArgs class.
         /// </summary>
-        /// <param name="ext">Information about the extension, what changed its status.</param>
+        /// <param name="addinId">The id of the addin, what changed its status.</param>
         /// <param name="status">The new status of the extension.</param>
-        public StatusChangedEventArgs(ExtensionInfo ext, ExtensionStates status)
+        public StatusChangedEventArgs(string addinId, ExtensionStates status)
         {
-            this.extension = ext;
+            this.addinId = addinId;
             this.status = status;
         }
 
         /// <summary>
-        /// Gets the ExtensionInfo for the extension, what changed its status.
+        /// Gets the id for the extension, what changed its status.
         /// </summary>
-        /// <value>The ExtensionInfo for the extension, what changed its status.</value>
-        public ExtensionInfo Extension
+        /// <value>The addinid as a string for the extension, what changed its status.</value>
+        public string AddIn
         {
-            get { return extension; }
+            get { return addinId; }
         }
 
         /// <summary>
         /// Gets the new status of the Extension.
         /// </summary>
-        /// <value>The new statu of the Extension.</value>
+        /// <value>The new status of the Extension.</value>
         public ExtensionStates Status
         {
             get { return status; }

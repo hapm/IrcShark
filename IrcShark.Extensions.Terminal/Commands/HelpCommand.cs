@@ -26,19 +26,9 @@ namespace IrcShark.Extensions.Terminal.Commands
     /// <summary>
     /// The HelpCommand displays a list of all available commands to the console.
     /// </summary>
+    [TerminalCommand("help")]
     public class HelpCommand : TerminalCommand
-    {        
-        /// <summary>
-        /// Initializes a new instance of the HelpCommand class.
-        /// </summary>
-        /// <param name="extension">
-        /// The instance of the TerminalExtension, the help should be shown for.
-        /// </param>
-        public HelpCommand(TerminalExtension extension)
-            : base("help", extension)
-        {
-        }
-
+    {
         /// <summary>
         /// By executing the HelpCommand, the help of all added 
         /// <see cref="TerminalCommand">TerminalCommands</see> will be executed.

@@ -27,6 +27,7 @@ namespace IrcShark.Connectors.TerminalChatting
     /// <summary>
     /// The ConnectCommand to create a new connection on the terminal.
     /// </summary>
+    [TerminalCommand("connect")]
     public class ConnectCommand : TerminalCommand
     {
         /// <summary>
@@ -34,15 +35,10 @@ namespace IrcShark.Connectors.TerminalChatting
         /// </summary>
         private TerminalChattingConnector con;
         
-        /// <summary>
-        /// Initializes a new instance of the ConnectCommand class.
-        /// </summary>
-        /// <param name="connector">
-        /// A reference to the connector instance.
-        /// </param>
-        public ConnectCommand(TerminalChattingConnector connector) : base("connect", connector.Terminal)
+        public override void Init(TerminalExtension terminal)
         {
-            this.con = connector;
+            base.Init(terminal);
+            this.con = Terminal.Context.Application.Extensions.GetExtension("TerminalChattingConnector") as TerminalChattingConnector;
         }
         
         /// <summary>

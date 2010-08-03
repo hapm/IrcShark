@@ -33,6 +33,7 @@ namespace IrcShark.Extensions.Chatting
     /// with different protocols.
     /// </summary>
     [GuidAttribute("85a0b0ad-6015-41e5-80aa-ccb6c0cad044")]
+    [Mono.Addins.Extension("/IrcShark/Extensions")]
     public class ChatManagerExtension : Extension
     {
         /// <summary>
@@ -48,7 +49,7 @@ namespace IrcShark.Extensions.Chatting
         /// <summary>
         /// Saves a list of all registred protocols.
         /// </summary>
-        private List<ProtocolExtension> registredProtocols;
+        private List<IProtocolExtension> registredProtocols;
         
         /// <summary>
         /// Saves the list of configured networks.
@@ -69,9 +70,9 @@ namespace IrcShark.Extensions.Chatting
         /// Initializes a new instance of the ChatManagerExtension class.
         /// </summary>
         /// <param name="context">The context, this extension runs in.</param>
-        public ChatManagerExtension(ExtensionContext context) : base(context)
+        public ChatManagerExtension()
         {
-            registredProtocols = new List<ProtocolExtension>();
+            registredProtocols = new List<IProtocolExtension>();
             openConnections = new ConnectionCollection();
             configuredNetworks = new List<INetwork>();
             unloadedNetworks = new List<NetworkSettings>();
@@ -94,11 +95,11 @@ namespace IrcShark.Extensions.Chatting
         /// <value>
         /// The array of all registred protocols.
         /// </value>
-        public ProtocolExtension[] Protocols
+        public IProtocolExtension[] Protocols
         {
             get 
             {
-                ProtocolExtension[] protocols = new ProtocolExtension[registredProtocols.Count];
+                IProtocolExtension[] protocols = new ProtocolExtension[registredProtocols.Count];
                 registredProtocols.CopyTo(protocols);
                 return protocols;
             }
@@ -137,7 +138,7 @@ namespace IrcShark.Extensions.Chatting
         /// <param name="prot">
         /// An instance of the IProtocol interface for the given protocol.
         /// </param>
-        public void RegisterProtocol(ProtocolExtension prot)
+        public void RegisterProtocol(IProtocolExtension prot)
         {
             if (registredProtocols.Contains(prot))
             {
@@ -164,8 +165,13 @@ namespace IrcShark.Extensions.Chatting
         /// <summary>
         /// Starts the ChatManagerExtension.
         /// </summary>
-        public override void Start()
+        public override void Start(ExtensionContext context)
         {
+            Context = context;
+            object[] protocols = Mono.Addins.AddinManager.GetExtensionObjects(typeof(IProtocolExtension));
+            foreach (IProtocolExtension ext in protocols) {
+                RegisterProtocol(ext);
+            }
             LoadSettings();
             running = true;
         }

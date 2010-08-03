@@ -81,7 +81,7 @@ namespace IrcShark.Extensions.Scripting
             }
         }
         
-        public override void Start()
+        public override void Start(ExtensionContext context)
         {
         }
         

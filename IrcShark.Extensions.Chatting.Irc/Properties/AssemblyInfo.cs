@@ -24,19 +24,25 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+using Mono.Addins;
+
 #endregion
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("IrcShark.Extensions.Chatting.Irc")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Adds the irc protocol to the supported protocols of ircshark.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("IrcShark")]
 [assembly: AssemblyProduct("IrcShark.Extensions.Chatting.Irc")]
 [assembly: AssemblyCopyright("IrcShark Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+
+[assembly: Addin("IrcProtocol", "0.1")]
+[assembly: AddinDependency("IrcShark","0.1")]
+[assembly: AddinDependency("ChatManager","0.1")]
 
 // This sets the default COM visibility of types in the assembly to invisible.
 // If you need to expose a type to COM, use [ComVisible(true)] on that type.

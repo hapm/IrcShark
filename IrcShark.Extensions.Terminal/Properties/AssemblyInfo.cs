@@ -20,6 +20,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Mono.Addins;
 
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
@@ -40,6 +41,8 @@ using System.Runtime.InteropServices;
 
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
 [assembly: Guid("a77946ef-5a9f-401b-a3cb-b4b8ec2ebe84")]
+[assembly: Addin("Terminal", "0.1")]
+[assembly: AddinDependency("IrcShark", "0.1")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //

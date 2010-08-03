@@ -39,7 +39,7 @@ namespace IrcShark.Extensions.Sessions
             
         }
         
-        public override void Start()
+        public override void Start(ExtensionContext context)
         {
             throw new NotImplementedException();
         }

@@ -32,7 +32,8 @@ namespace IrcShark.Extensions.Terminal
     /// <summary>
     /// This extension allows the administration of IrcShark over the console.
     /// </summary>
-    [GuidAttribute("50562fac-c166-4c0f-8ef4-6d8456add5d9")]
+    //[GuidAttribute("50562fac-c166-4c0f-8ef4-6d8456add5d9")]
+    [Mono.Addins.Extension("/IrcShark/Extensions")]
     public class TerminalExtension : IrcShark.Extensions.Extension
     {        
         
@@ -54,7 +55,7 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Saves a list of all commands added to the terminal.
         /// </summary>
-        private List<TerminalCommand> commands;
+        private List<ITerminalCommand> commands;
         
         /// <summary>
         /// Saves the state of the extension.
@@ -82,10 +83,9 @@ namespace IrcShark.Extensions.Terminal
         /// Initializes a new instance of the TerminalExtension class.
         /// </summary>
         /// <param name="context">The context, this extension is created for.</param>
-        public TerminalExtension(ExtensionContext context)
-            : base(context)
+        public TerminalExtension()
         {
-            commands = new List<TerminalCommand>();
+            commands = new List<ITerminalCommand>();
             cmdHistory = new LinkedList<string>();
             inputPrefix = "shell> ";
         }
@@ -96,7 +96,7 @@ namespace IrcShark.Extensions.Terminal
         /// <value>
         /// An array of TerminalCommands.
         /// </value>
-        public List<TerminalCommand> Commands
+        public List<ITerminalCommand> Commands
         {
             get { return commands; }
         }
@@ -130,11 +130,12 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Starts the TerminalExtension.
         /// </summary>
-        public override void Start()
+        public override void Start(ExtensionContext context)
         {
+            Context = context;
             // Set  encoding to the system ANSI codepage for special characters
             Console.InputEncoding = Encoding.Default;
-            AddDefaultCommands();
+            AddCommands();
             
             // disable the default console logger and replace it with the TerminalLogger
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
@@ -361,15 +362,14 @@ namespace IrcShark.Extensions.Terminal
         }
         
         /// <summary>
-        /// Adds all the default commands, that are part of the TerminalExtension.
+        /// Adds all commands.
         /// </summary>
-        private void AddDefaultCommands()
+        private void AddCommands()
         {
-            commands.Add(new ExitCommand(this));
-            commands.Add(new ExtensionCommand(this));
-            commands.Add(new LogCommand(this));
-            commands.Add(new HelpCommand(this));
-            commands.Add(new VersionCommand(this));
+            foreach (ITerminalCommand cmd in Context.Application.Extensions.GetExtensionObjects(typeof(ITerminalCommand))) {
+                cmd.Init(this);
+                commands.Add(cmd);
+            }
         }
         
         /// <summary>

@@ -29,6 +29,7 @@ namespace IrcShark.Extensions.Terminal.Commands
     /// <summary>
     /// The ExtensionCommand is used to manage extenions.
     /// </summary>
+    [TerminalCommand("ext")]
     public class ExtensionCommand : TerminalCommand
     {
         /// <summary>
@@ -37,12 +38,12 @@ namespace IrcShark.Extensions.Terminal.Commands
         private ExtensionManager extManager;
         
         /// <summary>
-        /// Initializes a new instance of the ExtensionCommand class.
+        /// Initializes the ExtensionCommand.
         /// </summary>
-        /// <param name="extension">The instance of the TerminalExtension.</param>
-        public ExtensionCommand(TerminalExtension extension)
-            : base("ext", extension)
+        /// <param name="extension">The instance of the TerminalExtension.</param>        
+        public override void Init(TerminalExtension terminal)
         {
+            base.Init(terminal);
             extManager = Terminal.Context.Application.Extensions;
         }
         

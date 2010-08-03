@@ -27,6 +27,7 @@ namespace IrcShark.Connectors.TerminalIrc
     /// <summary>
     /// The RawCommand class allows you to send irc raw commands over the terminal.
     /// </summary>
+    [TerminalCommand("raw")]
     public class RawCommand : TerminalCommand
     {
         /// <summary>
@@ -35,12 +36,14 @@ namespace IrcShark.Connectors.TerminalIrc
         private TerminalChattingIrcConnector con;
         
         /// <summary>
-        /// Initializes a new instance of the RawCommand class.
+        /// Initializes the RawCommand.
         /// </summary>
-        public RawCommand(TerminalChattingIrcConnector connector) : base("raw", connector.Terminal)
+        /// <param name="terminal">The terminal to create the command for.</param>
+        public override void Init(TerminalExtension terminal)
         {
-            con = connector;
-        }
+            base.Init(terminal);
+            this.con = Terminal.Context.Application.Extensions.GetExtension("TerminalChattingIrcConnector") as TerminalChattingIrcConnector;
+        } 
         
         /// <summary>
         /// Executes the command.

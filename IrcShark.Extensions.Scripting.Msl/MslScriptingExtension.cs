@@ -46,7 +46,7 @@ namespace IrcShark.Extensions.Scripting.Msl
             get { return engine; }
         }
         
-        public override void Start()
+        public override void Start(ExtensionContext context)
         {
             ExtensionInfo info = Context.Application.Extensions["IrcShark.Extensions.Scripting.ScriptingExtension"];
             scripting = Context.Application.Extensions[info] as ScriptingExtension;

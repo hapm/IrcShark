@@ -76,13 +76,12 @@ namespace IrcShark.Connectors.TerminalIrc
         /// <summary>
         /// Starts the extension.
         /// </summary>
-        public override void Start()
+        public override void Start(ExtensionContext context)
         {
             ExtensionInfo chattingInfo = Context.Application.Extensions["IrcShark.Extensions.Chatting.ChatManagerExtension"];
             ExtensionInfo terminalInfo = Context.Application.Extensions["IrcShark.Extensions.Terminal.TerminalExtension"];
             chatting = Context.Application.Extensions[chattingInfo] as ChatManagerExtension;
             terminal = Context.Application.Extensions[terminalInfo] as TerminalExtension;
-            terminal.Commands.Add(new RawCommand(this));
         }
         
         /// <summary>

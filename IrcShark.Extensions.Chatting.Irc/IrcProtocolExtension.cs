@@ -32,9 +32,8 @@ namespace IrcShark.Extensions.Chatting.Irc
     /// protocol connections.
     /// </summary>
     [System.Runtime.InteropServices.Guid("1c0d853e-3e84-4451-a384-40a663669a9e")]
-    [DependsOn(new string[] { "85a0b0ad-6015-41e5-80aa-ccb6c0cad044" }, 
-               ClassNames = new string[] { "IrcShark.Extensions.Chatting.ChatManagerExtension" } )]
-    public class IrcProtocolExtension : ProtocolExtension
+    [Mono.Addins.Extension]
+    public class IrcProtocolExtension : IProtocolExtension
     {
         /// <summary>
         /// Saves the log channel identifier of the IrcProtocolExtension.
@@ -47,67 +46,17 @@ namespace IrcShark.Extensions.Chatting.Irc
         private static Regex ircAddressRegex = new Regex(@"^(?:irc://)?([^:/]+)(?::([\d]+))?/?");
         
         /// <summary>
-        /// Saves the IrcProtocol instance.
-        /// </summary>
-        private IrcProtocol protocol;
-        
-        /// <summary>
-        /// Initializes a new instance of the IrcProtocolExtension class.
-        /// </summary>
-        /// <param name="context"></param>
-        public IrcProtocolExtension(ExtensionContext context) : base(context)
-        {
-            protocol = IrcProtocol.GetInstance();
-        }
-        
-        /// <summary>
         /// Get the IrcProtocol instance.
         /// </summary>
         /// <value>
         /// The IrcProtocol instace.
         /// </value>
-        public override IrcShark.Chatting.IProtocol Protocol 
+        public IrcShark.Chatting.IProtocol Protocol 
         {
             get 
             {
-                return protocol;
+                return IrcProtocol.GetInstance();
             }
-        }
-        
-        /// <summary>
-        /// Starts the IrcProtocolExtension.
-        /// </summary>
-        /// <remarks>
-        /// The extension registers the irc protocol with the ChatManagerExtension.
-        /// </remarks>
-        public override void Start()
-        {
-            ExtensionInfo info;
-            ChatManagerExtension extension;
-            try
-            {
-                info = Context.Application.Extensions["IrcShark.Extensions.Chatting.ChatManagerExtension"];
-                extension = (ChatManagerExtension)Context.Application.Extensions[info];
-            }
-            catch (IndexOutOfRangeException)
-            {
-                Context.Application.Log.Log(new LogMessage("IRC", 1234, LogLevel.Error, "ChatManagerExtension isn't loaded!"));
-                return;
-            }
-            catch (InvalidCastException)
-            {
-                Context.Application.Log.Log(new LogMessage("IRC", 1234, LogLevel.Error, "ChatManagerExtension has the wrong version!"));
-                return;
-            }
-            
-            extension.RegisterProtocol(this);
-        }
-
-        /// <summary>
-        /// Stops the IrcProtocolExtension.
-        /// </summary>
-        public override void Stop()
-        {
         }
         
         /// <summary>
@@ -119,14 +68,14 @@ namespace IrcShark.Extensions.Chatting.Irc
         /// An UnsupportedProtocolExteption is thrown, if the given settings object is for
         /// another protocol.
         /// </exception>
-        public override IrcShark.Chatting.INetwork LoadNetwork(NetworkSettings settings)
+        public IrcShark.Chatting.INetwork LoadNetwork(NetworkSettings settings)
         {
             if (!settings.Protocol.Equals(Protocol.Name))
             {
                 throw new UnsupportedProtocolException();
             }
             
-            IrcNetwork result = new IrcNetwork(protocol, settings.Name);
+            IrcNetwork result = new IrcNetwork(IrcProtocol.GetInstance(), settings.Name);
             foreach (ServerSettings server in settings.Servers) 
             {
                 IrcServerEndPoint ircsrv = result.AddServer(server.Name, server.Address);
@@ -144,7 +93,7 @@ namespace IrcShark.Extensions.Chatting.Irc
         /// </summary>
         /// <param name="network">The IrcNetwork to save.</param>
         /// <returns>The generated NetworkSettings instance.</returns>
-        public override NetworkSettings SaveNetwork(IrcShark.Chatting.INetwork network)
+        public NetworkSettings SaveNetwork(IrcShark.Chatting.INetwork network)
         {
             IrcNetwork net = network as IrcNetwork;
             if (net == null)

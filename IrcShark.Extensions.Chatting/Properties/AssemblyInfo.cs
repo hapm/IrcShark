@@ -23,6 +23,8 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+using Mono.Addins;
+
 #endregion
 
 // General Information about an assembly is controlled through the following 
@@ -43,6 +45,8 @@ using System.Runtime.InteropServices;
 
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
 [assembly: Guid("a77946ef-5a9f-401b-a3cb-2e4f5a6c7c8a")]
+[assembly: Addin("ChatManager","0.1")]
+[assembly: AddinDependency("IrcShark", "0.1")]
 
 // The assembly version has following format :
 //

@@ -26,13 +26,15 @@ namespace IrcShark.Connectors.TerminalScripting
     /// <summary>
     /// Description of EngineCommand.
     /// </summary>
+    [TerminalCommand("engine")]
     public class EngineCommand : TerminalCommand
     {
         private ScriptingExtension scripting;
         
-        public EngineCommand(TerminalExtension terminal, ScriptingExtension scripting) : base("engine", terminal)
+        public override void Init(TerminalExtension terminal)
         {
-            this.scripting = scripting;
+            base.Init(terminal);
+            scripting = Terminal.Context.Application.Extensions.GetExtension("ScriptEngine") as ScriptingExtension;
         }
         
         public override void Execute(params string[] paramList)

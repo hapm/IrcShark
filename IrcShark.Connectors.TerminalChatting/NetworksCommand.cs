@@ -28,6 +28,7 @@ namespace IrcShark.Connectors.TerminalChatting
     /// <summary>
     /// Description of NetworksCommand.
     /// </summary>
+    [TerminalCommand("network")]
     public class NetworksCommand : TerminalCommand
     {
         /// <summary>
@@ -36,13 +37,14 @@ namespace IrcShark.Connectors.TerminalChatting
         private TerminalChattingConnector con;
         
         /// <summary>
-        /// Initializes a new instance of the NetworksCommand class.
+        /// Initializes the NetworksCommand.
         /// </summary>
         /// <param name="terminal">The terminal to create the command for.</param>
-        public NetworksCommand(TerminalChattingConnector connector) : base("network", connector.Terminal)
+        public override void Init(TerminalExtension terminal)
         {
-            this.con = connector;
-        }
+            base.Init(terminal);
+            this.con = Terminal.Context.Application.Extensions.GetExtension("TerminalChattingConnector") as TerminalChattingConnector;
+        } 
         
         /// <summary>
         /// Executes the networks command.

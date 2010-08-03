@@ -47,14 +47,13 @@ namespace IrcShark.Connectors.TerminalScripting
             terminal.WriteLine(string.Join(" ", line));
         }
         
-        public override void Start()
+        public override void Start(ExtensionContext context)
         {
             ExtensionInfo scriptingInfo = Context.Application.Extensions["IrcShark.Extensions.Scripting.ScriptingExtension"];
             ExtensionInfo terminalInfo = Context.Application.Extensions["IrcShark.Extensions.Terminal.TerminalExtension"];
             scripting = Context.Application.Extensions[scriptingInfo] as ScriptingExtension;
             terminal = Context.Application.Extensions[terminalInfo] as TerminalExtension;
             scripting.PublishedMethods.Add("echo", new EchoDelegate(Echo));
-            terminal.Commands.Add(new EngineCommand(terminal, scripting));
         }
         
         public override void Stop()

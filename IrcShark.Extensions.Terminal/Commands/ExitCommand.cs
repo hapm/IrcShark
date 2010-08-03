@@ -25,17 +25,9 @@ namespace IrcShark.Extensions.Terminal.Commands
     /// <summary>
     /// The ExitCommand stops the execution of IrcShark and all its extensions.
     /// </summary>
+    [TerminalCommand("exit")]
     public class ExitCommand : TerminalCommand
-    {
-        /// <summary>
-        /// Initializes a new instance of the ExitCommand class.
-        /// </summary>
-        /// <param name="extension">The reference to the TerminalExtension.</param>
-        public ExitCommand(TerminalExtension extension)
-            : base("exit", extension)
-        {
-        }
-        
+    {        
         /// <summary>
         /// Executing this command will close IrcShark.
         /// </summary>

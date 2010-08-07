@@ -1,4 +1,5 @@
-﻿// <copyright file="ExtensionCommand.cs" company="IrcShark Team">
+﻿using Mono.Addins;
+// <copyright file="ExtensionCommand.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -68,7 +69,7 @@ namespace IrcShark.Extensions.Terminal.Commands
                     ListAvailableExtensions();
                     break;
                 case "-l":
-                    LoadExtension(paramList);
+                    StartExtension(paramList);
                     break;
                 case "-u":
                     UnloadExtension(paramList);
@@ -95,11 +96,11 @@ namespace IrcShark.Extensions.Terminal.Commands
                     switch (call.Parameters[0])
                     {
                         case "-l":
-                            foreach (ExtensionInfo info in extManager.AvailableExtensions)
+                            foreach (ExtensionAttribute info in extManager.AvailableExtensions)
                             {
-                                if (string.IsNullOrEmpty(call.Parameters[1]) || info.Class.StartsWith(call.Parameters[1]))
+                                if (string.IsNullOrEmpty(call.Parameters[1]) || info.Id.StartsWith(call.Parameters[1]))
                                 {
-                                    result.Add(info.Class + "\n");
+                                    result.Add(info.Id + "\n");
                                 }
                             }
                             
@@ -113,11 +114,11 @@ namespace IrcShark.Extensions.Terminal.Commands
                             
                             break;
                         case "-u":
-                            foreach (ExtensionInfo info in extManager.Keys)
+                            foreach (string id in extManager.Keys)
                             {
-                                if (string.IsNullOrEmpty(call.Parameters[1]) || info.Class.StartsWith(call.Parameters[1]))
+                                if (string.IsNullOrEmpty(call.Parameters[1]) || id.StartsWith(call.Parameters[1]))
                                 {
-                                    result.Add(info.Class + "\n");
+                                    result.Add(id + "\n");
                                 }
                             }
                             
@@ -142,23 +143,10 @@ namespace IrcShark.Extensions.Terminal.Commands
         {
             int i = 1;
             Terminal.WriteLine(Translation.Messages.ListingAvailableExtensions);
-            foreach (ExtensionInfo info in extManager.AvailableExtensions) 
+            foreach (IrcShark.Extensions.ExtensionAttribute info in extManager.AvailableExtensions) 
             {
-                Terminal.Write(i.ToString() + ". ");                
-                if (!string.IsNullOrEmpty(info.Name)) 
-                {
-                    Terminal.Write(info.Name);
-                } 
-                else
-                {
-                    Terminal.Write(info.Class);
-                }
-                
-                if (!string.IsNullOrEmpty(info.Description)) 
-                {
-                    Terminal.Write(" " + info.Description);
-                }
-                
+                Terminal.Write(i.ToString() + ". ");   
+                Terminal.Write(info.Name);                
                 Terminal.WriteLine();
                 i++;
             }
@@ -171,22 +159,12 @@ namespace IrcShark.Extensions.Terminal.Commands
         {
             Terminal.WriteLine(Translation.Messages.ListingRunningExtensions);
             int i = 1;
-            foreach (ExtensionInfo info in extManager.Keys) 
+            foreach (IExtension ext in extManager.Values) 
             {
                 Terminal.Write(i.ToString() + ". ");
-                if (!string.IsNullOrEmpty(info.Name)) 
-                {
-                    Terminal.Write(info.Name);
-                } 
-                else 
-                {
-                    Terminal.Write(info.Class);
-                }
-                
-                if (!string.IsNullOrEmpty(info.Description)) 
-                {
-                    Terminal.Write(" " + info.Description);
-                }
+                Terminal.Write(ext.Name);
+                Terminal.Write(" - ");;
+                Terminal.Write(ext.Id);
                 
                 Terminal.WriteLine();
                 i++;
@@ -197,7 +175,7 @@ namespace IrcShark.Extensions.Terminal.Commands
         /// Trys to load a given extension.
         /// </summary>
         /// <param name="args">The parameters for this command.</param>
-        private void LoadExtension(string[] args)
+        private void StartExtension(string[] args)
         {
             if (args.Length < 2)
             {
@@ -206,7 +184,7 @@ namespace IrcShark.Extensions.Terminal.Commands
             }
             
             int nr;
-            ExtensionInfo info;
+            IrcShark.Extensions.ExtensionAttribute info;
             if (int.TryParse(args[1], out nr))
             {
                 if (extManager.AvailableExtensions.Length < nr || nr < 1)
@@ -223,13 +201,13 @@ namespace IrcShark.Extensions.Terminal.Commands
                 return;
             }
             
-            if (extManager.IsLoaded(info))
+            if (extManager.IsStarted(info.Id))
             {
                 Terminal.WriteLine(Translation.Messages.ExtensionAlreadyLoaded);
                 return;
             }
             
-            extManager.Load(info);
+            extManager.Start(info.Id);
         }
         
         /// <summary>
@@ -245,37 +223,26 @@ namespace IrcShark.Extensions.Terminal.Commands
             }
             
             int nr;
-            ExtensionInfo info;
+            IExtension ext;
             if (int.TryParse(args[1], out nr))
             {
+                //TODO get from the given number to the AddinId
                 if (extManager.Count < nr || nr < 1)
                 {
                     Terminal.WriteLine(Translation.Messages.NoLoadedExtensionWithThisNumber);
                     return;
                 }
-                
-                info = extManager[nr - 1];
             }
             else
             {
-                if (extManager.IsLoaded(args[1]))
-                {
-                    info = extManager[args[1]];
-                }
-                else
+                if (!extManager.IsStarted(args[1])) 
                 {
                     Terminal.WriteLine(Translation.Messages.ExtensionNotLoaded);
                     return;
                 }
             }
             
-            if (!extManager.IsLoaded(info))
-            {
-                Terminal.WriteLine(Translation.Messages.ExtensionNotLoaded);
-                return;
-            }
-            
-            extManager.Unload(info);            
+            extManager.Stop(args[1]);
         }
     }
 }

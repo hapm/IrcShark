@@ -21,10 +21,12 @@ namespace IrcShark.Extensions.Scripting
 {
     using System;
     using System.IO;
+    using Mono.Addins;
 
     /// <summary>
     /// By implementing this interface, you can register the implementing class as a script engine, used to execute scriptfiles.
     /// </summary>
+    [TypeExtensionPoint(ExtensionAttributeType=typeof(ScriptEngineAttribute))]
     public interface IScriptEngine
     {
         /// <summary>

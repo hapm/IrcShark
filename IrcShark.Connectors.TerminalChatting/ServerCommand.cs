@@ -34,7 +34,7 @@ namespace IrcShark.Connectors.TerminalChatting
         /// <summary>
         /// Saves the reference to the TerminalChattingConnector instance.
         /// </summary>
-        private TerminalChattingConnector con;
+        private ChatManagerExtension chatting;
         
         /// <summary>
         /// Initializes the ServerCommand.
@@ -43,7 +43,9 @@ namespace IrcShark.Connectors.TerminalChatting
         public override void Init(TerminalExtension terminal)
         {
             base.Init(terminal);
-            this.con = Terminal.Context.Application.Extensions.GetExtension("TerminalChattingConnector") as TerminalChattingConnector;
+            this.chatting = Terminal.Context.Application.Extensions["IrcShark.Extensions.Chatting.ChatManagerExtension"] as ChatManagerExtension;
+            if (chatting == null)
+                Active = false;
         } 
         
         /// <summary>
@@ -89,18 +91,18 @@ namespace IrcShark.Connectors.TerminalChatting
             int networkNr;
             if (int.TryParse(ident, out networkNr))
             {
-                if (networkNr < 1 || networkNr > con.Chatting.Networks.Count)
+                if (networkNr < 1 || networkNr > chatting.Networks.Count)
                 {
                     Terminal.WriteLine(string.Format("There is no network with the number {0}.", ident));   
                 }
                 else
                 {
-                    network = con.Chatting.Networks[networkNr - 1];
+                    network = chatting.Networks[networkNr - 1];
                 }
             }
             else
             {
-                foreach (INetwork net in con.Chatting.Networks)
+                foreach (INetwork net in chatting.Networks)
                 {
                     if (net.Name.Equals(ident))
                     {

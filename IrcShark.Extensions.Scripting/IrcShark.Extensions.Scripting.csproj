@@ -51,6 +51,7 @@
     <Compile Include="CompilationException.cs" />
     <Compile Include="FatalError.cs" />
     <Compile Include="IScriptEngine.cs" />
+    <Compile Include="IScriptMethod.cs" />
     <Compile Include="LanguageDefinition.cs" />
     <Compile Include="MethodCollection.cs" />
     <Compile Include="ObjectCollection.cs" />
@@ -58,10 +59,11 @@
     <Compile Include="ScriptCompilerHelper.cs" />
     <Compile Include="ScriptContainer.cs" />
     <Compile Include="ScriptContext.cs" />
+    <Compile Include="ScriptEngineAttribute.cs" />
     <Compile Include="ScriptingException.cs" />
     <Compile Include="ScriptingExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptLanguageExtension.cs" />
+    <Compile Include="ScriptMethodAttribute.cs" />
     <Compile Include="StreamBuffer.cs" />
     <Compile Include="StreamUTF8Buffer.cs" />
     <Compile Include="TalkingCollection.cs" />

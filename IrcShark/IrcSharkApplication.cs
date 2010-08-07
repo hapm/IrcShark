@@ -158,7 +158,7 @@ namespace IrcShark
             LoadSettings();
 
             InitExtensionManager();
-            extensions.LoadEnabledExtensions();
+            extensions.StartEnabledExtensions();
             
              if (StartupComplete != null)
              {

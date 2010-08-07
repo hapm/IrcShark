@@ -34,7 +34,7 @@ namespace IrcShark.Connectors.TerminalScripting
         public override void Init(TerminalExtension terminal)
         {
             base.Init(terminal);
-            scripting = Terminal.Context.Application.Extensions.GetExtension("ScriptEngine") as ScriptingExtension;
+            scripting = Terminal.Context.Application.Extensions["IrcShark.Extensions.Scripting.ScriptingExtension"] as ScriptingExtension;
         }
         
         public override void Execute(params string[] paramList)
@@ -49,9 +49,9 @@ namespace IrcShark.Connectors.TerminalScripting
             {
                 case "-l":
                     Terminal.WriteLine("Listing all supported scripting languages:");
-                    foreach (ScriptLanguageExtension lang in scripting.GetRegisteredLanguages())
+                    foreach (IScriptEngine lang in scripting.GetRegisteredLanguages())
                     {
-                        Terminal.WriteLine(string.Format("{0}", lang.Engine.Language.LanguageName));
+                        Terminal.WriteLine(string.Format("{0}", lang.Language.LanguageName));
                     }
                     
                     break;

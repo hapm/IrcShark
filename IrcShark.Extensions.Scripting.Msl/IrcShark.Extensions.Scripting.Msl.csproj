@@ -39,6 +39,10 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
+    <Reference Include="Mono.Addins">
+      <HintPath>..\Mono.Addins.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -56,7 +60,6 @@
     <Compile Include="MslIdentifierCollection.cs" />
     <Compile Include="MslScript.cs" />
     <Compile Include="MslScriptEngine.cs" />
-    <Compile Include="MslScriptingExtension.cs" />
     <Compile Include="MslStringMethods.cs" />
     <Compile Include="Parser.cs">
       <DependentUpon>MslParser.atg</DependentUpon>

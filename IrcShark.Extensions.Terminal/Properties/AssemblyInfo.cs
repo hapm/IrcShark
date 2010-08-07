@@ -26,7 +26,7 @@ using Mono.Addins;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
 [assembly: AssemblyTitle("IrcShark.Extensions.IrcSharkTerminal")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Allows to configure IrcShark over a terminal.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("IrcShark")]
 [assembly: AssemblyProduct("IrcShark.Extensions.IrcSharkTerminal")]
@@ -43,7 +43,8 @@ using Mono.Addins;
 [assembly: Guid("a77946ef-5a9f-401b-a3cb-b4b8ec2ebe84")]
 [assembly: Addin("Terminal", "0.1")]
 [assembly: AddinDependency("IrcShark", "0.1")]
-
+[assembly: AddinAuthor("Mc_Kay")]
+[assembly: AddinAuthor("Alpha")]
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //
 //      Hauptversion

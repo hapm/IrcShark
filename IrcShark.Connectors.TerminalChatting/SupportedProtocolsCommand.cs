@@ -36,7 +36,7 @@ namespace IrcShark.Connectors.TerminalChatting
         /// <summary>
         /// Saves the reference to the TerminalChattingConnector instance.
         /// </summary>
-        private TerminalChattingConnector con;
+        private ChatManagerExtension chatting;
         
         /// <summary>
         /// Initializes the SupportedProtocolsCommand.
@@ -45,7 +45,9 @@ namespace IrcShark.Connectors.TerminalChatting
         public override void Init(TerminalExtension terminal)
         {
             base.Init(terminal);
-            this.con = Terminal.Context.Application.Extensions.GetExtension("TerminalChattingConnector") as TerminalChattingConnector;
+            this.chatting = Terminal.Context.Application.Extensions["IrcShark.Extensions.Chatting.ChatManagerExtension"] as ChatManagerExtension;
+            if (chatting == null)
+                Active = false;
         } 
         
         /// <summary>
@@ -62,7 +64,7 @@ namespace IrcShark.Connectors.TerminalChatting
             
             StringBuilder line = null;
             Terminal.WriteLine(Translation.Messages.ListingInstalledProtocols);
-            foreach (ProtocolExtension protocol in con.Chatting.Protocols)
+            foreach (IProtocolExtension protocol in chatting.Protocols)
             {
                 if (line == null)
                 {

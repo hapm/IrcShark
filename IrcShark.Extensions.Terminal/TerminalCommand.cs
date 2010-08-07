@@ -33,6 +33,11 @@ namespace IrcShark.Extensions.Terminal
 		/// Saves the name of the command.
 		/// </summary>
 		private string commandName;
+		
+		/// <summary>
+		/// Saves if the command can be used at the moment.
+		/// </summary>
+		private bool active;
 
 		/// <summary>
 		/// Saves a reference to the TerminalExtension instance.
@@ -58,6 +63,16 @@ namespace IrcShark.Extensions.Terminal
 		/// </value>
 		public TerminalExtension Terminal {
 			get { return extension; }
+		}
+		
+		/// <summary>
+		/// Gets a value indicating whether the command is currently useable or not.
+		/// </summary>
+		/// <value>Its true if the command can be executed at the moment, false otherwise.</value>
+		public virtual bool Active
+		{
+		    get { return active; }
+		    protected set { active = value; }
 		}
 
 		/// <summary>

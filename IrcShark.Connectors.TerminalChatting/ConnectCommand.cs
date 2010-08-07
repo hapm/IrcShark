@@ -33,12 +33,18 @@ namespace IrcShark.Connectors.TerminalChatting
         /// <summary>
         /// Saves the reference to the TerminalChattingConntector.
         /// </summary>
-        private TerminalChattingConnector con;
+        private ChatManagerExtension chatting;
         
+        /// <summary>
+        /// Initializes the command.
+        /// </summary>
+        /// <param name="terminal">The terminal to use.</param>
         public override void Init(TerminalExtension terminal)
         {
             base.Init(terminal);
-            this.con = Terminal.Context.Application.Extensions.GetExtension("TerminalChattingConnector") as TerminalChattingConnector;
+            this.chatting = Terminal.Context.Application.Extensions["IrcShark.Extensions.Chatting.ChatManagerExtension"] as ChatManagerExtension;
+            if (chatting == null)
+                Active = false;
         }
         
         /// <summary>
@@ -49,7 +55,7 @@ namespace IrcShark.Connectors.TerminalChatting
         {
             if (paramList.Length < 1)
             {
-                con.Terminal.WriteLine("Please specify a flag.");
+                Terminal.WriteLine("Please specify a flag.");
                 return;
             }
             
@@ -75,17 +81,17 @@ namespace IrcShark.Connectors.TerminalChatting
         /// <param name="paramList">The parameters for this command.</param>
         private void ListConnections(string[] paramList)
         {
-            if (con.Chatting.Connections.Count == 0)
+            if (chatting.Connections.Count == 0)
             {
-                con.Terminal.WriteLine("There are no open connections at the moment.");
+                Terminal.WriteLine("There are no open connections at the moment.");
                 return;
             }
             
-            con.Terminal.WriteLine("Listing open connections:");
-            for (int i = 0; i < con.Chatting.Connections.Count; i++)
+            Terminal.WriteLine("Listing open connections:");
+            for (int i = 0; i < chatting.Connections.Count; i++)
             {
-                IConnection c = con.Chatting.Connections[i];
-                con.Terminal.WriteLine("{0}. {1}", i, c.Server.Network.Name);
+                IConnection c = chatting.Connections[i];
+                Terminal.WriteLine("{0}. {1}", i, c.Server.Network.Name);
             }
         }
         
@@ -99,7 +105,7 @@ namespace IrcShark.Connectors.TerminalChatting
         {
             if (paramList.Length < 2)
             {
-                con.Terminal.WriteLine("Please specify the network to connect to.");
+                Terminal.WriteLine("Please specify the network to connect to.");
                 return;
             }
             
@@ -111,13 +117,13 @@ namespace IrcShark.Connectors.TerminalChatting
             
             if (network.ServerCount == 0)
             {
-                con.Terminal.WriteLine("The network '{0}' doesn't have any configured servers, please configure one before trying to connect.", network.Name);
+                Terminal.WriteLine("The network '{0}' doesn't have any configured servers, please configure one before trying to connect.", network.Name);
             }
             
             IConnection connection = network.CreateConnection();
             connection.Nickname = "IrcSharkTestBuild";
             connection.UserName = "Test";
-            con.Chatting.Connections.Add(connection);
+            chatting.Connections.Add(connection);
             connection.Open();
         }
         
@@ -131,26 +137,26 @@ namespace IrcShark.Connectors.TerminalChatting
             IConnection connection;
             if (paramList.Length < 2 || paramList[1] == null)
             {
-                con.Terminal.WriteLine("Please specify a connection number to close");
+                Terminal.WriteLine("Please specify a connection number to close");
                 return;
             }            
             
             if (!int.TryParse(paramList[1], out connectNr))
             {
-                con.Terminal.WriteLine("The given connection number '{0}' is not numeric", paramList[1]);
+                Terminal.WriteLine("The given connection number '{0}' is not numeric", paramList[1]);
                 return;
             }
             
-            if (connectNr < 1 || connectNr > con.Chatting.Connections.Count)
+            if (connectNr < 1 || connectNr > chatting.Connections.Count)
             {
-                con.Terminal.WriteLine("The given number '{0}' is no valid connection number", connectNr);
+                Terminal.WriteLine("The given number '{0}' is no valid connection number", connectNr);
                 return;
             }
             
-            connection = con.Chatting.Connections[connectNr - 1];
+            connection = chatting.Connections[connectNr - 1];
             connection.Close();
-            con.Chatting.Connections.Remove(connection);
-            con.Terminal.WriteLine("Connection {0} to server '{1}' closed", connectNr, connection.Server.Network.Name);
+            chatting.Connections.Remove(connection);
+            Terminal.WriteLine("Connection {0} to server '{1}' closed", connectNr, connection.Server.Network.Name);
         }
         
         /// <summary>
@@ -164,18 +170,18 @@ namespace IrcShark.Connectors.TerminalChatting
             int networkNr;
             if (int.TryParse(ident, out networkNr))
             {
-                if (networkNr < 1 || networkNr > con.Chatting.Networks.Count)
+                if (networkNr < 1 || networkNr > chatting.Networks.Count)
                 {
                     Terminal.WriteLine(string.Format("There is no network with the number {0}.", ident));   
                 }
                 else
                 {
-                    network = con.Chatting.Networks[networkNr - 1];
+                    network = chatting.Networks[networkNr - 1];
                 }
             }
             else
             {
-                foreach (INetwork net in con.Chatting.Networks)
+                foreach (INetwork net in chatting.Networks)
                 {
                     if (net.Name.Equals(ident))
                     {

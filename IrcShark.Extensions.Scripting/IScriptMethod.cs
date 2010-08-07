@@ -1,9 +1,9 @@
-﻿// <copyright file="ScriptLanguageExtension.cs" company="IrcShark Team">
+﻿// <copyright file="IScriptMethod.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Place a summary here.</summary>
+// <summary>Contains the IScriptMethod interface.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,20 +20,18 @@
 namespace IrcShark.Extensions.Scripting
 {
     using System;
-    using IrcShark.Extensions;
+    using Mono.Addins;
     
     /// <summary>
-    /// Description of ScriptLanguageExtension.
+    /// The IScriptMethod interface is used to extend the available methods in prozedural script languages.
     /// </summary>
-    public abstract class ScriptLanguageExtension : Extension
+    [TypeExtensionPoint(ExtensionAttributeType=typeof(ScriptMethodAttribute))]
+    public interface IScriptMethod
     {
-        public ScriptLanguageExtension(ExtensionContext context) : base(context)
-        {
-        }
-        
-        public abstract IScriptEngine Engine 
-        { 
-            get; 
-        }
+        /// <summary>
+        /// Gets the delegate of this method.
+        /// </summary>
+        /// <param name="scripting">The ScriptingExtension instance.</param>
+        Delegate GetMethodDelegat(ScriptingExtension scripting);
     }
 }

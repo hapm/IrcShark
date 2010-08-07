@@ -30,6 +30,11 @@ namespace IrcShark.Extensions
 		/// Saves the ExtensionContext belonging to the Extension instance.
 		/// </summary>
 		private ExtensionContext context;
+		
+		/// <summary>
+		/// Saves the ExtensionAttribute for the current extension after first lookup.
+		/// </summary>
+		private ExtensionAttribute data;
 
 		/// <summary>
 		/// Initializes a new instance of the Extension class.
@@ -67,6 +72,62 @@ namespace IrcShark.Extensions
 		public ExtensionContext Context {
 			get { return context; }
 			protected set { context = value; }
+		}
+		
+		/// <summary>
+		/// Gets the id of the extension from attributes.
+		/// </summary>
+		/// <value>The id of the extension.</value>
+		public string Id {
+		    get 
+		    {
+		        string result = null;
+		        
+		        if (data != null) 
+		        {
+		            result = data.Id;
+		        }
+		        else 
+		        {
+    		        foreach (object attrb in GetType().GetCustomAttributes(false))
+    		        {
+    		            if (attrb is ExtensionAttribute) 
+    		            {
+    		                data = attrb as ExtensionAttribute;
+    		                result = data.Id;
+    		                break;
+    		            }
+    		        }
+		        }
+		        
+		        if (result == null)
+		        {
+		            result = GetType().Name;
+		        }
+		        
+		        return result;
+		    }
+		}
+		
+		/// <summary>
+		/// Gets the display name of the extension from attributes.
+		/// </summary>
+		/// <value>The name of the extension.</value>
+		public string Name {
+		    get 
+		    {
+		        if (data != null) 
+		            return data.Name;
+		        foreach (object attrb in GetType().GetCustomAttributes(false))
+		        {
+		            if (attrb is ExtensionAttribute) 
+		            {
+		                data = attrb as ExtensionAttribute;
+		                return data.Name;
+		            }
+		        }
+		        return "";
+		    }
 		}
 
 		/// <summary>

@@ -27,18 +27,21 @@ namespace IrcShark.Extensions.Scripting
     /// <summary>
     /// Description of MyClass.
     /// </summary>
-    [GuidAttribute("a004129f-4013-4b15-ba2e-ba0c063b5530")]
+    [Extension(Name="Script-Manager", Id="IrcShark.Extensions.Scripting.ScriptingExtension")]
     public class ScriptingExtension : Extension
     {
-        private List<ScriptLanguageExtension> languages;
+        /// <summary>
+        /// Saves all supported languages.
+        /// </summary>
+        private List<IScriptEngine> languages;
         
         private MethodCollection publishedMethods;
         
         private ObjectCollection publishedObjects;
         
-        public ScriptingExtension(ExtensionContext context) : base(context)
+        public ScriptingExtension()
         {
-            languages = new List<ScriptLanguageExtension>();
+            languages = new List<IScriptEngine>();
             publishedMethods = new MethodCollection();
             publishedObjects = new ObjectCollection();
             PublishedMethods.Added += new TalkingCollectionEventHandler<string, Delegate>(HandleNewMethod);
@@ -55,34 +58,51 @@ namespace IrcShark.Extensions.Scripting
             get { return publishedObjects; }
         }
         
-        public ScriptLanguageExtension[] GetRegisteredLanguages()
+        public IScriptEngine[] GetRegisteredLanguages()
         {
             return languages.ToArray();
-        }            
+        }
         
-        public void RegisterLanguage(ScriptLanguageExtension ext)
+        public void RehashMethods()
         {
-            languages.Add(ext);
-            LanguageDefinition lang = ext.Engine.Language;
-            if (lang.IsObjectOriented)
+            publishedMethods.Clear();
+            foreach (Mono.Addins.TypeExtensionNode<ScriptMethodAttribute> methodNode in Mono.Addins.AddinManager.GetExtensionNodes(typeof(IScriptMethod)))
             {
-                foreach (KeyValuePair<string, object> pair in publishedObjects)
-                {
-                    ext.Engine.PublishedObjects.Add(pair.Key, pair.Value);
-                }
+                IScriptMethod method = methodNode.CreateInstance() as IScriptMethod;
+                publishedMethods.Add(methodNode.Data.Name, method.GetMethodDelegat(this));
             }
-            
-            if (lang.IsProcedural)
+        }
+        
+        public void RehashLanguages()
+        {
+            languages.Clear();
+            foreach (IScriptEngine engine in Mono.Addins.AddinManager.GetExtensionObjects(typeof(IScriptEngine)))
             {
-                foreach (KeyValuePair<string, Delegate> pair in publishedMethods)
+                languages.Add(engine);
+                LanguageDefinition lang = engine.Language;
+                if (lang.IsObjectOriented)
                 {
-                    ext.Engine.PublishedMethods.Add(pair.Key, pair.Value);
+                    foreach (KeyValuePair<string, object> pair in publishedObjects)
+                    {
+                        engine.PublishedObjects.Add(pair.Key, pair.Value);
+                    }
+                }
+                
+                if (lang.IsProcedural)
+                {
+                    foreach (KeyValuePair<string, Delegate> pair in publishedMethods)
+                    {
+                        engine.PublishedMethods.Add(pair.Key, pair.Value);
+                    }
                 }
             }
         }
         
         public override void Start(ExtensionContext context)
         {
+            Context = context;
+            RehashLanguages();
+            RehashMethods();
         }
         
         public override void Stop()
@@ -91,22 +111,22 @@ namespace IrcShark.Extensions.Scripting
         
         private void HandleNewMethod(object sender, TalkingCollectionEventArgs<string, Delegate> args)
         {
-            foreach (ScriptLanguageExtension ext in languages)
+            foreach (IScriptEngine engine in languages)
             {
-                if (ext.Engine.Language.IsProcedural)
+                if (engine.Language.IsProcedural)
                 {
-                    ext.Engine.PublishedMethods.Add(args.ChangedKey, publishedMethods[args.ChangedKey]);
+                    engine.PublishedMethods.Add(args.ChangedKey, publishedMethods[args.ChangedKey]);
                 }
             }
         }
         
         private void HandleRemoveMethod(object sender, TalkingCollectionEventArgs<string, Delegate> args)
         {
-            foreach (ScriptLanguageExtension ext in languages)
+            foreach (IScriptEngine engine in languages)
             {
-                if (ext.Engine.Language.IsProcedural)
+                if (engine.Language.IsProcedural)
                 {
-                    ext.Engine.PublishedMethods.Remove(args.ChangedKey);
+                    engine.PublishedMethods.Remove(args.ChangedKey);
                 }
             }            
         }

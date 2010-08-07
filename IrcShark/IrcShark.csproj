@@ -64,8 +64,10 @@
     <Compile Include="ExtensionAnalyzer.cs" />
     <Compile Include="ExtensionDependencyResolver.cs" />
     <Compile Include="ExtensionInfoCollection.cs" />
+    <Compile Include="ExtensionLoadedCondition.cs" />
     <Compile Include="Extensions\Dependency.cs" />
     <Compile Include="Extensions\DependsOnAttribute.cs" />
+    <Compile Include="Extensions\ExtensionAttribute.cs" />
     <Compile Include="Extensions\ExtensionContext.cs" />
     <Compile Include="Extensions\ExtensionDependencyAttribute.cs" />
     <Compile Include="Extensions\ExtensionInfoBuilder.cs" />

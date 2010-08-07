@@ -22,7 +22,7 @@ namespace IrcShark.Extensions
 	using System;
 	using Mono.Addins;
 	
-	[TypeExtensionPoint(Path="/IrcShark/Extensions")]
+	[TypeExtensionPoint(ExtensionAttributeType=typeof(ExtensionAttribute))]
 	public interface IExtension : IExtensionObject
 	{
 		/// <summary>
@@ -30,6 +30,18 @@ namespace IrcShark.Extensions
 		/// </summary>
 		/// <value>The context.</value>
 		ExtensionContext Context { get; }
+		
+		/// <summary>
+		/// Gets the id of the extension from attributes.
+		/// </summary>
+		/// <value>The id of the extension.</value>
+		string Id { get; }
+		
+		/// <summary>
+		/// Gets the display name of the extension from attributes.
+		/// </summary>
+		/// <value>The name of the extension.</value>
+		string Name { get; }
 		
 		/// <summary>
 		/// Starts the extension after the initialisation of IrcShark.

@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RawCommand.cs" />
-    <Compile Include="TerminalChattingIrcConnector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IrcShark.Chatting.Irc\IrcShark.Chatting.Irc.csproj">

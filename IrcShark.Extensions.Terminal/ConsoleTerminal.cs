@@ -373,9 +373,8 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         public void StopReading() 
         {
-			// Interrupt the editor
-			edit_thread.Abort();
-			edit_thread.Join();
+            done = true;
+            edit_thread.Abort();
         }
         
         /// <summary>

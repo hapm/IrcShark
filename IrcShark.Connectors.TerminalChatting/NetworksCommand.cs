@@ -34,7 +34,7 @@ namespace IrcShark.Connectors.TerminalChatting
         /// <summary>
         /// Saves the instance of the TerminalChattingConnector.
         /// </summary>        
-        private TerminalChattingConnector con;
+        private ChatManagerExtension chatting;
         
         /// <summary>
         /// Initializes the NetworksCommand.
@@ -43,7 +43,9 @@ namespace IrcShark.Connectors.TerminalChatting
         public override void Init(TerminalExtension terminal)
         {
             base.Init(terminal);
-            this.con = Terminal.Context.Application.Extensions.GetExtension("TerminalChattingConnector") as TerminalChattingConnector;
+            this.chatting = Terminal.Context.Application.Extensions["IrcShark.Extensions.Chatting.ChatManagerExtension"] as ChatManagerExtension;
+            if (chatting == null)
+                Active = false;
         } 
         
         /// <summary>
@@ -95,7 +97,7 @@ namespace IrcShark.Connectors.TerminalChatting
                         case "-d":
                         case "--delete":
                             List<string> completitions = new List<string>();
-                            foreach (INetwork n in con.Chatting.Networks)
+                            foreach (INetwork n in chatting.Networks)
                             {
                                 if (!string.IsNullOrEmpty(call.Parameters[1]) && n.Name.StartsWith(call.Parameters[1]))
                                 {
@@ -125,14 +127,14 @@ namespace IrcShark.Connectors.TerminalChatting
         private void ListNetworks()
         {
             int i = 0;
-            if (con.Chatting.Networks.Count == 0)
+            if (chatting.Networks.Count == 0)
             {            
                 Terminal.WriteLine("There are no configured networks. Use network -a to add some.");                
                 return;
             }
             
             Terminal.WriteLine("Listing all configured networks:");
-            foreach (INetwork network in con.Chatting.Networks)
+            foreach (INetwork network in chatting.Networks)
             {
                 i++;
                 Terminal.WriteLine("{0}. {1}", i, network.Name);
@@ -147,7 +149,7 @@ namespace IrcShark.Connectors.TerminalChatting
         /// </param>
         private void AddNetwork(string[] paramList) 
         {
-            ProtocolExtension protocol = null;
+            IProtocolExtension protocol = null;
             string protocolName;
             string networkName;
             INetwork network;
@@ -168,7 +170,7 @@ namespace IrcShark.Connectors.TerminalChatting
             
             networkName = paramList[2];
             
-            foreach (ProtocolExtension pro in con.Chatting.Protocols)
+            foreach (IProtocolExtension pro in chatting.Protocols)
             {
                 if (pro.Protocol.Name.ToUpper().Equals(protocolName))
                 {
@@ -184,7 +186,7 @@ namespace IrcShark.Connectors.TerminalChatting
             }
             
             network = protocol.Protocol.CreateNetwork(networkName);
-            con.Chatting.Networks.Add(network);
+            chatting.Networks.Add(network);
             Terminal.WriteLine("The network '{0}' was successfully created.", networkName);            
         }
         
@@ -207,17 +209,17 @@ namespace IrcShark.Connectors.TerminalChatting
             
             if (int.TryParse(networkName, out networkNr)) 
             {
-                if (networkNr < 1 || networkNr > con.Chatting.Networks.Count)
+                if (networkNr < 1 || networkNr > chatting.Networks.Count)
                 {
                     Terminal.WriteLine("There is no network with the number {0}, type network to get a list of configured networks.", networkNr);
                     return;
                 }
                 
-                toDelete = con.Chatting.Networks[networkNr - 1];
+                toDelete = chatting.Networks[networkNr - 1];
             }
             else
             {
-                foreach (INetwork net in con.Chatting.Networks)
+                foreach (INetwork net in chatting.Networks)
                 {
                     if (net.Name.Equals(networkName))
                     {
@@ -233,7 +235,7 @@ namespace IrcShark.Connectors.TerminalChatting
                 }
             }
             
-            con.Chatting.Networks.Remove(toDelete);
+            chatting.Networks.Remove(toDelete);
             Terminal.WriteLine("The network {0} was successfully deleted.", toDelete.Name);
         }
     }

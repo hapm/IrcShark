@@ -21,6 +21,9 @@ namespace IrcShark.Extensions.Terminal.Commands
 {
     using System;
     using System.Text;
+    
+    using Mono.Addins;
+    
     using IrcShark.Extensions.Terminal;
 
     /// <summary>
@@ -42,16 +45,16 @@ namespace IrcShark.Extensions.Terminal.Commands
             {
                 StringBuilder line = null;
                 Terminal.WriteLine(Translation.Messages.ListingAvailableCommands);
-                foreach (TerminalCommand cmd in Terminal.Commands)
+                foreach (TypeExtensionNode<TerminalCommandAttribute> cmdNode in Terminal.Commands)
                 {
                     if (line == null)
                     {
-                        line = new StringBuilder(cmd.CommandName);
+                        line = new StringBuilder(cmdNode.Data.Name);
                     }
                     else
                     {
                         line.Append(' ');
-                        line.Append(cmd.CommandName);
+                        line.Append(cmdNode.Data.Name);
                     }
                     
                     if (line.Length > 40)
@@ -70,10 +73,12 @@ namespace IrcShark.Extensions.Terminal.Commands
             } 
             else if (paramList.Length == 1)
             {
-                foreach (TerminalCommand cmd in Terminal.Commands)
+                foreach (TypeExtensionNode<TerminalCommandAttribute> cmdNode in Terminal.Commands)
                 {
-                    if (paramList[0].ToString() == cmd.CommandName) 
+                    if (paramList[0].ToString() == cmdNode.Data.Name) 
                     {
+                        ITerminalCommand cmd = cmdNode.CreateInstance() as ITerminalCommand;
+                        cmd.Init(Terminal);
                         cmd.Execute("-?");
                         return;
                     }

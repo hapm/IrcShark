@@ -38,7 +38,7 @@ namespace IrcShark.Extensions.WebUi
 		{
 		}
 		
-		public override void Start()
+		public override void Start(ExtensionContext context)
 		{
 			server.UseFramework();
 			server.Start();

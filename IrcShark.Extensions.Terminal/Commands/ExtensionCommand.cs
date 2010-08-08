@@ -223,7 +223,6 @@ namespace IrcShark.Extensions.Terminal.Commands
             }
             
             int nr;
-            IExtension ext;
             if (int.TryParse(args[1], out nr))
             {
                 //TODO get from the given number to the AddinId

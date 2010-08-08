@@ -94,11 +94,7 @@ namespace IrcShark
                 throw new ArgumentException("The given IrcSharkApplication already has an ExtensionManager", "app");
             }
             
-            AddinManager.Initialize("[ApplicationData]/IrcShark");
             HashAvailableExtensions();
-            AddinManager.AddinLoaded += new AddinEventHandler(AddinManager_AddinLoaded);
-            AddinManager.AddinLoadError += new AddinErrorEventHandler(AddinManager_AddinLoadError);
-            AddinManager.AddinUnloaded += new AddinEventHandler(AddinManager_AddinUnloaded);
             
             loaded = new Dictionary<string, IExtension>();
             
@@ -325,21 +321,6 @@ namespace IrcShark
             {
                 StatusChanged(this, new StatusChangedEventArgs(addinId, newState));
             }
-        }
-
-        private void AddinManager_AddinUnloaded(object sender, AddinEventArgs args)
-        {
-            OnStatusChanged(args.AddinId, ExtensionStates.MarkedForUnload);
-        }
-
-        private void AddinManager_AddinLoadError(object sender, AddinErrorEventArgs args)
-        {
-            application.Log.Error(Logger.CoreChannel, 3003,  Messages.Error3003_ExtensionLoadFail, args.AddinId, args.Message);
-        }
-
-        private void AddinManager_AddinLoaded(object sender, AddinEventArgs args)
-        {
-            OnStatusChanged(args.AddinId, ExtensionStates.Loaded);
         }
         
         /// <summary>

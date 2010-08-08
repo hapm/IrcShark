@@ -54,15 +54,23 @@ namespace IrcShark.Extensions.Terminal
         bool IsReading { get; }
         
         /// <summary>
+        /// Writes the given text to the terminal.
+        /// </summary>
+        /// <param name="text">The text to write.</param>
+        void Write(string text);
+        
+        /// <summary>
+        /// Writes the given text to the terminal.
+        /// </summary>
+        /// <param name="format">The format of the text to write.</param>
+        /// <param name="arg">The args to place in the format.</param>
+        void Write(string format, params object[] arg);
+        
+        /// <summary>
         /// Writes a complete line and appends a linebreak at the end.
         /// </summary>
         /// <param name="line">The line to write.</param>
         void WriteLine(string line);
-        
-        /// <summary>
-        /// Resets the foreground and background color of the terminal.
-        /// </summary>
-        void ResetColor();
         
         /// <summary>
         /// Writes a complete formated line and appends a linebreak at the end.
@@ -75,6 +83,11 @@ namespace IrcShark.Extensions.Terminal
         /// Writes a linebreak to the terminal.
         /// </summary>
         void WriteLine();
+        
+        /// <summary>
+        /// Resets the foreground and background color of the terminal.
+        /// </summary>
+        void ResetColor();
         
         /// <summary>
         /// Reads a command from the terminal.

@@ -105,7 +105,11 @@ namespace IrcShark.Extensions.Terminal
         public ConsoleColor ForegroundColor
         {
             get { return foregroundColor; }
-            set { foregroundColor = value; }
+            set 
+            { 
+                foregroundColor = value; 
+                Console.ForegroundColor = foregroundColor;
+            }
         }
 
         /// <summary>
@@ -254,6 +258,14 @@ namespace IrcShark.Extensions.Terminal
             return null;
         }
 
+        /// <summary>
+        /// Writes text to the terminal.
+        /// </summary>
+        /// <param name="text">The text to write.</param>
+        public void Write(string format, params object[] arg)
+        {
+            currentTerminal.Write(format, arg);
+        }
         
         /// <summary>
         /// Writes text to the terminal.
@@ -261,55 +273,7 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="text">The text to write.</param>
         public void Write(string text) 
         {
-            Console.Write(text);
-            /*int col = Console.CursorLeft;
-            if (col < inputPrefix.Length)
-            {
-                col = inputPrefix.Length;
-            }
-            
-            //CleanInputLine();
-            if (lastLineLength > 0)
-            {
-                if (text.Contains("\n"))
-                {
-                    string[] lines;
-                    lines = text.Split(new char[] { '\n' }, StringSplitOptions.None);
-                    Console.Write(lines[0]);
-                    Console.MoveBufferArea(0, Console.CursorTop, lines[0].Length, 1, lastLineLength, Console.CursorTop - 1);
-                    Console.Write(new string('\b', lines[0].Length));
-                    for (int i = 1; i < lines.Length; i++)
-                    {
-                        Console.WriteLine(lines[i]);
-                    }
-                    
-                    lastLineLength = lines[lines.Length - 1].Length;
-                }
-                else 
-                {
-                    Console.Write(text);
-                    Console.MoveBufferArea(0, Console.CursorTop, text.Length, 1, lastLineLength, Console.CursorTop - 1);
-                    Console.Write(new string('\b', text.Length));
-                    lastLineLength += text.Length;
-                }
-            }
-            else
-            {
-                Console.WriteLine(text);
-                lastLineLength = text.Length;
-                if (text.Contains("\n"))
-                {
-                    lastLineLength -= 1 + text.LastIndexOf('\n');
-                }
-            }
-            
-            Console.Write(inputPrefix);
-            if (this.line != null) 
-            {
-                Console.Write(this.line.ToString());
-            }
-            
-            Console.CursorLeft = col;*/
+            currentTerminal.Write(text);
         }
         
         /// <summary>
@@ -383,6 +347,11 @@ namespace IrcShark.Extensions.Terminal
                     try
                     {
                         ExecuteCommand(command);
+                        //TODO bad solution to check the exit command hardcoded here to hold the terminal from showing a prompt.
+                        if (command.CommandName == "exit")
+                        {
+                            running = false;
+                        }
                     }
                     catch (Exception ex)
                     {

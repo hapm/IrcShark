@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandCall.cs" />
+    <Compile Include="Commands\AddinCommand.cs" />
     <Compile Include="Commands\ExitCommand.cs" />
     <Compile Include="Commands\ExtensionCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />

@@ -69,6 +69,49 @@ namespace IrcShark.Extensions
         }
         
         /// <summary>
+        /// Initializes a new instance of the ExtensionContext class.
+        /// </summary>
+        internal ExtensionContext(IrcSharkApplication app, Mono.Addins.TypeExtensionNode node)
+        {
+            this.app = app;
+            foreach (string path in app.SettingsDirectorys)
+            {
+                if (Directory.Exists(Path.Combine(path, node.Type.Name)))
+                {
+                    this.settingPath = Path.Combine(path, node.Type.Name);
+                }
+            }
+            
+            if (this.settingPath == null)
+            {
+                this.settingPath = Path.Combine(app.SettingsDirectorys.Default, node.Type.Name);
+                Directory.CreateDirectory(this.settingPath);
+            }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the ExtensionContext class.
+        /// </summary>
+        internal ExtensionContext(IrcSharkApplication app, IExtension ext)
+        {
+            this.app = app;
+            string className = typeof(ExtensionContext).Name;
+            foreach (string path in app.SettingsDirectorys)
+            {
+                if (Directory.Exists(Path.Combine(path, className)))
+                {
+                    this.settingPath = Path.Combine(path, className);
+                }
+            }
+            
+            if (this.settingPath == null)
+            {
+                this.settingPath = Path.Combine(app.SettingsDirectorys.Default, className);
+                Directory.CreateDirectory(this.settingPath);
+            }
+        }
+        
+        /// <summary>
         /// Gets the IrcSharkapplication this ExtensionContext was created for.
         /// </summary>
         /// <value>

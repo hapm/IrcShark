@@ -30,21 +30,25 @@ namespace IrcShark.Connectors.TerminalChatting
     /// <remarks>
     /// This command doesn't do much. It simply shows a list of all registered protocols.
     /// </remarks>
+    [TerminalCommand("protocols")]
     public class SupportedProtocolsCommand : TerminalCommand
     {
         /// <summary>
         /// Saves the reference to the TerminalChattingConnector instance.
         /// </summary>
-        private TerminalChattingConnector con;
+        private ChatManagerExtension chatting;
         
         /// <summary>
-        /// Initializes a new instance of the SupportedProtocolsCommand class.
+        /// Initializes the SupportedProtocolsCommand.
         /// </summary>
-        /// <param name="terminal"></param>
-        public SupportedProtocolsCommand(TerminalChattingConnector connector) : base("protocols", connector.Terminal)
+        /// <param name="terminal">The terminal to create the command for.</param>
+        public override void Init(TerminalExtension terminal)
         {
-            this.con = connector;
-        }
+            base.Init(terminal);
+            this.chatting = Terminal.Context.Application.Extensions["IrcShark.Extensions.Chatting.ChatManagerExtension"] as ChatManagerExtension;
+            if (chatting == null)
+                Active = false;
+        } 
         
         /// <summary>
         /// Executes the command.
@@ -60,7 +64,7 @@ namespace IrcShark.Connectors.TerminalChatting
             
             StringBuilder line = null;
             Terminal.WriteLine(Translation.Messages.ListingInstalledProtocols);
-            foreach (ProtocolExtension protocol in con.Chatting.Protocols)
+            foreach (IProtocolExtension protocol in chatting.Protocols)
             {
                 if (line == null)
                 {

@@ -79,7 +79,7 @@ namespace IrcShark.Translation {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The extension &quot;{0}&quot; couldn&apos;t be loaded ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The extension &quot;{0}&quot; couldn&apos;t be loaded: {1} ähnelt.
         /// </summary>
         internal static string Error3003_ExtensionLoadFail {
             get {

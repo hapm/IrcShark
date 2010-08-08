@@ -32,10 +32,9 @@ namespace IrcShark.Extensions.Terminal
     /// <summary>
     /// This extension allows the administration of IrcShark over the console.
     /// </summary>
-    [GuidAttribute("50562fac-c166-4c0f-8ef4-6d8456add5d9")]
-    public class TerminalExtension : IrcShark.Extensions.Extension
-    {        
-        
+    [Extension(Name="Terminal", Id="IrcShark.Extensions.Terminal.TerminalExtension")]
+    public class TerminalExtension : Extension
+    {
         /// <summary>
         /// Persistent GetLine instance for our hisory and autocomplet function
         /// </summary>
@@ -54,7 +53,7 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Saves a list of all commands added to the terminal.
         /// </summary>
-        private List<TerminalCommand> commands;
+        private Mono.Addins.ExtensionNodeList commands;
         
         /// <summary>
         /// Saves the state of the extension.
@@ -82,10 +81,8 @@ namespace IrcShark.Extensions.Terminal
         /// Initializes a new instance of the TerminalExtension class.
         /// </summary>
         /// <param name="context">The context, this extension is created for.</param>
-        public TerminalExtension(ExtensionContext context)
-            : base(context)
+        public TerminalExtension()
         {
-            commands = new List<TerminalCommand>();
             cmdHistory = new LinkedList<string>();
             inputPrefix = "shell> ";
         }
@@ -96,7 +93,7 @@ namespace IrcShark.Extensions.Terminal
         /// <value>
         /// An array of TerminalCommands.
         /// </value>
-        public List<TerminalCommand> Commands
+        public Mono.Addins.ExtensionNodeList Commands
         {
             get { return commands; }
         }
@@ -108,7 +105,11 @@ namespace IrcShark.Extensions.Terminal
         public ConsoleColor ForegroundColor
         {
             get { return foregroundColor; }
-            set { foregroundColor = value; }
+            set 
+            { 
+                foregroundColor = value; 
+                Console.ForegroundColor = foregroundColor;
+            }
         }
 
         /// <summary>
@@ -117,10 +118,12 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="call">The CommandCall to execute.</param>
         public void ExecuteCommand(CommandCall call)
         {
-            foreach (TerminalCommand cmd in Commands)
+            foreach (Mono.Addins.TypeExtensionNode<TerminalCommandAttribute> cmdNode in Commands)
             {
-                if (cmd.CommandName == call.CommandName)
+                if (cmdNode.Data.Name == call.CommandName)
                 {
+                    ITerminalCommand cmd = cmdNode.CreateInstance() as ITerminalCommand;
+                    cmd.Init(this);
                     cmd.Execute(call.Parameters);
                     break;
                 }
@@ -130,11 +133,12 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Starts the TerminalExtension.
         /// </summary>
-        public override void Start()
+        public override void Start(IrcShark.Extensions.ExtensionContext context)
         {
+            Context = context;
             // Set  encoding to the system ANSI codepage for special characters
             Console.InputEncoding = Encoding.Default;
-            AddDefaultCommands();
+            AddCommands();
             
             // disable the default console logger and replace it with the TerminalLogger
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
@@ -254,6 +258,14 @@ namespace IrcShark.Extensions.Terminal
             return null;
         }
 
+        /// <summary>
+        /// Writes text to the terminal.
+        /// </summary>
+        /// <param name="text">The text to write.</param>
+        public void Write(string format, params object[] arg)
+        {
+            currentTerminal.Write(format, arg);
+        }
         
         /// <summary>
         /// Writes text to the terminal.
@@ -261,55 +273,7 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="text">The text to write.</param>
         public void Write(string text) 
         {
-            Console.Write(text);
-            /*int col = Console.CursorLeft;
-            if (col < inputPrefix.Length)
-            {
-                col = inputPrefix.Length;
-            }
-            
-            //CleanInputLine();
-            if (lastLineLength > 0)
-            {
-                if (text.Contains("\n"))
-                {
-                    string[] lines;
-                    lines = text.Split(new char[] { '\n' }, StringSplitOptions.None);
-                    Console.Write(lines[0]);
-                    Console.MoveBufferArea(0, Console.CursorTop, lines[0].Length, 1, lastLineLength, Console.CursorTop - 1);
-                    Console.Write(new string('\b', lines[0].Length));
-                    for (int i = 1; i < lines.Length; i++)
-                    {
-                        Console.WriteLine(lines[i]);
-                    }
-                    
-                    lastLineLength = lines[lines.Length - 1].Length;
-                }
-                else 
-                {
-                    Console.Write(text);
-                    Console.MoveBufferArea(0, Console.CursorTop, text.Length, 1, lastLineLength, Console.CursorTop - 1);
-                    Console.Write(new string('\b', text.Length));
-                    lastLineLength += text.Length;
-                }
-            }
-            else
-            {
-                Console.WriteLine(text);
-                lastLineLength = text.Length;
-                if (text.Contains("\n"))
-                {
-                    lastLineLength -= 1 + text.LastIndexOf('\n');
-                }
-            }
-            
-            Console.Write(inputPrefix);
-            if (this.line != null) 
-            {
-                Console.Write(this.line.ToString());
-            }
-            
-            Console.CursorLeft = col;*/
+            currentTerminal.Write(text);
         }
         
         /// <summary>
@@ -361,15 +325,11 @@ namespace IrcShark.Extensions.Terminal
         }
         
         /// <summary>
-        /// Adds all the default commands, that are part of the TerminalExtension.
+        /// Adds all commands.
         /// </summary>
-        private void AddDefaultCommands()
+        private void AddCommands()
         {
-            commands.Add(new ExitCommand(this));
-            commands.Add(new ExtensionCommand(this));
-            commands.Add(new LogCommand(this));
-            commands.Add(new HelpCommand(this));
-            commands.Add(new VersionCommand(this));
+            commands = Mono.Addins.AddinManager.GetExtensionNodes(typeof(ITerminalCommand));
         }
         
         /// <summary>
@@ -387,6 +347,11 @@ namespace IrcShark.Extensions.Terminal
                     try
                     {
                         ExecuteCommand(command);
+                        //TODO bad solution to check the exit command hardcoded here to hold the terminal from showing a prompt.
+                        if (command.CommandName == "exit")
+                        {
+                            running = false;
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -413,11 +378,11 @@ namespace IrcShark.Extensions.Terminal
             {
                 List<string> list = new List<string>();
                 prefix = call.CommandName;
-                foreach (TerminalCommand cmd in commands)
+                foreach (Mono.Addins.TypeExtensionNode<TerminalCommandAttribute> cmd in commands)
                 {
-                    if (cmd.CommandName.StartsWith(prefix))
+                    if (cmd.Data.Name.StartsWith(prefix))
                     {
-                        list.Add(cmd.CommandName);
+                        list.Add(cmd.Data.Name);
                     }
                 }
                 
@@ -428,10 +393,12 @@ namespace IrcShark.Extensions.Terminal
             }
             else
             {
-                foreach (TerminalCommand cmd in commands)
+                foreach (Mono.Addins.TypeExtensionNode<TerminalCommandAttribute> cmdNode in commands)
                 {
-                    if (cmd.CommandName.Equals(call.CommandName))
+                    if (cmdNode.Data.Name.Equals(call.CommandName))
                     {
+                        ITerminalCommand cmd = cmdNode.CreateInstance() as ITerminalCommand;
+                        cmd.Init(this);
                         result = cmd.AutoComplete(call, call.Parameters.Length - 1);
                         prefix = call.Parameters[call.Parameters.Length - 1];
                         break;

@@ -24,6 +24,8 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+using Mono.Addins;
+
 #endregion
 
 // General Information about an assembly is controlled through the following 
@@ -41,6 +43,12 @@ using System.Runtime.InteropServices;
 // This sets the default COM visibility of types in the assembly to invisible.
 // If you need to expose a type to COM, use [ComVisible(true)] on that type.
 [assembly: ComVisible(false)]
+
+[assembly: Addin("TerminalIrc","0.1")]
+[assembly: AddinDependency("IrcShark", "0.1")]
+[assembly: AddinDependency("Terminal", "0.1")]
+[assembly: AddinDependency("ChatManager", "0.1")]
+[assembly: AddinDependency("IrcProtocol", "0.1")]
 
 // The assembly version has following format :
 //

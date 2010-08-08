@@ -32,7 +32,7 @@ namespace IrcShark.Extensions.Chatting
     /// The ChatManagerExtension allows to manage connections to chat servers
     /// with different protocols.
     /// </summary>
-    [GuidAttribute("85a0b0ad-6015-41e5-80aa-ccb6c0cad044")]
+    [Extension(Name="Chat-Manager", Id="IrcShark.Extensions.Chatting.ChatManagerExtension")]
     public class ChatManagerExtension : Extension
     {
         /// <summary>
@@ -48,7 +48,7 @@ namespace IrcShark.Extensions.Chatting
         /// <summary>
         /// Saves a list of all registred protocols.
         /// </summary>
-        private List<ProtocolExtension> registredProtocols;
+        private List<IProtocolExtension> registredProtocols;
         
         /// <summary>
         /// Saves the list of configured networks.
@@ -69,9 +69,9 @@ namespace IrcShark.Extensions.Chatting
         /// Initializes a new instance of the ChatManagerExtension class.
         /// </summary>
         /// <param name="context">The context, this extension runs in.</param>
-        public ChatManagerExtension(ExtensionContext context) : base(context)
+        public ChatManagerExtension()
         {
-            registredProtocols = new List<ProtocolExtension>();
+            registredProtocols = new List<IProtocolExtension>();
             openConnections = new ConnectionCollection();
             configuredNetworks = new List<INetwork>();
             unloadedNetworks = new List<NetworkSettings>();
@@ -94,11 +94,11 @@ namespace IrcShark.Extensions.Chatting
         /// <value>
         /// The array of all registred protocols.
         /// </value>
-        public ProtocolExtension[] Protocols
+        public IProtocolExtension[] Protocols
         {
             get 
             {
-                ProtocolExtension[] protocols = new ProtocolExtension[registredProtocols.Count];
+                IProtocolExtension[] protocols = new IProtocolExtension[registredProtocols.Count];
                 registredProtocols.CopyTo(protocols);
                 return protocols;
             }
@@ -118,9 +118,9 @@ namespace IrcShark.Extensions.Chatting
         /// </summary>
         /// <param name="name">The name of the protocol.</param>
         /// <returns>The ProtocolExtension instance or null if there is no extension for the given protocol.</returns>
-        public ProtocolExtension GetProtocol(string name)
+        public IProtocolExtension GetProtocol(string name)
         {
-            foreach (ProtocolExtension ext in registredProtocols)
+            foreach (IProtocolExtension ext in registredProtocols)
             {
                 if (ext.Protocol.Name.ToLower().Equals(name.ToLower()))
                 {
@@ -137,7 +137,7 @@ namespace IrcShark.Extensions.Chatting
         /// <param name="prot">
         /// An instance of the IProtocol interface for the given protocol.
         /// </param>
-        public void RegisterProtocol(ProtocolExtension prot)
+        public void RegisterProtocol(IProtocolExtension prot)
         {
             if (registredProtocols.Contains(prot))
             {
@@ -164,8 +164,13 @@ namespace IrcShark.Extensions.Chatting
         /// <summary>
         /// Starts the ChatManagerExtension.
         /// </summary>
-        public override void Start()
+        public override void Start(ExtensionContext context)
         {
+            Context = context;
+            object[] protocols = Mono.Addins.AddinManager.GetExtensionObjects(typeof(IProtocolExtension));
+            foreach (IProtocolExtension ext in protocols) {
+                RegisterProtocol(ext);
+            }
             LoadSettings();
             running = true;
         }
@@ -195,7 +200,7 @@ namespace IrcShark.Extensions.Chatting
             List<NetworkSettings> settings = new List<NetworkSettings>();
             foreach (INetwork network in Networks)
             {
-                ProtocolExtension ext = GetProtocol(network.Protocol.Name);
+                IProtocolExtension ext = GetProtocol(network.Protocol.Name);
                 if (ext == null)
                 {
                     Context.Application.Log.Log(new LogMessage("Chatting", 1234, LogLevel.Error, "Couldn't save network '{0}', there was no protocol found to handle it."));
@@ -228,7 +233,7 @@ namespace IrcShark.Extensions.Chatting
             settings = serializer.Deserialize(reader) as List<NetworkSettings>;
             foreach (NetworkSettings setting in settings)
             {
-                ProtocolExtension ext = GetProtocol(setting.Protocol);
+                IProtocolExtension ext = GetProtocol(setting.Protocol);
                 
                 if (ext != null)
                 {

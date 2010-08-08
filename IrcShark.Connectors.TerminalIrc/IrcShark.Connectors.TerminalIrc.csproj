@@ -39,6 +39,10 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
+    <Reference Include="Mono.Addins">
+      <HintPath>..\..\MonoAddins\bin\Mono.Addins.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -51,7 +55,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RawCommand.cs" />
-    <Compile Include="TerminalChattingIrcConnector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IrcShark.Chatting.Irc\IrcShark.Chatting.Irc.csproj">

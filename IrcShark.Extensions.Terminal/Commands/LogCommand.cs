@@ -26,18 +26,9 @@ namespace IrcShark.Extensions.Terminal.Commands
     /// <summary>
     /// The LogCommand allows the configuration of all available log handler.
     /// </summary>
+    [TerminalCommand("log")]
     public class LogCommand : TerminalCommand
-    {
-        /// <summary>
-        /// Initializes a new instance of the LogCommand class.
-        /// </summary>
-        /// <param name="ext">
-        /// The TerminalExtension, this command gets registred to.
-        /// </param>
-        public LogCommand(TerminalExtension ext) : base("log", ext)
-        {
-        }
-        
+    {        
         /// <summary>
         /// Executes the log command.
         /// </summary>

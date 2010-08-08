@@ -39,6 +39,10 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
+    <Reference Include="Mono.Addins">
+      <HintPath>..\Mono.Addins.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -56,7 +60,6 @@
     <Compile Include="MslIdentifierCollection.cs" />
     <Compile Include="MslScript.cs" />
     <Compile Include="MslScriptEngine.cs" />
-    <Compile Include="MslScriptingExtension.cs" />
     <Compile Include="MslStringMethods.cs" />
     <Compile Include="Parser.cs">
       <DependentUpon>MslParser.atg</DependentUpon>
@@ -83,10 +86,12 @@
     <ProjectReference Include="..\IrcShark.Extensions.Scripting\IrcShark.Extensions.Scripting.csproj">
       <Project>{02C99BBE-4D3F-4372-A5D9-8941117D15DC}</Project>
       <Name>IrcShark.Extensions.Scripting</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\IrcShark\IrcShark.csproj">
       <Project>{F6955540-7429-49FB-AE3D-A9AD916D2334}</Project>
       <Name>IrcShark</Name>
+      <Private>False</Private>
     </ProjectReference>
     <Folder Include="Identifier" />
   </ItemGroup>

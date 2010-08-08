@@ -53,6 +53,9 @@
     <OutputPath>bin\Release</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Addins">
+      <HintPath>..\..\..\Users\Hendrik\Desktop\Mono.Addins.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -61,11 +64,14 @@
     <Compile Include="ExtensionAnalyzer.cs" />
     <Compile Include="ExtensionDependencyResolver.cs" />
     <Compile Include="ExtensionInfoCollection.cs" />
+    <Compile Include="ExtensionLoadedCondition.cs" />
     <Compile Include="Extensions\Dependency.cs" />
     <Compile Include="Extensions\DependsOnAttribute.cs" />
+    <Compile Include="Extensions\ExtensionAttribute.cs" />
     <Compile Include="Extensions\ExtensionContext.cs" />
     <Compile Include="Extensions\ExtensionDependencyAttribute.cs" />
     <Compile Include="Extensions\ExtensionInfoBuilder.cs" />
+    <Compile Include="Extensions\IExtension.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="IrcSharkApplication.cs" />
     <Compile Include="AssemblyInfo.cs" />

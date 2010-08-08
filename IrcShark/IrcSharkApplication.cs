@@ -29,6 +29,8 @@ namespace IrcShark
     using System.Xml;
     using System.Xml.Serialization;
     
+    using Mono.Addins;
+
     using IrcShark.Extensions;
     using IrcShark.Policy;
     using IrcShark.Translation;
@@ -157,8 +159,9 @@ namespace IrcShark
             log.Log(new LogMessage(Logger.CoreChannel, 1001, Messages.Info1001_StartingIrcShark));
             LoadSettings();
 
+            InitAddinManager();
             InitExtensionManager();
-            extensions.LoadEnabledExtensions();
+            extensions.StartEnabledExtensions();
             
              if (StartupComplete != null)
              {
@@ -330,6 +333,17 @@ namespace IrcShark
         }
         
         /// <summary>
+        /// Initializes the AddinManager of Mono.Addins.
+        /// </summary>
+        private void InitAddinManager()
+        {
+            AddinManager.AddinLoaded += new AddinEventHandler(AddinManager_AddinLoaded);
+            AddinManager.AddinLoadError += new AddinErrorEventHandler(AddinManager_AddinLoadError);
+            AddinManager.AddinUnloaded += new AddinEventHandler(AddinManager_AddinUnloaded);
+            AddinManager.Initialize("[ApplicationData]/IrcShark");
+        }
+        
+        /// <summary>
         /// Initialises the <see cref="ExtensionManager" /> for this instance.
         /// </summary>
         private void InitExtensionManager()
@@ -384,6 +398,24 @@ namespace IrcShark
             string format = "[{0}][{1}][{2}] {3}\r\n";
             string logMsg = string.Format(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
             File.AppendAllText(fileName, logMsg);
+        }
+
+        private void AddinManager_AddinLoaded(object sender, AddinEventArgs args)
+        {
+            //TODO select an info id and translate
+            Log.Info(Logger.CoreChannel, 0, "Addin loaded: {0}", args.AddinId);
+        }
+
+        private void AddinManager_AddinLoadError(object sender, AddinErrorEventArgs args)
+        {
+            //TODO select an error id and translate
+            Log.Error(Logger.CoreChannel, 0, "Couldn't load addin {0}: {1}", args.AddinId, args.Message);
+        }
+
+        private void AddinManager_AddinUnloaded(object sender, AddinEventArgs args)
+        {
+            //TODO select an info id and translate
+            Log.Info(Logger.CoreChannel, 0, "Addin unloaded: {0}", args.AddinId);
         }
     }
 }

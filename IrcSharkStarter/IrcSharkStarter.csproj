@@ -49,6 +49,9 @@
     <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Addins">
+      <HintPath>..\..\MonoAddins\bin\Mono.Addins.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>

@@ -26,13 +26,15 @@ namespace IrcShark.Connectors.TerminalScripting
     /// <summary>
     /// Description of EngineCommand.
     /// </summary>
+    [TerminalCommand("engine")]
     public class EngineCommand : TerminalCommand
     {
         private ScriptingExtension scripting;
         
-        public EngineCommand(TerminalExtension terminal, ScriptingExtension scripting) : base("engine", terminal)
+        public override void Init(TerminalExtension terminal)
         {
-            this.scripting = scripting;
+            base.Init(terminal);
+            scripting = Terminal.Context.Application.Extensions["IrcShark.Extensions.Scripting.ScriptingExtension"] as ScriptingExtension;
         }
         
         public override void Execute(params string[] paramList)
@@ -47,9 +49,9 @@ namespace IrcShark.Connectors.TerminalScripting
             {
                 case "-l":
                     Terminal.WriteLine("Listing all supported scripting languages:");
-                    foreach (ScriptLanguageExtension lang in scripting.GetRegisteredLanguages())
+                    foreach (IScriptEngine lang in scripting.GetRegisteredLanguages())
                     {
-                        Terminal.WriteLine(string.Format("{0}", lang.Engine.Language.LanguageName));
+                        Terminal.WriteLine(string.Format("{0}", lang.Language.LanguageName));
                     }
                     
                     break;

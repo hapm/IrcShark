@@ -19,67 +19,135 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace IrcShark.Extensions
 {
-    using System;
+	using System;
 
-    /// <summary>
-    /// Classes deriving from this class can be loaded as an Extension in IrcShark.
-    /// </summary>
-    public abstract class Extension : MarshalByRefObject, IExtensionObject
-    {
-        /// <summary>
-        /// Saves the ExtensionContext belonging to the Extension instance.
-        /// </summary>
-        private ExtensionContext context;
-        
-        /// <summary>
-        /// Initializes a new instance of the Extension class.
-        /// </summary>
-        /// <param name="info">
-        /// The <see cref="ExtensionContext"/> for this extension.
-        /// </param>
-        protected Extension(ExtensionContext context)
-        {
-            if (context == null)
-            {
-                throw new ArgumentNullException("context", "You must specify a context");
-            }
-            
-            if (!context.Info.Trusted)
-            {
-                throw new ExtensionException(context.Info, "You can't initialise an extension with an untrusted ExtensionInfo");
-            }
-            
-            this.context = context;
-        }
-        
-        /// <summary>
-        /// Gets the context of this Extension.
-        /// </summary>
-        /// <value>The context.</value>
-        public ExtensionContext Context
-        {
-            get { return context; }
-        }
-        
-        /// <summary>
-        /// Gets the extension this IExtensionObject belongs to.
-        /// </summary>
-        /// <value>
-        /// The extension instance.
-        /// </value>
-        public Extension BelongsTo
-        {
-            get { return this; }
-        }
+	/// <summary>
+	/// Classes deriving from this class can be loaded as an Extension in IrcShark.
+	/// </summary>
+	public abstract class Extension : MarshalByRefObject, IExtension
+	{
+		/// <summary>
+		/// Saves the ExtensionContext belonging to the Extension instance.
+		/// </summary>
+		private ExtensionContext context;
+		
+		/// <summary>
+		/// Saves the ExtensionAttribute for the current extension after first lookup.
+		/// </summary>
+		private ExtensionAttribute data;
 
-        /// <summary>
-        /// Starts the extension after the initialisation of IrcShark.
-        /// </summary>
-        public abstract void Start();
+		/// <summary>
+		/// Initializes a new instance of the Extension class.
+		/// </summary>
+		/// <param name="info">
+		/// The <see cref="ExtensionContext"/> for this extension.
+		/// </param>
+		protected Extension() {
+		    
+		}
 
-        /// <summary>
-        /// Stops the extension before IrcShark quits or the extension is unloaded.
-        /// </summary>
-        public abstract void Stop();
-    }
+		/// <summary>
+		/// Initializes a new instance of the Extension class.
+		/// </summary>
+		/// <param name="info">
+		/// The <see cref="ExtensionContext"/> for this extension.
+		/// </param>
+		protected Extension(ExtensionContext context)
+		{
+			if (context == null) {
+				throw new ArgumentNullException("context", "You must specify a context");
+			}
+
+			if (!context.Info.Trusted) {
+				throw new ExtensionException(context.Info, "You can't initialise an extension with an untrusted ExtensionInfo");
+			}
+
+			this.context = context;
+		}
+
+		/// <summary>
+		/// Gets the context of this Extension.
+		/// </summary>
+		/// <value>The context.</value>
+		public ExtensionContext Context {
+			get { return context; }
+			protected set { context = value; }
+		}
+		
+		/// <summary>
+		/// Gets the id of the extension from attributes.
+		/// </summary>
+		/// <value>The id of the extension.</value>
+		public string Id {
+		    get 
+		    {
+		        string result = null;
+		        
+		        if (data != null) 
+		        {
+		            result = data.Id;
+		        }
+		        else 
+		        {
+    		        foreach (object attrb in GetType().GetCustomAttributes(false))
+    		        {
+    		            if (attrb is ExtensionAttribute) 
+    		            {
+    		                data = attrb as ExtensionAttribute;
+    		                result = data.Id;
+    		                break;
+    		            }
+    		        }
+		        }
+		        
+		        if (result == null)
+		        {
+		            result = GetType().Name;
+		        }
+		        
+		        return result;
+		    }
+		}
+		
+		/// <summary>
+		/// Gets the display name of the extension from attributes.
+		/// </summary>
+		/// <value>The name of the extension.</value>
+		public string Name {
+		    get 
+		    {
+		        if (data != null) 
+		            return data.Name;
+		        foreach (object attrb in GetType().GetCustomAttributes(false))
+		        {
+		            if (attrb is ExtensionAttribute) 
+		            {
+		                data = attrb as ExtensionAttribute;
+		                return data.Name;
+		            }
+		        }
+		        return "";
+		    }
+		}
+
+		/// <summary>
+		/// Gets the extension this IExtensionObject belongs to.
+		/// </summary>
+		/// <value>
+		/// The extension instance.
+		/// </value>
+		public Extension BelongsTo {
+			get { return this; }
+		}
+
+		/// <summary>
+		/// Starts the extension after the initialisation of IrcShark.
+		/// </summary>
+		public abstract void Start(ExtensionContext context);
+
+		/// <summary>
+		/// Stops the extension before IrcShark quits or the extension is unloaded.
+		/// </summary>
+		public abstract void Stop();
+	}
 }

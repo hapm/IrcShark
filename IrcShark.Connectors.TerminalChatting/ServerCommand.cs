@@ -28,26 +28,25 @@ namespace IrcShark.Connectors.TerminalChatting
     /// <summary>
     /// The ServerCommand allows to configure the servers in the ChatManagerExtension by using the TerminalExtension.
     /// </summary>
+    [TerminalCommand("server")]
     public class ServerCommand : TerminalCommand
     {
         /// <summary>
         /// Saves the reference to the TerminalChattingConnector instance.
         /// </summary>
-        private TerminalChattingConnector con;
+        private ChatManagerExtension chatting;
         
         /// <summary>
-        /// Initializes a new instance of the ServerCommand class.
+        /// Initializes the ServerCommand.
         /// </summary>
-        /// <param name="chatting">
-        /// The reference to the ChatManagerExtension.
-        /// </param>
-        /// <param name="terminal">
-        /// The reference to the TerminalExtension.
-        /// </param>
-        public ServerCommand(TerminalChattingConnector connector) : base("server", connector.Terminal)
+        /// <param name="terminal">The terminal to create the command for.</param>
+        public override void Init(TerminalExtension terminal)
         {
-            this.con = connector;
-        }
+            base.Init(terminal);
+            this.chatting = Terminal.Context.Application.Extensions["IrcShark.Extensions.Chatting.ChatManagerExtension"] as ChatManagerExtension;
+            if (chatting == null)
+                Active = false;
+        } 
         
         /// <summary>
         /// Executes the command with the given parameters.
@@ -92,18 +91,18 @@ namespace IrcShark.Connectors.TerminalChatting
             int networkNr;
             if (int.TryParse(ident, out networkNr))
             {
-                if (networkNr < 1 || networkNr > con.Chatting.Networks.Count)
+                if (networkNr < 1 || networkNr > chatting.Networks.Count)
                 {
                     Terminal.WriteLine(string.Format("There is no network with the number {0}.", ident));   
                 }
                 else
                 {
-                    network = con.Chatting.Networks[networkNr - 1];
+                    network = chatting.Networks[networkNr - 1];
                 }
             }
             else
             {
-                foreach (INetwork net in con.Chatting.Networks)
+                foreach (INetwork net in chatting.Networks)
                 {
                     if (net.Name.Equals(ident))
                     {

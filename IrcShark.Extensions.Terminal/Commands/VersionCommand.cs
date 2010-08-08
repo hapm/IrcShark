@@ -28,17 +28,9 @@ namespace IrcShark.Extensions.Terminal.Commands
     /// <summary>
     /// The VersionCommand show IrcShark version informations.
     /// </summary>
+    [TerminalCommand("version")]
     public class VersionCommand : TerminalCommand
     {
-        /// <summary>
-        /// Initializes a new instance of the VersionCommand class.
-        /// </summary>
-        /// <param name="extension">The reference to the TerminalExtension.</param>
-        public VersionCommand(TerminalExtension extension)
-            : base("version", extension)
-        {
-        }
-        
         /// <summary>
         /// Executing this command will show all loaded .net assebmlys and there version.
         /// </summary>

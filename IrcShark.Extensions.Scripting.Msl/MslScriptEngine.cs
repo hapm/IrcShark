@@ -29,6 +29,7 @@ namespace IrcShark.Extensions.Scripting.Msl
     /// <summary>
     /// The MslScriptEngine can be used to execute msl script files.
     /// </summary>
+    [ScriptEngine]
     public class MslScriptEngine : MarshalByRefObject, IScriptEngine
     {
         /// <summary>

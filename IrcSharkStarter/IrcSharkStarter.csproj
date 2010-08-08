@@ -50,7 +50,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Addins">
-      <HintPath>..\..\MonoAddins\bin\Mono.Addins.dll</HintPath>
+      <HintPath>..\lib\Mono.Addins.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

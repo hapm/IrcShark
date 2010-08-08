@@ -21,6 +21,7 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <RunSourceAnalysis>False</RunSourceAnalysis>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <ReferencePath>.\lib</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,7 +55,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Addins">
-      <HintPath>..\..\MonoAddins\bin\Mono.Addins.dll</HintPath>
+      <HintPath>..\lib\Mono.Addins.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

@@ -41,7 +41,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
     <Reference Include="Mono.Addins">
-      <HintPath>..\Mono.Addins.dll</HintPath>
+      <HintPath>..\lib\Mono.Addins.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

@@ -328,7 +328,6 @@ namespace IrcShark
         /// </summary>
         private void HashAvailableExtensions()
         {
-            AddinManager.Registry.Update();
             availableExtensions = AddinManager.GetExtensionNodes(typeof(IExtension));
         }
     }

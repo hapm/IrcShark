@@ -341,6 +341,8 @@ namespace IrcShark
             AddinManager.AddinLoadError += new AddinErrorEventHandler(AddinManager_AddinLoadError);
             AddinManager.AddinUnloaded += new AddinEventHandler(AddinManager_AddinUnloaded);
             AddinManager.Initialize("[ApplicationData]/IrcShark");
+            AddinManager.Registry.Update();
+            AddinRegistry reg = AddinManager.Registry;
         }
         
         /// <summary>

@@ -39,10 +39,10 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
     <Reference Include="Kayak">
-      <HintPath>..\..\..\Users\Hendrik\Desktop\kayak-0.3\Kayak.dll</HintPath>
+      <HintPath>..\lib\Kayak.dll</HintPath>
     </Reference>
     <Reference Include="Kayak.Framework">
-      <HintPath>..\..\..\Users\Hendrik\Desktop\kayak-0.3\Kayak.Framework.dll</HintPath>
+      <HintPath>..\lib\Kayak.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

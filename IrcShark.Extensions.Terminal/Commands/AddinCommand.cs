@@ -20,8 +20,9 @@
 namespace IrcShark.Extensions.Terminal.Commands
 {
     using System;
+    using System.Collections.Generic;
+    using Mono.Addins;    
     using IrcShark.Extensions.Terminal;
-    using Mono.Addins;
 
     /// <summary>
     /// The AddinCommand displays the list of available and enabled addins and allows to manipulate them.
@@ -63,6 +64,51 @@ namespace IrcShark.Extensions.Terminal.Commands
                     Terminal.WriteLine(string.Format(Translation.Messages.UnknownFlag, paramList[0]));
                     break;
             }
+        }
+        
+        /// <summary>
+        /// Compeltes the parameters of the AddinCommand.
+        /// </summary>
+        /// <param name="call">The current command call.</param>
+        /// <param name="paramIndex">The parameter index to complete.</param>
+        /// <returns>A list of possible completitions.</returns>
+        public override string[] AutoComplete(CommandCall call, int paramIndex)
+        {
+            if (paramIndex == 0) 
+            {
+                if (string.IsNullOrEmpty(call.Parameters[0]) || call.Parameters[0] == "-") 
+                {
+                    return new string[] { "-d", "-e", "-l" };
+                }
+            }
+            else if (paramIndex > 0 && (call.Parameters[0] == "-e" || call.Parameters[0] == "-d"))
+            {
+                List<string> result = new List<string>();
+                if (call.Parameters.Length <= paramIndex || string.IsNullOrEmpty(call.Parameters[paramIndex]))
+                {
+                    foreach (Addin addin in AddinManager.Registry.GetAddins()) 
+                    {
+                        if ((addin.Enabled && call.Parameters[0] == "-d") || (!addin.Enabled && call.Parameters[0] == "-e"))
+                        {
+                            result.Add(addin.LocalId);
+                        }
+                    }                    
+                }
+                else
+                {
+                    string id = call.Parameters[paramIndex];
+                    foreach (Addin addin in AddinManager.Registry.GetAddins()) 
+                    {
+                        if (((addin.Enabled && call.Parameters[0] == "-d") || (!addin.Enabled && call.Parameters[0] == "-e")) && addin.LocalId.StartsWith(id))
+                        {
+                            result.Add(addin.LocalId);
+                        }                        
+                    }
+                }
+                return result.ToArray();
+            }
+            
+            return base.AutoComplete(call, paramIndex);
         }
         
         /// <summary>

@@ -29,17 +29,18 @@ namespace IrcShark.Extensions.WebUi
 	/// <summary>
 	/// Description of WebUiExtension.
 	/// </summary>
-	[GuidAttribute("6d5a94ef-7fe8-4be8-a5f0-7a156ff5e6bd")]
+    [Extension(Name="WebUI", Id="IrcShark.Extensions.WebUi.WebUiExtension")]
 	public class WebUiExtension : Extension
 	{
 		private KayakServer server = new KayakServer();
 		
-		public WebUiExtension(ExtensionContext context) : base(context)
+		public WebUiExtension()
 		{
 		}
 		
 		public override void Start(ExtensionContext context)
 		{
+			Context = context;
 			server.UseFramework();
 			server.Start();
 			Context.Log.Info(Logger.CoreChannel, 1000, "WebUi server started on " + server.EndPoint);

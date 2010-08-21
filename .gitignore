@@ -4,6 +4,7 @@ bin/
 obj/
 Output/
 PartCover/
+*.userprefs
 *.user
 *.bak
 *.old

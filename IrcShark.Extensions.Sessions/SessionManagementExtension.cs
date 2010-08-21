@@ -28,30 +28,34 @@ namespace IrcShark.Extensions.Sessions
     /// sessions to IrcShark. Sessions are bound to users and rights of
     /// this users.
     /// </summary>
+    [Extension(Name="Session", Id="IrcShark.Extensions.Sessions.SessionManagementExtension")]
     public class SessionManagementExtension : Extension
     {
         /// <summary>
+        /// Saves a list of all active sessions
+        /// </summary>
+        private List<Session> sessions;
+        
+        /// <summary>
         /// Initializes a new instance of the SessionManagementExtension class.
         /// </summary>
-        /// <param name="context">The context, this extension runs in.</param>
-        public SessionManagementExtension(ExtensionContext context) : base(context)
-        {
-            
+        public SessionManagementExtension()
+        {            
         }
         
+        /// <summary>
+        /// Starts the SessionManagementExtension.
+        /// </summary>
+        /// <param name="context">The context, this extension runs in.</param>
         public override void Start(ExtensionContext context)
         {
-            throw new NotImplementedException();
         }
         
+        /// <summary>
+        /// Stops the SessionManagementExtension.
+        /// </summary>
         public override void Stop()
         {
-            throw new NotImplementedException();
-        }
-        
-        public SessionManager Sessions 
-        {
-            get { return null; }
         }
     }
 }

@@ -60,7 +60,6 @@
     <Compile Include="ConsoleTerminal.cs" />
     <Compile Include="History.cs" />
     <Compile Include="ITerminalCommand.cs" />
-    <Compile Include="LineEditor.cs" />
     <Compile Include="ITerminal.cs" />
     <Compile Include="TerminalCommand.cs" />
     <Compile Include="TerminalCommandAttribute.cs" />

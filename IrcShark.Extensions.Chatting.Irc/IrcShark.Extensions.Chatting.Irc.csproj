@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>IrcShark.Extensions.Chatting.Irc</RootNamespace>
     <AssemblyName>IrcShark.Extensions.Chatting.Irc</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SourceAnalysisOverrideSettingsFile>C:\Users\markus\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>

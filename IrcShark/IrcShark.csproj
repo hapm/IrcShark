@@ -15,7 +15,7 @@
     </UpgradeBackupLocation>
     <SourceAnalysisOverrideSettingsFile>..\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <RootNamespace>IrcShark</RootNamespace>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>

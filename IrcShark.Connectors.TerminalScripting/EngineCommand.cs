@@ -28,7 +28,7 @@ namespace IrcShark.Connectors.TerminalScripting
     /// </summary>
     [TerminalCommand("engine")]
     public class EngineCommand : TerminalCommand
-    {
+    {    	
         private ScriptingExtension scripting;
         
         public override void Init(TerminalExtension terminal)

@@ -22,12 +22,24 @@ using System;
 namespace IrcShark.Extensions.Sessions
 {
     /// <summary>
-    /// Description of User.
+    /// The User class holds all informations about a user in the user database.
     /// </summary>
     public class User
     {
-        public User()
+        /// <summary>
+        /// The local name of the user.
+        /// </summary>
+        private string localName;
+        
+        /// <summary>
+        /// Initializes a instance of the User class with a given name.
+        /// </summary>
+        /// <param name="name">The local name of the user.</param>
+        public User(string name)
         {
+            this.localName = name;
         }
+        
+        
     }
 }

@@ -17,19 +17,21 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+[assembly:IrcShark.Extensions.ProvidesRole(InternalName="IrcShark.ExtensionManager", NameResource="ExtensionManagerRole", DescriptionResource="ExtensionManagerRoleDescription")]
 namespace IrcShark
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Security.Permissions;
     using System.Text;
     using System.Xml.Serialization;
     
     using Mono.Addins;
     
     using IrcShark.Extensions;
+    using IrcShark.Security;
     using IrcShark.Translation;
-    
     
     /// <summary>
     /// The delegate describing the event handler for the StatusChanged event.
@@ -195,6 +197,7 @@ namespace IrcShark
         /// Loads the given extension.
         /// </summary>
         /// <param name="id">The id of the extension to load.</param>
+        [RolePermission(SecurityAction.Demand, Roles="IrcShark.ExtensionManager")]
         public void Start(string id)
         {
             IExtension ext = this[id];
@@ -219,6 +222,7 @@ namespace IrcShark
         /// Stops the extension with the given id.
         /// </summary>
         /// <param name="id">The id of the extension to stop.</param>
+        [RolePermission(SecurityAction.Demand, Roles="IrcShark.ExtensionManager")]
         public void Stop(string id)
         {
             IExtension ext = this[id];

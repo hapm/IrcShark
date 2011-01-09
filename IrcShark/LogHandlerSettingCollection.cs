@@ -98,7 +98,7 @@ namespace IrcShark
                 }
                 catch (KeyNotFoundException ex)
                 {
-                    throw new IndexOutOfRangeException(name + " wasn't found in the LogHnadlerSettings", ex);
+                    throw new IndexOutOfRangeException(name + " wasn't found in the LogHandlerSettings", ex);
                 }
             }
         }

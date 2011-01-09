@@ -73,6 +73,7 @@
     <Compile Include="Extensions\ExtensionDependencyAttribute.cs" />
     <Compile Include="Extensions\ExtensionInfoBuilder.cs" />
     <Compile Include="Extensions\IExtension.cs" />
+    <Compile Include="Extensions\ProvidesRoleAttribute.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="IrcSharkApplication.cs" />
     <Compile Include="AssemblyInfo.cs" />
@@ -105,6 +106,8 @@
     <Content Include="ProfilingSessions\Session20091016_195454.sdps" />
     <Content Include="ProfilingSessions\Session20100201_223114.sdps" />
     <Content Include="ProfilingSessions\Session20100201_223742.sdps" />
+    <EmbeddedResource Include="Translation\Roles.de-DE.resx" />
+    <EmbeddedResource Include="Translation\Roles.resx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Translation\Messages.de-DE.resx">
@@ -118,9 +121,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\IrcShark.Policy\IrcShark.Policy.csproj">
-      <Project>{E18BFAF4-843E-4894-B9BF-7E4F7CA943DA}</Project>
-      <Name>IrcShark.Policy</Name>
+    <ProjectReference Include="..\IrcShark.Security\IrcShark.Security.csproj">
+      <Project>{203FD3BA-203F-4C8F-93FB-A81D21A3A709}</Project>
+      <Name>IrcShark.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>

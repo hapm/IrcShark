@@ -1,9 +1,9 @@
-﻿// <copyright file="Class1.cs" company="IrcShark Team">
+﻿// <copyright file="Group.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Place a summary here.</summary>
+// <summary>Contains the Group class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,9 @@
 namespace IrcShark.Extensions.Sessions
 {
     using System;
+    using System.Collections.Generic;
+    using IrcShark.Security;
+    using System.Security.Permissions;
     
     /// <summary>
     /// The GroupType specifies the type of a Group instance.
@@ -31,13 +34,6 @@ namespace IrcShark.Extensions.Sessions
         /// be deleted from the group list of the SessionManager.
         /// </summary>
         Special,
-        
-        /// <summary>
-        /// Extension groups are groups registered by an extension, and can not be deleted
-        /// from the group list of the SessionManager as long as it isn't unregistered from
-        /// the extension.
-        /// </summary>
-        Extension,
         
         /// <summary>
         /// Custom groups are groups defined by the user.
@@ -61,6 +57,11 @@ namespace IrcShark.Extensions.Sessions
         private string description;
         
         /// <summary>
+        /// Saves a list of all roles, this group has.
+        /// </summary>
+        private List<string> roles;
+        
+        /// <summary>
         /// Saves a value indicating the type of the group.
         /// </summary>
         private GroupType groupType;
@@ -69,13 +70,12 @@ namespace IrcShark.Extensions.Sessions
         /// Initializes a new instance of the Group class.
         /// </summary>
         /// <param name="nane">The name of the grou that is created.</param>
+        [RolePermission(SecurityAction.Demand, Roles="IrcShark.UserManager")]
         public Group(string name)
         {
-            if (name.StartsWith("ext", StringComparison.CurrentCultureIgnoreCase))
-                throw new ArgumentOutOfRangeException("name", "A group name is not allowed to start with \"ext\" if the group is not registred as an extension group.");
-            
             this.groupType = GroupType.Custom;
             this.name = name;
+            this.roles = new List<string>();
         }
         
         /// <summary>
@@ -91,18 +91,6 @@ namespace IrcShark.Extensions.Sessions
         }
         
         /// <summary>
-        /// Gets or sets a value indicating whether the Group is an extension group or not.
-        /// </summary>
-        /// <value>
-        /// If the value is true, the group represented by the instance is an extension group.
-        /// </value>
-        public bool IsExtensionGroup 
-        {
-            get { return groupType == GroupType.Extension; }
-            internal set { groupType = GroupType.Extension; }
-        }
-        
-        /// <summary>
         /// Gets the name of the group. 
         /// </summary>
         /// <value>The name of the group.</value>
@@ -111,10 +99,33 @@ namespace IrcShark.Extensions.Sessions
         {
             get
             {
-                if (groupType == GroupType.Extension)
-                    return "ext" + name;
                 return name;
             }
+        }
+        
+        /// <summary>
+        /// Gets or sets the description of the group.
+        /// </summary>
+        public string Description
+        {
+            get 
+            {
+                return description;
+            }
+            set
+            {
+                description = value;
+            }
+        }
+        
+        /// <summary>
+        /// Checks if the group has the given role.
+        /// </summary>
+        /// <param name="role">The role to check for.</param>
+        /// <returns>Its true, if the group has this role.</returns>
+        public bool HasRole(string role) 
+        {
+            return roles.Contains(role);
         }
     }
 }

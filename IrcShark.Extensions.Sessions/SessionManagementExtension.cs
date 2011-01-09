@@ -17,11 +17,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using IrcShark.Extensions;
 namespace IrcShark.Extensions.Sessions
 {
     using System;
     using System.Collections.Generic;
-    using IrcShark.Extensions;
+    using IrcShark.Security;
+    
 
     /// <summary>
     /// The SessionManagementExtension manages configuration and access
@@ -36,11 +38,21 @@ namespace IrcShark.Extensions.Sessions
         /// </summary>
         private List<Session> sessions;
         
+        private List<Role> roles;
+        
+        private UserCollection users;
+        
+        private List<Group> groups;
+        
         /// <summary>
         /// Initializes a new instance of the SessionManagementExtension class.
         /// </summary>
         public SessionManagementExtension()
-        {            
+        {
+            sessions = new List<Session>();
+            roles = new List<Role>();
+            users = new UserCollection();
+            groups = new List<Group>();
         }
         
         /// <summary>
@@ -49,6 +61,49 @@ namespace IrcShark.Extensions.Sessions
         /// <param name="context">The context, this extension runs in.</param>
         public override void Start(ExtensionContext context)
         {
+            roles.Clear();
+            foreach (Mono.Addins.ExtensionNode<ProvidesRoleAttribute> node in Mono.Addins.AddinManager.GetExtensionNodes("/IrcShark/Roles")) 
+            {
+                try
+                {
+                    string name = node.Data.NameResource;
+                    string description = node.Data.DescriptionResource;
+                    if (name != null)
+                        name = node.Addin.GetResourceString(name);
+                
+                    if (description != null)
+                        description = node.Addin.GetResourceString(description);
+                
+                    roles.Add(new Role(node.Data.InternalName, name, description));
+                }
+                catch (Exception ex)
+                {
+                    context.Log.Error("Sessions", 0, "Tried to register role {0}, but an exception occured: {1}", node.Data.InternalName, ex.ToString());
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Gets a collection of all users registred to the SessionManagementExtension.
+        /// </summary>
+        public UserCollection Users
+        {
+            get { return users; }
+        }
+        
+        /// <summary>
+        /// Initializes a new session, that doesn't have any rights.
+        /// </summary>
+        /// <returns>The new Session instance.</returns>
+        public Session RequestSession() 
+        {
+            Session session = new Session(this);
+            return session;
+        }
+        
+        internal void CleanupSession(Session session) 
+        {
+            sessions.Remove(session);
         }
         
         /// <summary>

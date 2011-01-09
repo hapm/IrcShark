@@ -1,9 +1,9 @@
-﻿// <copyright file="Session.cs" company="IrcShark Team">
+﻿// <copyright file="SessionIdentity.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Contains the Session class.</summary>
+// <summary>Contains the SessionIdentity class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,30 +20,33 @@
 namespace IrcShark.Extensions.Sessions
 {
     using System;
+    using System.Security.Principal;
 
     /// <summary>
-    /// The Session instance identifys a users session and holds session specific variables.
+    /// The SessionIdentity is used to identify a user of a session.
     /// </summary>
-    public class Session
+    public class SessionIdentity : IIdentity
     {
-        /// <summary>
-        /// Saves the instance of the SessionManagerExtension
-        /// </summary>
-        private SessionManagementExtension manager;
-        
-        /// <summary>
-        /// Initializes a new instance of the Session class.
-        /// </summary>
-        internal Session(SessionManagementExtension manager)
+        public SessionIdentity(Session session)
         {
-            this.manager = manager;
         }
         
-        /// <summary>
-        /// Closes the Session and removes it from the sessions list.
-        /// </summary>
-        public void Close()
-        {
+        public string Name {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+        
+        public string AuthenticationType {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+        
+        public bool IsAuthenticated {
+            get {
+                throw new NotImplementedException();
+            }
         }
     }
 }

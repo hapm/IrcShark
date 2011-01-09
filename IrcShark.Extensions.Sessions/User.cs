@@ -3,7 +3,7 @@
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Place a summary here.</summary>
+// <summary>Contains the User class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,29 +17,70 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-
 namespace IrcShark.Extensions.Sessions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Security.Principal;
+    using System.Security.Permissions;
+    using IrcShark.Security;
+
     /// <summary>
     /// The User class holds all informations about a user in the user database.
     /// </summary>
     public class User
     {
         /// <summary>
+        /// Saves the list of groups, the user is member of.
+        /// </summary>
+        private List<Group> groups;
+        
+        /// <summary>
         /// The local name of the user.
         /// </summary>
         private string localName;
         
         /// <summary>
+        /// Saves the default unauthenticated identity of this user;
+        /// </summary>
+        private GenericIdentity identity;
+        
+        /// <summary>
         /// Initializes a instance of the User class with a given name.
         /// </summary>
         /// <param name="name">The local name of the user.</param>
+        [RolePermission(SecurityAction.Demand, Roles="IrcShark.UserManager")]
         public User(string name)
         {
             this.localName = name;
+            this.identity = new GenericIdentity(name);
         }
         
+        /// <summary>
+        /// Gets the name of the user represented by this intance.
+        /// </summary>
+        /// <value>
+        /// The name of the user.
+        /// </value>
+        public string Name
+        {
+            get { return localName; }
+        }
         
+        /// <summary>
+        /// Checks if the user has the given role or not.
+        /// </summary>
+        /// <param name="roleName">The role to check.</param>
+        /// <returns></returns>
+        public bool HasRole(string roleName) 
+        {
+            foreach (Group group in groups)
+            {
+                if (group.HasRole(roleName))
+                    return true;
+            }
+            
+            return false;
+        }
     }
 }

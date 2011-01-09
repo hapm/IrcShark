@@ -20,6 +20,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Mono.Addins;
+using IrcShark.Extensions;
 
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
@@ -32,6 +33,7 @@ using Mono.Addins;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AddinRoot("IrcShark", "0.1")]
+[assembly: ExtensionPoint ("/IrcShark/Roles", ExtensionAttributeType=typeof(ProvidesRoleAttribute))]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,

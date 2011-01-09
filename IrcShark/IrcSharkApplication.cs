@@ -32,8 +32,8 @@ namespace IrcShark
     using Mono.Addins;
 
     using IrcShark.Extensions;
-    using IrcShark.Policy;
     using IrcShark.Translation;
+    using IrcShark.Security;
 
     /// <summary>
     /// The main class of an IrcShark instance. You can get all references you want to have if
@@ -86,7 +86,6 @@ namespace IrcShark
         /// If you create a new instance of IrcSharkApplication, you create a new
         /// instance of IrcShark it self.
         /// </remarks>
-        [IrcSharkAdministrationPermission(SecurityAction.Demand, Unrestricted = true)]
         public IrcSharkApplication()
         {
             mainLoopActivator = new AutoResetEvent(false);
@@ -154,6 +153,8 @@ namespace IrcShark
         {            
             int startTime = Environment.TickCount;
             running = true;
+            
+            Thread.CurrentPrincipal = new SystemPrincipal();
 
             InitLogging();
             log.Log(new LogMessage(Logger.CoreChannel, 1001, Messages.Info1001_StartingIrcShark));

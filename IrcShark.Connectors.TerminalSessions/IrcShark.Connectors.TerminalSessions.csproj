@@ -62,6 +62,11 @@
       <Name>IrcShark.Extensions.Terminal</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\IrcShark.Security\IrcShark.Security.csproj">
+      <Project>{203FD3BA-203F-4C8F-93FB-A81D21A3A709}</Project>
+      <Name>IrcShark.Security</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\IrcShark\IrcShark.csproj">
       <Project>{F6955540-7429-49FB-AE3D-A9AD916D2334}</Project>
       <Name>IrcShark</Name>

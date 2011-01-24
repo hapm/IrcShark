@@ -37,14 +37,14 @@ namespace IrcShark.Connectors.TerminalSessions
         public override void Init(TerminalExtension terminal)
         {
             base.Init(terminal);
-            this.sessions = Terminal.Context.Application.Extensions["IrcShark.Extensions.Sessions.SessionManagerExtension"] as SessionManagementExtension;
+            this.sessions = Terminal.Context.Application.Extensions["IrcShark.Extensions.Sessions.SessionManagementExtension"] as SessionManagementExtension;
         }
         
         public override void Execute(params string[] paramList)
         {
             if (paramList.Length == 0)
             {
-                Terminal.WriteLine(PublicMessages.PleaseSpecifyFlag);
+                DisplayCurrentUserInfo();
                 return;
             }
             
@@ -62,9 +62,23 @@ namespace IrcShark.Connectors.TerminalSessions
                     RemoveUser(paramList);
                     break;
                     
+                case "-i":
+                    ImpersonateUser(paramList);
+                    break;
+                    
                 default:
                     Terminal.WriteLine(PublicMessages.UnknownFlag, paramList[0]);
                     break;
+            }
+        }
+        
+        public void DisplayCurrentUserInfo()
+        {
+            System.Security.Principal.IPrincipal principal = System.Threading.Thread.CurrentPrincipal;
+            if (principal is IrcShark.Security.SystemPrincipal)
+            {
+                Terminal.WriteLine("Running as system user, having all roles!!!");
+                return;
             }
         }
         
@@ -78,12 +92,30 @@ namespace IrcShark.Connectors.TerminalSessions
         
         public void AddUser(string[] paramList)
         {
+            if (paramList.Length < 2)
+            {
+                Terminal.WriteLine("You forgot to specify the username of the user you want to add.");
+            }
             
+            if (sessions.Users.Contains(paramList[1]))
+            {
+                Terminal.WriteLine(string.Format("The user {0} already exists.", paramList[1]));
+            }
+            
+            User newUser = new User(paramList[1]);
+            sessions.Users.Add(newUser);
+            Terminal.WriteLine(string.Format("The user {0} has been successfully created.", paramList[1]));
         }
         
         public void RemoveUser(string[] paramList)
         {
             
+        }
+        
+        public void ImpersonateUser(string[] paramList)
+        {
+            sessions.Impersonate(paramList[1]);
+            Terminal.WriteLine(string.Format("Successfully impersonated user {0}.", paramList[1]));
         }
     }
 }

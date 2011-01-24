@@ -54,6 +54,7 @@ namespace IrcShark.Extensions.Sessions
         {
             this.localName = name;
             this.identity = new GenericIdentity(name);
+            this.groups = new List<Group>();
         }
         
         /// <summary>

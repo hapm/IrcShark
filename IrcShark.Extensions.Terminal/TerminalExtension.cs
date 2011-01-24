@@ -353,6 +353,10 @@ namespace IrcShark.Extensions.Terminal
                             running = false;
                         }
                     }
+                    catch (System.Security.SecurityException ex)
+                    {
+                        WriteLine("Permission denied: " + ex.Message);
+                    }
                     catch (Exception ex)
                     {
                         Context.Application.Log.Error("Terminal", 0, "The command {0} throwed an exception: {1}", command.CommandName, ex.ToString());

@@ -17,11 +17,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using IrcShark.Extensions;
 namespace IrcShark.Extensions.Sessions
 {
     using System;
     using System.Collections.Generic;
+    using System.Security.Principal;
+    using IrcShark.Extensions;
     using IrcShark.Security;
     
     /// <summary>
@@ -43,6 +44,8 @@ namespace IrcShark.Extensions.Sessions
         
         private List<Group> groups;
         
+        private Stack<IPrincipal> principals;
+        
         /// <summary>
         /// Initializes a new instance of the SessionManagementExtension class.
         /// </summary>
@@ -52,6 +55,7 @@ namespace IrcShark.Extensions.Sessions
             roles = new List<Role>();
             users = new UserCollection();
             groups = new List<Group>();
+            principals = new Stack<IPrincipal>();
         }
         
         /// <summary>
@@ -98,6 +102,15 @@ namespace IrcShark.Extensions.Sessions
         {
             Session session = new Session(this);
             return session;
+        }
+        
+        [RolePermission(System.Security.Permissions.SecurityAction.Assert, Roles="IrcShark.UserManager")]
+        public void Impersonate(string name)
+        {
+            User user = users[name];
+            UserPrincipal principal = new UserPrincipal(user);
+            principals.Push(System.Threading.Thread.CurrentPrincipal);
+            System.Threading.Thread.CurrentPrincipal = principal;
         }
         
         internal void CleanupSession(Session session) 

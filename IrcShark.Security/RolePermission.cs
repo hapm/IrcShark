@@ -87,7 +87,7 @@ namespace IrcShark.Security
                     foreach (string role in roles)
                     {
                         if (!System.Threading.Thread.CurrentPrincipal.IsInRole(role))
-                            throw new SecurityException("Access Denied. You do not have suffient permissions.");  
+                            throw new SecurityException(string.Format("You do not have the needed role \"{0}\" for this operation.", role));
                     }
                     
                     break;
@@ -99,7 +99,7 @@ namespace IrcShark.Security
                             return;
                     }
                     
-                    throw new SecurityException("Access Denied. You do not have suffient permissions.");
+                    throw new SecurityException(string.Format("You do not have one of needed roles \"{0}\" for this operation.", string.Join(" ,", roles)));
             }
         }
         

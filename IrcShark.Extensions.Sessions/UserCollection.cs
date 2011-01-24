@@ -43,6 +43,21 @@ namespace IrcShark.Extensions.Sessions
             list = new Dictionary<string, User>();
         }
         
+        /// <summary>
+        /// Gets the User instance for the given username.
+        /// </summary>
+        public User this[string name]
+        {
+            get
+            {
+                return list[name];
+            }
+        }
+        
+        /// <summary>
+        /// Gets the number of users in this collection.
+        /// </summary>
+        /// <value>The number of users.</value>
         public int Count 
         {
             get 

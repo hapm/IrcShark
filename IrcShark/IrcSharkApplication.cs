@@ -24,6 +24,7 @@ namespace IrcShark
     using System.Diagnostics;
     using System.IO;
     using System.Security.Permissions;
+    using System.Security.Principal;
     using System.Text;
     using System.Threading;
     using System.Xml;
@@ -153,8 +154,8 @@ namespace IrcShark
         {            
             int startTime = Environment.TickCount;
             running = true;
-            
-            Thread.CurrentPrincipal = new SystemPrincipal();
+           
+            AppDomain.CurrentDomain.SetThreadPrincipal(new SystemPrincipal());
 
             InitLogging();
             log.Log(new LogMessage(Logger.CoreChannel, 1001, Messages.Info1001_StartingIrcShark));

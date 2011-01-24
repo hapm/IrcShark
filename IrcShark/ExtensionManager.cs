@@ -214,7 +214,6 @@ namespace IrcShark
                     loaded.Add(ext.Id, ext);
                 }
             }
-            AddinManager.GetExtensionNodes(typeof(IExtension));
             AddinManager.LoadAddin(null, id);
         }
         
@@ -257,7 +256,7 @@ namespace IrcShark
         {
             foreach (TypeExtensionNode<IrcShark.Extensions.ExtensionAttribute> extNode in AddinManager.GetExtensionNodes(typeof(IExtension))) {
                 IExtension ext = extNode.CreateInstance() as IExtension;
-                if (extNode.Id == null) 
+                if (ext.Id == null) 
                     loaded.Add(ext.GetType().Name, ext);
                 else
                     loaded.Add(ext.Id, ext);

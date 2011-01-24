@@ -121,7 +121,7 @@ namespace IrcShark.Extensions.Sessions
         
         public IEnumerator<User> GetEnumerator()
         {
-            return list.Values.GetEnumerator() as IEnumerator<User>;
+            return (IEnumerator<User>)list.Values.GetEnumerator();
         }
         
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

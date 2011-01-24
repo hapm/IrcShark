@@ -33,7 +33,7 @@ using IrcShark.Extensions;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AddinRoot("IrcShark", "0.1")]
-[assembly: ExtensionPoint ("/IrcShark/Roles", ExtensionAttributeType=typeof(ProvidesRoleAttribute))]
+[assembly: ExtensionPoint (Path="/IrcShark/Roles", ExtensionAttributeType=typeof(ProvidesRoleAttribute))]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,

@@ -22,7 +22,7 @@ namespace IrcShark.Extensions
 	using System;
 	using Mono.Addins;
 	
-	[TypeExtensionPoint(ExtensionAttributeType=typeof(ExtensionAttribute))]
+	[TypeExtensionPoint(ExtensionAttributeType=typeof(IrcShark.Extensions.ExtensionAttribute))]
 	public interface IExtension : IExtensionObject
 	{
 		/// <summary>

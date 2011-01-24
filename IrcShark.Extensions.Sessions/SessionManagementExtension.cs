@@ -24,7 +24,6 @@ namespace IrcShark.Extensions.Sessions
     using System.Collections.Generic;
     using IrcShark.Security;
     
-
     /// <summary>
     /// The SessionManagementExtension manages configuration and access
     /// sessions to IrcShark. Sessions are bound to users and rights of

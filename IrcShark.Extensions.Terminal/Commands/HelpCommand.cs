@@ -45,7 +45,7 @@ namespace IrcShark.Extensions.Terminal.Commands
             {
                 StringBuilder line = null;
                 Terminal.WriteLine(Translation.Messages.ListingAvailableCommands);
-                foreach (TypeExtensionNode<TerminalCommandAttribute> cmdNode in Terminal.Commands)
+                foreach (TypeExtensionNode<TerminalCommandAttribute> cmdNode in Terminal.CommandNodes)
                 {
                     if (line == null)
                     {
@@ -73,7 +73,7 @@ namespace IrcShark.Extensions.Terminal.Commands
             } 
             else if (paramList.Length == 1)
             {
-                foreach (TypeExtensionNode<TerminalCommandAttribute> cmdNode in Terminal.Commands)
+                foreach (TypeExtensionNode<TerminalCommandAttribute> cmdNode in Terminal.CommandNodes)
                 {
                     if (paramList[0].ToString() == cmdNode.Data.Name) 
                     {

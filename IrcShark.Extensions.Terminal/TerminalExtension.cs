@@ -53,7 +53,9 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Saves a list of all commands added to the terminal.
         /// </summary>
-        private Mono.Addins.ExtensionNodeList commands;
+        private Mono.Addins.ExtensionNodeList commandNodes;
+        
+        private Dictionary<string, ITerminalCommand> commands;
         
         /// <summary>
         /// Saves the state of the extension.
@@ -84,6 +86,7 @@ namespace IrcShark.Extensions.Terminal
         public TerminalExtension()
         {
             cmdHistory = new LinkedList<string>();
+            commands = new Dictionary<string, ITerminalCommand>();
             inputPrefix = "shell> ";
         }
         
@@ -93,9 +96,9 @@ namespace IrcShark.Extensions.Terminal
         /// <value>
         /// An array of TerminalCommands.
         /// </value>
-        public Mono.Addins.ExtensionNodeList Commands
+        public Mono.Addins.ExtensionNodeList CommandNodes
         {
-            get { return commands; }
+            get { return commandNodes; }
         }
         
         /// <summary>
@@ -118,15 +121,19 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="call">The CommandCall to execute.</param>
         public void ExecuteCommand(CommandCall call)
         {
-            foreach (Mono.Addins.TypeExtensionNode<TerminalCommandAttribute> cmdNode in Commands)
+            ITerminalCommand cmd;
+            if (commands.ContainsKey(call.CommandName))
             {
-                if (cmdNode.Data.Name == call.CommandName)
-                {
-                    ITerminalCommand cmd = cmdNode.CreateInstance() as ITerminalCommand;
-                    cmd.Init(this);
-                    cmd.Execute(call.Parameters);
-                    break;
-                }
+                cmd = commands[call.CommandName];
+            }
+            else 
+            {
+                cmd = InitializeCommand(call.CommandName);
+            }
+            
+            if (cmd != null)
+            {
+                cmd.Execute(call.Parameters);
             }
         }
 
@@ -155,6 +162,22 @@ namespace IrcShark.Extensions.Terminal
             readerThread = new Thread(new ThreadStart(this.Run));
             running = true;
             readerThread.Start();
+        }
+        
+        private ITerminalCommand InitializeCommand(string cmdName)
+        {
+            foreach (Mono.Addins.TypeExtensionNode<TerminalCommandAttribute> cmdNode in CommandNodes)
+            {
+                if (cmdNode.Data.Name == cmdName)
+                {
+                    ITerminalCommand cmd = cmdNode.CreateInstance() as ITerminalCommand;
+                    cmd.Init(this);
+                    commands.Add(cmd.CommandName, cmd);
+                    return cmd;
+                }
+            }
+            
+            return null;
         }
 		
         private void drawStartupLogo()
@@ -329,7 +352,7 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         private void AddCommands()
         {
-            commands = Mono.Addins.AddinManager.GetExtensionNodes(typeof(ITerminalCommand));
+            commandNodes = Mono.Addins.AddinManager.GetExtensionNodes(typeof(ITerminalCommand));
         }
         
         /// <summary>
@@ -355,7 +378,9 @@ namespace IrcShark.Extensions.Terminal
                     }
                     catch (System.Security.SecurityException ex)
                     {
+                        ForegroundColor = ConsoleColor.Red;
                         WriteLine("Permission denied: " + ex.Message);
+                        ResetColor();
                     }
                     catch (Exception ex)
                     {
@@ -382,7 +407,7 @@ namespace IrcShark.Extensions.Terminal
             {
                 List<string> list = new List<string>();
                 prefix = call.CommandName;
-                foreach (Mono.Addins.TypeExtensionNode<TerminalCommandAttribute> cmd in commands)
+                foreach (Mono.Addins.TypeExtensionNode<TerminalCommandAttribute> cmd in commandNodes)
                 {
                     if (cmd.Data.Name.StartsWith(prefix))
                     {
@@ -397,7 +422,7 @@ namespace IrcShark.Extensions.Terminal
             }
             else
             {
-                foreach (Mono.Addins.TypeExtensionNode<TerminalCommandAttribute> cmdNode in commands)
+                foreach (Mono.Addins.TypeExtensionNode<TerminalCommandAttribute> cmdNode in commandNodes)
                 {
                     if (cmdNode.Data.Name.Equals(call.CommandName))
                     {

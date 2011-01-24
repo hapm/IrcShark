@@ -40,11 +40,21 @@ namespace IrcShark.Extensions.Sessions
         
         private List<Role> roles;
         
+        /// <summary>
+        /// Saves the list of all users registred to the SessionManagementExtension.
+        /// </summary>
         private UserCollection users;
         
-        private List<Group> groups;
+        /// <summary>
+        /// Saves the list of all groups registred to the SessionManagementExtension.
+        /// </summary>
+        private GroupCollection groups;
         
-        private Stack<IPrincipal> principals;
+        /// <summary>
+        /// Saves the impersonation stack for each thread.
+        /// </summary>
+        [ThreadStatic]
+        private static Stack<IPrincipal> principals;
         
         /// <summary>
         /// Initializes a new instance of the SessionManagementExtension class.
@@ -54,8 +64,7 @@ namespace IrcShark.Extensions.Sessions
             sessions = new List<Session>();
             roles = new List<Role>();
             users = new UserCollection();
-            groups = new List<Group>();
-            principals = new Stack<IPrincipal>();
+            groups = new GroupCollection();
         }
         
         /// <summary>
@@ -104,13 +113,45 @@ namespace IrcShark.Extensions.Sessions
             return session;
         }
         
+        /// <summary>
+        /// Impersonates the current thread to the user with the given name.
+        /// </summary>
+        /// <param name="name">The name of the user to impersonate to.</param>
+        /// <returns>the principal that was active before the impersonation takes place.</returns>
         [RolePermission(System.Security.Permissions.SecurityAction.Assert, Roles="IrcShark.UserManager")]
-        public void Impersonate(string name)
+        public IPrincipal Impersonate(string name)
         {
             User user = users[name];
             UserPrincipal principal = new UserPrincipal(user);
-            principals.Push(System.Threading.Thread.CurrentPrincipal);
+            if (SessionManagementExtension.principals == null)
+            {
+                SessionManagementExtension.principals = new Stack<IPrincipal>();
+            }
+            
+            IPrincipal oldP = System.Threading.Thread.CurrentPrincipal;
+            SessionManagementExtension.principals.Push(oldP);
             System.Threading.Thread.CurrentPrincipal = principal;
+            return oldP;
+        }
+        
+        /// <summary>
+        /// Releases all impersonations until the given principal is reached.
+        /// </summary>
+        /// <param name="toPrincipal">The principal to release to.</param>
+        public void Release(IPrincipal toPrincipal)
+        {
+            if (principals == null || !principals.Contains(toPrincipal))
+            {
+                throw new InvalidOperationException("The given principal is not in the imeronation stack.");
+            }
+            
+            IPrincipal currentPrincipal = principals.Pop();
+            while (currentPrincipal != toPrincipal)
+            {
+                currentPrincipal = principals.Pop();
+            }
+            
+            System.Threading.Thread.CurrentPrincipal = currentPrincipal;
         }
         
         internal void CleanupSession(Session session) 

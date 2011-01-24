@@ -34,6 +34,8 @@ namespace IrcShark.Connectors.TerminalSessions
     {
         private SessionManagementExtension sessions;
         
+        private System.Security.Principal.IPrincipal myPrincipal;
+        
         public override void Init(TerminalExtension terminal)
         {
             base.Init(terminal);
@@ -66,6 +68,10 @@ namespace IrcShark.Connectors.TerminalSessions
                     ImpersonateUser(paramList);
                     break;
                     
+                case "-u":
+                    ReleaseUser();
+                    break;
+                    
                 default:
                     Terminal.WriteLine(PublicMessages.UnknownFlag, paramList[0]);
                     break;
@@ -77,9 +83,11 @@ namespace IrcShark.Connectors.TerminalSessions
             System.Security.Principal.IPrincipal principal = System.Threading.Thread.CurrentPrincipal;
             if (principal is IrcShark.Security.SystemPrincipal)
             {
-                Terminal.WriteLine("Running as system user, having all roles!!!");
+                Terminal.WriteLine("You are system user, having all roles!!!");
                 return;
             }
+            
+            Terminal.WriteLine("You are {0}.", principal.Identity.Name);
         }
         
         public void ListUsers(string[] paramList)
@@ -114,8 +122,29 @@ namespace IrcShark.Connectors.TerminalSessions
         
         public void ImpersonateUser(string[] paramList)
         {
-            sessions.Impersonate(paramList[1]);
-            Terminal.WriteLine(string.Format("Successfully impersonated user {0}.", paramList[1]));
+            if (myPrincipal == null)
+            {
+                myPrincipal = sessions.Impersonate(paramList[1]);
+            }
+            else
+            {   
+                sessions.Impersonate(paramList[1]);
+            }
+            
+            Terminal.WriteLine(string.Format("Successfully impersonated as user {0}.", paramList[1]));
+        }
+        
+        public void ReleaseUser()
+        {
+            if (myPrincipal == null)
+            {
+                Terminal.WriteLine("You have no impersonation at the moment.");   
+                return;
+            }
+            
+            sessions.Release(myPrincipal);
+            myPrincipal = null;
+            Terminal.WriteLine("You are now yourself again.");
         }
     }
 }

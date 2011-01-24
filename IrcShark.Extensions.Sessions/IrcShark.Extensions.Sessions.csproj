@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Group.cs" />
+    <Compile Include="GroupCollection.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionIdentity.cs" />

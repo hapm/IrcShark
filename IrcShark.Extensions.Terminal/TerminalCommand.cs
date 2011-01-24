@@ -43,6 +43,19 @@ namespace IrcShark.Extensions.Terminal
 		/// Saves a reference to the TerminalExtension instance.
 		/// </summary>
 		private TerminalExtension extension;
+		
+		public TerminalCommand()
+		{
+		    object[] attrbs = this.GetType().GetCustomAttributes(typeof(TerminalCommandAttribute), true);
+		    foreach (object attr in attrbs) 
+		    {
+		        if (attr is TerminalCommandAttribute) 
+		        {
+		            TerminalCommandAttribute tcAttr = attr as TerminalCommandAttribute;
+		            commandName = tcAttr.Name;
+		        }
+		    }
+		}
 
 		/// <summary>
 		/// Gets the command name of this command.

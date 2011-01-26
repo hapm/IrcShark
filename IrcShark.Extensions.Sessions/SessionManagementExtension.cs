@@ -3,7 +3,7 @@
 // </copyright>
 // <author>$Author$</author>
 // <date>$LastChangedDate$</date>
-// <summary>Place a summary here.</summary>
+// <summary>Contains the SessionManagementExtension class.</summary>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ namespace IrcShark.Extensions.Sessions
         /// <summary>
         /// Saves a list of all active sessions
         /// </summary>
-        private List<Session> sessions;
+        private SessionManager sessions;
         
         private List<Role> roles;
         
@@ -61,7 +61,7 @@ namespace IrcShark.Extensions.Sessions
         /// </summary>
         public SessionManagementExtension()
         {
-            sessions = new List<Session>();
+        	sessions = new SessionManager();
             roles = new List<Role>();
             users = new UserCollection();
             groups = new GroupCollection();
@@ -109,7 +109,7 @@ namespace IrcShark.Extensions.Sessions
         /// <returns>The new Session instance.</returns>
         public Session RequestSession() 
         {
-            Session session = new Session(this);
+            Session session = new Session(sessions);
             return session;
         }
         
@@ -142,7 +142,7 @@ namespace IrcShark.Extensions.Sessions
         {
             if (principals == null || !principals.Contains(toPrincipal))
             {
-                throw new InvalidOperationException("The given principal is not in the imeronation stack.");
+                throw new InvalidOperationException("The given principal is not in the impersonation stack.");
             }
             
             IPrincipal currentPrincipal = principals.Pop();
@@ -154,6 +154,10 @@ namespace IrcShark.Extensions.Sessions
             System.Threading.Thread.CurrentPrincipal = currentPrincipal;
         }
         
+        /// <summary>
+        /// Removes the given session from the SessionManagerExtension.
+        /// </summary>
+        /// <param name="session">The session to remove.</param>
         internal void CleanupSession(Session session) 
         {
             sessions.Remove(session);

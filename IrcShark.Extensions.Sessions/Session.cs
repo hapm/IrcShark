@@ -26,17 +26,43 @@ namespace IrcShark.Extensions.Sessions
     /// </summary>
     public class Session
     {
+    	/// <summary>
+    	/// Saves the principal for the user of this session.
+    	/// </summary>
+    	private UserPrincipal principal;
+    	
         /// <summary>
         /// Saves the instance of the SessionManagerExtension
         /// </summary>
-        private SessionManagementExtension manager;
+        private SessionManager manager;
+        
+        /// <summary>
+        /// Saves the uniqueue id for this session.
+        /// </summary>
+        private Guid sessionId;
         
         /// <summary>
         /// Initializes a new instance of the Session class.
         /// </summary>
-        internal Session(SessionManagementExtension manager)
+        internal Session(SessionManager manager)
         {
             this.manager = manager;
+            do 
+            {
+            	this.sessionId = Guid.NewGuid();
+            } 
+            while (manager.Contains(this.sessionId));
+        }
+        
+        /// <summary>
+        /// Gets the principal for the current session.
+        /// </summary>
+        public UserPrincipal Principal
+        {
+        	get 
+        	{
+        		return principal;
+        	}
         }
         
         /// <summary>

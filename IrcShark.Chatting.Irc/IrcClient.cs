@@ -678,11 +678,28 @@ namespace IrcShark.Chatting.Irc
                     case 1: // Parse the Server Info
                         currentNickname = e.Line.Parameters[0];
                         network = e.Line.Parameters[1].Split(' ')[3];
-                        self = new UserInfo(this, e.Line.Parameters[1].Split(' ')[6]);
+                        try 
+                        {
+                            self = new UserInfo(this, e.Line.Parameters[1].Split(' ')[6]);
+                        }
+                        catch (ArgumentException ex)
+                        {
+                            // if the given parameter is no host, we need to whois our self, (how odd is that)
+                            SendLine("WHOIS " + currentNickname);
+                        }
+                        
                         break;
 
                     case 3: // Parse Welcome-Message
                         OnOnLogin();                        
+                        break;
+                        
+                    case 311:
+                        if (self == null && e.Line.Parameters[1].Equals(currentNickname))
+                        {
+                            self = new UserInfo(currentNickname, e.Line.Parameters[2], e.Line.Parameters[3], this);
+                        }
+                        
                         break;
                         
                     case 376: // End of MOTD message

@@ -112,16 +112,18 @@ namespace IrcShark.Connectors.TerminalChatting
             INetwork network = GetNetwork(paramList[1]);
             if (network == null)
             {
+                Terminal.WriteLine("The network '{0}' doesn't exist.", network.Name);
                 return;
             }
             
             if (network.ServerCount == 0)
             {
                 Terminal.WriteLine("The network '{0}' doesn't have any configured servers, please configure one before trying to connect.", network.Name);
+                return;
             }
             
             IConnection connection = network.CreateConnection();
-            connection.Nickname = "IrcSharkTestBuild";
+            connection.Nickname = "Test|IS";
             connection.UserName = "Test";
             chatting.Connections.Add(connection);
             connection.Open();

@@ -48,7 +48,10 @@
   <ItemGroup>
     <Compile Include="Group.cs" />
     <Compile Include="GroupCollection.cs" />
+    <Compile Include="IAuthenticationInformation.cs" />
+    <Compile Include="IAuthenticationProvider.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="SecurePasswordAuthentication.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionIdentity.cs" />
     <Compile Include="SessionManagementExtension.cs" />

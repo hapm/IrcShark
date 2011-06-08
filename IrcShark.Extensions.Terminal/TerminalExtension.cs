@@ -75,7 +75,7 @@ namespace IrcShark.Extensions.Terminal
         /// </summary>
         private ConsoleColor foregroundColor;
         
-        private string inputPrefix;
+        private string inputPrefix = null;
 
         /// <summary>
         /// Initializes a new instance of the TerminalExtension class.

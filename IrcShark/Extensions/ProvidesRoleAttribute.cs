@@ -38,6 +38,11 @@ namespace IrcShark.Extensions
         private string nameResource;
         
         /// <summary>
+        /// Saves the list of groups, this role is added to by default.
+        /// </summary>
+        private string[] groups;
+        
+        /// <summary>
         /// Saves the name of the resourcethat contains the description of the role
         /// as a string.
         /// </summary>
@@ -51,6 +56,14 @@ namespace IrcShark.Extensions
         }
         
         /// <summary>
+        /// Initializes a new instance of the ProvidesRoleAttribute.
+        /// </summary>
+        public ProvidesRoleAttribute(string defaultGroups)
+        {
+        	groups = defaultGroups.Split(' ');
+        }
+        
+        /// <summary>
         /// Gets or sets the internal name of the role.
         /// </summary>
         [NodeAttribute]
@@ -58,6 +71,15 @@ namespace IrcShark.Extensions
         {
             get { return internalName; }
             set { internalName = value; }
+        }
+        
+        /// <summary>
+        /// Gets the groups, this role should be added to by default.
+        /// </summary>
+        public string[] Groups
+        {
+        	get { return groups; }
+        	set { groups = value; }
         }
         
         /// <summary>

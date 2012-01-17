@@ -95,7 +95,7 @@ namespace IrcShark.Extensions
         internal ExtensionContext(IrcSharkApplication app, IExtension ext)
         {
             this.app = app;
-            string className = typeof(ExtensionContext).Name;
+            string className = ext.GetType().FullName;
             foreach (string path in app.SettingsDirectorys)
             {
                 if (Directory.Exists(Path.Combine(path, className)))

@@ -138,6 +138,15 @@ namespace IrcShark
         }
         
         /// <summary>
+        /// Gets the version of IrcShark.
+        /// </summary>
+        public Version Version {
+        	get {
+        		return typeof(IrcSharkApplication).Assembly.GetName().Version;
+        	}
+        }
+        
+        /// <summary>
         /// This delegate is used by the IrcSharkApplication.StartupComplete event.
         /// </summary>
         public delegate void StartupCompleteHandler();

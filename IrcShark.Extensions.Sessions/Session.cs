@@ -34,7 +34,7 @@ namespace IrcShark.Extensions.Sessions
         /// <summary>
         /// Saves the instance of the SessionManagerExtension
         /// </summary>
-        private SessionManager manager;
+        private SessionManagementExtension manager;
         
         /// <summary>
         /// Saves the uniqueue id for this session.
@@ -42,16 +42,22 @@ namespace IrcShark.Extensions.Sessions
         private Guid sessionId;
         
         /// <summary>
+        /// Saves the state of this session.
+        /// </summary>
+        private bool active;
+        
+        /// <summary>
         /// Initializes a new instance of the Session class.
         /// </summary>
-        internal Session(SessionManager manager)
+        internal Session(SessionManagementExtension manager, UserPrincipal principal)
         {
             this.manager = manager;
             do 
             {
             	this.sessionId = Guid.NewGuid();
             } 
-            while (manager.Contains(this.sessionId));
+            while (manager.HasSession(this.sessionId));
+            this.principal = principal;
         }
         
         /// <summary>
@@ -66,10 +72,33 @@ namespace IrcShark.Extensions.Sessions
         }
         
         /// <summary>
+        /// Gets the id of the session.
+        /// </summary>
+        public Guid SessionId 
+        {
+        	get 
+        	{
+        		return sessionId;
+        	}
+        }
+        
+        /// <summary>
+        /// Gets a value indicating whether the session is active or not.
+        /// </summary>
+        public bool IsActive
+        {
+        	get 
+        	{
+        		return active;
+        	}
+        }
+        
+        /// <summary>
         /// Closes the Session and removes it from the sessions list.
         /// </summary>
         public void Close()
         {
+        	this.active = false;
         }
     }
 }

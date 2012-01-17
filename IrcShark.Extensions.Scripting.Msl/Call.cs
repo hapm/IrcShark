@@ -30,9 +30,11 @@ namespace IrcShark.Extensions.Scripting.Msl
         private bool isIdentifier;
         private string methodName;
         private string property;
+        private MslScriptEngine engine;
         
-        public Call(string name, string[] parameters, bool ident, string property)
+        public Call(MslScriptEngine engine, string name, string[] parameters, bool ident, string property)
         {
+        	this.engine = engine;
             this.parameters = parameters;
             this.isIdentifier = ident;
             this.methodName = name;

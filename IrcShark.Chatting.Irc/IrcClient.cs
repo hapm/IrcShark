@@ -682,7 +682,7 @@ namespace IrcShark.Chatting.Irc
                         {
                             self = new UserInfo(this, e.Line.Parameters[1].Split(' ')[6]);
                         }
-                        catch (ArgumentException ex)
+                        catch (ArgumentException)
                         {
                             // if the given parameter is no host, we need to whois our self, (how odd is that)
                             SendLine("WHOIS " + currentNickname);
@@ -721,14 +721,36 @@ namespace IrcShark.Chatting.Irc
                         
                         if (!pingArgs.Handled)
                         {
+                        	string pong = "PONG";
+                        	int paramCount = e.Line.Parameters.Length;
+                        	string currentParam;
+                            	
                             if (e.Line.Parameters.Length > 0)
                             {
-                                SendLine("PONG :" + e.Line.Parameters[0]);
+                            	if (!string.IsNullOrEmpty(e.Line.Prefix))
+                            	{
+                            		pong += " " + e.Line.Prefix;
+                            	}
+                            	
+                            	for (int i = 0; i < paramCount-1; i++)
+                            	{
+                            		currentParam = e.Line.Parameters[i];
+                            		if (currentParam.Equals(e.Line.Prefix))
+                            		{
+                            			continue;
+                            		}
+                            		
+                            		pong += " " + currentParam;
+                            	}
+                            	
+                            	pong += " :" + e.Line.Parameters[paramCount - 1];
                             }
-                            else
+                            else if (!string.IsNullOrEmpty(e.Line.Prefix))
                             {
-                                SendLine("PONG");
+                            	pong += " :" + e.Line.Prefix;
                             }
+                            
+                            SendLine(pong);
                         }
                         
                         break;

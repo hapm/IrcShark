@@ -181,6 +181,11 @@ namespace IrcShark.Chatting.Irc
                 throw new ArgumentException("The given name already exists in the list of servers", "name");
             }
             
+            if (address.StartsWith("irc://", StringComparison.CurrentCultureIgnoreCase))
+            {
+            	address = address.Substring(6);
+            }
+            
             if (address.Contains(":"))
             {
                 string addr;

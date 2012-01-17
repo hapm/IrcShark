@@ -28,17 +28,18 @@ namespace IrcShark.Extensions.Terminal
     /// This class allows the TerminalExtension to use the local Console as
     /// as a terminal for a user.
     /// </summary>
+    [Terminal("console", "Locale console")]
     public class ConsoleTerminal : ITerminal
     {
         /// <summary>
-        /// 
+        /// Saves the handler for auto completion requests
         /// </summary>
         private AutoCompleteHandler autoCompleteEvent;
         
         /// <summary>
         /// Used for internal key handlings.
         /// </summary>
-        private delegate void KeyHandler ();
+        private delegate void KeyHandler();
         
         /// <summary>
         /// The text being edited.
@@ -1179,5 +1180,15 @@ namespace IrcShark.Extensions.Terminal
             ForceCursor (cursor);
         }
         
+    	
+		public void Open()
+		{
+			throw new NotImplementedException();
+		}
+    	
+		public void Close()
+		{
+			throw new NotImplementedException();
+		}
     }
 }

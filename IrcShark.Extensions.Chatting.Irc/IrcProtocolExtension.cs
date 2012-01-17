@@ -1,4 +1,5 @@
-﻿// <copyright file="IrcProtocolExtension.cs" company="IrcShark Team">
+﻿using System.Diagnostics;
+// <copyright file="IrcProtocolExtension.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -17,13 +18,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 namespace IrcShark.Extensions.Chatting.Irc
 {
     using System;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
+    using System.Xml;
     
+    using IrcShark.Chatting;
     using IrcShark.Chatting.Irc;
     using IrcShark.Extensions;
 
@@ -35,6 +37,8 @@ namespace IrcShark.Extensions.Chatting.Irc
     [Mono.Addins.Extension]
     public class IrcProtocolExtension : IProtocolExtension
     {
+    	private const string ns = "http://www.ircshark.net/2011/protocols/irc";
+    	
         /// <summary>
         /// Saves the log channel identifier of the IrcProtocolExtension.
         /// </summary>
@@ -120,5 +124,156 @@ namespace IrcShark.Extensions.Chatting.Irc
             
             return settings;
         }
+        
+        /// <summary>
+        /// Saves all networks of the given collection belonging to this protocol.
+        /// </summary>
+        /// <param name="networks">The networks to save.</param>
+        /// <param name="writer">The writer to save to.</param>
+        public void SerializeNetworks(IEnumerable<INetwork> networks, XmlWriter writer)
+        {
+        	bool first = true;
+        	
+        	foreach (INetwork network in networks) 
+        	{
+        		if (!(network is IrcNetwork))
+        			continue;
+        		
+        		if (first)
+        		{
+        			first = false;
+        			writer.WriteStartElement("networks");
+        			writer.WriteAttributeString("protocol", Protocol.Name);
+        			writer.WriteAttributeString("ircp", "xmlns", ns);
+        		}
+        		
+        		SerializeNetwork(network, writer);
+        	}
+        	
+        	if (!first)
+        	{
+        		writer.WriteEndElement();
+        	}
+        }
+    	
+        /// <summary>
+        /// Saves a network to the writer.
+        /// </summary>
+        /// <param name="network"></param>
+        /// <param name="writer"></param>
+		public void SerializeNetwork(INetwork network, XmlWriter writer)
+		{
+			writer.WriteStartElement("ircnetwork", ns);
+			if (!(network is IrcNetwork))
+			{
+				throw new ArgumentException("Given network is no IrcNetwork.", "network");
+			}
+			
+			IrcNetwork ircNet = network as IrcNetwork;
+			
+			writer.WriteAttributeString("name", ircNet.Name);
+			foreach (IrcServerEndPoint server in ircNet)
+			{
+				writer.WriteStartElement("ircserver", ns);
+				writer.WriteAttributeString("name", ns, server.Name);
+				writer.WriteAttributeString("address", ns, string.Format("irc://{0}:{1}", server.Address, server.Port));
+				writer.WriteAttributeString("identd", ns, server.IsIdentDRequired ? "1" : "0");
+				writer.WriteEndElement();
+			}
+			
+			writer.WriteEndElement();
+		}
+    	
+		public IEnumerable<INetwork> DeserializeNetworks(XmlReader reader)
+		{
+			string protocolName;
+			List<INetwork> result;
+			if (reader.NodeType != XmlNodeType.Element 
+			    || !reader.Name.Equals("networks"))
+				throw new InvalidOperationException("The given reader is not at a networks tag start node.");
+			
+			if (!reader.MoveToAttribute("protocol"))
+				throw new InvalidOperationException("Missing attribute protocol in networks node.");
+			
+			protocolName = reader.ReadContentAsString();
+			if (!Protocol.Name.Equals(protocolName))
+				throw new InvalidOperationException(string.Format("The protocol \"{0}\" is not supported by this extension.", protocolName));
+			
+			result = new List<INetwork>();
+			while (reader.NodeType != XmlNodeType.EndElement || !reader.LocalName.Equals("networks"))
+			{
+				reader.Read();
+				switch (reader.NodeType)
+				{
+					case XmlNodeType.Element:
+						try {
+							result.Add(DeserializeNetwork(reader));							
+						} catch (InvalidOperationException) {
+							reader.Skip();
+						}
+						
+						break;
+				}
+			}
+			
+			return result;
+		}
+		
+		public INetwork DeserializeNetwork(XmlReader reader)
+		{
+			IrcNetwork result;
+			string address;
+			bool isEmpty;
+			string name;
+			IrcServerEndPoint server;
+			
+			if (!reader.LocalName.Equals("ircnetwork"))
+				throw new InvalidOperationException("Given reader is not at an ircnetwork start node.");
+			
+			isEmpty = reader.IsEmptyElement;
+			
+			if (!reader.MoveToAttribute("name"))
+				throw new InvalidOperationException("The ircnetwork doesn't have a name attribute.");
+			
+			result = new IrcNetwork(Protocol as IrcProtocol, reader.ReadContentAsString());
+			
+			if (!isEmpty)
+			{
+				while (reader.NodeType != XmlNodeType.EndElement || !reader.LocalName.Equals("ircnetwork"))
+				{
+					reader.Read();
+					switch (reader.NodeType)
+					{
+						case XmlNodeType.Element:
+							try
+							{
+								if (reader.LocalName.Equals("ircserver"))
+								{
+									if (!reader.MoveToAttribute("name", ns))
+										throw new InvalidOperationException("Current server tag has no name.");
+									
+									name = reader.ReadContentAsString();
+									if (!reader.MoveToAttribute("address", ns))
+										throw new InvalidOperationException("Current server tag has no address.");
+									
+									address = reader.ReadContentAsString();
+									server = result.AddServer(name, address);
+									
+									if (reader.MoveToAttribute("identd", ns))
+										server.IsIdentDRequired = reader.ReadContentAsBoolean();
+								}
+							}
+							catch (Exception ex)
+							{
+								reader.Skip();
+							}
+							
+							break;
+					}
+				}
+			}
+			
+			return result;
+		}
     }
 }

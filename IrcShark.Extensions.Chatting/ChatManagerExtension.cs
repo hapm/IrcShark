@@ -23,6 +23,7 @@ namespace IrcShark.Extensions.Chatting
     using System.Collections.Generic;
     using System.IO;
     using System.Runtime.InteropServices;
+    using System.Xml;
     using System.Xml.Serialization;
     
     using IrcShark.Chatting;
@@ -196,23 +197,19 @@ namespace IrcShark.Extensions.Chatting
         /// </summary>
         public void SaveSettings()
         {
-            TextWriter writer = new StreamWriter(Path.Combine(Context.SettingPath, "networks.xml"));
-            List<NetworkSettings> settings = new List<NetworkSettings>();
-            foreach (INetwork network in Networks)
+        	XmlWriterSettings settings = new XmlWriterSettings();
+        	settings.Indent = true;
+        	settings.NewLineHandling = NewLineHandling.Entitize;
+        	
+        	XmlWriter writer = XmlWriter.Create(new StreamWriter(Path.Combine(Context.SettingPath, "networks.xml")), settings);
+        	writer.WriteStartElement("networkconfig");
+        	
+            foreach (IProtocolExtension protocol in Protocols)
             {
-                IProtocolExtension ext = GetProtocol(network.Protocol.Name);
-                if (ext == null)
-                {
-                    Context.Application.Log.Log(new LogMessage("Chatting", 1234, LogLevel.Error, "Couldn't save network '{0}', there was no protocol found to handle it."));
-                }
-                else
-                {
-                    settings.Add(ext.SaveNetwork(network));
-                }
+            	protocol.SerializeNetworks(Networks, writer);
             }
             
-            XmlSerializer serializer = new XmlSerializer(settings.GetType(), new XmlRootAttribute("networks"));
-            serializer.Serialize(writer, settings);
+            writer.WriteEndElement();
             writer.Close();
         }
         
@@ -227,25 +224,39 @@ namespace IrcShark.Extensions.Chatting
                 return;
             }
             
-            TextReader reader = new StreamReader(Path.Combine(Context.SettingPath, "networks.xml"));
-            List<NetworkSettings> settings;
+            XmlReader reader = new XmlTextReader(Path.Combine(Context.SettingPath, "networks.xml"));
             XmlSerializer serializer = new XmlSerializer(typeof(List<NetworkSettings>), new XmlRootAttribute("networks"));
-            settings = serializer.Deserialize(reader) as List<NetworkSettings>;
-            foreach (NetworkSettings setting in settings)
-            {
-                IProtocolExtension ext = GetProtocol(setting.Protocol);
-                
-                if (ext != null)
-                {
-                    Networks.Add(ext.LoadNetwork(setting));
-                }
-                else
-                {
-                    unloadedNetworks.Add(setting);
-                }
-            }
             
-            reader.Close();
+            try
+            {
+            	if (reader.ReadToFollowing("networkconfig"))
+            		reader.ReadStartElement("networkconfig");
+	            
+	            while (!reader.EOF)
+	            {
+	            	if (!reader.ReadToFollowing("networks"))
+	            		break;
+	            	if (!reader.MoveToAttribute("protocol"))
+	            		continue;
+	            	
+	            	string protocolName = reader.ReadContentAsString();
+	            	reader.MoveToElement();
+		            IProtocolExtension ext = GetProtocol(protocolName);
+	                
+	                if (ext != null)
+	                {
+	                    Networks.AddRange(ext.DeserializeNetworks(reader));
+	                }
+	            }
+            }
+            catch (XmlException ex) 
+            {
+            	Context.Log.Error("Chatting", 1235, "Couldn't read network config: {0}", ex.ToString());
+            }
+            finally
+            {
+            	reader.Close();            	
+            }
         }
 
         /// <summary>

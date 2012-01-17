@@ -24,7 +24,7 @@ namespace IrcShark.Extensions.Terminal
     /// <summary>
     /// The AutoCompleteHandler delegate is used by the AutoComplete property.
     /// </summary>
-	public delegate Completion AutoCompleteHandler (string text, int pos);
+	public delegate Completion AutoCompleteHandler(string text, int pos);
 
     /// <summary>
     /// Represents a terminal where information can be presented to and 
@@ -34,6 +34,7 @@ namespace IrcShark.Extensions.Terminal
     /// This for the interface to the different terminal types like the
     /// local console or a ssl network terminal.
     /// </remarks>
+	[TypeExtensionPoint(ExtensionAttributeType=typeof(IrcShark.Extensions.Terminal.TerminalAttribute))]
     public interface ITerminal
     {
         /// <summary>
@@ -52,7 +53,17 @@ namespace IrcShark.Extensions.Terminal
         /// a command.
         /// </summary>
         bool IsReading { get; }
-        
+     	
+        /// <summary>
+        /// Opens the terminal for reading and writing.
+        /// </summary>
+    	void Open(ExtensionContext context);   
+    	
+    	/// <summary>
+    	/// Closes the terminal.
+    	/// </summary>
+    	void Close();
+    	
         /// <summary>
         /// Writes the given text to the terminal.
         /// </summary>

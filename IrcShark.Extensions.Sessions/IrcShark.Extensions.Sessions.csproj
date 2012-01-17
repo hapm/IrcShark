@@ -1,4 +1,5 @@
-﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{B6DF4FD9-3110-4A91-8434-88024C582C4E}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -56,7 +57,7 @@
     <Compile Include="SessionIdentity.cs" />
     <Compile Include="SessionManagementExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionManager.cs" />
+    <Compile Include="SessionCollection.cs" />
     <Compile Include="UserCollection.cs" />
     <Compile Include="UserPrincipal.cs" />
     <Compile Include="User.cs" />

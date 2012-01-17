@@ -23,40 +23,40 @@ namespace IrcShark.Extensions.Sessions
     using System.Collections.Generic;
 
     /// <summary>
-    /// The SessionManager class handles all sessions of the SessionManagementExtension.
+    /// The SessionCollection class handles all sessions of the SessionManagementExtension.
     /// </summary>
-    public class SessionManager : ICollection<Session>
+    public class SessionCollection : ICollection<Session>
     {
     	private Dictionary<Guid, Session> sessions;
     	
     	/// <summary>
     	/// Initializes a new instance of the SessionManager class.
     	/// </summary>
-        public SessionManager()
+        public SessionCollection()
         {
         	this.sessions = new Dictionary<Guid, Session>();
         }
     	
 		public int Count {
 			get {
-				throw new NotImplementedException();
+				return this.sessions.Count;
 			}
 		}
     	
 		public bool IsReadOnly {
 			get {
-				throw new NotImplementedException();
+				return false;
 			}
 		}
     	
 		public void Add(Session item)
 		{
-			throw new NotImplementedException();
+			this.sessions.Add(item.SessionId, item);
 		}
     	
 		public void Clear()
 		{
-			throw new NotImplementedException();
+			this.sessions.Clear();
 		}
     	
 		public bool Contains(Session item)
@@ -76,7 +76,7 @@ namespace IrcShark.Extensions.Sessions
     	
 		public bool Remove(Session item)
 		{
-			throw new NotImplementedException();
+			return this.sessions.Remove(item.SessionId);
 		}
     	
 		public IEnumerator<Session> GetEnumerator()

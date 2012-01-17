@@ -91,7 +91,7 @@ namespace IrcShark.Connectors.TerminalChatting
             for (int i = 0; i < chatting.Connections.Count; i++)
             {
                 IConnection c = chatting.Connections[i];
-                Terminal.WriteLine("{0}. {1}", i, c.Server.Network.Name);
+                Terminal.WriteLine("{0}. {1}", i+1, c.Server.Network.Name);
             }
         }
         

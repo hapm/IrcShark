@@ -1,4 +1,5 @@
-﻿// <copyright file="ProtocolExtension.cs" company="IrcShark Team">
+﻿using System.Collections.Generic;
+// <copyright file="ProtocolExtension.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -21,7 +22,8 @@ namespace IrcShark.Extensions.Chatting
 {
 	using System;
 	using IrcShark.Chatting;
-	
+	using System.Xml;
+
 	[Mono.Addins.TypeExtensionPoint]
 	public interface IProtocolExtension {
 		/// <summary>
@@ -53,5 +55,30 @@ namespace IrcShark.Extensions.Chatting
 		/// another protocol.
 		/// </exception>
 		NetworkSettings SaveNetwork(INetwork network);
+		
+		/// <summary>
+		/// Saves the given network in the provided XmlWriter.
+		/// </summary>
+		/// <param name="network">The network to save.</param>
+		/// <param name="writer">The writer to use.</param>
+		void SerializeNetwork(INetwork network, XmlWriter writer);
+		
+		/// <summary>
+		/// Serializes all networks in the given collection, that can be handled by the implementing extension.
+		/// </summary>
+		/// <param name="networks">The networks to serialize.</param>
+		/// <param name="writer">The writer to serialze to.</param>
+		void SerializeNetworks(IEnumerable<INetwork> networks, XmlWriter writer);
+		
+		/// <summary>
+		/// Deserialze a list of networks in an XmlReader.
+		/// </summary>
+		/// <param name="reader">The reader to read the networks from.</param>
+		/// <returns>A list of deserialized networks.</returns>
+		/// <remarks>
+		/// The reader must be at a networks-Tag start element, and the protocol attribute needs
+		/// to match the protocol provided by the implementing extension.
+		/// </remarks>
+		IEnumerable<INetwork> DeserializeNetworks(XmlReader reader);
 	}
 }

@@ -51,11 +51,24 @@ namespace IrcShark.Extensions.Terminal
         public const string LogChannel = "terminal";
         
         /// <summary>
+        /// Saves the list of terminal implementations available.
+        /// </summary>
+        private Mono.Addins.ExtensionNodeList commandNodes;
+        
+        /// <summary>
         /// Saves a list of all commands added to the terminal.
         /// </summary>
         private Mono.Addins.ExtensionNodeList commandNodes;
         
+        /// <summary>
+        /// Saves the list of commands.
+        /// </summary>
         private Dictionary<string, ITerminalCommand> commands;
+        
+        /// <summary>
+        /// Saves the list of terminals currently running.
+        /// </summary>
+        private List<ITerminal> runningTerminals;
         
         /// <summary>
         /// Saves the state of the extension.
@@ -182,7 +195,8 @@ namespace IrcShark.Extensions.Terminal
 		
         private void drawStartupLogo()
         {
-            string info = string.Format("Version {0}.{1} Build {2}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build);
+        	Version isVersion = Context.Application.Version;
+            string info = string.Format("Version {0}.{1} Build {2}", isVersion.Major, isVersion.Minor, isVersion.Build);
             string[] logo = new string[]
             {
                 @" _____           _____ _                _    ",

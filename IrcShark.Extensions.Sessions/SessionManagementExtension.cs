@@ -36,7 +36,7 @@ namespace IrcShark.Extensions.Sessions
         /// <summary>
         /// Saves a list of all active sessions
         /// </summary>
-        private SessionManager sessions;
+        private SessionCollection sessions;
         
         private List<Role> roles;
         
@@ -61,7 +61,7 @@ namespace IrcShark.Extensions.Sessions
         /// </summary>
         public SessionManagementExtension()
         {
-        	sessions = new SessionManager();
+        	sessions = new SessionCollection();
             roles = new List<Role>();
             users = new UserCollection();
             groups = new GroupCollection();
@@ -104,20 +104,26 @@ namespace IrcShark.Extensions.Sessions
         }
         
         /// <summary>
-        /// Initializes a new session, that doesn't have any rights.
+        /// Initializes a new session, that doesn't have any rights (guest).
         /// </summary>
         /// <returns>The new Session instance.</returns>
         public Session RequestSession() 
         {
-            Session session = new Session(sessions);
+        	Session session = RequestSession("Guest");
             return session;
+        }
+        
+        public Session RequestSession(string userName) {
+        	Session session = new Session(this, new UserPrincipal(users[userName]));
+        	sessions.Add(session);
+        	return session;
         }
         
         /// <summary>
         /// Impersonates the current thread to the user with the given name.
         /// </summary>
         /// <param name="name">The name of the user to impersonate to.</param>
-        /// <returns>the principal that was active before the impersonation takes place.</returns>
+        /// <returns>The principal that was active before the impersonation takes place.</returns>
         [RolePermission(System.Security.Permissions.SecurityAction.Assert, Roles="IrcShark.UserManager")]
         public IPrincipal Impersonate(string name)
         {
@@ -169,5 +175,15 @@ namespace IrcShark.Extensions.Sessions
         public override void Stop()
         {
         }
+    	
+        /// <summary>
+        /// Gets a value indicating whether the given sessionid belongs to a valid session.
+        /// </summary>
+        /// <param name="sessionId">The sesison id to check.</param>
+        /// <returns>Its true if the session id was found, false otherwise.</returns>
+		public bool HasSession(Guid sessionId)
+		{
+			return sessions.Contains(sessionId);
+		}
     }
 }

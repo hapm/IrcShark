@@ -35,6 +35,8 @@ namespace IrcShark.Extensions.Scripting
         /// </summary>
         private List<IScriptEngine> languages;
         
+        private List<ScriptContainer> scripts;
+        
         private MethodCollection publishedMethods;
         
         private ObjectCollection publishedObjects;

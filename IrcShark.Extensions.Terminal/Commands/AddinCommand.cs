@@ -40,8 +40,11 @@ namespace IrcShark.Extensions.Terminal.Commands
         /// <summary>
         /// Executes the AddinCommand.
         /// </summary>
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
         /// <param name="paramList">The Parameters for the command.</param>
-        public override void Execute(params string[] paramList)
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {
             if (paramList.Length < 1)
             {
@@ -52,16 +55,16 @@ namespace IrcShark.Extensions.Terminal.Commands
             switch (paramList[0])
             {
                 case "-l":
-                    ListAddins();
+                    ListAddins(terminal);
                     break;
                 case "-e":
-                    EnableAddin(paramList);
+                    EnableAddin(paramList, terminal);
                     break;
                 case "-d":
-                    DisableAddin(paramList);
+                    DisableAddin(paramList, terminal);
                     break;
                 default:
-                    Terminal.WriteLine(string.Format(Translation.Messages.UnknownFlag, paramList[0]));
+                    terminal.WriteLine(string.Format(Translation.Messages.UnknownFlag, paramList[0]));
                     break;
             }
         }
@@ -112,33 +115,36 @@ namespace IrcShark.Extensions.Terminal.Commands
         }
         
         /// <summary>
-        /// Writes a list of eaddins to the terminal.
+        /// Writes a list of addins to the terminal.
         /// </summary>
-        private void ListAddins() 
+        /// <param name="terminal">
+        /// The terminal to execute the command on.
+        /// </param>
+        private void ListAddins(ITerminal terminal) 
         {
             foreach (Addin addin in AddinManager.Registry.GetAddins()) 
             {
                 if (!string.IsNullOrEmpty(addin.Description.Description))
                 {
-                    Terminal.Write("{0} {1} - {2} ", addin.LocalId, addin.Version, addin.Description.Description);
+                    terminal.Write("{0} {1} - {2} ", addin.LocalId, addin.Version, addin.Description.Description);
                 }
                 else 
                 {
-                    Terminal.Write("{0} {1} ", addin.LocalId, addin.Version);
+                    terminal.Write("{0} {1} ", addin.LocalId, addin.Version);
                 }
                 
                 if (addin.Enabled)
                 {
-                    Terminal.ForegroundColor = ConsoleColor.DarkGreen;
-                    Terminal.WriteLine("ENABLED");
+                    terminal.ForegroundColor = ConsoleColor.DarkGreen;
+                    terminal.WriteLine("ENABLED");
                 }
                 else
                 {
-                    Terminal.ForegroundColor = ConsoleColor.DarkRed;
-                    Terminal.WriteLine("DISABLED");                    
+                    terminal.ForegroundColor = ConsoleColor.DarkRed;
+                    terminal.WriteLine("DISABLED");                    
                 }
                 
-                Terminal.ResetColor();
+                terminal.ResetColor();
             }
         }
         
@@ -146,7 +152,10 @@ namespace IrcShark.Extensions.Terminal.Commands
         /// Enables all Addins with the given ids.
         /// </summary>
         /// <param name="args"></param>
-        private void EnableAddin(string[] args) 
+        /// <param name="terminal">
+        /// The terminal to execute the command on.
+        /// </param>
+        private void EnableAddin(string[] args, ITerminal terminal) 
         {
             for (int i = 1; i < args.Length; i++)
             {
@@ -154,19 +163,21 @@ namespace IrcShark.Extensions.Terminal.Commands
                 Addin addin = AddinManager.Registry.GetAddin(id);
                 if (addin == null)
                 {
-                    Terminal.ForegroundColor = ConsoleColor.DarkRed;
+                    terminal.ForegroundColor = ConsoleColor.DarkRed;
                     //TODO translation
-                    Terminal.WriteLine("The addin with id {0} wasn't found.", id);
-                    Terminal.ResetColor();
+                    terminal.WriteLine("The addin with id {0} wasn't found.", id);
+                    terminal.ResetColor();
                 }
                 else if (addin.Enabled)
                 {
                     //TODO translation
-                    Terminal.WriteLine("The addin with id {0} was already enabled.", id);                    
+                    terminal.WriteLine("The addin with id {0} was already enabled.", id);                    
                 }
                 else 
                 {
                     addin.Enabled = true;
+                    //TODO translation
+                    terminal.WriteLine("The addin with id {0} was enabled.", id);
                 }
             }
         }
@@ -175,7 +186,10 @@ namespace IrcShark.Extensions.Terminal.Commands
         /// Disables all Addins with the given ids.
         /// </summary>
         /// <param name="args"></param>
-        private void DisableAddin(string[] args) 
+        /// <param name="terminal">
+        /// The terminal to execute the command on.
+        /// </param>
+        private void DisableAddin(string[] args, ITerminal terminal) 
         {
             for (int i = 1; i < args.Length; i++)
             {
@@ -183,19 +197,21 @@ namespace IrcShark.Extensions.Terminal.Commands
                 Addin addin = AddinManager.Registry.GetAddin(id);
                 if (addin == null)
                 {
-                    Terminal.ForegroundColor = ConsoleColor.DarkRed;
+                    terminal.ForegroundColor = ConsoleColor.DarkRed;
                     //TODO translation
-                    Terminal.WriteLine("The addin with id {0} wasn't found.", id);
-                    Terminal.ResetColor();
+                    terminal.WriteLine("The addin with id {0} wasn't found.", id);
+                    terminal.ResetColor();
                 }
                 else if (!addin.Enabled)
                 {
                     //TODO translation
-                    Terminal.WriteLine("The addin with id {0} was already disabled.", id);                    
+                    terminal.WriteLine("The addin with id {0} was already disabled.", id);                    
                 }
                 else 
                 {
                     addin.Enabled = false;
+                    //TODO translation
+                    terminal.WriteLine("The addin with id {0} was disabled.", id);
                 }
             }
         }

@@ -79,6 +79,11 @@ namespace IrcShark.Extensions.Terminal
         /// If we are done editing, this breaks the interactive loop.
         /// </summary>
         private bool done = false;
+        
+        /// <summary>
+        /// Saves if the console terminal is closed or not.
+        /// </summary>
+        private bool closed = true;
 
         /// <summary>
         /// The thread where the editing started taking place.
@@ -260,6 +265,8 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="histsize">The size of the command history.</param>
         public ConsoleTerminal(int histsize)
         {
+            // Set  encoding to the system ANSI codepage for special characters
+            Console.InputEncoding = Encoding.Default;
             Console.Title = "IrcShark Terminal";
             ResetColor();
             
@@ -317,6 +324,18 @@ namespace IrcShark.Extensions.Terminal
         /// and false if it is only called when there is some text to complete.
         /// </value>
         public bool TabAtStartCompletes { get; set; }
+    	
+		public int DisplayWidth {
+			get {
+				return Console.WindowWidth;
+			}
+		}
+    	
+		public int DisplayHeight {
+			get {
+				return Console.WindowHeight;
+			}
+		}
         
         /// <summary>
         /// Gets or sets the current foreground color to use when drawing text on the console.
@@ -382,11 +401,13 @@ namespace IrcShark.Extensions.Terminal
             }
             else
             {
+            	ConsoleColor fgColor = Console.ForegroundColor;
                 string[] lines = text.Split("\n".ToCharArray(), StringSplitOptions.None);
                 waitForWrite.Enqueue(new WriteRequest(lines[0], foregroundColor, Console.BackgroundColor));
 
                 WriteWaitingRequests();
                 
+                Console.ForegroundColor = foregroundColor;
                 Console.WriteLine();
                 for (int i = 1; i < lines.Length - 1; i++)
                 {
@@ -398,6 +419,8 @@ namespace IrcShark.Extensions.Terminal
                 {
                     waitForWrite.Enqueue(new WriteRequest(lastText, foregroundColor, Console.BackgroundColor));
                 }
+                
+                Console.ForegroundColor = fgColor;
             }
         }
 
@@ -412,6 +435,7 @@ namespace IrcShark.Extensions.Terminal
                 Console.BackgroundColor = request.BackgroundColor;
                 Console.Write(request.Text);
             }
+            
             Console.ForegroundColor = fgColor;
             Console.BackgroundColor = bgColor;
         }
@@ -432,6 +456,9 @@ namespace IrcShark.Extensions.Terminal
         /// <param name="line">The line to write.</param>
         public void WriteLine(string line)
         {
+            ConsoleColor fgColor = Console.ForegroundColor;
+            Console.ForegroundColor = foregroundColor;
+            
             if (!isEditing)
             {
                 WriteWaitingRequests();
@@ -446,6 +473,8 @@ namespace IrcShark.Extensions.Terminal
                 Render();
                 ForceCursor(cursor);
             }
+            
+            Console.ForegroundColor = fgColor;
         }
         
         /// <summary>
@@ -1179,16 +1208,25 @@ namespace IrcShark.Extensions.Terminal
             Render ();
             ForceCursor (cursor);
         }
-        
     	
-		public void Open()
-		{
-			throw new NotImplementedException();
-		}
-    	
+        /// <summary>
+        /// Closes the console terminal.
+        /// </summary>
 		public void Close()
 		{
-			throw new NotImplementedException();
+			//TODO should we throw an exception here when terminal already closed?
+			//TODO need to exit current command reading
+			closed = true;
+		}
+    	
+		/// <summary>
+		/// Opens the console terminal to be able to read things from it.
+		/// </summary>
+		/// <param name="context">The ExtensionContext this terminal was opened from.</param>
+		public void Open(IrcShark.Extensions.ExtensionContext context)
+		{
+			//TODO should we throw an exception here when terminal already opened?
+			closed = false;
 		}
     }
 }

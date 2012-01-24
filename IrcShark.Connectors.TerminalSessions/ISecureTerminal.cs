@@ -1,5 +1,4 @@
-﻿using IrcShark.Extensions.Terminal;
-// <copyright file="TerminalExtension.cs" company="IrcShark Team">
+﻿// <copyright file="TerminalExtension.cs" company="IrcShark Team">
 // Copyright (C) 2009 IrcShark Team
 // </copyright>
 // <author>$Author$</author>
@@ -21,6 +20,8 @@
 namespace IrcShark.Connectors.TerminalSessions
 {
 	using System;
+	using IrcShark.Extensions.Sessions;
+	using IrcShark.Extensions.Terminal;
 
 	/// <summary>
 	/// Descriptes an ISecureTerminal, that requires authentification before enabling the access to terminal commands.

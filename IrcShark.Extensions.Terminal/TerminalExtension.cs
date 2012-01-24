@@ -53,7 +53,7 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Saves the list of terminal implementations available.
         /// </summary>
-        private Mono.Addins.ExtensionNodeList commandNodes;
+        private Mono.Addins.ExtensionNodeList terminalNodes;
         
         /// <summary>
         /// Saves a list of all commands added to the terminal.
@@ -124,7 +124,7 @@ namespace IrcShark.Extensions.Terminal
             set 
             { 
                 foregroundColor = value; 
-                Console.ForegroundColor = foregroundColor;
+                currentTerminal.ForegroundColor = foregroundColor;
             }
         }
 
@@ -132,7 +132,7 @@ namespace IrcShark.Extensions.Terminal
         /// Executes the command with the given name.
         /// </summary>
         /// <param name="call">The CommandCall to execute.</param>
-        public void ExecuteCommand(CommandCall call)
+        public void ExecuteCommand(ITerminal terminal, CommandCall call)
         {
             ITerminalCommand cmd;
             if (commands.ContainsKey(call.CommandName))
@@ -146,7 +146,7 @@ namespace IrcShark.Extensions.Terminal
             
             if (cmd != null)
             {
-                cmd.Execute(call.Parameters);
+                cmd.Execute(terminal, call.Parameters);
             }
         }
 
@@ -156,20 +156,20 @@ namespace IrcShark.Extensions.Terminal
         public override void Start(IrcShark.Extensions.ExtensionContext context)
         {
             Context = context;
-            // Set  encoding to the system ANSI codepage for special characters
-            Console.InputEncoding = Encoding.Default;
             AddCommands();
             
             // disable the default console logger and replace it with the TerminalLogger
             Context.Application.Log.LoggedMessage -= Context.Application.DefaultConsoleLogger;
             Context.Application.Log.LoggedMessage += TerminalLogger;
             
+            //TODO read config to know if ConsoleTerminal should start or not
             currentTerminal = new ConsoleTerminal();
+            currentTerminal.Open(context);
             
             // Register the AutoCompleteEvent
             currentTerminal.AutoCompleteEvent += new AutoCompleteHandler(AutoComplete);
                       	
-            drawStartupLogo();    
+            drawStartupLogo(currentTerminal);    
             
             // unregister the default console logger as of incompatibility;
             readerThread = new Thread(new ThreadStart(this.Run));
@@ -193,7 +193,7 @@ namespace IrcShark.Extensions.Terminal
             return null;
         }
 		
-        private void drawStartupLogo()
+        private void drawStartupLogo(ITerminal terminal)
         {
         	Version isVersion = Context.Application.Version;
             string info = string.Format("Version {0}.{1} Build {2}", isVersion.Major, isVersion.Minor, isVersion.Build);
@@ -210,14 +210,12 @@ namespace IrcShark.Extensions.Terminal
             
             foreach (string line in logo)
             {
-                Console.SetCursorPosition(Console.WindowWidth / 2 - line.Length / 2, Console.CursorTop);
-                Console.WriteLine(line);
+                terminal.WriteLine(new string(' ', terminal.DisplayWidth / 2 - line.Length / 2) + line);
             }
             
-            Console.WriteLine();
-            Console.SetCursorPosition(Console.WindowWidth / 2 - info.Length / 2, Console.CursorTop);
-            Console.WriteLine(info);
-            Console.WriteLine();
+            terminal.WriteLine();
+            terminal.WriteLine(new string(' ', terminal.DisplayWidth / 2 - info.Length / 2) + info);
+            terminal.WriteLine();
         }
 
         /// <summary>
@@ -255,18 +253,18 @@ namespace IrcShark.Extensions.Terminal
             switch (msg.Level)
             {
                 case LogLevel.Debug:
-                    Console.ForegroundColor = ConsoleColor.Gray;
+                    currentTerminal.ForegroundColor = ConsoleColor.Gray;
                     break;
                 case LogLevel.Warning:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    currentTerminal.ForegroundColor = ConsoleColor.Yellow;
                     break;
                 case LogLevel.Error:
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    currentTerminal.ForegroundColor = ConsoleColor.Red;
                     break;
             }
             
             WriteLine(format, msg.Time, msg.Channel, msg.Level.ToString(), msg.Message);
-            Console.ResetColor();
+            currentTerminal.ResetColor();
         }
         
         /// <summary>
@@ -383,7 +381,7 @@ namespace IrcShark.Extensions.Terminal
                 {
                     try
                     {
-                        ExecuteCommand(command);
+                        ExecuteCommand(currentTerminal, command);
                         //TODO bad solution to check the exit command hardcoded here to hold the terminal from showing a prompt.
                         if (command.CommandName == "exit")
                         {

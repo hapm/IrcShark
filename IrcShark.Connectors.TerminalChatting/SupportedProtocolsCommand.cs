@@ -53,9 +53,13 @@ namespace IrcShark.Connectors.TerminalChatting
         /// <summary>
         /// Executes the command.
         /// </summary>
-        /// <param name="paramList">The parameters for this command.</param>
-        public override void Execute(params string[] paramList)
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
+        /// <param name="paramList">A list of parameters.</param>
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {
+        	//TODO change code to use parameter terminal
             if (paramList.Length == 1 && paramList[0] == "-?")
             {
                 Terminal.WriteLine(Translation.Messages.ListingInstalledProtocolsHelp);

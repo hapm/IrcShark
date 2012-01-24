@@ -40,6 +40,10 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Addins">
+      <HintPath>..\lib\Mono.Addins.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -50,18 +54,22 @@
     <ProjectReference Include="..\IrcShark.Connectors.TerminalSessions\IrcShark.Connectors.TerminalSessions.csproj">
       <Project>{497BB59A-8138-4D7A-A846-42EA400D13C7}</Project>
       <Name>IrcShark.Connectors.TerminalSessions</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\IrcShark.Extensions.Sessions\IrcShark.Extensions.Sessions.csproj">
       <Project>{B6DF4FD9-3110-4A91-8434-88024C582C4E}</Project>
       <Name>IrcShark.Extensions.Sessions</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\IrcShark.Extensions.Terminal\IrcShark.Extensions.Terminal.csproj">
       <Project>{22028AFF-9B26-4978-9C35-C4998A82BB46}</Project>
       <Name>IrcShark.Extensions.Terminal</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\IrcShark\IrcShark.csproj">
       <Project>{F6955540-7429-49FB-AE3D-A9AD916D2334}</Project>
       <Name>IrcShark</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />

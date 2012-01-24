@@ -60,8 +60,11 @@ namespace IrcShark.Extensions.Terminal
 		/// <summary>
 		/// Executes the command with the given parameters.
 		/// </summary>
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
 		/// <param name="paramList">A list of specified parameters.</param>
-		void Execute(params string[] paramList);
+		void Execute(ITerminal terminal, params string[] paramList);
 		
 		/// <summary>
 		/// Initializes the command by providing the TerminalExtension instance.

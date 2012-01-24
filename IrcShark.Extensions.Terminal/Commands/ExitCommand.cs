@@ -31,10 +31,13 @@ namespace IrcShark.Extensions.Terminal.Commands
         /// <summary>
         /// Executing this command will close IrcShark.
         /// </summary>
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
         /// <param name="paramList">
         /// A list of parameters the user typed.
         /// </param>
-        public override void Execute(params string[] paramList)
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {            
             Terminal.Context.Application.Dispose();
         }

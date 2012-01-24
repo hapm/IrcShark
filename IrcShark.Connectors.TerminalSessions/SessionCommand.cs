@@ -42,7 +42,7 @@ namespace IrcShark.Connectors.TerminalSessions
             this.sessions = Terminal.Context.Application.Extensions["IrcShark.Extensions.Sessions.SessionManagerExtension"] as SessionManagementExtension;
         } 
         
-        public override void Execute(params string[] paramList)
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {
             throw new NotImplementedException();
         }

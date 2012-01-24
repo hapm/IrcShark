@@ -20,6 +20,7 @@
 namespace IrcShark.Extensions.Terminal
 {
     using System;
+    using Mono.Addins;
     
     /// <summary>
     /// The AutoCompleteHandler delegate is used by the AutoComplete property.
@@ -57,7 +58,7 @@ namespace IrcShark.Extensions.Terminal
         /// <summary>
         /// Opens the terminal for reading and writing.
         /// </summary>
-    	void Open(ExtensionContext context);   
+    	void Open(IrcShark.Extensions.ExtensionContext context);   
     	
     	/// <summary>
     	/// Closes the terminal.
@@ -99,6 +100,24 @@ namespace IrcShark.Extensions.Terminal
         /// Resets the foreground and background color of the terminal.
         /// </summary>
         void ResetColor();
+        
+        /// <summary>
+        /// Gets the width of the display in characters.
+        /// </summary>
+        /// <remarks>
+        /// If the display width of a terminal can not be determined by the terminal 
+        /// implementation, it should return a default value of 80 characters.
+        /// </remarks>
+        int DisplayWidth { get; }
+        
+        /// <summary>
+        /// Gets the height of the display in lines.
+        /// </summary>
+        /// <remarks>
+        /// If the display height of a terminal can not be determined by the terminal 
+        /// implementation, it should return a default value of 25 lines.
+        /// </remarks>
+        int DisplayHeight { get; }
         
         /// <summary>
         /// Reads a command from the terminal.

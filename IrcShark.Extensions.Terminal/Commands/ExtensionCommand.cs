@@ -51,9 +51,13 @@ namespace IrcShark.Extensions.Terminal.Commands
         /// <summary>
         /// Executes the ExtensionCommand.
         /// </summary>
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
         /// <param name="paramList">All parameters of the command.</param>
-        public override void Execute(params string[] paramList)
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {
+        	//TODO change code to use parameter terminal
             if (paramList.Length < 1)
             {
                 Terminal.WriteLine(Translation.Messages.SpecifyFlag);

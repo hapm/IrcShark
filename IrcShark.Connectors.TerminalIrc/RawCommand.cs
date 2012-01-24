@@ -49,9 +49,13 @@ namespace IrcShark.Connectors.TerminalIrc
         /// <summary>
         /// Executes the command.
         /// </summary>
-        /// <param name="paramList">The parameters for the command.</param>
-        public override void Execute(params string[] paramList)
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
+        /// <param name="paramList">A list of parameters.</param>
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {
+        	//TODO change code to use parameter terminal
             int connectNr;
             IrcConnection connection;
             if (paramList.Length == 0 || paramList[0] == null)

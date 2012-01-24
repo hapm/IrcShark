@@ -34,10 +34,11 @@ namespace IrcShark.Extensions.Terminal.Commands
         /// <summary>
         /// Executing this command will show all loaded .net assebmlys and there version.
         /// </summary>
-        /// <param name="paramList">
-        /// A list of parameters the user typed.
-        /// </param>
-        public override void Execute(params string[] paramList)
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
+        /// <param name="paramList">All parameters of the command.</param>
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {
             ConsoleTable table = new ConsoleTable();
             table.SetHeaders(new string[] { "Assembly Name", "Version" });
@@ -47,7 +48,7 @@ namespace IrcShark.Extensions.Terminal.Commands
                 table.AppendRow(new string[] { name.Name, name.Version.ToString() });
             }
             
-            Terminal.WriteLine(table.ToString());
+            terminal.WriteLine(table.ToString());
         }
     }
 }

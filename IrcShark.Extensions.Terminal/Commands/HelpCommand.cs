@@ -36,15 +36,16 @@ namespace IrcShark.Extensions.Terminal.Commands
         /// By executing the HelpCommand, the help of all added 
         /// <see cref="TerminalCommand">TerminalCommands</see> will be executed.
         /// </summary>
-        /// <param name="paramList">
-        /// A list of parameters the user typed.
-        /// </param>
-        public override void Execute(params string[] paramList)
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
+        /// <param name="paramList">All parameters of the command.</param>
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {
             if (paramList.Length == 0) 
             {
                 StringBuilder line = null;
-                Terminal.WriteLine(Translation.Messages.ListingAvailableCommands);
+                terminal.WriteLine(Translation.Messages.ListingAvailableCommands);
                 foreach (TypeExtensionNode<TerminalCommandAttribute> cmdNode in Terminal.CommandNodes)
                 {
                     if (line == null)
@@ -59,17 +60,17 @@ namespace IrcShark.Extensions.Terminal.Commands
                     
                     if (line.Length > 40)
                     {
-                        Terminal.WriteLine(line.ToString());
+                        terminal.WriteLine(line.ToString());
                         line = null;
                     }
                 }
                 
                 if (line != null)
                 {
-                    Terminal.WriteLine(line.ToString());
+                    terminal.WriteLine(line.ToString());
                 }
                 
-                Terminal.WriteLine(Translation.Messages.GetCommandDetails);
+                terminal.WriteLine(Translation.Messages.GetCommandDetails);
             } 
             else if (paramList.Length == 1)
             {
@@ -79,12 +80,12 @@ namespace IrcShark.Extensions.Terminal.Commands
                     {
                         ITerminalCommand cmd = cmdNode.CreateInstance() as ITerminalCommand;
                         cmd.Init(Terminal);
-                        cmd.Execute("-?");
+                        cmd.Execute(terminal, "-?");
                         return;
                     }
                 }
                 
-              Terminal.WriteLine(Translation.Messages.UnknowCommand, paramList[0].ToString());    
+              terminal.WriteLine(Translation.Messages.UnknowCommand, paramList[0].ToString());    
             }
         }
     }

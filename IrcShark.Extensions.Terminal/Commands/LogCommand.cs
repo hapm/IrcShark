@@ -32,9 +32,13 @@ namespace IrcShark.Extensions.Terminal.Commands
         /// <summary>
         /// Executes the log command.
         /// </summary>
-        /// <param name="paramList">The list of arguments.</param>
-        public override void Execute(params string[] paramList)
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
+        /// <param name="paramList">All parameters of the command.</param>
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {
+        	//TODO change code to use parameter terminal
             if (paramList == null || paramList.Length == 0) 
             {
                 foreach (LogHandlerSetting s in Terminal.Context.Application.Settings.LogSettings)

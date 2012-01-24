@@ -50,12 +50,15 @@ namespace IrcShark.Connectors.TerminalChatting
         /// <summary>
         /// Executes the command.
         /// </summary>
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
         /// <param name="paramList">The parameters to execute the command.</param>
-        public override void Execute(params string[] paramList)
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {
             if (paramList.Length < 1)
             {
-                Terminal.WriteLine("Please specify a flag.");
+                terminal.WriteLine("Please specify a flag.");
                 return;
             }
             

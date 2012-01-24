@@ -37,21 +37,28 @@ namespace IrcShark.Connectors.TerminalScripting
             scripting = Terminal.Context.Application.Extensions["IrcShark.Extensions.Scripting.ScriptingExtension"] as ScriptingExtension;
         }
         
-        public override void Execute(params string[] paramList)
+        /// <summary>
+        /// Executes the EngineCommand.
+        /// </summary>
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
+        /// <param name="paramList">A list of parameters.</param>
+        public override void Execute(ITerminal terminal, params string[] paramList)
         {
             if (paramList.Length == 0)
             {
-                Terminal.WriteLine("Please pecify a flag.");
+                terminal.WriteLine("Please pecify a flag.");
                 return;
             }
             
             switch (paramList[0])
             {
                 case "-l":
-                    Terminal.WriteLine("Listing all supported scripting languages:");
+                    terminal.WriteLine("Listing all supported scripting languages:");
                     foreach (IScriptEngine lang in scripting.GetRegisteredLanguages())
                     {
-                        Terminal.WriteLine(string.Format("{0}", lang.Language.LanguageName));
+                        terminal.WriteLine(string.Format("{0}", lang.Language.LanguageName));
                     }
                     
                     break;

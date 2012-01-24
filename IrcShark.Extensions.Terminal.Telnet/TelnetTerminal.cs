@@ -22,6 +22,7 @@ namespace IrcShark.Extensions.Terminal.Telnet
 {
 	using System;
 	using System.Collections.Generic;
+	using IrcShark.Extensions.Terminal;
 	using IrcShark.Connectors.TerminalSessions;
 
 	/// <summary>
@@ -69,6 +70,18 @@ namespace IrcShark.Extensions.Terminal.Telnet
 				throw new NotImplementedException();
 			}
 		}
+    	
+		public int DisplayWidth {
+			get {
+				return 80;
+			}
+		}
+    	
+		public int DisplayHeight {
+			get {
+				return 25;
+			}
+		}
 		
 		public void Open(ExtensionContext context)
 		{
@@ -76,6 +89,8 @@ namespace IrcShark.Extensions.Terminal.Telnet
 			this.sessions = context.Application.Extensions["IrcShark.Extensions.Sessions"] as SessionManagementExtension;
 			if (sessions == null) 
 				throw new InvalidOperationException("Sessions extension is missing, couldn't open telnet terminal");
+			
+			
 		}
 		
 		public void Close()

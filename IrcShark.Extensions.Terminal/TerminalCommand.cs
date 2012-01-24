@@ -108,14 +108,17 @@ namespace IrcShark.Extensions.Terminal
 		}
 
 		/// <summary>
-		/// Executes the command.
+		/// Executes the command on the given terminal.
 		/// </summary>
+		/// <param name="terminal">
+		/// The terminal, the command was called from.
+		/// </param>
 		/// <param name="paramList">
 		/// A list of parameters the user typed.
 		/// </param>
 		/// <remarks>
 		/// Implement this method with the behavior of your command.
 		/// </remarks>
-		public abstract void Execute(params string[] paramList);
+		public abstract void Execute(ITerminal terminal, params string[] paramList);
 	}
 }
